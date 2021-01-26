@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <mutex>
 #include <sstream>
+#include <condition_variable>
 
 #include "Logger.h"
 
@@ -20,22 +21,28 @@ class Valkyrie {
 public:
 
 	void   Run();
-private:
+	static void   WaitForOverlayToInit();
 
+private:
+	static void                        ShowLoader();
 	static void                        ShowMenu();
 	static void                        ShowConsole();
 
 	static void                        Update();
 	static void                        InitializeOverlay();
-	static bool                        Initialized;
+	static std::condition_variable     OverlayInitialized;
 
 	// DirectX stuff
 	static void                        HookDirectX();
 	static void                        UnhookDirectX();
 
-	static LRESULT WINAPI              WindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT WINAPI              HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static HRESULT __stdcall           HookedD3DPresent(LPDIRECT3DDEVICE9 Device, CONST RECT* pSrcRect, CONST RECT* pDestRect, HWND hDestWindow, CONST RGNDATA* pDirtyRegion);
 
 	static D3DPresentFunc              OriginalD3DPresent;
+	static WNDPROC                     OriginalWindowMessageHandler;
+
+public:
+	static std::mutex                  DxDeviceMutex;
 	static LPDIRECT3DDEVICE9           DxDevice;
 };

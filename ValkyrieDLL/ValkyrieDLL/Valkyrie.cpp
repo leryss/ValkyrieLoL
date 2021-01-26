@@ -1,24 +1,55 @@
 #include "Valkyrie.h"
 #include "Strings.h"
 #include "detours.h"
+#include "GameData.h"
+
 #include <stdexcept>
 #include <iostream>
 
-D3DPresentFunc                     Valkyrie::OriginalD3DPresent = NULL;
+D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
+WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
 
 LPDIRECT3DDEVICE9                  Valkyrie::DxDevice           = NULL;
-				                   
-bool                               Valkyrie::Initialized        = false;
+std::mutex                         Valkyrie::DxDeviceMutex;
+
+std::condition_variable            Valkyrie::OverlayInitialized;
 
 
 void Valkyrie::Run()
 {
 	try {
-		Logger::FileLogger.Log("Starting up Valkyrie...\n");
+		DxDeviceMutex.lock();
+
+		Logger::File.Log("Starting up Valkyrie...");
 		HookDirectX();
+
+		Logger::File.Log("Loading game data...");
+		GameData::LoadAsync();
 	}
 	catch (std::exception& error) {
-		Logger::FileLogger.Log("Failed starting up Valkyrie %s\n", error.what());
+		Logger::File.Log("Failed starting up Valkyrie %s", error.what());
+	}
+}
+
+void Valkyrie::WaitForOverlayToInit()
+{
+	std::mutex mtx;
+	std::unique_lock<std::mutex> lock(mtx);
+	Valkyrie::OverlayInitialized.wait(lock);
+}
+
+void Valkyrie::ShowLoader()
+{
+	if (!GameData::LoadProgress->complete) {
+		ImGui::Begin("Valkyrie Loader", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+
+		ImGui::Text(GameData::LoadProgress->currentlyLoading);
+		ImGui::ProgressBar(GameData::LoadProgress->percentDone);
+		if (GameData::LoadProgress->complete) {
+			Logger::LogAll("Loaded Game Databases!");
+		}
+			
+		ImGui::End();
 	}
 }
 
@@ -51,35 +82,33 @@ void Valkyrie::ShowConsole()
 {
 	ImGui::Begin("Console");
 	
-	auto consoleStream = std::dynamic_pointer_cast<std::stringstream>(Logger::ConsoleLogger.GetStream());
-	consoleStream->clear();
-	consoleStream->seekg(0);
+	std::list<std::string> lines;
+	Logger::Console.GetLines(lines);
 
-	std::string line;
-	while(std::getline(*consoleStream, line)) {
+	for (auto& line : lines) {
 		ImGui::Text(line.c_str());
-	} 
+	}
 	
 	ImGui::End();
 }
 
 void Valkyrie::InitializeOverlay()
 {
-	Logger::FileLogger.Log("Initializing overlay \n");
+	Logger::File.Log("Initializing overlay");
 
 	HWND hWindow = FindWindowA("RiotWindowClass", NULL);
-	SetWindowLongA(hWindow, GWL_WNDPROC, LONG_PTR(WindowMessageHandler));
+	OriginalWindowMessageHandler = WNDPROC(SetWindowLongA(hWindow, GWL_WNDPROC, LONG_PTR(HookedWindowMessageHandler)));
 
 	ImGui::CreateContext();
 
 	if (!ImGui_ImplWin32_Init(hWindow))
-		throw std::runtime_error("Failed to initialize ImGui_ImplWin32_Init\n");
+		throw std::runtime_error("Failed to initialize ImGui_ImplWin32_Init");
 
 	if (!ImGui_ImplDX9_Init(DxDevice))
-		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init\n");
+		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 	
-	Logger::ConsoleLogger.Log("Initialized Valkyrie Overlay!");
-	Initialized = true;
+	Logger::Console.Log("Initialized Valkyrie Overlay!");
+	OverlayInitialized.notify_all();
 }
 
 void Valkyrie::Update()
@@ -89,13 +118,17 @@ void Valkyrie::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	//ImGui::ShowDemoWindow();
+	ShowLoader();
 	ShowMenu();
 
 	// Render
 	ImGui::EndFrame();
 	ImGui::Render();
 
+	DxDeviceMutex.lock();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	DxDeviceMutex.unlock();
 }
 
 
@@ -105,12 +138,12 @@ void Valkyrie::HookDirectX()
 	static const int PresentVTableIndex = 17;
 	static const int EndSceneVTableIndex = 42;
 
-	Logger::FileLogger.Log("Hooking DirectX\n");
+	Logger::File.Log("Hooking DirectX");
 
 	DWORD objBase = (DWORD)LoadLibraryA("d3d9.dll");
 	DWORD stopAt = objBase + SearchLength;
 
-	Logger::FileLogger.Log("Found base of d3d9.dll at: %#010x\n", objBase);
+	Logger::File.Log("Found base of d3d9.dll at: %#010x", objBase);
 	while (objBase++ < stopAt)
 	{
 		if ((*(WORD*)(objBase + 0x00)) == 0x06C7
@@ -123,8 +156,8 @@ void Valkyrie::HookDirectX()
 	}
 
 	if (objBase >= stopAt)
-		throw std::runtime_error("Did not find D3D device\n");
-	Logger::FileLogger.Log("Found D3D Device at: %#010x\n", objBase);
+		throw std::runtime_error("Did not find D3D device");
+	Logger::File.Log("Found D3D Device at: %#010x", objBase);
 
 	PDWORD VTable;
 	*(DWORD*)& VTable = *(DWORD*)objBase;
@@ -143,7 +176,7 @@ void Valkyrie::HookDirectX()
 
 void Valkyrie::UnhookDirectX()
 {
-	Logger::FileLogger.Log("Unhooking DirectX\n");
+	Logger::File.Log("Unhooking DirectX");
 
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
@@ -153,21 +186,25 @@ void Valkyrie::UnhookDirectX()
 
 HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const RECT * pSrcRect, const RECT * pDestRect, HWND hDestWindow, const RGNDATA * pDirtyRegion)
 {
+	DxDeviceMutex.unlock();
+
 	try {
-		if (DxDevice != Device) {
+		if (DxDevice == NULL) {
 			DxDevice = Device;
 			InitializeOverlay();
 		}
 		Update();
 	}
 	catch (std::exception& error) {
-		Logger::FileLogger.Log("Error occured %s\n", error.what());
+		Logger::File.Log("Error occured %s", error.what());
 		UnhookDirectX();
 	}
 	catch (...) {
-		Logger::FileLogger.Log("Unexpected error occured.");
+		Logger::File.Log("Unexpected error occured.");
 		UnhookDirectX();
 	}
+
+	DxDeviceMutex.lock();
 
 	return OriginalD3DPresent(Device, pSrcRect, pDestRect, hDestWindow, pDirtyRegion);
 }
@@ -236,7 +273,7 @@ LRESULT ImGuiWindowMessageHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-LRESULT WINAPI Valkyrie::WindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (ImGuiWindowMessageHandler(hWnd, msg, wParam, lParam))
 		return true;
@@ -253,5 +290,5 @@ LRESULT WINAPI Valkyrie::WindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam
 		::PostQuitMessage(0);
 		return 0;
 	}
-	return ::DefWindowProc(hWnd, msg, wParam, lParam);
+	return CallWindowProcA(OriginalWindowMessageHandler, hWnd, msg, wParam, lParam);
 }

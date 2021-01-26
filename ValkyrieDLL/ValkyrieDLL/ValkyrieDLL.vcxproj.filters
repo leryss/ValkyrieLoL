@@ -34,6 +34,15 @@
     <Filter Include="Source Files\Utils\Logging">
       <UniqueIdentifier>{be00a518-2ecf-4b42-ae6a-75acf600004e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\StaticData">
+      <UniqueIdentifier>{6e81dd77-a800-4fde-aa43-af218e83625f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\json">
+      <UniqueIdentifier>{70a5bbbe-503a-48c0-b3de-242050e59344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\stbi">
+      <UniqueIdentifier>{59aad87d-998d-432d-94ce-1e5c050379d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -84,6 +93,27 @@
     <ClInclude Include="Valkyrie.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json.h">
+      <Filter>Source Files\External\json</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="stbi\stb_image.h">
+      <Filter>Source Files\External\stbi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -124,6 +154,18 @@
     </ClCompile>
     <ClCompile Include="Valkyrie.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellInfo.cpp">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitInfo.cpp">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
