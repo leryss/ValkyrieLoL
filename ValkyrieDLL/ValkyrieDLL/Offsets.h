@@ -37,7 +37,8 @@ public:
 	static int ItemInfo;
 	static int ItemInfoId;
 
-	static int ViewProjMatrices;
+	static int ViewMatrix;
+	static int ProjectionMatrix;
 	static int Renderer;
 	static int RendererWidth;
 	static int RendererHeight;

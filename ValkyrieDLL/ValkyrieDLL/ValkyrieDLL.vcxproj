@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="GameHud.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="json\json.h" />
@@ -175,17 +176,24 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="MemoryReadable.h" />
+    <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="Offsets.h" />
+    <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="SpellInfo.h" />
     <ClInclude Include="stbi\stb_image.h" />
     <ClInclude Include="UnitInfo.h" />
     <ClInclude Include="Valkyrie.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Strings.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="GameHud.cpp" />
+    <ClCompile Include="GameRenderer.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="GameReader.cpp" />
@@ -196,6 +204,7 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ObjectExplorer.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="SpellInfo.cpp" />
     <ClCompile Include="UnitInfo.cpp" />

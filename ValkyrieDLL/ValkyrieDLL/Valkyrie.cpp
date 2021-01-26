@@ -2,6 +2,7 @@
 #include "Strings.h"
 #include "detours.h"
 #include "GameData.h"
+#include "ObjectExplorer.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -13,6 +14,7 @@ LPDIRECT3DDEVICE9                  Valkyrie::DxDevice           = NULL;
 std::mutex                         Valkyrie::DxDeviceMutex;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
+GameReader                         Valkyrie::Reader;
 
 
 void Valkyrie::Run()
@@ -53,9 +55,10 @@ void Valkyrie::ShowLoader()
 	}
 }
 
-void Valkyrie::ShowMenu()
+void Valkyrie::ShowMenu(GameState& state)
 {
-	static bool ShowConsoleWindow = false;
+	static bool ShowConsoleWindow        = true;
+	static bool ShowObjectExplorerWindow = true;
 
 	ImGui::Begin("Valkyrie", nullptr,
 		ImGuiWindowFlags_NoScrollbar |
@@ -64,6 +67,7 @@ void Valkyrie::ShowMenu()
 
 	if (ImGui::BeginMenu("Development")) {
 		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
+		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
 		ImGui::EndMenu();
 	}
 
@@ -76,6 +80,9 @@ void Valkyrie::ShowMenu()
 
 	if (ShowConsoleWindow)
 		ShowConsole();
+
+	if (ShowObjectExplorerWindow)
+		ObjectExplorer::ImGuiDraw(state);
 }
 
 void Valkyrie::ShowConsole()
@@ -119,8 +126,9 @@ void Valkyrie::Update()
 	ImGui::NewFrame();
 
 	//ImGui::ShowDemoWindow();
+	GameState& state = Reader.GetNextState();
 	ShowLoader();
-	ShowMenu();
+	ShowMenu(state);
 
 	// Render
 	ImGui::EndFrame();

@@ -5,8 +5,7 @@
 
 DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
 	
-	Valkyrie valkyrie;
-	valkyrie.Run();
+	Valkyrie::Run();
 
 	return 0;
 }

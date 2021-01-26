@@ -4,8 +4,9 @@
 class GameReader {
 
 public:
-	const GameState* GetNextState();
+	GameState& GetNextState();
 
 private:
 	GameState state;
+	int       baseAddr;
 };

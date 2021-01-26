@@ -33,7 +33,8 @@ int Offsets::ItemListItem                 = 0xC;
 int Offsets::ItemInfo                     = 0x20;
 int Offsets::ItemInfoId                   = 0x68;
 
-int Offsets::ViewProjMatrices             = 0x350E8F0;
+int Offsets::ViewMatrix                   = 0x350E8F0;
+int Offsets::ProjectionMatrix             = ViewMatrix + 16*sizeof(float);
 int Offsets::Renderer                     = 0x35116EC;
 int Offsets::RendererWidth                = 0x10;
 int Offsets::RendererHeight               = 0x14;
@@ -61,7 +62,7 @@ int Offsets::MissileDestIdx               = 0x2E8;
 int Offsets::MissileStartPos              = 0x2A8;
 int Offsets::MissileEndPos                = 0x2B4;
 
-int Offsets::MinimapObject                = 0x34EC5F0;     //FF 52 04 8B 0D ? ? ? ? E8 ? ? ? ?, or search mem for max_size = vec2(385.0, 384.0)
+int Offsets::MinimapObject                = 0x34EC5F0;     //FF 52 04 8B 0D ? ? ? ? E8 ? ? ? ?
 int Offsets::MinimapObjectHud             = 0x88;
 int Offsets::MinimapHudPos                = 0x5C;
-int Offsets::MinimapHudSize               = 0x64;
+int Offsets::MinimapHudSize               = 0x64;          // has values between (190, 190) and (390, 390)

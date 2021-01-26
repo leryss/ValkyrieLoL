@@ -3,11 +3,13 @@
 #include <d3d9.h>
 #include <dinput.h>
 #include <windows.h>
+
 #include <mutex>
 #include <sstream>
 #include <condition_variable>
 
 #include "Logger.h"
+#include "GameReader.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
@@ -20,17 +22,19 @@ class Valkyrie {
 
 public:
 
-	void   Run();
+	static void   Run();
 	static void   WaitForOverlayToInit();
 
 private:
 	static void                        ShowLoader();
-	static void                        ShowMenu();
+	static void                        ShowMenu(GameState& state);
 	static void                        ShowConsole();
 
 	static void                        Update();
 	static void                        InitializeOverlay();
 	static std::condition_variable     OverlayInitialized;
+
+	static GameReader                  Reader;
 
 	// DirectX stuff
 	static void                        HookDirectX();

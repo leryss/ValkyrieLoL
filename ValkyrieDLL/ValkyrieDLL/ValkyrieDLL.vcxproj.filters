@@ -43,6 +43,9 @@
     <Filter Include="Source Files\External\stbi">
       <UniqueIdentifier>{59aad87d-998d-432d-94ce-1e5c050379d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\GameObjects">
+      <UniqueIdentifier>{ee4649f3-765c-41eb-a540-e00e4f6efd6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -114,6 +117,24 @@
     <ClInclude Include="stbi\stb_image.h">
       <Filter>Source Files\External\stbi</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryReadable.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRenderer.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectExplorer.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHud.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -166,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="Globals.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRenderer.cpp">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectExplorer.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameHud.cpp">
+      <Filter>Source Files\Game\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

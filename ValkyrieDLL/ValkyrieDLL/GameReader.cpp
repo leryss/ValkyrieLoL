@@ -1,6 +1,15 @@
 #include "GameReader.h"
+#include "Offsets.h"
+#include <windows.h>
 
-const GameState* GameReader::GetNextState()
+GameState& GameReader::GetNextState()
 {
-	return &state;
+	baseAddr = (int)GetModuleHandle(NULL);
+	memcpy(&state.time, (void*)(baseAddr + Offsets::GameTime), sizeof(float));
+	
+	if (state.time > 1.f) {
+		state.renderer.ReadFromBaseAddress(baseAddr);
+		state.hud.ReadFromBaseAddress(baseAddr);
+	}
+	return state;
 }
