@@ -20,6 +20,10 @@ void DrawVec2(Vector2& vec) {
 	ImGui::Button(Strings::Format("x: %.2f y: %.2f", vec.x, vec.y).c_str());
 }
 
+void DrawGameObject(GameObject& obj) {
+	
+}
+
 void ObjectExplorer::ImGuiDraw(GameState & state)
 {
 	ImGui::Begin("Object Explorer");
@@ -49,6 +53,21 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 
 		ImGui::Text("Minimap Size");
 		DrawVec2(hud.minimapSize);
+
+		ImGui::TreePop();
+	}
+
+	auto& objCache = state.objectCache;
+	if (ImGui::TreeNode("ObjCache")) {
+		
+		for (auto& pair : objCache) {
+			auto obj = pair.second;
+			if (ImGui::TreeNode(&pair.first, "%s (%#010x | %#010x)", obj->name.c_str(), obj->address, obj->networkId)) {
+				
+				DrawGameObject(*obj);
+				ImGui::TreePop();
+			}
+		}
 
 		ImGui::TreePop();
 	}

@@ -68,6 +68,14 @@ void Valkyrie::ShowMenu(GameState& state)
 	if (ImGui::BeginMenu("Development")) {
 		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
 		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
+		if (ImGui::TreeNode("Benchmarks")) {
+		
+			auto& bm = Reader.GetBenchmarks();
+			for (auto& pair : bm.benchmarks) {
+				ImGui::DragFloat(pair.first.c_str(), &pair.second.avgMs);
+			}
+			ImGui::TreePop();
+		}
 		ImGui::EndMenu();
 	}
 

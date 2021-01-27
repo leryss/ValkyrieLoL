@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Game\GameObjects">
       <UniqueIdentifier>{ee4649f3-765c-41eb-a540-e00e4f6efd6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utils\Benchmarking">
+      <UniqueIdentifier>{e0754310-e8a5-4660-98c1-179382215dc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -93,9 +96,6 @@
     <ClInclude Include="Logger.h">
       <Filter>Source Files\Utils\Logging</Filter>
     </ClInclude>
-    <ClInclude Include="Valkyrie.h">
-      <Filter>Source Files\UI</Filter>
-    </ClInclude>
     <ClInclude Include="GameData.h">
       <Filter>Source Files\Game\StaticData</Filter>
     </ClInclude>
@@ -135,6 +135,15 @@
     <ClInclude Include="Memory.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Valkyrie.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Benchmark.h">
+      <Filter>Source Files\Utils\Benchmarking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -173,9 +182,6 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files\Utils\Logging</Filter>
     </ClCompile>
-    <ClCompile Include="Valkyrie.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
     <ClCompile Include="SpellInfo.cpp">
       <Filter>Source Files\Game\StaticData</Filter>
     </ClCompile>
@@ -196,6 +202,18 @@
     </ClCompile>
     <ClCompile Include="GameHud.cpp">
       <Filter>Source Files\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Valkyrie.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Benchmark.cpp">
+      <Filter>Source Files\Utils\Benchmarking</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

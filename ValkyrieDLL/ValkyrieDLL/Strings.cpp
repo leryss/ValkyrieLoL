@@ -3,14 +3,16 @@
 #include <algorithm>
 #include <stdarg.h>
 
-bool Strings::ContainsOnlyASCII(const char* buff, int maxSize) {
+bool Strings::ValidAsciiString(const char* buff, int maxSize) {
 	for (int i = 0; i < maxSize; ++i) {
 		if (buff[i] == 0)
 			return true;
-		if ((unsigned char)buff[i] > 127)
+		
+		unsigned char c = (unsigned char)buff[i];
+		if (c > 127 || c < 33)
 			return false;
 	}
-	return true;
+	return false;
 }
 
 std::string Strings::ToLower(std::string str)

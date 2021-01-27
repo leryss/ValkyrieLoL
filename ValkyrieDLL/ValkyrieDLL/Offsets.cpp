@@ -28,7 +28,7 @@ int Offsets::ObjCritMulti                 = 0x1284;
 int Offsets::ObjAbilityPower              = 0x1200;
 int Offsets::ObjAtkSpeedMulti             = 0x126C;
 int Offsets::ObjItemList                  = 0x3700;
-
+//0x12B8 obj attack range ?
 int Offsets::ItemListItem                 = 0xC;
 int Offsets::ItemInfo                     = 0x20;
 int Offsets::ItemInfoId                   = 0x68;
