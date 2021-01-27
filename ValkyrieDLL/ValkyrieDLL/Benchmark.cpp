@@ -1,20 +1,18 @@
 #include "Benchmark.h"
 
-void Benchmark::StartFor(std::string & str)
+BenchmarkTiming::BenchmarkTiming(const char * name)
 {
-	auto find = benchmarks.find(str);
-	if (find == benchmarks.end())
-		benchmarks[str] = BenchmarkInfo();
-
-	BenchmarkInfo& info = benchmarks[str];
-	info.timeBegin = high_resolution_clock::now();
+	this->name = name;
 }
 
-void Benchmark::EndFor(std::string & str)
+void BenchmarkTiming::Start()
 {
-	BenchmarkInfo& info = benchmarks[str];
-	duration<float, std::milli> duration = (high_resolution_clock::now() - info.timeBegin);
+	timeBegin = high_resolution_clock::now();
+}
 
-	info.lastMs = duration.count();
-	info.avgMs = (info.avgMs + info.lastMs) / 2.f;
+void BenchmarkTiming::End()
+{
+	duration<float, std::milli> dur = high_resolution_clock::now() - timeBegin;
+	lastMs = dur.count();
+	avgMs  = (avgMs + lastMs) / 2.f;
 }

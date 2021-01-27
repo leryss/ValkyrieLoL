@@ -6,7 +6,7 @@ std::string Memory::ReadString(int addr, int maxSize)
 	const char* asciiName = (const char*)addr;
 
 	std::string str("");
-	if (!IsBadReadPtr(asciiName, maxSize) && Strings::ValidAsciiString(asciiName, maxSize))
+	if (Strings::ValidAsciiString(asciiName, maxSize))
 		str.append(asciiName);
 
 	return str;

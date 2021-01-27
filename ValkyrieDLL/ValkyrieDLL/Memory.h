@@ -8,6 +8,7 @@
 #define ReadShort(addr) *(short*)(addr)
 #define ReadBool(addr) *(bool*)(addr)
 #define AsPtr(addr) (void*)(addr)
+#define CantRead(addr) IsBadReadPtr((void*)(addr), 1)
 
 class Memory {
 

@@ -2,14 +2,16 @@
 #include "Offsets.h"
 #include "Memory.h"
 #include "Logger.h"
+#include "imgui/imgui.h"
 
 #include <windows.h>
 
-
-std::string GameReader::BenchmarkReadTreeName("ReadObjTree");
-
 GameState& GameReader::GetNextState()
 {
+	benchmark.sehExceptions.value = 0;
+	benchmark.cacheHits.value     = 0;
+	benchmark.blacklistHits.value = 0;
+
 	baseAddr = (int)GetModuleHandle(NULL);
 	memcpy(&state.time, (void*)(baseAddr + Offsets::GameTime), sizeof(float));
 	
@@ -22,17 +24,15 @@ GameState& GameReader::GetNextState()
 	return state;
 }
 
-Benchmark & GameReader::GetBenchmarks()
+BenchmarkGameReader& GameReader::GetBenchmarks()
 {
-	return readBenchmarks;
+	return benchmark;
 }
 
 void GameReader::ReadObjectTree() {
 
 	static const int      NUM_MAX_READS = 500; /// Used to prevent infinite loops due to race conditions
 	static std::set<int>  ObjectPointers;
-
-	readBenchmarks.StartFor(BenchmarkReadTreeName);
 
 	ObjectPointers.clear();
 	updatedObjects.clear();
@@ -45,6 +45,8 @@ void GameReader::ReadObjectTree() {
 	nodesToVisit.push(treeRoot);
 	visitedNodes.insert(NULL);
 	
+	benchmark.readTree.Start();
+
 	/// Read object addresses from tree
 	int numObj = 0, reads = 0;
 	int node;
@@ -62,7 +64,12 @@ void GameReader::ReadObjectTree() {
 			ObjectPointers.insert(addr);
 
 	}
-	
+
+	benchmark.readsPerformed.value = reads;
+	benchmark.readTree.End();
+	benchmark.readObjects.Start();
+	benchmark.numObjPointers.value = ObjectPointers.size();
+
 	/// Read objects using addresses read previously
 	for (int ptr : ObjectPointers) {
 		ReadGameObject(ptr);
@@ -76,7 +83,7 @@ void GameReader::ReadObjectTree() {
 		it++;
 	}
 	
-	readBenchmarks.EndFor(BenchmarkReadTreeName);
+	benchmark.readObjects.End();
 }
 
 int GameReader::ReadTreeNodes(std::queue<int>& nodesToVisit, int node)
@@ -99,8 +106,10 @@ int GameReader::ReadTreeNodes(std::queue<int>& nodesToVisit, int node)
 		if (netId > OBJ_NET_ID_START && netId < OBJ_NET_ID_END) {
 			return ReadInt(node + Offsets::ObjectMapNodeObject);
 		}
+	} 
+	__except (1) {
+		benchmark.sehExceptions.value += 1;
 	}
-	__except (1) {}
 	return NULL;
 }
 
@@ -110,41 +119,53 @@ void GameReader::AddToCache(GameObject* obj) {
 
 GameObject* GameReader::CreateObject(int addr)
 {
-	std::string name = PeekObjectName(addr);
+	std::string name;
+	PeekObjectName(addr, name);
 	if (name.empty())
 		return nullptr;
 
-	
 	GameObject* obj = new GameObject(name);
 	return obj;
 }
 
-std::string GameReader::PeekObjectName(int addr) {
-	
-	std::string name = Memory::ReadString(ReadInt(addr + Offsets::ObjName));
-	if (name.empty()) {
-		int missileSpell     = ReadInt(addr + Offsets::MissileSpellInfo);
-		int missileSpellData = ReadInt(missileSpell + Offsets::SpellInfoSpellData);
-		name = Memory::ReadString(ReadInt(missileSpellData + Offsets::SpellDataSpellName));
-	}
+void GameReader::PeekObjectName(int addr, std::string& name) {
 
-	return name;
+	int nameAddr = ReadInt(addr + Offsets::ObjName);
+	if (!CantRead((void*)nameAddr, 1))
+		name = Memory::ReadString(nameAddr);
+	
+	if (name.empty()) {
+		int missileSpell = ReadInt(addr + Offsets::MissileSpellInfo);
+		if (CantRead(missileSpell))
+			return;
+
+		int missileSpellData = ReadInt(missileSpell + Offsets::SpellInfoSpellData);
+		if (CantRead(missileSpellData))
+			return;
+
+		nameAddr = ReadInt(missileSpellData + Offsets::SpellDataSpellName);
+		if (CantRead(nameAddr))
+			return;
+		name = Memory::ReadString(nameAddr);
+	}
 }
 
 void GameReader::ReadGameObject(int address)
 {
 	GameObject* obj = nullptr;
+	int netId = 0;
+
 	__try {
 		int netId = ReadInt(address + Offsets::ObjNetworkID);
-		if (blacklistedObjects.find(netId) != blacklistedObjects.end())
+		if (blacklistedObjects.find(netId) != blacklistedObjects.end()) {
+			benchmark.blacklistHits.value += 1;
 			return;
+		}
 
 		auto& objectCache = state.objectCache;
 		auto find = objectCache.find(netId);
 		if (find == objectCache.end()) {
 			obj = CreateObject(address);
-
-			/// If we can't create the object we blacklist it for performance
 			if (obj == nullptr) {
 				blacklistedObjects.insert(netId);
 				return;
@@ -154,6 +175,7 @@ void GameReader::ReadGameObject(int address)
 			AddToCache(obj);
 		}
 		else {
+			benchmark.cacheHits.value += 1;
 			obj = find->second.get();
 			obj->ReadFromBaseAddress(address);
 		}
@@ -161,7 +183,22 @@ void GameReader::ReadGameObject(int address)
 		updatedObjects.insert(obj->networkId);
 	}
 	__except (1) {
+		benchmark.sehExceptions.value += 1;
 		if (obj != nullptr)
 			delete obj;
 	}
+}
+
+void BenchmarkGameReader::ImGuiDraw()
+{
+	ImGui::Text("Game Reader Benchmarks");
+	ImGui::DragFloat(readTree.name,     &readTree.avgMs);
+	ImGui::DragFloat(readObjects.name,  &readObjects.avgMs);
+	ImGui::Separator();
+	ImGui::DragInt(sehExceptions.name,  &sehExceptions.value);
+	ImGui::DragInt(readsPerformed.name, &readsPerformed.value);
+	ImGui::DragInt(numObjPointers.name, &numObjPointers.value);
+	ImGui::DragInt(cacheHits.name,      &cacheHits.value);
+	ImGui::DragInt(blacklistHits.name,  &blacklistHits.value);
+	
 }

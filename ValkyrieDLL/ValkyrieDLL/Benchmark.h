@@ -4,19 +4,26 @@
 
 using namespace std::chrono;
 
-class BenchmarkInfo {
+class BenchmarkTiming {
 public:
+	BenchmarkTiming(const char* name);
+
+	void Start();
+	void End();
+
+	const char*                       name;
 	float                             lastMs    = 0.f;
 	float                             avgMs     = 0.f;
 	high_resolution_clock::time_point timeBegin;
 };
 
-class Benchmark {
-
+template<class T>
+class BenchmarkValue {
 public:
-	void  StartFor(std::string& str);
-	void  EndFor(std::string& str);
+	BenchmarkValue(const char* name) {
+		this->name = name;
+	}
 
-public:
-	std::map<std::string, BenchmarkInfo> benchmarks;
+	const char* name;
+	T           value;
 };
