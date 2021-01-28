@@ -11,6 +11,7 @@
 #include <thread>
 
 #include <windows.h>
+#include "miniz/miniz.h"
 
 using json = nlohmann::json;
 namespace fs = std::experimental::filesystem;
@@ -76,9 +77,10 @@ void GameData::Load()
 
 	LoadProgress->currentlyLoading = "Loading Image Database";
 	Logger::LogAll(LoadProgress->currentlyLoading);
-	LoadImages("icons_spells", 0.8f);
-	LoadImages("icons_champs", 0.95f);
-	LoadImages("icons_extra", 1.f);
+	LoadImagesFromZip("icons_spells.zip", 0.8f);
+	LoadImagesFromZip("icons_champs.zip", 0.95f);
+	LoadImagesFromZip("icons_extra.zip", 1.f);
+	
 	Logger::LogAll("Loaded %zu images", Images.size());
 
 	Logger::LogAll("Static data loading complete");
@@ -220,6 +222,67 @@ bool LoadTextureFromFile(const char* filename, PDIRECT3DTEXTURE9* out_texture)
 	
 	*out_texture = texture;
 	return true;
+}
+
+bool LoadTextureFromHeap(void* heap, int heapSize, PDIRECT3DTEXTURE9* outTexture) {
+	PDIRECT3DTEXTURE9 texture;
+
+	Valkyrie::DxDeviceMutex.lock();
+	HRESULT hr = D3DXCreateTextureFromFileInMemory(Valkyrie::DxDevice, heap, heapSize, &texture);
+	Valkyrie::DxDeviceMutex.unlock();
+
+	if (hr != S_OK)
+		return false;
+
+	*outTexture = texture;
+	return true;
+}
+
+
+void GameData::LoadImagesFromZip(const char* zipName, float percentEnd) {
+	fs::path path = Globals::WorkingDir;
+	path.append(FolderData).append(zipName);
+	const char* zipPath = path.u8string().c_str();
+
+	Logger::LogAll("Opening %s", zipPath);
+
+	mz_zip_archive archive;
+	memset(&archive, 0, sizeof(archive));
+	if (!mz_zip_reader_init_file(&archive, zipPath, 0)) {
+		Logger::LogAll("Failed to load %s", zipName);
+		return;
+	}
+
+	int numImages = mz_zip_reader_get_num_files(&archive);
+	float step = (percentEnd - LoadProgress->percentDone) / numImages;
+
+	for (int i = 0; i < numImages; ++i) {
+		mz_zip_archive_file_stat fileStat;
+		if (!mz_zip_reader_file_stat(&archive, i, &fileStat)) {
+			Logger::LogAll("Failed to get image num %d from %s", i, zipName);
+			continue;
+		}
+
+		size_t imgSize = 0;
+		void* imgBin = mz_zip_reader_extract_file_to_heap(&archive, fileStat.m_filename, &imgSize, 0);
+		if (imgBin == NULL) {
+			Logger::LogAll("Failed to uncompress image num %d from %s", i, zipName);
+			continue;
+		}
+
+		std::string imgName = std::string(fileStat.m_filename);
+		imgName.erase(imgName.size() - 4, imgName.size());
+
+		PDIRECT3DTEXTURE9 image = NULL;
+		if (!LoadTextureFromHeap(imgBin, fileStat.m_uncomp_size, &image))
+			Logger::LogAll("Failed to load %s", imgName);
+		else 
+			Images[Strings::ToLower(imgName)] = image;
+
+		LoadProgress->percentDone += step;
+	}
+
+	mz_zip_reader_end(&archive);
 }
 
 void GameData::LoadImages(const char* folderName, float percentEnd)

@@ -68,5 +68,5 @@ int Offsets::MinimapHudPos                = 0x5C;
 int Offsets::MinimapHudSize               = 0x64;          // has values between (190, 190) and (390, 390)
 
 int Offsets::CharacterDataStack           = 0x2F60;
-int Offsets::CharacterDataStackSkinId     = 0x8;
+int Offsets::CharacterDataStackSkinId     = 0x18;
 int Offsets::FnCharacterDataStackUpdate   = 0x10AE60;

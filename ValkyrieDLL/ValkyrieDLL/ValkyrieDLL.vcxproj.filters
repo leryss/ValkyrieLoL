@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Utils\Benchmarking">
       <UniqueIdentifier>{e0754310-e8a5-4660-98c1-179382215dc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Python">
+      <UniqueIdentifier>{4a38a7c4-d8ad-4399-8428-1d2e818af2b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\miniz">
+      <UniqueIdentifier>{1928303f-df65-4c85-9a33-ea1fce27da7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -159,6 +165,12 @@
     <ClInclude Include="GameSpell.h">
       <Filter>Source Files\Game\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="PyStructs.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz\miniz.h">
+      <Filter>Source Files\External\miniz</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -241,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="GameSpell.cpp">
       <Filter>Source Files\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz\miniz.c">
+      <Filter>Source Files\External\miniz</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

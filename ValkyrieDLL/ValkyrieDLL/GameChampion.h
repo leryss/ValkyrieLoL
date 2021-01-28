@@ -3,16 +3,23 @@
 #include "GameSpell.h"
 #include "ItemInfo.h"
 
+#include <boost/python.hpp>
+
+using namespace boost::python;
+
 class GameChampion : public GameUnit {
 	
 public:
-	GameChampion(std::string name);
+	       GameChampion();
+	       GameChampion(std::string name);
 
-	void ReadFromBaseAddress(int addr);
-	void ImGuiDraw();
+	void   ReadFromBaseAddress(int addr);
+	void   ImGuiDraw();
+
+	object SpellsToPy();
+	object ItemsToPy();
 
 public:
-
 	GameSpell spells[6];
 	ItemInfo* items[6];
 };

@@ -132,7 +132,7 @@ GameObject* GameReader::CreateObject(int addr)
 
 	/// Try to read unit name
 	int nameAddr = ReadInt(addr + Offsets::ObjName);
-	if (!CantRead((void*)nameAddr, 1))
+	if (!CantRead((void*)nameAddr))
 		name = Memory::ReadString(nameAddr);
 
 	if (!name.empty()) {

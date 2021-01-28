@@ -1,3 +1,7 @@
+#define USE_IMPORT_EXPORT
+#define USE_WINDOWS_DLL_SEMANTICS
+
+#include "PyStructs.h"
 #include <windows.h>
 #include "Valkyrie.h"
 #include "Strings.h"

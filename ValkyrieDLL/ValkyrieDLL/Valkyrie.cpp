@@ -71,6 +71,8 @@ void Valkyrie::ShowMenu(GameState& state)
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_AlwaysAutoResize);
 
+	std::string s("garen_square");
+	ImGui::Image(GameData::GetImage(s), ImVec2(32, 32));
 	if (ImGui::BeginMenu("Development")) {
 
 		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
@@ -171,7 +173,6 @@ void Valkyrie::Update()
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	DxDeviceMutex.unlock();
 }
-
 
 void Valkyrie::HookDirectX()
 {

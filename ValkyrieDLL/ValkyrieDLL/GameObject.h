@@ -14,6 +14,7 @@
 class GameObject : MemoryReadable, ImGuiDrawable {
 
 public:
+	     GameObject();
 	     GameObject(std::string name);
 	void ReadFromBaseAddress(int baseAddr);
 	void ImGuiDraw();

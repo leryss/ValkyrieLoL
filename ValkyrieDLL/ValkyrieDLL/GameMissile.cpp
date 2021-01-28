@@ -1,5 +1,9 @@
 #include "GameMissile.h"
 
+GameMissile::GameMissile()
+{
+}
+
 GameMissile::GameMissile(std::string name)
 	:GameObject(name)
 {

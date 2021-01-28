@@ -28,7 +28,9 @@ private:
 	static void LoadSpells(const char* fileName, float percentEnd);
 	static void LoadItems(const char* fileName, float percentEnd);
 	static void LoadUnits(const char* fileName, float percentEnd);
+
 	static void LoadImages(const char* folderName, float percentEnd);
+	static void LoadImagesFromZip(const char* zipPath, float percentEnd);
 
 public:
 	static std::shared_ptr<LoadDataProgress>     LoadProgress;

@@ -1,6 +1,10 @@
 #include "GameUnit.h"
 #include "GameData.h"
 
+GameUnit::GameUnit()
+{
+}
+
 GameUnit::GameUnit(std::string name)
 	:GameObject(name)
 {

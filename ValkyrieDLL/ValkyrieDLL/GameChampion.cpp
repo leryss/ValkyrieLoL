@@ -1,6 +1,10 @@
 #include "GameChampion.h"
 #include "GameData.h"
 
+GameChampion::GameChampion()
+{
+}
+
 GameChampion::GameChampion(std::string name)
 	:GameUnit(name)
 {
@@ -57,4 +61,22 @@ void GameChampion::ImGuiDraw()
 			ImGui::TreePop();
 		}
 	}
+}
+
+object GameChampion::SpellsToPy()
+{
+	list l;
+	for (int i = 0; i < 6; ++i)
+		l.append(boost::ref(spells[i]));
+
+	return l;
+}
+
+object GameChampion::ItemsToPy()
+{
+	list l;
+	for (int i = 0; i < 6; ++i)
+		l.append(ptr(items[i]));
+	
+	return l;
 }

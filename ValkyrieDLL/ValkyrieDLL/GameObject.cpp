@@ -1,5 +1,10 @@
 #include "GameObject.h"
 
+GameObject::GameObject()
+{
+	this->name = std::string("Unknown");
+}
+
 GameObject::GameObject(std::string name)
 {
 	this->name = name;
@@ -21,7 +26,7 @@ void GameObject::ImGuiDraw()
 	int idx = index;
 	int tm = team;
 
-	ImGui::TextColored(ImVec4(0.3, 0.2, 0.4, 1.f), name.c_str());
+	ImGui::TextColored(ImVec4(0.3f, 0.2f, 0.4f, 1.f), name.c_str());
 	pos.ImGuiDraw("Position");
 	ImGui::DragInt("Address",    &address, 1.f, 0, 0, "%#010x");
 	ImGui::DragInt("NetworkId",  &networkId, 1.f, 0, 0, "%#010x");

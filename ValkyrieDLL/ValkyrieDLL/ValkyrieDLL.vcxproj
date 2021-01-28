@@ -127,7 +127,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\ValkyrieDLL\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ValkyrieDLL\boost;$(SolutionDir)ValkyrieDLL\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,8 +135,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3dx9.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ValkyrieDLL\boost\stage\lib;$(SolutionDir)ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,9 +186,11 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryReadable.h" />
+    <ClInclude Include="miniz\miniz.h" />
     <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
+    <ClInclude Include="PyStructs.h" />
     <ClInclude Include="SpellInfo.h" />
     <ClInclude Include="stbi\stb_image.h" />
     <ClInclude Include="UnitInfo.h" />
@@ -219,6 +221,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="miniz\miniz.c" />
     <ClCompile Include="ObjectExplorer.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="SpellInfo.cpp" />

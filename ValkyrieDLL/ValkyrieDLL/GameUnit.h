@@ -5,7 +5,8 @@
 class GameUnit : public GameObject {
 
 public:
-	GameUnit(std::string name);
+	     GameUnit();
+	     GameUnit(std::string name);
 
 	void ReadFromBaseAddress(int addr);
 	void ImGuiDraw();
