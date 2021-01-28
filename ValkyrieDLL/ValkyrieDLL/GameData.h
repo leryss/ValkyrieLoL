@@ -9,28 +9,35 @@
 class LoadDataProgress {
 
 public:
-	float       percentDone      = 0.0f;
-	const char* currentlyLoading = "Loading not started";
-	bool        complete         = false;
+	float       spellLoadPercent  = 0.0f;
+	float       unitsLoadPercent  = 0.0f;
+	float       itemsLoadPercent  = 0.0f;
+	float       imagesLoadPercent = 0.0f;
+
+	bool        essentialsLoaded  = false;
+	bool        allLoaded         = false;
 };
 
 class GameData {
 
 public:
 	static void               LoadAsync();
+
 	static UnitInfo*          GetUnit(std::string& str);
 	static SpellInfo*         GetSpell(std::string& str);
 	static ItemInfo*          GetItem(int id);
 	static PDIRECT3DTEXTURE9  GetImage(std::string& str);
 
+	static void               ImGuiDrawLoader();
+	static void               ImGuiDrawObjects();
+
 private:
 	static void Load();
-	static void LoadSpells(const char* fileName, float percentEnd);
-	static void LoadItems(const char* fileName, float percentEnd);
-	static void LoadUnits(const char* fileName, float percentEnd);
+	static void LoadSpells(const char* fileName, float& percentValue, float percentEnd);
+	static void LoadItems(const char* fileName, float& percentValue, float percentEnd);
+	static void LoadUnits(const char* fileName, float& percentValue, float percentEnd);
 
-	static void LoadImages(const char* folderName, float percentEnd);
-	static void LoadImagesFromZip(const char* zipPath, float percentEnd);
+	static void LoadImagesFromZip(const char* zipPath, float& percentValue, float percentEnd);
 
 public:
 	static std::shared_ptr<LoadDataProgress>     LoadProgress;

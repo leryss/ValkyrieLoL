@@ -58,19 +58,7 @@ void GameUnit::ImGuiDraw()
 
 	ImGui::Separator();
 	if (ImGui::TreeNode("Static Data")) {
-		ImGui::DragFloat("Acquisition Radius",  &staticData->acquisitionRange);
-		ImGui::DragFloat("Gameplay Radius",     &staticData->gameplayRadius);
-		ImGui::DragFloat("Pathing Radius",      &staticData->pathRadius);
-		ImGui::DragFloat("Selection Radius",    &staticData->selectionRadius);
-		ImGui::DragFloat("Base Attack Range",   &staticData->baseAttackRange);
-		ImGui::DragFloat("Base Movement Speed", &staticData->baseMovementSpeed);
-		ImGui::DragFloat("Basic Attack Speed",  &staticData->basicAttackMissileSpeed);
-		ImGui::DragFloat("Basic Attack Windup", &staticData->basicAttackWindup);
-		ImGui::DragFloat("Attack Speed Ratio",  &staticData->attackSpeedRatio);
-		ImGui::DragFloat("HP Bar Height",       &staticData->healthBarHeight);
-		ImGui::Text("Tags");
-		ImGui::TextColored(ImVec4(0.9f, 0.6f, 0.3f, 1.f), staticData->StringifyTags().c_str());
-
+		staticData->ImGuiDraw();
 		ImGui::TreePop();
 	}
 }

@@ -85,6 +85,8 @@ public:
 	
 	std::bitset<128> tags;
 
+	void ImGuiDraw();
+
 public:
 	bool        HasTag(UnitTag tag);
 	void        SetTag(std::string& str);

@@ -153,9 +153,6 @@
     <ClInclude Include="GameUnit.h">
       <Filter>Source Files\Game\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiDrawable.h">
-      <Filter>Source Files\UI</Filter>
-    </ClInclude>
     <ClInclude Include="GameMissile.h">
       <Filter>Source Files\Game\GameObjects</Filter>
     </ClInclude>

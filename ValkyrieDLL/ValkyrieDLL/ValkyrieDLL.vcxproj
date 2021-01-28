@@ -169,7 +169,6 @@
     <ClInclude Include="GameSpell.h" />
     <ClInclude Include="GameUnit.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="ImGuiDrawable.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="json\json.h" />
     <ClInclude Include="Logger.h" />

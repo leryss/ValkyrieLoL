@@ -3,10 +3,9 @@
 #include "Offsets.h"
 #include "MemoryReadable.h"
 #include "SpellInfo.h"
-#include "ImGuiDrawable.h"
 #include "imgui/imgui.h"
 
-class GameSpell : public MemoryReadable, public ImGuiDrawable {
+class GameSpell : public MemoryReadable {
 
 public:
 	void ReadFromBaseAddress(int addr);

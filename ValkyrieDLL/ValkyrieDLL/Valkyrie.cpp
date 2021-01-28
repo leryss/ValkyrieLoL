@@ -24,11 +24,11 @@ void Valkyrie::Run()
 	try {
 		DxDeviceMutex.lock();
 
-		Logger::File.Log("Starting up Valkyrie...");
-		HookDirectX();
-
 		Logger::File.Log("Loading game data...");
 		GameData::LoadAsync();
+
+		Logger::File.Log("Starting up Valkyrie...");
+		HookDirectX();
 	}
 	catch (std::exception& error) {
 		Logger::File.Log("Failed starting up Valkyrie %s", error.what());
@@ -42,23 +42,14 @@ void Valkyrie::WaitForOverlayToInit()
 	Valkyrie::OverlayInitialized.wait(lock);
 }
 
-bool Valkyrie::CheckGameDataLoading()
+bool Valkyrie::CheckEssentialsLoaded()
 {
-	if (GameData::LoadProgress->complete)
+	if(!GameData::LoadProgress->allLoaded)
+		GameData::ImGuiDrawLoader();
+
+	if (GameData::LoadProgress->essentialsLoaded)
 		return true;
-	else {
-		ImGui::Begin("Valkyrie Loader", NULL, ImGuiWindowFlags_AlwaysAutoResize);
-
-		ImGui::Text(GameData::LoadProgress->currentlyLoading);
-		ImGui::ProgressBar(GameData::LoadProgress->percentDone);
-		if (GameData::LoadProgress->complete) {
-			Logger::LogAll("Loaded Game Databases!");
-		}
-			
-		ImGui::End();
-
-		return false;
-	}
+	return false;
 }
 
 void Valkyrie::ShowMenu(GameState& state)
@@ -71,8 +62,6 @@ void Valkyrie::ShowMenu(GameState& state)
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_AlwaysAutoResize);
 
-	std::string s("garen_square");
-	ImGui::Image(GameData::GetImage(s), ImVec2(32, 32));
 	if (ImGui::BeginMenu("Development")) {
 
 		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
@@ -148,7 +137,7 @@ void Valkyrie::InitializeOverlay()
 	if (!ImGui_ImplDX9_Init(DxDevice))
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 	
-	Logger::Console.Log("Initialized Valkyrie Overlay!");
+	Logger::LogAll("Initialized Valkyrie Overlay!");
 	OverlayInitialized.notify_all();
 }
 
@@ -160,7 +149,7 @@ void Valkyrie::Update()
 	ImGui::NewFrame();
 
 	//ImGui::ShowDemoWindow();
-	if (CheckGameDataLoading()) {
+	if (CheckEssentialsLoaded()) {
 		GameState& state = Reader.GetNextState();
 		ShowMenu(state);
 	}

@@ -49,5 +49,7 @@ public:
 	float height;
 	float speed;
 	float travelTime;
+
+	void ImGuiDraw();
 };
 

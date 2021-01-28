@@ -1,4 +1,5 @@
 #include "UnitInfo.h"
+#include "imgui/imgui.h"
 
 std::map<std::string, UnitTag> UnitInfo::TagMapping = {
 	{std::string("Unit_"), Unit_},
@@ -58,6 +59,22 @@ std::map<std::string, UnitTag> UnitInfo::TagMapping = {
 	{std::string("Unit_Ward"), Unit_Ward},
 };
 
+
+void UnitInfo::ImGuiDraw()
+{
+	ImGui::DragFloat("Acquisition Radius",  &acquisitionRange);
+	ImGui::DragFloat("Gameplay Radius",     &gameplayRadius);
+	ImGui::DragFloat("Pathing Radius",      &pathRadius);
+	ImGui::DragFloat("Selection Radius",    &selectionRadius);
+	ImGui::DragFloat("Base Attack Range",   &baseAttackRange);
+	ImGui::DragFloat("Base Movement Speed", &baseMovementSpeed);
+	ImGui::DragFloat("Basic Attack Speed",  &basicAttackMissileSpeed);
+	ImGui::DragFloat("Basic Attack Windup", &basicAttackWindup);
+	ImGui::DragFloat("Attack Speed Ratio",  &attackSpeedRatio);
+	ImGui::DragFloat("HP Bar Height",       &healthBarHeight);
+	ImGui::Text("Tags");
+	ImGui::TextColored(ImVec4(0.9f, 0.6f, 0.3f, 1.f), StringifyTags().c_str());
+}
 
 bool UnitInfo::HasTag(UnitTag tag)
 {

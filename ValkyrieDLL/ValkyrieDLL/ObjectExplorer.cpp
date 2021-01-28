@@ -1,5 +1,6 @@
 #include "ObjectExplorer.h"
 #include "Strings.h"
+#include "GameData.h"
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -63,6 +64,10 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 		}
 
 		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Static")) {
+		GameData::ImGuiDrawObjects();
 	}
 
 	ImGui::End();
