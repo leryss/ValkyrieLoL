@@ -31,13 +31,13 @@ public:
 public:
 
 private:
+	void        ReadLocalChampion();
 	void        ReadObjectTree();
 	int         ReadTreeNodes(std::queue<int>& nodesToVisit, int node);
 	void        ReadGameObject(int address);
 
 	void        AddToCache(GameObject* obj);
 	GameObject* CreateObject(int addr);
-	void        PeekObjectName(int addr, std::string& name);
 
 private:
 

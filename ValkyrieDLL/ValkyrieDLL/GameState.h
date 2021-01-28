@@ -12,4 +12,6 @@ struct GameState {
 	GameRenderer                               renderer;
 	GameHud                                    hud;
 	std::map<int, std::shared_ptr<GameObject>> objectCache;
+
+	std::shared_ptr<GameObject>                player;
 };

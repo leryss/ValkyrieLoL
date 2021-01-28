@@ -20,7 +20,7 @@ std::shared_ptr<LoadDataProgress> GameData::LoadProgress(new LoadDataProgress())
 
 std::map<std::string, UnitInfo*>          GameData::Units;
 std::map<std::string, SpellInfo*>         GameData::Spells;
-std::map<std::string, PDIRECT3DTEXTURE9*> GameData::Images;
+std::map<std::string, PDIRECT3DTEXTURE9>  GameData::Images;
 std::map<int, ItemInfo*>                  GameData::Items;
 
 
@@ -28,6 +28,30 @@ void GameData::LoadAsync()
 {
 	std::thread loadThread(GameData::Load);
 	loadThread.detach();
+}
+
+UnitInfo * GameData::GetUnit(std::string & str)
+{
+	auto find = Units.find(str);
+	return (find == Units.end() ? nullptr : find->second);
+}
+
+SpellInfo * GameData::GetSpell(std::string & str)
+{
+	auto find = Spells.find(str);
+	return (find == Spells.end() ? nullptr : find->second);
+}
+
+ItemInfo * GameData::GetItem(int id)
+{
+	auto find = Items.find(id);
+	return (find == Items.end() ? nullptr : find->second);
+}
+
+PDIRECT3DTEXTURE9 GameData::GetImage(std::string & str)
+{
+	auto find = Images.find(str);
+	return (find == Images.end() ? nullptr : find->second);
 }
 
 void GameData::Load()
@@ -79,11 +103,15 @@ void GameData::LoadSpells(const char* fileName, float percentEnd)
 	float step = (percentEnd - LoadProgress->percentDone) / j.size();
 	for (auto spell : j) {
 		SpellInfo* info = new SpellInfo();
+
+		std::string strIcon = spell["icon"].get<std::string>();
+		std::string strName = spell["name"].get<std::string>();
+
 		info->flags        = (SpellFlags)spell["flags"].get<int>();
 		info->delay        = spell["delay"].get<float>();
 		info->height       = spell["height"].get<float>();
-		info->icon         = Strings::ToLower(spell["icon"].get<std::string>());
-		info->name         = Strings::ToLower(spell["name"].get<std::string>());
+		info->icon         = Strings::ToLower(strIcon);
+		info->name         = Strings::ToLower(strName);
 		info->width        = spell["width"].get<float>();
 		info->castRange    = spell["castRange"].get<float>();
 		info->castRadius   = spell["castRadius"].get<float>();
@@ -152,6 +180,8 @@ void GameData::LoadUnits(const char* fileName, float percentEnd)
 	for (auto unitObj : j) {
 
 		UnitInfo* unit = new UnitInfo();
+		std::string strName = unitObj["name"].get<std::string>();
+
 		unit->acquisitionRange        = unitObj["acquisitionRange"].get<float>();
 		unit->attackSpeedRatio        = unitObj["attackSpeedRatio"].get<float>();
 		unit->baseAttackRange         = unitObj["attackRange"].get<float>();
@@ -161,13 +191,15 @@ void GameData::LoadUnits(const char* fileName, float percentEnd)
 		unit->basicAttackWindup       = unitObj["basicAtkWindup"].get<float>();
 		unit->gameplayRadius          = unitObj["gameplayRadius"].get<float>();
 		unit->healthBarHeight         = unitObj["healthBarHeight"].get<float>();
-		unit->name                    = Strings::ToLower(unitObj["name"].get<std::string>());
+		unit->name                    = Strings::ToLower(strName);
 		unit->pathRadius              = unitObj["pathingRadius"].get<float>();
 		unit->selectionRadius         = unitObj["selectionRadius"].get<float>();
 
-		auto tags = unitObj["tags"].array();
-		for (auto tag : tags)
-			unit->SetTag(tag.get<std::string>().c_str());
+		auto tags = unitObj["tags"];
+		for (auto tag : tags) {
+			std::string tagStr = tag.get<std::string>();
+			unit->SetTag(tagStr);
+		}			
 
 		Units[unit->name] = unit;
 		LoadProgress->percentDone += step;
@@ -214,7 +246,7 @@ void GameData::LoadImages(const char* folderName, float percentEnd)
 			else {
 				std::string fileName(findData.cFileName);
 				fileName.erase(fileName.find(".png"), 4);
-				Images[Strings::ToLower(fileName)] = &image;
+				Images[Strings::ToLower(fileName)] = image;
 			}
 
 			LoadProgress->percentDone += step;

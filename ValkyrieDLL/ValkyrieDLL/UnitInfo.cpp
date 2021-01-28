@@ -59,7 +59,28 @@ std::map<std::string, UnitTag> UnitInfo::TagMapping = {
 };
 
 
-void UnitInfo::SetTag(const char * tagStr)
+bool UnitInfo::HasTag(UnitTag tag)
 {
-	tags.set(TagMapping[std::string(tagStr)]);
+	return tags.test(tag);
+}
+
+void UnitInfo::SetTag(std::string& str)
+{
+	tags.set(TagMapping[str]);
+}
+
+std::string UnitInfo::StringifyTags()
+{
+	//return tags.to_string();
+	std::string result("");
+	int i = 0;
+	for (auto& pair : TagMapping) {
+		if (tags.test(pair.second)) {
+			if (i > 0)
+				result.append(" | ");
+			result.append(pair.first);
+			i++;
+		}
+	}
+	return result;
 }

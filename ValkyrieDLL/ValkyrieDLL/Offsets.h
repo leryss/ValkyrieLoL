@@ -45,7 +45,7 @@ public:
 
 	static int SpellSlotLevel;
 	static int SpellSlotTime;
-	static int SpellSlotDamage;
+	static int SpellSlotValue;
 	static int SpellSlotSpellInfo;
 	static int SpellInfoSpellData;
 	static int SpellDataSpellName;
@@ -70,4 +70,8 @@ public:
 	static int MinimapObjectHud;
 	static int MinimapHudPos;
 	static int MinimapHudSize;
+
+	static int CharacterDataStack;
+	static int CharacterDataStackSkinId;
+	static int FnCharacterDataStackUpdate;
 };

@@ -3,6 +3,10 @@
 #include "Memory.h"
 #include "Logger.h"
 #include "imgui/imgui.h"
+#include "GameUnit.h"
+#include "GameData.h"
+#include "GameMissile.h"
+#include "GameChampion.h"
 
 #include <windows.h>
 
@@ -20,6 +24,7 @@ GameState& GameReader::GetNextState()
 		state.hud.ReadFromBaseAddress(baseAddr);
 
 		ReadObjectTree();
+		ReadLocalChampion();
 	}
 	return state;
 }
@@ -27,6 +32,10 @@ GameState& GameReader::GetNextState()
 BenchmarkGameReader& GameReader::GetBenchmarks()
 {
 	return benchmark;
+}
+
+void GameReader::ReadLocalChampion()
+{
 }
 
 void GameReader::ReadObjectTree() {
@@ -107,7 +116,7 @@ int GameReader::ReadTreeNodes(std::queue<int>& nodesToVisit, int node)
 			return ReadInt(node + Offsets::ObjectMapNodeObject);
 		}
 	} 
-	__except (1) {
+	__except (EXCEPTION_EXECUTE_HANDLER) {
 		benchmark.sehExceptions.value += 1;
 	}
 	return NULL;
@@ -120,34 +129,43 @@ void GameReader::AddToCache(GameObject* obj) {
 GameObject* GameReader::CreateObject(int addr)
 {
 	std::string name;
-	PeekObjectName(addr, name);
-	if (name.empty())
-		return nullptr;
 
-	GameObject* obj = new GameObject(name);
-	return obj;
-}
-
-void GameReader::PeekObjectName(int addr, std::string& name) {
-
+	/// Try to read unit name
 	int nameAddr = ReadInt(addr + Offsets::ObjName);
 	if (!CantRead((void*)nameAddr, 1))
 		name = Memory::ReadString(nameAddr);
-	
-	if (name.empty()) {
-		int missileSpell = ReadInt(addr + Offsets::MissileSpellInfo);
-		if (CantRead(missileSpell))
-			return;
 
-		int missileSpellData = ReadInt(missileSpell + Offsets::SpellInfoSpellData);
-		if (CantRead(missileSpellData))
-			return;
+	if (!name.empty()) {
+		name = Strings::ToLower(name);
+		UnitInfo* info = GameData::GetUnit(name);
+		if (info == nullptr) 
+			return nullptr;
 
-		nameAddr = ReadInt(missileSpellData + Offsets::SpellDataSpellName);
-		if (CantRead(nameAddr))
-			return;
-		name = Memory::ReadString(nameAddr);
+		if (info->HasTag(Unit_Champion))
+			return new GameChampion(name);
+		return new GameUnit(name);
 	}
+		
+
+	/// Try to read missile name
+	int missileSpell = ReadInt(addr + Offsets::MissileSpellInfo);
+	if (CantRead(missileSpell)) return nullptr;
+
+	int missileSpellData = ReadInt(missileSpell + Offsets::SpellInfoSpellData);
+	if (CantRead(missileSpellData)) return nullptr;
+
+	nameAddr = ReadInt(missileSpellData + Offsets::SpellDataSpellName);
+	if (CantRead(nameAddr)) return nullptr;
+	name = Memory::ReadString(nameAddr);
+
+	if (!name.empty()) {
+		name = Strings::ToLower(name);
+		if (GameData::GetSpell(name) == nullptr) 
+			return nullptr;
+		return new GameMissile(name);
+	}
+		
+	return nullptr;
 }
 
 void GameReader::ReadGameObject(int address)
@@ -180,9 +198,12 @@ void GameReader::ReadGameObject(int address)
 			obj->ReadFromBaseAddress(address);
 		}
 
+		if (obj->isVisible)
+			obj->lastSeen = state.time;
+
 		updatedObjects.insert(obj->networkId);
 	}
-	__except (1) {
+	__except (EXCEPTION_EXECUTE_HANDLER) {
 		benchmark.sehExceptions.value += 1;
 		if (obj != nullptr)
 			delete obj;

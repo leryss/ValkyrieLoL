@@ -26,7 +26,7 @@ public:
 	static void   WaitForOverlayToInit();
 
 private:
-	static void                        ShowLoader();
+	static bool                        CheckGameDataLoading();
 	static void                        ShowMenu(GameState& state);
 	static void                        ShowConsole();
 

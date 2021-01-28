@@ -86,7 +86,9 @@ public:
 	std::bitset<128> tags;
 
 public:
-	void SetTag(const char* tagStr);
+	bool        HasTag(UnitTag tag);
+	void        SetTag(std::string& str);
+	std::string StringifyTags();
 private:
 	static std::map<std::string, UnitTag> TagMapping;
 };

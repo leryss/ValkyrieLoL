@@ -21,7 +21,7 @@ int Offsets::ObjBonusAtk                  = 0x11F0;
 int Offsets::ObjMoveSpeed                 = 0x12B0;
 int Offsets::ObjSpellBook                 = 0x2b80;
 int Offsets::ObjName                      = 0x2F64;
-int Offsets::ObjLvl                       = 0x36BC;
+int Offsets::ObjLvl                       = 0x36B4;
 int Offsets::ObjExpiry                    = 0x298; 
 int Offsets::ObjCrit                      = 0x1294;
 int Offsets::ObjCritMulti                 = 0x1284;
@@ -41,7 +41,7 @@ int Offsets::RendererHeight               = 0x14;
 
 int Offsets::SpellSlotLevel               = 0x20;
 int Offsets::SpellSlotTime                = 0x28;
-int Offsets::SpellSlotDamage              = 0x94;
+int Offsets::SpellSlotValue              = 0x94;
 int Offsets::SpellSlotSpellInfo           = 0x13C;
 int Offsets::SpellInfoSpellData           = 0x44;
 int Offsets::SpellDataSpellName           = 0x64;
@@ -66,3 +66,7 @@ int Offsets::MinimapObject                = 0x34EC5F0;     //FF 52 04 8B 0D ? ? 
 int Offsets::MinimapObjectHud             = 0x88;
 int Offsets::MinimapHudPos                = 0x5C;
 int Offsets::MinimapHudSize               = 0x64;          // has values between (190, 190) and (390, 390)
+
+int Offsets::CharacterDataStack           = 0x2F60;
+int Offsets::CharacterDataStackSkinId     = 0x8;
+int Offsets::FnCharacterDataStackUpdate   = 0x10AE60;

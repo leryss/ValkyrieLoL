@@ -3,6 +3,8 @@
 #include "detours.h"
 #include "GameData.h"
 #include "ObjectExplorer.h"
+#include "Offsets.h"
+#include "Memory.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -40,9 +42,11 @@ void Valkyrie::WaitForOverlayToInit()
 	Valkyrie::OverlayInitialized.wait(lock);
 }
 
-void Valkyrie::ShowLoader()
+bool Valkyrie::CheckGameDataLoading()
 {
-	if (!GameData::LoadProgress->complete) {
+	if (GameData::LoadProgress->complete)
+		return true;
+	else {
 		ImGui::Begin("Valkyrie Loader", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 
 		ImGui::Text(GameData::LoadProgress->currentlyLoading);
@@ -52,6 +56,8 @@ void Valkyrie::ShowLoader()
 		}
 			
 		ImGui::End();
+
+		return false;
 	}
 }
 
@@ -66,6 +72,7 @@ void Valkyrie::ShowMenu(GameState& state)
 		ImGuiWindowFlags_AlwaysAutoResize);
 
 	if (ImGui::BeginMenu("Development")) {
+
 		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
 		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
 		if (ImGui::TreeNode("Benchmarks")) {
@@ -78,6 +85,26 @@ void Valkyrie::ShowMenu(GameState& state)
 
 	if (ImGui::BeginMenu("Menu Settings")) {
 		ImGui::ShowStyleSelector("Style");
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Skin Changer")) {
+		static int skinId;
+		static int objAddr;
+		ImGui::DragInt("Obj", &objAddr);
+		ImGui::DragInt("SkinId", &skinId);
+
+		if (ImGui::Button("Change")) {
+			int baseAddr = (int)GetModuleHandle(NULL);
+			auto Update = reinterpret_cast<void(__thiscall*)(void*, bool)>(baseAddr + Offsets::FnCharacterDataStackUpdate);
+
+			int charDataStack = objAddr + Offsets::CharacterDataStack;
+			int* charSkinId = (int*)(charDataStack + Offsets::CharacterDataStackSkinId);
+
+			*charSkinId = skinId;
+			Update((void*)charDataStack, true);
+		}
+
 		ImGui::EndMenu();
 	}
 
@@ -131,9 +158,10 @@ void Valkyrie::Update()
 	ImGui::NewFrame();
 
 	//ImGui::ShowDemoWindow();
-	GameState& state = Reader.GetNextState();
-	ShowLoader();
-	ShowMenu(state);
+	if (CheckGameDataLoading()) {
+		GameState& state = Reader.GetNextState();
+		ShowMenu(state);
+	}
 
 	// Render
 	ImGui::EndFrame();

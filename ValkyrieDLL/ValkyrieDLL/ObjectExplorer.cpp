@@ -16,10 +16,6 @@ void DrawMatrix(float* matrix, int rows, int cols) {
 	ImGui::Columns(1);
 }
 
-void DrawVec2(Vector2& vec) {
-	ImGui::Button(Strings::Format("x: %.2f y: %.2f", vec.x, vec.y).c_str());
-}
-
 void DrawGameObject(GameObject& obj) {
 	
 }
@@ -48,11 +44,8 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 	auto& hud = state.hud;
 	if (ImGui::TreeNode("HUD")) {
 		
-		ImGui::Text("Minimap Position");
-		DrawVec2(hud.minimapPosition);
-
-		ImGui::Text("Minimap Size");
-		DrawVec2(hud.minimapSize);
+		hud.minimapPosition.ImGuiDraw("Minimap Position");
+		hud.minimapSize.ImGuiDraw("Minimap Size");
 
 		ImGui::TreePop();
 	}
@@ -62,9 +55,9 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 		
 		for (auto& pair : objCache) {
 			auto obj = pair.second;
-			if (ImGui::TreeNode(&pair.first, "%s (%#010x | %#010x)", obj->name.c_str(), obj->address, obj->networkId)) {
+			if (ImGui::TreeNode(&pair.first, "%s (%#010x)", obj->name.c_str(), obj->networkId)) {
 				
-				DrawGameObject(*obj);
+				obj->ImGuiDraw();
 				ImGui::TreePop();
 			}
 		}

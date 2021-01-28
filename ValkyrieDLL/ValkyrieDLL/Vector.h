@@ -1,5 +1,8 @@
 #pragma once
 #include <cmath>
+#include "ImGuiDrawable.h"
+#include "imgui/imgui.h"
+#include "Strings.h"
 
 struct Vector2 {
 	Vector2() {};
@@ -10,6 +13,11 @@ struct Vector2 {
 
 	float x;
 	float y;
+
+	void ImGuiDraw(const char* label){
+		ImGui::Text(label);
+		ImGui::Button(Strings::Format("x: %.2f y: %.2f", x, y).c_str());
+	}
 
 	float length() {
 		return sqrt(x*x + y * y);
@@ -56,6 +64,11 @@ struct Vector3 {
 	float x;
 	float y;
 	float z;
+
+	void ImGuiDraw(const char* label) {
+		ImGui::Text(label);
+		ImGui::Button(Strings::Format("x: %.2f y: %.2f z: %.2f", x, y, z).c_str());
+	}
 
 	float length() {
 		return sqrt(x*x + y*y + z*z);
@@ -128,6 +141,11 @@ struct Vector4 {
 	float y;
 	float z;
 	float w;
+
+	void ImGuiDraw(const char* label) {
+		ImGui::Text(label);
+		ImGui::Button(Strings::Format("x: %.2f y: %.2f z: %.2f w: %2.f", x, y, z, w).c_str());
+	}
 
 	float length() {
 		return sqrt(x*x + y*y + z*z + w*w);
