@@ -19,7 +19,7 @@ using namespace boost::python;
 
 BOOST_PYTHON_MODULE(valkyrie) {
 	
-	class_<UnitInfo>("UnitStatic")
+	class_<UnitInfo>("UnitStatic", "Static data loaded at runtime for an unit")
 		.def_readonly("hp_bar_height",      &UnitInfo::healthBarHeight)
 		.def_readonly("movement_speed",     &UnitInfo::baseMovementSpeed)
 		.def_readonly("base_atk_range",     &UnitInfo::baseAttackRange)
@@ -35,7 +35,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("basic_atk_windup",   &UnitInfo::basicAttackWindup)
 		;
 
-	class_<ItemInfo>("ItemStatic")
+	class_<ItemInfo>("ItemStatic", "Static data loaded at runtime for an item")
 		.def_readonly("id",                &ItemInfo::id)
 		.def_readonly("cost",              &ItemInfo::cost)
 		.def_readonly("mov_speed",         &ItemInfo::movementSpeed)
@@ -52,7 +52,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("mov_speed_percent", &ItemInfo::movementSpeedPercent)
 		;
 
-	class_<SpellInfo>("SpellStatic")
+	class_<SpellInfo>("SpellStatic", "Static data loaded at runtime for a spell")
 		.def_readonly("icon",            &SpellInfo::icon)
 		.def_readonly("delay",           &SpellInfo::delay)
 		.def_readonly("cast_range",      &SpellInfo::castRange)
@@ -63,7 +63,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("travel_time",     &SpellInfo::travelTime)
 		;
 
-	class_<GameObject>("Obj")
+	class_<GameObject>("Obj", "Represents the base of a ingame object. Most ingame objects derive from this.")
 		.def_readonly("name",            &GameObject::name)
 		.def_readonly("index",           &GameObject::index)
 		.def_readonly("net_id",          &GameObject::networkId)
@@ -73,14 +73,14 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("last_seen",       &GameObject::lastSeen)
 		;
 
-	class_<GameSpell>("Spell")
+	class_<GameSpell>("Spell", "Represents a spell in game.")
 		.def_readonly("name",            &GameSpell::name)
 		.def_readonly("lvl",             &GameSpell::lvl)
 		.def_readonly("ready_at",        &GameSpell::readyAt)
 		.def_readonly("value",           &GameSpell::value)
 		;
 
-	class_<GameUnit, bases<GameObject>>("Unit")
+	class_<GameUnit, bases<GameObject>>("Unit", "Represents a base unit object")
 		.def_readonly("dead",            &GameUnit::isDead)
 		.def_readonly("mana",            &GameUnit::mana)
 		.def_readonly("health",          &GameUnit::health)
@@ -99,19 +99,50 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("atk_range",       &GameUnit::attackRange)
 		;
 
-	class_<GameMissile, bases<GameObject>>("Missile")
+	class_<GameMissile, bases<GameObject>>("Missile", "Represent a missile object.")
 		.def_readonly("start_pos",       &GameMissile::startPos)
 		.def_readonly("end_pos",         &GameMissile::endPos)
 		.def_readonly("src_index",       &GameMissile::srcIndex)
 		.def_readonly("dest_index",      &GameMissile::destIndex)
 		;
 
-	class_<GameChampion, bases<GameUnit>>("Champion")
+	class_<GameChampion, bases<GameUnit>>("Champion", "Represents a champion object")
 		.def_readonly("spells",          &GameChampion::spells)
 		.def_readonly("items",           &GameChampion::items)
 		;
 
-	class_<PyExecutionContext>("Context")
-		.def("log",                      &PyExecutionContext::Log)
+	class_<PyImGui>("UI")
+		.def("begin",                    &PyImGui::Begin)
+		.def("end",                      &PyImGui::End)
+						                 
+		.def("button",                   &PyImGui::Button)
+		.def("colorbutton",              &PyImGui::ColorButton)
+		.def("colorpick",                &PyImGui::ColorPicker)
+		.def("checkbox",                 &PyImGui::Checkbox)
+		.def("text",                     &PyImGui::Text)
+		.def("text",                     &PyImGui::TextColored)
+		.def("labeltext",                &PyImGui::LabelText)
+		.def("labeltext",                &PyImGui::LabelTextColored)
+		.def("separator",                &PyImGui::Separator)
+		.def("dragint",                  &PyImGui::DragInt,   PyImGui::DragIntOverloads())
+		.def("dragfloat",                &PyImGui::DragFloat, PyImGui::DragFloatOverloads())
+		.def("keyselect",                &PyImGui::KeySelect)
+		.def("sliderfloat",              &PyImGui::SliderFloat)
+						                 
+		.def("header",                   &PyImGui::CollapsingHeader)
+		.def("treenode",                 &PyImGui::TreeNode)
+		.def("treepop",                  &PyImGui::TreePop)
+		.def("opennext",                 &PyImGui::SetNextItemOpen)
+						                 
+		.def("sameline",                 &PyImGui::SameLine)
+		.def("begingroup",               &PyImGui::BeginGroup)
+		.def("endgroup",                 &PyImGui::EndGroup)
+						                 
+		.def("listbox",                  &PyImGui::ListBox)
+		;
+
+	class_<PyExecutionContext>("Context", "Contains everything necessarry to create scripts. From utility functions to game data")
+		.def("log",                      &PyExecutionContext::Log,               "Logs a message in the Valkyrie Console")
+		.def_readonly("ui",              &PyExecutionContext::GetImGuiInterface, "UI interface for drawing menus based on imgui")
 		;
 }

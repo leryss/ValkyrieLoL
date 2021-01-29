@@ -8,6 +8,7 @@ GameChampion::GameChampion()
 GameChampion::GameChampion(std::string name)
 	:GameUnit(name)
 {
+	type = OBJ_CHAMPION;
 }
 
 void GameChampion::ReadFromBaseAddress(int addr)

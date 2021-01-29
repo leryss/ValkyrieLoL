@@ -8,6 +8,7 @@ GameMissile::GameMissile(std::string name)
 	:GameObject(name)
 {
 	staticData = GameData::GetSpell(name);
+	type = OBJ_MISSILE;
 }
 
 void GameMissile::ReadFromBaseAddress(int addr)

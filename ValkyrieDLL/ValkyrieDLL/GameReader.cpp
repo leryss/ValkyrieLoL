@@ -3,10 +3,14 @@
 #include "Memory.h"
 #include "Logger.h"
 #include "imgui/imgui.h"
+
 #include "GameUnit.h"
 #include "GameData.h"
 #include "GameMissile.h"
 #include "GameChampion.h"
+#include "GameTurret.h"
+#include "GameMinion.h"
+#include "GameJungle.h"
 
 #include <windows.h>
 
@@ -19,13 +23,16 @@ GameState& GameReader::GetNextState()
 	baseAddr = (int)GetModuleHandle(NULL);
 	memcpy(&state.time, (void*)(baseAddr + Offsets::GameTime), sizeof(float));
 	
+	/// Ghetto way of checking if game has started
 	if (state.time > 1.f) {
 		state.gameStarted = true;
 		state.renderer.ReadFromBaseAddress(baseAddr);
 		state.hud.ReadFromBaseAddress(baseAddr);
 
 		ReadObjectTree();
+		SieveObjects();
 		ReadLocalChampion();
+		ReadHoveredObject();
 	}
 	return state;
 }
@@ -37,6 +44,27 @@ BenchmarkGameReader& GameReader::GetBenchmarks()
 
 void GameReader::ReadLocalChampion()
 {
+	int addr = ReadInt(baseAddr + Offsets::LocalPlayer);
+
+	/// In Spectator/Replays the local champion is nullptr so we just choose the first champion
+	if (CantRead(addr) && state.champions.size() > 0)
+		state.player = state.champions[0];
+	else {
+		int netId = ReadInt(addr + Offsets::ObjNetworkID);
+		auto find = state.objectCache.find(netId);
+		state.player = std::dynamic_pointer_cast<GameChampion>(find == state.objectCache.end() ? nullptr : find->second);
+	}
+}
+
+void GameReader::ReadHoveredObject()
+{
+	int addr = ReadInt(baseAddr + Offsets::UnderMouseObject);
+
+	if (!CantRead(addr)) {
+		int netId = ReadInt(addr + Offsets::ObjNetworkID);
+		auto find = state.objectCache.find(netId);
+		state.hovered = (find == state.objectCache.end() ? nullptr : find->second);
+	}
 }
 
 void GameReader::ReadObjectTree() {
@@ -144,7 +172,14 @@ GameObject* GameReader::CreateObject(int addr)
 
 		if (info->HasTag(Unit_Champion))
 			return new GameChampion(name);
-		return new GameUnit(name);
+		else if (info->HasTag(Unit_Minion_Lane))
+			return new GameMinion(name);
+		else if (info->HasTag(Unit_Structure_Turret))
+			return new GameTurret(name);
+		else if (info->HasTag(Unit_Monster))
+			return new GameJungle(name);
+		else
+			return new GameUnit(name);
 	}
 		
 
@@ -163,6 +198,7 @@ GameObject* GameReader::CreateObject(int addr)
 		name = Strings::ToLower(name);
 		if (GameData::GetSpell(name) == nullptr) 
 			return nullptr;
+
 		return new GameMissile(name);
 	}
 		
@@ -208,6 +244,40 @@ void GameReader::ReadGameObject(int address)
 		benchmark.sehExceptions.value += 1;
 		if (obj != nullptr)
 			delete obj;
+	}
+}
+
+void GameReader::SieveObjects()
+{
+	state.missiles.clear();
+	state.champions.clear();
+	state.minions.clear();
+	state.turrets.clear();
+	state.jungle.clear();
+	state.others.clear();
+
+	for (auto& pair : state.objectCache) {
+		switch (pair.second->type) {
+		
+		case OBJ_CHAMPION:
+			state.champions.push_back(std::dynamic_pointer_cast<GameChampion>(pair.second));
+			break;
+		case OBJ_MINION:
+			state.minions.push_back(std::dynamic_pointer_cast<GameMinion>(pair.second));
+			break;
+		case OBJ_TURRET:
+			state.turrets.push_back(std::dynamic_pointer_cast<GameTurret>(pair.second));
+			break;
+		case OBJ_MISSILE:
+			state.missiles.push_back(std::dynamic_pointer_cast<GameMissile>(pair.second));
+			break;
+		case OBJ_JUNGLE:
+			state.jungle.push_back(std::dynamic_pointer_cast<GameJungle>(pair.second));
+			break;
+		case OBJ_UNKNOWN:
+		default:
+			state.others.push_back(std::dynamic_pointer_cast<GameUnit>(pair.second));
+		}
 	}
 }
 

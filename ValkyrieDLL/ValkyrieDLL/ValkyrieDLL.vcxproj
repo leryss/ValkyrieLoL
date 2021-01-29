@@ -165,11 +165,15 @@
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameHud.h" />
+    <ClInclude Include="GameJungle.h" />
+    <ClInclude Include="GameMinion.h" />
     <ClInclude Include="GameMissile.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSpell.h" />
+    <ClInclude Include="GameTurret.h" />
     <ClInclude Include="GameUnit.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="HKey.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="json\json.h" />
     <ClInclude Include="Logger.h" />
@@ -191,6 +195,7 @@
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="PyExecutionContext.h" />
+    <ClInclude Include="PyImGui.h" />
     <ClInclude Include="PyStructs.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptManager.h" />

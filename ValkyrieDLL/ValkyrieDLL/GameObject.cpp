@@ -3,13 +3,14 @@
 GameObject::GameObject()
 {
 	this->name = std::string("Unknown");
+	this->type = OBJ_UNKNOWN;
 }
 
 GameObject::GameObject(std::string name)
 {
 	this->name = name;
+	this->type = OBJ_UNKNOWN;
 }
-
 void GameObject::ReadFromBaseAddress(int baseAddr)
 {
 	address   = baseAddr;

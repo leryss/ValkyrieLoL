@@ -6,11 +6,14 @@ script_info = {
     'name': 'Pretty Test'
 }
 
+test = True
+
 def valkyrie_menu(ctx):
-    ctx.log("hello menu")
+    global test
+    test = ctx.ui.checkbox("interesting", test)
     
 def valkyrie_on_load(ctx):
-    ctx.log("hello on load")
+    ctx.log(ctx.log.__doc__)
 
 def valkyrie_exec(ctx):
     return

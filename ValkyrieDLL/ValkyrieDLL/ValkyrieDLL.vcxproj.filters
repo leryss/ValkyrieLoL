@@ -55,6 +55,9 @@
     <Filter Include="Source Files\External\miniz">
       <UniqueIdentifier>{1928303f-df65-4c85-9a33-ea1fce27da7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utils\Input">
+      <UniqueIdentifier>{1bea2fe5-5b69-4ae3-9322-9162c1b4b233}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -179,6 +182,21 @@
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTurret.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMinion.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameJungle.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="HKey.h">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PyImGui.h">
+      <Filter>Source Files\Python</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

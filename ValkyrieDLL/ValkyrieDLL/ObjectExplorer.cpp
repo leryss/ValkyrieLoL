@@ -1,6 +1,8 @@
 #include "ObjectExplorer.h"
 #include "Strings.h"
 #include "GameData.h"
+#include "Color.h"
+
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -17,8 +19,13 @@ void DrawMatrix(float* matrix, int rows, int cols) {
 	ImGui::Columns(1);
 }
 
-void DrawGameObject(GameObject& obj) {
-	
+void DrawGameObject(GameObject* obj) {
+
+	if (ImGui::TreeNode(&obj->networkId, "%s (%#010x)", obj->name.c_str(), obj->networkId)) {
+
+		obj->ImGuiDraw();
+		ImGui::TreePop();
+	}
 }
 
 void ObjectExplorer::ImGuiDraw(GameState & state)
@@ -26,6 +33,23 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 	ImGui::Begin("Object Explorer");
 
 	ImGui::DragFloat("Game Time", &state.time);
+	if (state.player != nullptr) {
+		if (ImGui::TreeNode("Player")) {
+			state.player->ImGuiDraw();
+			ImGui::TreePop();
+		}
+	}
+	else
+		ImGui::TextColored(Color::RED, "No local player");
+
+	if (state.hovered != nullptr) {
+		if (ImGui::TreeNode("Hovered")) {
+			state.hovered->ImGuiDraw();
+			ImGui::TreePop();
+		}
+	}
+	else
+		ImGui::TextColored(Color::RED, "Nothing hovered");
 
 	auto& renderer = state.renderer;
 	if (ImGui::TreeNode("Renderer")) {
@@ -50,25 +74,40 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 
 		ImGui::TreePop();
 	}
+	
+	if (ImGui::TreeNode("Champions")) {
+		for (auto& obj : state.champions) DrawGameObject(obj.get());
+		ImGui::TreePop();
+	}
 
-	auto& objCache = state.objectCache;
-	if (ImGui::TreeNode("ObjCache")) {
-		
-		for (auto& pair : objCache) {
-			auto obj = pair.second;
-			if (ImGui::TreeNode(&pair.first, "%s (%#010x)", obj->name.c_str(), obj->networkId)) {
-				
-				obj->ImGuiDraw();
-				ImGui::TreePop();
-			}
-		}
+	if (ImGui::TreeNode("Minions")) {
+		for (auto& obj : state.minions) DrawGameObject(obj.get());
+		ImGui::TreePop();
+	}
 
+	if (ImGui::TreeNode("Jungle")) {
+		for (auto& obj : state.jungle) DrawGameObject(obj.get());
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Turrets")) {
+		for (auto& obj : state.turrets) DrawGameObject(obj.get());
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Missiles")) {
+		for (auto& obj : state.missiles) DrawGameObject(obj.get());
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Others")) {
+		for (auto& obj : state.others) DrawGameObject(obj.get());
 		ImGui::TreePop();
 	}
 
 	if (ImGui::TreeNode("Static")) {
 		GameData::ImGuiDrawObjects();
 	}
-
+	
 	ImGui::End();
 }
