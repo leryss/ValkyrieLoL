@@ -5,18 +5,22 @@
 #include "ObjectExplorer.h"
 #include "Offsets.h"
 #include "Memory.h"
+#include "Globals.h"
+#include "PyStructs.h"
 
 #include <stdexcept>
 #include <iostream>
 
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
-
 LPDIRECT3DDEVICE9                  Valkyrie::DxDevice           = NULL;
 std::mutex                         Valkyrie::DxDeviceMutex;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
+
 GameReader                         Valkyrie::Reader;
+PyExecutionContext                 Valkyrie::ScriptContext;
+ScriptManager                      Valkyrie::ScriptManager;
 
 
 void Valkyrie::Run()
@@ -24,10 +28,7 @@ void Valkyrie::Run()
 	try {
 		DxDeviceMutex.lock();
 
-		Logger::File.Log("Loading game data...");
 		GameData::LoadAsync();
-
-		Logger::File.Log("Starting up Valkyrie...");
 		HookDirectX();
 	}
 	catch (std::exception& error) {
@@ -64,6 +65,9 @@ void Valkyrie::ShowMenu(GameState& state)
 
 	if (ImGui::BeginMenu("Development")) {
 
+		if (ImGui::Button("Reload Scripts"))
+			LoadScripts();
+
 		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
 		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
 		if (ImGui::TreeNode("Benchmarks")) {
@@ -99,6 +103,10 @@ void Valkyrie::ShowMenu(GameState& state)
 		ImGui::EndMenu();
 	}
 
+	ImGui::Separator();
+	if(state.gameStarted)
+		ScriptManager.ImGuiDrawMenu(ScriptContext);
+
 	ImGui::End();
 
 	if (ShowConsoleWindow)
@@ -124,7 +132,7 @@ void Valkyrie::ShowConsole()
 
 void Valkyrie::InitializeOverlay()
 {
-	Logger::File.Log("Initializing overlay");
+	Logger::LogAll("Initializing overlay");
 
 	HWND hWindow = FindWindowA("RiotWindowClass", NULL);
 	OriginalWindowMessageHandler = WNDPROC(SetWindowLongA(hWindow, GWL_WNDPROC, LONG_PTR(HookedWindowMessageHandler)));
@@ -137,8 +145,23 @@ void Valkyrie::InitializeOverlay()
 	if (!ImGui_ImplDX9_Init(DxDevice))
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 	
-	Logger::LogAll("Initialized Valkyrie Overlay!");
 	OverlayInitialized.notify_all();
+}
+
+void Valkyrie::InitializePython()
+{
+	Logger::LogAll("Initializing Python");
+	PyImport_AppendInittab("valkyrie", &PyInit_valkyrie);
+	Py_Initialize();
+}
+
+void Valkyrie::LoadScripts()
+{
+	fs::path pathScripts = Globals::WorkingDir;
+	pathScripts.append("scripts");
+	std::string pathStr = pathScripts.u8string();
+
+	ScriptManager.LoadScriptsFromFolder(pathStr);
 }
 
 void Valkyrie::Update()
@@ -148,9 +171,10 @@ void Valkyrie::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	//ImGui::ShowDemoWindow();
 	if (CheckEssentialsLoaded()) {
 		GameState& state = Reader.GetNextState();
+		if(state.gameStarted)
+			ScriptManager.ExecuteScripts(ScriptContext);
 		ShowMenu(state);
 	}
 
@@ -169,7 +193,7 @@ void Valkyrie::HookDirectX()
 	static const int PresentVTableIndex = 17;
 	static const int EndSceneVTableIndex = 42;
 
-	Logger::File.Log("Hooking DirectX");
+	Logger::LogAll("Hooking DirectX");
 
 	DWORD objBase = (DWORD)LoadLibraryA("d3d9.dll");
 	DWORD stopAt = objBase + SearchLength;
@@ -222,7 +246,9 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 	try {
 		if (DxDevice == NULL) {
 			DxDevice = Device;
+			InitializePython();
 			InitializeOverlay();
+			LoadScripts();
 		}
 		Update();
 	}

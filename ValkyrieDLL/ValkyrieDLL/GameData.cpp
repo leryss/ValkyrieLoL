@@ -27,6 +27,7 @@ std::map<int, ItemInfo*>                  GameData::Items;
 
 void GameData::LoadAsync()
 {
+	Logger::LogAll("Loading game data...");
 	std::thread loadThread(GameData::Load);
 	loadThread.detach();
 }

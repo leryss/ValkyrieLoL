@@ -7,6 +7,7 @@
 
 struct GameState {
 
+	bool                                       gameStarted;
 	float                                      time;
 				                               
 	GameRenderer                               renderer;

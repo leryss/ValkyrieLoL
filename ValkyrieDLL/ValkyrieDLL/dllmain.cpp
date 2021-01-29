@@ -1,14 +1,14 @@
 #define USE_IMPORT_EXPORT
 #define USE_WINDOWS_DLL_SEMANTICS
 
-#include "PyStructs.h"
 #include <windows.h>
 #include "Valkyrie.h"
 #include "Strings.h"
 
 
 DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
-	
+
+	Logger::File.Log("Starting up Valkyrie");
 	Valkyrie::Run();
 
 	return 0;

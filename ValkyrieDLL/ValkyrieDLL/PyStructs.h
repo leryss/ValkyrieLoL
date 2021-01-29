@@ -12,6 +12,7 @@
 #include "ItemInfo.h"
 #include "UnitInfo.h"
 
+#include "PyExecutionContext.h"
 #include "GameState.h"
 
 using namespace boost::python;
@@ -108,5 +109,9 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	class_<GameChampion, bases<GameUnit>>("Champion")
 		.def_readonly("spells",          &GameChampion::spells)
 		.def_readonly("items",           &GameChampion::items)
+		;
+
+	class_<PyExecutionContext>("Context")
+		.def("log",                      &PyExecutionContext::Log)
 		;
 }

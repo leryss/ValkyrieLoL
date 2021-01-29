@@ -168,6 +168,18 @@
     <ClInclude Include="miniz\miniz.h">
       <Filter>Source Files\External\miniz</Filter>
     </ClInclude>
+    <ClInclude Include="ScriptManager.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="PyExecutionContext.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -253,6 +265,15 @@
     </ClCompile>
     <ClCompile Include="miniz\miniz.c">
       <Filter>Source Files\External\miniz</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptManager.cpp">
+      <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="PyExecutionContext.cpp">
+      <Filter>Source Files\Python</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

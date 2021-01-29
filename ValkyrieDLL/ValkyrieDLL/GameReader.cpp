@@ -20,6 +20,7 @@ GameState& GameReader::GetNextState()
 	memcpy(&state.time, (void*)(baseAddr + Offsets::GameTime), sizeof(float));
 	
 	if (state.time > 1.f) {
+		state.gameStarted = true;
 		state.renderer.ReadFromBaseAddress(baseAddr);
 		state.hud.ReadFromBaseAddress(baseAddr);
 

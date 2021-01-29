@@ -10,6 +10,7 @@
 
 #include "Logger.h"
 #include "GameReader.h"
+#include "ScriptManager.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
@@ -32,9 +33,14 @@ private:
 
 	static void                        Update();
 	static void                        InitializeOverlay();
+	static void                        InitializePython();
+	static void                        LoadScripts();
 	static std::condition_variable     OverlayInitialized;
 
+	// Game stuff
 	static GameReader                  Reader;
+	static ScriptManager               ScriptManager;
+	static PyExecutionContext          ScriptContext;
 
 	// DirectX stuff
 	static void                        HookDirectX();

@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameHud.h" />
@@ -189,7 +190,10 @@
     <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
+    <ClInclude Include="PyExecutionContext.h" />
     <ClInclude Include="PyStructs.h" />
+    <ClInclude Include="Script.h" />
+    <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="SpellInfo.h" />
     <ClInclude Include="stbi\stb_image.h" />
     <ClInclude Include="UnitInfo.h" />
@@ -223,6 +227,9 @@
     <ClCompile Include="miniz\miniz.c" />
     <ClCompile Include="ObjectExplorer.cpp" />
     <ClCompile Include="Offsets.cpp" />
+    <ClCompile Include="PyExecutionContext.cpp" />
+    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="SpellInfo.cpp" />
     <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Valkyrie.cpp" />
