@@ -14,7 +14,7 @@
 
 #include <windows.h>
 
-GameState& GameReader::GetNextState()
+GameState* GameReader::GetNextState()
 {
 	benchmark.sehExceptions.value = 0;
 	benchmark.cacheHits.value     = 0;
@@ -34,7 +34,7 @@ GameState& GameReader::GetNextState()
 		ReadLocalChampion();
 		ReadHoveredObject();
 	}
-	return state;
+	return &state;
 }
 
 BenchmarkGameReader& GameReader::GetBenchmarks()

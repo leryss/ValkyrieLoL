@@ -28,14 +28,14 @@ public:
 
 private:
 	static bool                        CheckEssentialsLoaded();
-	static void                        ShowMenu(GameState& state);
+	static void                        ShowMenu();
 	static void                        ShowConsole();
 
 	static void                        Update();
 	static void                        InitializeOverlay();
 	static void                        InitializePython();
 	static void                        LoadScripts();
-	static void                        SetupScriptExecutionContext(GameState& state);
+	static void                        SetupScriptExecutionContext();
 	static std::condition_variable     OverlayInitialized;
 
 	// Game stuff
@@ -56,4 +56,5 @@ private:
 public:
 	static std::mutex                  DxDeviceMutex;
 	static LPDIRECT3DDEVICE9           DxDevice;
+	static GameState*                  CurrentGameState;
 };

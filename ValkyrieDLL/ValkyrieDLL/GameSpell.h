@@ -5,12 +5,17 @@
 #include "SpellInfo.h"
 #include "imgui/imgui.h"
 
+#include <boost/python.hpp>
+using namespace boost::python;
+
 class GameSpell : public MemoryReadable {
 
 public:
-	void ReadFromBaseAddress(int addr);
-	void ImGuiDraw();
-
+	void        ReadFromBaseAddress(int addr);
+	void        ImGuiDraw();
+		        
+	float       GetRemainingCooldown();
+	object      GetStaticData();
 public:
 	std::string name;
 	int         lvl;

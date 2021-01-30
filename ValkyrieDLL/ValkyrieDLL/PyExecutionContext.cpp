@@ -83,10 +83,10 @@ object PyExecutionContext::GetOthers()
 void PyExecutionContext::SetGameState(GameState * state)
 {
 	this->state = state;
-	time = state->time;
 
-	hovered = object(ptr(state->hovered.get()));
-	player  = object(ptr(state->player.get()));
+	time     = state->time;
+	hovered  = object(ptr(state->hovered.get()));
+	player   = object(ptr(state->player.get()));
 
 	champs   = MakePyList(state->champions);
 	minions  = MakePyList(state->minions);

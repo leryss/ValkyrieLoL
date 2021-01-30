@@ -25,7 +25,7 @@ public:
 class GameReader {
 
 public:
-	GameState&           GetNextState();
+	GameState*           GetNextState();
 	BenchmarkGameReader& GetBenchmarks();
 
 public:

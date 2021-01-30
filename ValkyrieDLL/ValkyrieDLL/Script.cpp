@@ -95,7 +95,10 @@ bool Script::LoadInfo() {
 
 bool Script::LoadFromFile(std::string & file)
 {
-	fileName = file;
+	neverExecuted = false;
+	loaded        = false;
+	fileName      = file;
+	error.clear();
 	
 	if (NULL != moduleObj) {
 		Logger::LogAll("Reloading script %s", file.c_str());
@@ -112,7 +115,8 @@ bool Script::LoadFromFile(std::string & file)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		error = extract<std::string>(PyObject_Str(pvalue));
+		error.append("Failed to load: ");
+		error.append(extract<std::string>(PyObject_Str(pvalue)));
 	}
 	else {
 		if (LoadInfo() &&
@@ -120,7 +124,6 @@ bool Script::LoadFromFile(std::string & file)
 			LoadFunc(&functions[ScriptFunction::ON_MENU], "valkyrie_menu") &&
 			LoadFunc(&functions[ScriptFunction::ON_LOAD], "valkyrie_on_load")) {
 
-			error.clear();
 			neverExecuted = true;
 			loaded        = true;
 			return true;
@@ -132,10 +135,8 @@ bool Script::LoadFromFile(std::string & file)
 
 void Script::Execute(PyExecutionContext & ctx, ScriptFunction func)
 {
-	if (!loaded) {
-		error.clear();
-		error.append("Illegal execution of unloaded script.");
-	}
+	if (!error.empty())
+		return;
 
 	try {
 		neverExecuted = false;

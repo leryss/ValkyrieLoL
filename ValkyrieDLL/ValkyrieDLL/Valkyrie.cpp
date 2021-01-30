@@ -15,7 +15,8 @@
 
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
-LPDIRECT3DDEVICE9                  Valkyrie::DxDevice           = NULL;
+LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL;
+GameState*                         Valkyrie::CurrentGameState             = NULL;
 std::mutex                         Valkyrie::DxDeviceMutex;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
@@ -55,7 +56,7 @@ bool Valkyrie::CheckEssentialsLoaded()
 	return false;
 }
 
-void Valkyrie::ShowMenu(GameState& state)
+void Valkyrie::ShowMenu()
 {
 	static bool ShowConsoleWindow        = true;
 	static bool ShowObjectExplorerWindow = true;
@@ -106,8 +107,7 @@ void Valkyrie::ShowMenu(GameState& state)
 	}
 
 	ImGui::Separator();
-	if(state.gameStarted)
-		ScriptManager.ImGuiDrawMenu(ScriptContext);
+	ScriptManager.ImGuiDrawMenu(ScriptContext);
 
 	ImGui::End();
 
@@ -115,7 +115,7 @@ void Valkyrie::ShowMenu(GameState& state)
 		ShowConsole();
 
 	if (ShowObjectExplorerWindow)
-		ObjectExplorer::ImGuiDraw(state);
+		ObjectExplorer::ImGuiDraw(*CurrentGameState);
 }
 
 void Valkyrie::ShowConsole()
@@ -155,6 +155,7 @@ void Valkyrie::InitializePython()
 	Logger::LogAll("Initializing Python");
 	PyImport_AppendInittab("valkyrie", &PyInit_valkyrie);
 	Py_Initialize();
+	exec("from valkyrie import *");
 }
 
 void Valkyrie::LoadScripts()
@@ -166,7 +167,7 @@ void Valkyrie::LoadScripts()
 	ScriptManager.LoadScriptsFromFolder(pathStr);
 }
 
-void Valkyrie::SetupScriptExecutionContext(GameState& state)
+void Valkyrie::SetupScriptExecutionContext()
 {
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -179,8 +180,8 @@ void Valkyrie::SetupScriptExecutionContext(GameState& state)
 		ImGuiWindowFlags_NoInputs |
 		ImGuiWindowFlags_NoBackground
 	);
-
-	ScriptContext.SetGameState(&state);
+	Logger::File.Log("1");
+	ScriptContext.SetGameState(CurrentGameState);
 	ScriptContext.SetImGuiOverlay(ImGui::GetWindowDrawList());
 	ImGui::End();
 }
@@ -193,11 +194,15 @@ void Valkyrie::Update()
 	ImGui::NewFrame();
 
 	if (CheckEssentialsLoaded()) {
-		GameState& state = Reader.GetNextState();
-		SetupScriptExecutionContext(state);
-		ShowMenu(state);
-		if(state.gameStarted)
+		CurrentGameState = Reader.GetNextState();
+		if (CurrentGameState->gameStarted) {
+			SetupScriptExecutionContext();
+			Logger::File.Log("Execution Ctx");
+			ShowMenu();
+			Logger::File.Log("Showed menu");
 			ScriptManager.ExecuteScripts(ScriptContext);
+			Logger::File.Log("executed scripts");
+		}
 	}
 
 	// Render
