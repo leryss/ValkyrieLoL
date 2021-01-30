@@ -35,6 +35,7 @@ private:
 	static void                        InitializeOverlay();
 	static void                        InitializePython();
 	static void                        LoadScripts();
+	static void                        SetupScriptExecutionContext(GameState& state);
 	static std::condition_variable     OverlayInitialized;
 
 	// Game stuff

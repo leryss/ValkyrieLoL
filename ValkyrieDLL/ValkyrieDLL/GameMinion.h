@@ -4,6 +4,7 @@
 class GameMinion : public GameUnit {
 
 public:
+	GameMinion();
 	GameMinion(std::string name)
 		:GameUnit(name) {
 	

@@ -213,10 +213,13 @@
     <ClCompile Include="GameChampion.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameHud.cpp" />
+    <ClCompile Include="GameJungle.cpp" />
+    <ClCompile Include="GameMinion.cpp" />
     <ClCompile Include="GameMissile.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRenderer.cpp" />
     <ClCompile Include="GameSpell.cpp" />
+    <ClCompile Include="GameTurret.cpp" />
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Logger.cpp" />

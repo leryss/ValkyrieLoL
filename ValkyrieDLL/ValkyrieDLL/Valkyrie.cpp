@@ -8,6 +8,8 @@
 #include "Globals.h"
 #include "PyStructs.h"
 
+#include <boost/exception/diagnostic_information.hpp>
+
 #include <stdexcept>
 #include <iostream>
 
@@ -164,6 +166,25 @@ void Valkyrie::LoadScripts()
 	ScriptManager.LoadScriptsFromFolder(pathStr);
 }
 
+void Valkyrie::SetupScriptExecutionContext(GameState& state)
+{
+	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::Begin("##Overlay", nullptr,
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoScrollbar |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoInputs |
+		ImGuiWindowFlags_NoBackground
+	);
+
+	ScriptContext.SetGameState(&state);
+	ScriptContext.SetImGuiOverlay(ImGui::GetWindowDrawList());
+	ImGui::End();
+}
+
 void Valkyrie::Update()
 {
 	// Create frame
@@ -173,9 +194,10 @@ void Valkyrie::Update()
 
 	if (CheckEssentialsLoaded()) {
 		GameState& state = Reader.GetNextState();
+		SetupScriptExecutionContext(state);
+		ShowMenu(state);
 		if(state.gameStarted)
 			ScriptManager.ExecuteScripts(ScriptContext);
-		ShowMenu(state);
 	}
 
 	// Render
@@ -253,11 +275,15 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 		Update();
 	}
 	catch (std::exception& error) {
-		Logger::File.Log("Error occured %s", error.what());
+		Logger::File.Log("Standard exception occured %s", error.what());
+		UnhookDirectX();
+	}
+	catch (error_already_set) {
+		Logger::File.Log("Boost::Python exception occured %s", Script::GetPyError().c_str());
 		UnhookDirectX();
 	}
 	catch (...) {
-		Logger::File.Log("Unexpected error occured.");
+		Logger::File.Log("Unexpected exception occured");
 		UnhookDirectX();
 	}
 

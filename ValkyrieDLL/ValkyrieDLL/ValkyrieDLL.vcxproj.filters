@@ -58,6 +58,15 @@
     <Filter Include="Source Files\Utils\Input">
       <UniqueIdentifier>{1bea2fe5-5b69-4ae3-9322-9162c1b4b233}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Units">
+      <UniqueIdentifier>{b52c08f6-d96d-4e8b-a0c8-35599735b02a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Spells">
+      <UniqueIdentifier>{49571d73-2188-47f3-9a26-f91cd6ece2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Rendering">
+      <UniqueIdentifier>{6c559b50-2093-449d-98f9-b5730e666b6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -129,14 +138,8 @@
     <ClInclude Include="MemoryReadable.h">
       <Filter>Source Files\Game\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GameRenderer.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectExplorer.h">
       <Filter>Source Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="GameHud.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Source Files\Utils</Filter>
@@ -152,18 +155,6 @@
     </ClInclude>
     <ClInclude Include="Benchmark.h">
       <Filter>Source Files\Utils\Benchmarking</Filter>
-    </ClInclude>
-    <ClInclude Include="GameUnit.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMissile.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameChampion.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSpell.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="PyStructs.h">
       <Filter>Source Files\Python</Filter>
@@ -183,20 +174,38 @@
     <ClInclude Include="Color.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="GameTurret.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMinion.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameJungle.h">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="HKey.h">
       <Filter>Source Files\Utils\Input</Filter>
     </ClInclude>
     <ClInclude Include="PyImGui.h">
       <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="GameChampion.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMinion.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameJungle.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTurret.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUnit.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMissile.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpell.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRenderer.h">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHud.h">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,14 +257,8 @@
     <ClCompile Include="Globals.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="GameRenderer.cpp">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectExplorer.cpp">
       <Filter>Source Files\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="GameHud.cpp">
-      <Filter>Source Files\Game\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Game\GameObjects</Filter>
@@ -269,18 +272,6 @@
     <ClCompile Include="Memory.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="GameUnit.cpp">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMissile.cpp">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameChampion.cpp">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSpell.cpp">
-      <Filter>Source Files\Game\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="miniz\miniz.c">
       <Filter>Source Files\External\miniz</Filter>
     </ClCompile>
@@ -292,6 +283,33 @@
     </ClCompile>
     <ClCompile Include="PyExecutionContext.cpp">
       <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="GameChampion.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMinion.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTurret.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUnit.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMissile.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpell.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRenderer.cpp">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameHud.cpp">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameJungle.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

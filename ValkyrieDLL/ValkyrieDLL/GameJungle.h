@@ -5,6 +5,7 @@
 class GameJungle : public GameUnit {
 
 public:
+	GameJungle();
 	GameJungle(std::string name) 
 	:GameUnit(name) {
 		

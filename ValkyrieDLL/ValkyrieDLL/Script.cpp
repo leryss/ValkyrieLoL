@@ -2,7 +2,7 @@
 #include "Logger.h"
 #include "Strings.h"
 
-std::string GetPyError()
+std::string Script::GetPyError()
 {
 	PyObject *exc, *val, *tb;
 	PyErr_Fetch(&exc, &val, &tb);
@@ -13,11 +13,14 @@ std::string GetPyError()
 	PyObject* errExcType = PyObject_Str(exc);
 
 	std::string returnVal = "Exception ";
-	returnVal.append(extract<std::string>(errExcType));
+	if(errExcType != NULL)
+		returnVal.append(extract<std::string>(errExcType));
 	returnVal.append(" occured on line: ");
-	returnVal.append(extract<std::string>(errExcLineNum));
+	if(errExcLineNum != NULL)
+		returnVal.append(extract<std::string>(errExcLineNum));
 	returnVal.append("\n");
-	returnVal.append(extract<std::string>(errValStr));
+	if(errValStr != NULL)
+		returnVal.append(extract<std::string>(errValStr));
 
 	return returnVal;
 }

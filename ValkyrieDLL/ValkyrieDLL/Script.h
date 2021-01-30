@@ -15,20 +15,23 @@ enum ScriptFunction {
 class Script {
 
 public:
-	             Script();
-				 ~Script();
-	bool         LoadFromFile(std::string& filePath);
-	void         Execute(PyExecutionContext& ctx, ScriptFunction func);
+	                   Script();
+				       ~Script();
+	bool               LoadFromFile(std::string& filePath);
+	void               Execute(PyExecutionContext& ctx, ScriptFunction func);
+
+	static std::string GetPyError();
 				 
-	bool         loaded;
-	bool         neverExecuted;
-				 
-	std::string  error;
-	std::string  fileName;
-	std::string  prettyName;
-	std::string  author;
-	std::string  description;
-	std::string  targetChamp;
+public:
+	bool               loaded;
+	bool               neverExecuted;
+				       
+	std::string        error;
+	std::string        fileName;
+	std::string        prettyName;
+	std::string        author;
+	std::string        description;
+	std::string        targetChamp;
 				 
 private:		 
 				 
