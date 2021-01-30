@@ -7,6 +7,7 @@
 #include "Memory.h"
 #include "Globals.h"
 #include "PyStructs.h"
+#include "OffsetScanner.h"
 
 #include <boost/exception/diagnostic_information.hpp>
 
@@ -21,6 +22,7 @@ std::mutex                         Valkyrie::DxDeviceMutex;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
 
+bool                               Valkyrie::VersionMismatch              = false;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
@@ -29,6 +31,9 @@ ScriptManager                      Valkyrie::ScriptManager;
 void Valkyrie::Run()
 {
 	try {
+		if (Globals::GameVersion.compare(Offsets::GameVersion) != 0)
+			VersionMismatch = true;
+
 		DxDeviceMutex.lock();
 
 		GameData::LoadAsync();
@@ -60,6 +65,7 @@ void Valkyrie::ShowMenu()
 {
 	static bool ShowConsoleWindow        = true;
 	static bool ShowObjectExplorerWindow = true;
+	static bool ShowOffsetScanner        = false;
 
 	ImGui::Begin("Valkyrie", nullptr,
 		ImGuiWindowFlags_NoScrollbar |
@@ -71,8 +77,11 @@ void Valkyrie::ShowMenu()
 		if (ImGui::Button("Reload Scripts"))
 			LoadScripts();
 
-		ImGui::Checkbox("Show Console", &ShowConsoleWindow);
+		ImGui::LabelText("VPath",               Globals::WorkingDir.u8string().c_str());
+		ImGui::LabelText("GameVersion",         Globals::GameVersion.c_str());
+		ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
 		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
+		ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
 		if (ImGui::TreeNode("Benchmarks")) {
 		
 			Reader.GetBenchmarks().ImGuiDraw();
@@ -107,7 +116,11 @@ void Valkyrie::ShowMenu()
 	}
 
 	ImGui::Separator();
-	ScriptManager.ImGuiDrawMenu(ScriptContext);
+	if(!VersionMismatch)
+		ScriptManager.ImGuiDrawMenu(ScriptContext);
+	else
+		ImGui::TextColored(Color::RED, "Version mismatch. Current build made for version %s, but game version is %s", Offsets::GameVersion.c_str(), Globals::GameVersion.c_str());
+
 
 	ImGui::End();
 
@@ -116,6 +129,9 @@ void Valkyrie::ShowMenu()
 
 	if (ShowObjectExplorerWindow)
 		ObjectExplorer::ImGuiDraw(*CurrentGameState);
+
+	if (ShowOffsetScanner)
+		OffsetScanner::ImGuiDraw();
 }
 
 void Valkyrie::ShowConsole()
@@ -167,6 +183,12 @@ void Valkyrie::LoadScripts()
 	ScriptManager.LoadScriptsFromFolder(pathStr);
 }
 
+void Valkyrie::ExecuteScripts()
+{
+	if (!VersionMismatch)
+		ScriptManager.ExecuteScripts(ScriptContext);
+}
+
 void Valkyrie::SetupScriptExecutionContext()
 {
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
@@ -180,7 +202,6 @@ void Valkyrie::SetupScriptExecutionContext()
 		ImGuiWindowFlags_NoInputs |
 		ImGuiWindowFlags_NoBackground
 	);
-	Logger::File.Log("1");
 	ScriptContext.SetGameState(CurrentGameState);
 	ScriptContext.SetImGuiOverlay(ImGui::GetWindowDrawList());
 	ImGui::End();
@@ -193,15 +214,12 @@ void Valkyrie::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	if (CheckEssentialsLoaded()) {
+	if(CheckEssentialsLoaded()) {
 		CurrentGameState = Reader.GetNextState();
 		if (CurrentGameState->gameStarted) {
 			SetupScriptExecutionContext();
-			Logger::File.Log("Execution Ctx");
 			ShowMenu();
-			Logger::File.Log("Showed menu");
-			ScriptManager.ExecuteScripts(ScriptContext);
-			Logger::File.Log("executed scripts");
+			ExecuteScripts();
 		}
 	}
 

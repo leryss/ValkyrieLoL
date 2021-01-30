@@ -1,10 +1,13 @@
 #pragma once
+#include <string>
 
 /// Defines offsets for reading structs from league of legends memory
 class Offsets {
 
 public:
 	Offsets();
+
+	static std::string GameVersion;
 
 	static int GameTime;
 
@@ -30,6 +33,7 @@ public:
 	static int ObjCritMulti;
 	static int ObjAbilityPower;
 	static int ObjAtkSpeedMulti;
+	static int ObjAtkRange;
 	static int ObjItemList;
 	static int ObjSrcIndex;
 

@@ -35,6 +35,7 @@ private:
 	static void                        InitializeOverlay();
 	static void                        InitializePython();
 	static void                        LoadScripts();
+	static void                        ExecuteScripts();
 	static void                        SetupScriptExecutionContext();
 	static std::condition_variable     OverlayInitialized;
 
@@ -42,6 +43,7 @@ private:
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
 	static PyExecutionContext          ScriptContext;
+	static bool                        VersionMismatch;
 
 	// DirectX stuff
 	static void                        HookDirectX();

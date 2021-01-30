@@ -194,6 +194,7 @@
     <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
+    <ClInclude Include="OffsetScanner.h" />
     <ClInclude Include="PyExecutionContext.h" />
     <ClInclude Include="PyImGui.h" />
     <ClInclude Include="PyStructs.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="miniz\miniz.c" />
     <ClCompile Include="ObjectExplorer.cpp" />
     <ClCompile Include="Offsets.cpp" />
+    <ClCompile Include="OffsetScanner.cpp" />
     <ClCompile Include="PyExecutionContext.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />

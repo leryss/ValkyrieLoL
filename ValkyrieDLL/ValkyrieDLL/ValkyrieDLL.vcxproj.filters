@@ -67,6 +67,9 @@
     <Filter Include="Source Files\Game\GameObjects\Rendering">
       <UniqueIdentifier>{6c559b50-2093-449d-98f9-b5730e666b6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Offsets">
+      <UniqueIdentifier>{0108ada6-81a5-4d57-95e2-a9241392272e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -79,9 +82,6 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="GameReader.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Offsets.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
@@ -207,15 +207,18 @@
     <ClInclude Include="GameHud.h">
       <Filter>Source Files\Game\GameObjects\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="OffsetScanner.h">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="GameReader.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Offsets.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -310,6 +313,12 @@
     </ClCompile>
     <ClCompile Include="GameJungle.cpp">
       <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.cpp">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClCompile>
+    <ClCompile Include="OffsetScanner.cpp">
+      <Filter>Source Files\Core\Offsets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 
 Offsets::Offsets() {};
 
+std::string Offsets::GameVersion          = "11.2.353.8505";
+
 int Offsets::GameTime                     = 0x34E4CD4;
 
 int Offsets::ObjIndex                     = 0x20;
@@ -28,7 +30,7 @@ int Offsets::ObjCritMulti                 = 0x1284;
 int Offsets::ObjAbilityPower              = 0x1200;
 int Offsets::ObjAtkSpeedMulti             = 0x126C;
 int Offsets::ObjItemList                  = 0x3700;
-//0x12B8 obj attack range ?
+int Offsets::ObjAtkRange                  = 0x12B8;
 int Offsets::ItemListItem                 = 0xC;
 int Offsets::ItemInfo                     = 0x20;
 int Offsets::ItemInfoId                   = 0x68;
@@ -41,7 +43,7 @@ int Offsets::RendererHeight               = 0x14;
 
 int Offsets::SpellSlotLevel               = 0x20;
 int Offsets::SpellSlotTime                = 0x28;
-int Offsets::SpellSlotValue              = 0x94;
+int Offsets::SpellSlotValue               = 0x94;
 int Offsets::SpellSlotSpellInfo           = 0x13C;
 int Offsets::SpellInfoSpellData           = 0x44;
 int Offsets::SpellDataSpellName           = 0x64;
