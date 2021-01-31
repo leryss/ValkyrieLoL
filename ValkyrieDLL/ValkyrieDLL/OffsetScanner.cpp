@@ -11,13 +11,16 @@
 char                         OffsetScanner::CodeDump[2048] = { 0 };
 bool                         OffsetScanner::Scanning       = false;
 std::vector<OffsetSignature> OffsetScanner::signatures     = std::vector<OffsetSignature>({
-	OffsetSignature("ObjectManager",     "8B 0D ? ? ? ? E8 ? ? ? ? FF 77",                   2),
-	OffsetSignature("Renderer",          "8B 15 ? ? ? ? 83 EC 08 F3",                        2),
-	OffsetSignature("ViewMatrix",        "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E9 ? ? ? ?",      1),
-	OffsetSignature("MinimapObject",     "FF 52 04 8B 0D ? ? ? ? E8 ? ? ? ?",                5),
-	OffsetSignature("LocalPlayer",       "A1 ? ? ? ? 85 C0 74 07 05 ? ? ? ? EB 02 33 C0 56", 1),
-	OffsetSignature("GameTime",          "F3 0F 11 05 ? ? ? ? 8B 49",                        4),
-	
+	OffsetSignature("ObjectManager",              "8B 0D ? ? ? ? E8 ? ? ? ? FF 77",                   2),
+	OffsetSignature("Renderer",                   "8B 15 ? ? ? ? 83 EC 08 F3",                        2),
+	OffsetSignature("ViewMatrix",                 "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E9 ? ? ? ?",      1),
+	OffsetSignature("MinimapObject",              "FF 52 04 8B 0D ? ? ? ? E8 ? ? ? ?",                5),
+	OffsetSignature("LocalPlayer",                "A1 ? ? ? ? 85 C0 74 07 05 ? ? ? ? EB 02 33 C0 56", 1),
+	OffsetSignature("GameTime",                   "F3 0F 11 05 ? ? ? ? 8B 49",                        4),
+
+	/// For skin changer
+	OffsetSignature("ChampionManager",            "8B 0D ? ? ? ? 83 C1 0C 89 14 24",                  2),
+	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 18 53 56 57 8D 44 24 20",                    0, true),
 });
 
 void OffsetScanner::ImGuiDraw()
@@ -33,7 +36,7 @@ void OffsetScanner::ImGuiDraw()
 	if (ImGui::Button("Dump Signatures")) {
 		std::string code;
 		for (auto& sig : signatures) {
-			code.append(Strings::Format("int Offsets::%s %s = %#010x;\n", sig.name, std::string(20 - strlen(sig.name), ' ').c_str(), sig.offset));
+			code.append(Strings::Format("int Offsets::%s %s = %#010x;\n", sig.name, std::string(30 - strlen(sig.name), ' ').c_str(), sig.offset));
 		}
 
 		strcpy_s(CodeDump, code.c_str());
@@ -80,17 +83,17 @@ void OffsetScanner::Scan()
 	int size  = textSection->SizeOfRawData;
 
 	for (auto& sig : signatures) {
-		Logger::File.Log("Scanning %#010x to %#010x", start, start + size);
 		sig.Scan(start, size);
 	}
 	Scanning = false;
 }
 
-OffsetSignature::OffsetSignature(const char * name, const char * pattern, int extractIndex)
+OffsetSignature::OffsetSignature(const char * name, const char * pattern, int extractIndex, bool offsetIsBase)
 {
 	this->name = name;
 	this->pattern = pattern;
 	this->extractIndex = extractIndex;
+	this->offsetIsAddress = offsetIsBase;
 
 	std::string strByte;
 	std::istringstream iss(std::string(pattern), std::istringstream::in);
@@ -140,7 +143,10 @@ void OffsetSignature::Scan(int startAddr, int size)
 				}
 
 				if (matched) {
-					offset = *(int*)(mem + extractIndex) - (int)GetModuleHandle(NULL);
+					if (offsetIsAddress)
+						offset = (int)mem - (int)GetModuleHandle(NULL);
+					else
+						offset = *(int*)(mem + extractIndex) - (int)GetModuleHandle(NULL);
 					status = SCAN_FOUND;
 					return;
 				}

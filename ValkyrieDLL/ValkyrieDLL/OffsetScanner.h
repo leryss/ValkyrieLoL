@@ -14,7 +14,7 @@ class OffsetSignature {
 
 public:
 
-	     OffsetSignature(const char* name, const char* pattern, int extractIndex);
+	     OffsetSignature(const char* name, const char* pattern, int extractIndex, bool offsetIsAddress = false);
 	void Scan(int startAddr, int size);
 	
 	const char* name         = "";
@@ -22,6 +22,7 @@ public:
 	ScanStatus  status       = SCAN_NOT_STARTED;
 	int         offset       = 0;
 	int         extractIndex = 0;
+	bool        offsetIsAddress = false;
 
 private:
 	std::vector<int> values;

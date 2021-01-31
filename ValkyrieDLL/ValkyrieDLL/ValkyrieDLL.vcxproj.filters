@@ -213,6 +213,9 @@
     <ClInclude Include="OffsetScanner.h">
       <Filter>Source Files\Core\Offsets</Filter>
     </ClInclude>
+    <ClInclude Include="SkinChanger.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -319,6 +322,9 @@
     </ClCompile>
     <ClCompile Include="OffsetScanner.cpp">
       <Filter>Source Files\Core\Offsets</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinChanger.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

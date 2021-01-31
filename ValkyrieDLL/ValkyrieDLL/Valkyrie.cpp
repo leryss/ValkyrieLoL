@@ -8,6 +8,7 @@
 #include "Globals.h"
 #include "PyStructs.h"
 #include "OffsetScanner.h"
+#include "SkinChanger.h"
 
 #include <boost/exception/diagnostic_information.hpp>
 
@@ -95,25 +96,8 @@ void Valkyrie::ShowMenu()
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Skin Changer")) {
-		static int skinId;
-		static int objAddr;
-		ImGui::DragInt("Obj", &objAddr);
-		ImGui::DragInt("SkinId", &skinId);
-
-		if (ImGui::Button("Change")) {
-			int baseAddr = (int)GetModuleHandle(NULL);
-			auto Update = reinterpret_cast<void(__thiscall*)(void*, bool)>(baseAddr + Offsets::FnCharacterDataStackUpdate);
-
-			int charDataStack = objAddr + Offsets::CharacterDataStack;
-			int* charSkinId = (int*)(charDataStack + Offsets::CharacterDataStackSkinId);
-
-			*charSkinId = skinId;
-			Update((void*)charDataStack, true);
-		}
-
-		ImGui::EndMenu();
-	}
+	if (ImGui::BeginMenu("Skin Changer"))
+		SkinChanger::ImGuiDraw();
 
 	ImGui::Separator();
 	if(!VersionMismatch)

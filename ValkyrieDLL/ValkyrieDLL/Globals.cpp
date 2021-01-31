@@ -16,5 +16,13 @@ std::string FindGameVersion() {
 	return std::string("Unknown");
 }
 
-fs::path    Globals::WorkingDir  = fs::path("F:\\Github\\ValkyrieLoL\\Deployable");
+fs::path FindWorkingDir() {
+	fs::path appdata = fs::temp_directory_path().parent_path().parent_path().parent_path();
+	appdata /= "Roaming";
+	appdata /= "Valkyrie";
+
+	return appdata;
+}
+
+fs::path    Globals::WorkingDir  = FindWorkingDir();
 std::string Globals::GameVersion = FindGameVersion();
