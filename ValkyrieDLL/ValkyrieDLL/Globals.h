@@ -7,5 +7,4 @@ namespace fs = std::experimental::filesystem;
 class Globals {
 public:
 	static fs::path    WorkingDir;
-	static std::string GameVersion;
 };

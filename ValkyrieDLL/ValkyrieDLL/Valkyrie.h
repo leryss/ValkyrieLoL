@@ -43,7 +43,6 @@ private:
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
 	static PyExecutionContext          ScriptContext;
-	static bool                        VersionMismatch;
 
 	// DirectX stuff
 	static void                        HookDirectX();

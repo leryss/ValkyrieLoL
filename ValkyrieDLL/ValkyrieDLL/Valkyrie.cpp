@@ -23,7 +23,6 @@ std::mutex                         Valkyrie::DxDeviceMutex;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
 
-bool                               Valkyrie::VersionMismatch              = false;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
@@ -32,9 +31,6 @@ ScriptManager                      Valkyrie::ScriptManager;
 void Valkyrie::Run()
 {
 	try {
-		if (Globals::GameVersion.compare(Offsets::GameVersion) != 0)
-			VersionMismatch = true;
-
 		DxDeviceMutex.lock();
 
 		GameData::LoadAsync();
@@ -79,7 +75,7 @@ void Valkyrie::ShowMenu()
 			LoadScripts();
 
 		ImGui::LabelText("VPath",               Globals::WorkingDir.u8string().c_str());
-		ImGui::LabelText("GameVersion",         Globals::GameVersion.c_str());
+		ImGui::LabelText("Offset Patch",        Offsets::GameVersion.c_str());
 		ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
 		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
 		ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
@@ -100,11 +96,7 @@ void Valkyrie::ShowMenu()
 		SkinChanger::ImGuiDraw();
 
 	ImGui::Separator();
-	if(!VersionMismatch)
-		ScriptManager.ImGuiDrawMenu(ScriptContext);
-	else
-		ImGui::TextColored(Color::RED, "Version mismatch. Current build made for version %s, but game version is %s", Offsets::GameVersion.c_str(), Globals::GameVersion.c_str());
-
+	ScriptManager.ImGuiDrawMenu(ScriptContext);
 
 	ImGui::End();
 
@@ -169,8 +161,7 @@ void Valkyrie::LoadScripts()
 
 void Valkyrie::ExecuteScripts()
 {
-	if (!VersionMismatch)
-		ScriptManager.ExecuteScripts(ScriptContext);
+	ScriptManager.ExecuteScripts(ScriptContext);
 }
 
 void Valkyrie::SetupScriptExecutionContext()

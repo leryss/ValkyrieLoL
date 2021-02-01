@@ -19,10 +19,11 @@ namespace fs = std::experimental::filesystem;
 const char*                       GameData::FolderData = "data";
 std::shared_ptr<LoadDataProgress> GameData::LoadProgress(new LoadDataProgress());
 
-std::map<std::string, UnitInfo*>          GameData::Units;
-std::map<std::string, SpellInfo*>         GameData::Spells;
-std::map<std::string, PDIRECT3DTEXTURE9>  GameData::Images;
-std::map<int, ItemInfo*>                  GameData::Items;
+std::map<std::string, UnitInfo*>              GameData::Units;
+std::map<std::string, SpellInfo*>             GameData::Spells;
+std::map<std::string, PDIRECT3DTEXTURE9>      GameData::Images;
+std::map<std::string, std::vector<SkinInfo*>> GameData::Skins;
+std::map<int, ItemInfo*>                      GameData::Items;
 
 
 void GameData::LoadAsync()
@@ -56,18 +57,20 @@ PDIRECT3DTEXTURE9 GameData::GetImage(std::string & str)
 	return (find == Images.end() ? nullptr : find->second);
 }
 
+std::vector<SkinInfo*>& GameData::GetSkins(std::string & name)
+{
+	static std::vector<SkinInfo*> EmptyVec;
+
+	auto find = Skins.find(name);
+	return (find == Skins.end() ? EmptyVec : find->second);
+}
+
 void GameData::ImGuiDrawLoader()
 {
 	ImGui::SetNextWindowSize(ImVec2(200, 200));
 	ImGui::Begin("Valkyrie Loader", NULL, ImGuiWindowFlags_NoResize);
-	ImGui::Text("Spell Database");
-	ImGui::ProgressBar(LoadProgress->spellLoadPercent);
-
-	ImGui::Text("Unit Database");
-	ImGui::ProgressBar(LoadProgress->unitsLoadPercent);
-
-	ImGui::Text("Items Database");
-	ImGui::ProgressBar(LoadProgress->itemsLoadPercent);
+	ImGui::Text("Essentials Database");
+	ImGui::ProgressBar(LoadProgress->essentialsPercent);
 
 	ImGui::Text("Image Database");
 	ImGui::ProgressBar(LoadProgress->imagesLoadPercent);
@@ -118,15 +121,18 @@ void GameData::Load()
 {
 	Valkyrie::WaitForOverlayToInit();
 
-	LoadSpells("SpellData.json",       LoadProgress->spellLoadPercent, 0.9f);
-	LoadSpells("SpellDataCustom.json", LoadProgress->spellLoadPercent, 1.f);
+	LoadSpells("SpellData.json",       LoadProgress->essentialsPercent, 0.2f);
+	LoadSpells("SpellDataCustom.json", LoadProgress->essentialsPercent, 0.25f);
 	Logger::LogAll("Loaded %zu spells", Spells.size());
 
-	LoadUnits("UnitData.json", LoadProgress->unitsLoadPercent, 1.f);
+	LoadUnits("UnitData.json", LoadProgress->essentialsPercent, 0.5f);
 	Logger::LogAll("Loaded %zu units", Units.size());
 
-	LoadItems("ItemData.json", LoadProgress->itemsLoadPercent, 1.f);
+	LoadItems("ItemData.json", LoadProgress->essentialsPercent, 0.8f);
 	Logger::LogAll("Loaded %zu items", Items.size());
+
+	LoadSkins("SkinInfo.json", LoadProgress->essentialsPercent, 1.f);
+	Logger::LogAll("Loaded skins");
 
 	LoadProgress->essentialsLoaded = true;
 
@@ -255,6 +261,58 @@ void GameData::LoadUnits(const char* fileName, float& percentValue, float percen
 		}			
 
 		Units[unit->name] = unit;
+		percentValue += step;
+	}
+}
+
+std::vector<SkinChroma> GetChromas(json& jchromas) {
+	std::vector<SkinChroma> chromas;
+
+	for (auto jchroma : jchromas) {
+		SkinChroma chroma;
+
+		chroma.id    = jchroma["id"].get<int>();
+		int color    = jchroma["color"].get<int>();
+		float r = (float)((color >> 16) & 255) / 255.f;
+		float g = (float)((color >> 8)  & 255) / 255.f;
+		float b = (float)((color)       & 255) / 255.f;
+
+		chroma.color = ImVec4(r, g, b, 1.f);
+		chromas.push_back(chroma);
+	}
+
+	return chromas;
+}
+
+void GameData::LoadSkins(const char * fileName, float & percentValue, float percentEnd)
+{
+	fs::path path = Globals::WorkingDir;
+	path.append(FolderData).append(fileName);
+	std::ifstream file(path.generic_string().c_str());
+
+	if (!file.is_open()) {
+		Logger::LogAll("Couldn't open file %s", path.generic_string().c_str());
+		return;
+	}
+
+	json j;
+	file >> j;
+
+	float step = (percentEnd - percentValue) / j.size();
+	for (auto& pair : j.items()) {
+
+		std::vector<SkinInfo*> skins;
+
+		auto jskins = j.find(pair.key()).value();
+		for (auto jskininfo : jskins) {
+			SkinInfo* info = new SkinInfo();
+			info->name    = jskininfo["name"].get<std::string>();
+			info->id      = jskininfo["id"].get<int>();
+			info->chromas = GetChromas(jskininfo["chromas"]);
+			skins.push_back(info);
+		}
+		
+		Skins[pair.key()] = skins;
 		percentValue += step;
 	}
 }

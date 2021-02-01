@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameHud.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="SkinChanger.h" />
+    <ClInclude Include="SkinInfo.h" />
     <ClInclude Include="SpellInfo.h" />
     <ClInclude Include="stbi\stb_image.h" />
     <ClInclude Include="UnitInfo.h" />
@@ -211,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Benchmark.cpp" />
+    <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameChampion.cpp" />
     <ClCompile Include="GameData.cpp" />
