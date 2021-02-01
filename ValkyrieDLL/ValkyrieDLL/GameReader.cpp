@@ -21,8 +21,8 @@ GameState* GameReader::GetNextState()
 	benchmark.blacklistHits.value = 0;
 
 	baseAddr = (int)GetModuleHandle(NULL);
-	memcpy(&state.time, (void*)(baseAddr + Offsets::GameTime), sizeof(float));
-	
+	state.time = ReadFloat(baseAddr + Offsets::GameTime);
+
 	/// Ghetto way of checking if game has started
 	if (state.time > 1.f) {
 		state.gameStarted = true;
@@ -35,6 +35,7 @@ GameState* GameReader::GetNextState()
 		ReadLocalChampion();
 		ReadHoveredObject();
 	}
+	
 	return &state;
 }
 

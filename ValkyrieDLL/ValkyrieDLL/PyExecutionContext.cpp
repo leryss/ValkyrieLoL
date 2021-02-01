@@ -164,35 +164,37 @@ void PyExecutionContext::DrawLine(const Vector2 & start, const Vector2 & end, fl
 	overlay->AddLine((const ImVec2&)start, (const ImVec2&)end, ImColor(color), thickness);
 }
 
-void PyExecutionContext::DrawImage(const char * img, const Vector2 & start, const Vector2 & end, const ImVec4 & color)
+void PyExecutionContext::DrawImage(const char * img, const Vector2 & start, const Vector2 & size, const ImVec4 & color)
 {
 	static ImVec2 zero = ImVec2(0.f, 0.f);
 	static ImVec2 one = ImVec2(1.f, 1.f);
 
 	std::string imageName(img);
-	overlay->AddImage(GameData::GetImage(imageName), (ImVec2&)start, (ImVec2&)end, zero, one, ImColor(color));
+
+	overlay->AddImage(GameData::GetImage(imageName), ImVec2(start.x - size.x / 2.f, start.y - size.y / 2.f), ImVec2(start.x + size.x / 2.f, start.y + size.y / 2.f), zero, one, ImColor(color));
 }
 
-void PyExecutionContext::DrawImageRounded(const char * img, const Vector2 & start, const Vector2 & end, const ImVec4 & color, float rounding)
+void PyExecutionContext::DrawImageRounded(const char * img, const Vector2 & start, const Vector2 & size, const ImVec4 & color, float rounding)
 {
 	static ImVec2 zero = ImVec2(0.f, 0.f);
 	static ImVec2 one = ImVec2(1.f, 1.f);
 
 	std::string imageName(img);
-	overlay->AddImageRounded(GameData::GetImage(imageName), (ImVec2&)start, (ImVec2&)end, zero, one, ImColor(color), rounding);
+	overlay->AddImageRounded(GameData::GetImage(imageName), ImVec2(start.x - size.x/2.f, start.y - size.y/2.f), ImVec2(start.x + size.x/2.f, start.y + size.y/2.f), zero, one, ImColor(color), rounding);
 }
 
 void PyExecutionContext::DrawTxt(const Vector2 & pos, const char * text, const ImVec4 & color)
 {
-	overlay->AddText(ImVec2(pos.x, pos.y), ImColor(color), text);
+	ImVec2 size = ImGui::CalcTextSize(text);
+	overlay->AddText(ImVec2(pos.x - size.x/2.f, pos.y - size.y/2.f), ImColor(color), text);
 }
 
-void PyExecutionContext::DrawRect(const Vector4 & box, const ImVec4 & color, float rounding, float thickness)
+void PyExecutionContext::DrawRect(const Vector2& start, const Vector2& size, const ImVec4 & color, float rounding, float thickness)
 {
-	overlay->AddRect(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding, 15, thickness);
+	overlay->AddRect((ImVec2&)start, (ImVec2&)Vector2(start.x + size.x, start.y + size.y), ImColor(color), rounding, 15, thickness);
 }
 
-void PyExecutionContext::DrawRectFilled(const Vector4 & box, const ImVec4 & color, float rounding)
+void PyExecutionContext::DrawRectFilled(const Vector2& start, const Vector2& size, const ImVec4 & color, float rounding)
 {
-	overlay->AddRectFilled(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding);
+	overlay->AddRectFilled((ImVec2&)start, (ImVec2&)Vector2(start.x + size.x, start.y + size.y), ImColor(color), rounding);
 }

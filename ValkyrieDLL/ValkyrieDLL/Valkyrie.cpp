@@ -198,14 +198,18 @@ void Valkyrie::Update()
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	if(CheckEssentialsLoaded()) {
-		CurrentGameState = Reader.GetNextState();
-		if (CurrentGameState->gameStarted) {
-			SetupScriptExecutionContext();
-			ShowMenu();
-			ExecuteScripts();
+	__try {
+		if (CheckEssentialsLoaded()) {
+			CurrentGameState = Reader.GetNextState();
+			if (CurrentGameState->gameStarted) {
+				SetupScriptExecutionContext();
+				ShowMenu();
+				ExecuteScripts();
+			}
 		}
+	}
+	__except (1) {
+		Logger::LogAll("SEH exception occured in main loop. This shouldn't happen.");
 	}
 
 	// Render
@@ -272,7 +276,6 @@ void Valkyrie::UnhookDirectX()
 HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const RECT * pSrcRect, const RECT * pDestRect, HWND hDestWindow, const RGNDATA * pDirtyRegion)
 {
 	DxDeviceMutex.unlock();
-
 	try {
 		if (DxDevice == NULL) {
 			DxDevice = Device;
@@ -286,7 +289,7 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 		Logger::File.Log("Standard exception occured %s", error.what());
 		UnhookDirectX();
 	}
-	catch (error_already_set) {
+	catch (error_already_set&) {
 		Logger::File.Log("Boost::Python exception occured %s", Script::GetPyError().c_str());
 		UnhookDirectX();
 	}
@@ -294,7 +297,6 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 		Logger::File.Log("Unexpected exception occured");
 		UnhookDirectX();
 	}
-
 	DxDeviceMutex.lock();
 
 	return OriginalD3DPresent(Device, pSrcRect, pDestRect, hDestWindow, pDirtyRegion);

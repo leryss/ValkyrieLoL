@@ -65,9 +65,9 @@ public:
 	void    DrawImage(const char* img, const Vector2& start, const Vector2& end, const ImVec4& color);
 	void    DrawImageRounded(const char* img, const Vector2& start, const Vector2& end, const ImVec4& color, float rounding);
 	void    DrawTxt(const Vector2& pos, const char* text, const ImVec4& color);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectOverloads, DrawRect, 2, 4);
-	void    DrawRect(const Vector4& box, const ImVec4& color, float rounding = 0, float thickness = 1.0);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectFilledOverloads, DrawRectFilled, 2, 3);
-	void    DrawRectFilled(const Vector4& box, const ImVec4& color, float rounding = 0);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectOverloads, DrawRect, 3, 5);
+	void    DrawRect(const Vector2& start, const Vector2& size, const ImVec4& color, float rounding = 0, float thickness = 1.0);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectFilledOverloads, DrawRectFilled, 3, 4);
+	void    DrawRectFilled(const Vector2& start, const Vector2& size, const ImVec4& color, float rounding = 0);
 
 };

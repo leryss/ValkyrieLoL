@@ -45,20 +45,22 @@ def draw_spell(ctx, spell, pos):
     if cd > 0.0:
         color = Col.Red
         
-    ctx.image(spell.static.icon if spell.static else 'none', pos, pos + Vec2(size_img_skill, size_img_skill), color, 10)
+    ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size_img_skill, size_img_skill), color, 10)
     if cd > 0.0:
-        ctx.text(pos + Vec2(2, 5), str(int(cd)), Col.White)
+        ctx.text(pos, str(int(cd)), Col.White)
 
 def draw_tracker_for(ctx, champ):
     global size_img_skill
     
     pos = champ.hpbar_pos
+    pos.y += size_img_skill/2.0
+    pos.x += 15.0
     for i in range(0, 4):
         pos.x += size_img_skill
         draw_spell(ctx, champ.spells[i], pos)
         
-    pos.y -= 26.0
-    pos.x += 15.0
+    pos.y -= 27.0
+    pos.x += size_img_skill/2.0
     for i in range(4, 6):
         pos.x += size_img_skill
         draw_spell(ctx, champ.spells[i], pos)
