@@ -22,6 +22,21 @@ void GameObject::ReadFromBaseAddress(int baseAddr)
 	memcpy(&pos, AsPtr(baseAddr + Offsets::ObjPos), sizeof(Vector3));
 }
 
+bool GameObject::IsAllyTo(const GameObject & other)
+{
+	return other.team == this->team;
+}
+
+bool GameObject::IsEnemyTo(const GameObject & other)
+{
+	return other.team != this->team;
+}
+
+bool GameObject::EqualsTo(const GameObject & other)
+{
+	return this->networkId == other.networkId;
+}
+
 void GameObject::ImGuiDraw()
 {
 	int idx = index;

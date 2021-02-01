@@ -26,6 +26,7 @@ std::condition_variable            Valkyrie::OverlayInitialized;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
+ConfigSet                          Valkyrie::Configs("valkyrie");
 
 
 void Valkyrie::Run()
@@ -33,6 +34,7 @@ void Valkyrie::Run()
 	try {
 		DxDeviceMutex.lock();
 
+		Configs.Load();
 		GameData::LoadAsync();
 		HookDirectX();
 	}
@@ -60,45 +62,53 @@ bool Valkyrie::CheckEssentialsLoaded()
 
 void Valkyrie::ShowMenu()
 {
-	static bool ShowConsoleWindow        = true;
-	static bool ShowObjectExplorerWindow = true;
-	static bool ShowOffsetScanner        = false;
+	static bool ShowConsoleWindow        = Configs.GetBool("show_console", false);
+	static bool ShowObjectExplorerWindow = Configs.GetBool("show_obj_explorer", false);
+	static bool ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
 
-	ImGui::Begin("Valkyrie", nullptr,
+	if (ImGui::Begin("Valkyrie", nullptr,
 		ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_AlwaysAutoResize);
+		ImGuiWindowFlags_AlwaysAutoResize)) {
 
-	if (ImGui::BeginMenu("Development")) {
+		if (ImGui::BeginMenu("Development")) {
 
-		if (ImGui::Button("Reload Scripts"))
-			LoadScripts();
+			if (ImGui::Button("Reload Scripts"))
+				LoadScripts();
 
-		ImGui::LabelText("VPath",               Globals::WorkingDir.u8string().c_str());
-		ImGui::LabelText("Offset Patch",        Offsets::GameVersion.c_str());
-		ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
-		ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
-		ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
-		if (ImGui::TreeNode("Benchmarks")) {
-		
-			Reader.GetBenchmarks().ImGuiDraw();
-			ImGui::TreePop();
+			ImGui::LabelText("VPath", Globals::WorkingDir.u8string().c_str());
+			ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
+			ImGui::Checkbox("Show Console", &ShowConsoleWindow);
+			ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
+			ImGui::Checkbox("Show Offset Scanner", &ShowOffsetScanner);
+			if (ImGui::TreeNode("Benchmarks")) {
+
+				Reader.GetBenchmarks().ImGuiDraw();
+				ImGui::TreePop();
+			}
+			ImGui::EndMenu();
 		}
-		ImGui::EndMenu();
+
+		if (ImGui::BeginMenu("Menu Settings")) {
+			ImGui::ShowStyleSelector("Style");
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Skin Changer"))
+			SkinChanger::ImGuiDraw();
+
+		ImGui::Separator();
+		ScriptManager.ImGuiDrawMenu(ScriptContext);
+
+		ImGui::End();
+
+		if (Configs.IsTimeToSave()) {
+			Configs.SetBool("show_console",        ShowConsoleWindow);
+			Configs.SetBool("show_obj_explorer",   ShowConsoleWindow);
+			Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
+			Configs.Save();
+		}
 	}
-
-	if (ImGui::BeginMenu("Menu Settings")) {
-		ImGui::ShowStyleSelector("Style");
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("Skin Changer"))
-		SkinChanger::ImGuiDraw();
-
-	ImGui::Separator();
-	ScriptManager.ImGuiDrawMenu(ScriptContext);
-
-	ImGui::End();
 
 	if (ShowConsoleWindow)
 		ShowConsole();

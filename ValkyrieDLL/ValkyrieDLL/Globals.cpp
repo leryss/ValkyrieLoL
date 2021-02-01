@@ -2,11 +2,20 @@
 #include <fstream>
 
 fs::path FindWorkingDir() {
-	fs::path appdata = fs::temp_directory_path().parent_path().parent_path().parent_path();
-	appdata /= "Roaming";
-	appdata /= "Valkyrie";
+	char* buff;
+	size_t buffCount;
+	_dupenv_s(&buff, &buffCount, "VPath");
 
-	return appdata;
+	return fs::path(buff);
+}
+
+fs::path GetConfigsDir() {
+
+	fs::path path = Globals::WorkingDir;
+	path /= "configs";
+	
+	return path;
 }
 
 fs::path    Globals::WorkingDir  = FindWorkingDir();
+fs::path    Globals::ConfigsDir  = GetConfigsDir();

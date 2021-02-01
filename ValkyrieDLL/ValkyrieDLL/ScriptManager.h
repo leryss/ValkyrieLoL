@@ -2,6 +2,7 @@
 
 #include "Script.h"
 #include "imgui/imgui.h"
+#include "PyExecutionContext.h"
 #include <deque>
 
 class ScriptManager {

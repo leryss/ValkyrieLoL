@@ -2,34 +2,35 @@
 #include "Logger.h"
 #include "GameState.h"
 #include "PyImGui.h"
+#include "ConfigSet.h"
 
 #include "imgui/imgui.h"
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-
+class Script;
 class PyExecutionContext {
 
 private:
 	PyImGui     imgui;
 	GameState*  state;
 	ImDrawList* overlay;
+	Script*     currentScript;
 
 public:
 	float   time;
 	object  hovered;
 	object  player;
 
-	std::shared_ptr<list> champs;
-	std::shared_ptr<list> missiles;
-	std::shared_ptr<list> jungle;
-	std::shared_ptr<list> minions;
-	std::shared_ptr<list> turrets;
-	std::shared_ptr<list> others;
+	std::shared_ptr<list>   champs;
+	std::shared_ptr<list>   missiles;
+	std::shared_ptr<list>   jungle;
+	std::shared_ptr<list>   minions;
+	std::shared_ptr<list>   turrets;
+	std::shared_ptr<list>   others;
 
 public:
-
 	object  GetImGuiInterface();
 	object  GetChampions();
 	object  GetMissiles();
@@ -37,7 +38,9 @@ public:
 	object  GetMinions();
 	object  GetTurrets();
 	object  GetOthers();
+	object  GetConfig();
 
+	void    SetScript(Script* script);
 	void    SetGameState(GameState* state);
 	void    SetImGuiOverlay(ImDrawList* overlay);
 

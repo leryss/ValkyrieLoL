@@ -1,4 +1,6 @@
 #include "ConfigSet.h"
+#include "Globals.h"
+#include "Logger.h"
 #include <fstream>
 
 void ConfigSet::Load() {
@@ -28,6 +30,23 @@ void ConfigSet::Save() {
 	}
 
 	file.close();
+	timeLastSave = high_resolution_clock::now();
+}
+
+bool ConfigSet::IsTimeToSave()
+{
+	duration<float, std::milli> dur = high_resolution_clock::now() - timeLastSave;
+	return dur.count() > saveInterval;
+}
+
+ConfigSet::ConfigSet()
+{
+}
+
+ConfigSet::ConfigSet(std::string cfg, float saveInterval)
+{
+	SetSaveInterval(saveInterval);
+	SetConfigFile(cfg.c_str());
 }
 
 int ConfigSet::GetInt(const char* key, int defaultVal) {
@@ -84,4 +103,17 @@ void ConfigSet::SetBool(const char* key, bool value) {
 
 void ConfigSet::SetStr(const char* key, const char* value) {
 	rawValues[std::string(key)] = value;
+}
+
+void ConfigSet::SetSaveInterval(float interval)
+{
+	saveInterval = interval;
+}
+
+void ConfigSet::SetConfigFile(const char * file)
+{
+	fs::path path = Globals::ConfigsDir;
+	path /= file;
+	filePath = path.u8string();
+	filePath.append(".cfg");
 }

@@ -367,7 +367,7 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 		imgName.erase(imgName.size() - 4, imgName.size());
 
 		PDIRECT3DTEXTURE9 image = NULL;
-		if (!LoadTextureFromHeap(imgBin, fileStat.m_uncomp_size, &image))
+		if (!LoadTextureFromHeap(imgBin, (size_t)fileStat.m_uncomp_size, &image))
 			Logger::LogAll("Failed to load %s", imgName);
 		else 
 			Images[Strings::ToLower(imgName)] = image;

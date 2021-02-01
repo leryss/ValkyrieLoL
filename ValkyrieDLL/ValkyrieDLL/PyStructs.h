@@ -73,6 +73,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("pos",               &GameObject::pos)
 		.def_readonly("visible",           &GameObject::isVisible)
 		.def_readonly("last_seen",         &GameObject::lastSeen)
+
+		.def("ally_to",                    &GameObject::IsAllyTo)
+		.def("enemy_to",                   &GameObject::IsEnemyTo)
+		.def("__eq__",                     &GameObject::EqualsTo)
 		;
 
 	class_<GameSpell>("Spell",            "Represents a spell in game.")
@@ -159,10 +163,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	class_<PyExecutionContext>("Context", "Contains everything necessarry to create scripts. From utility functions to game data")
 		.def("log",                      &PyExecutionContext::Log,               "Logs a message in the Valkyrie Console")
 		.def_readonly("ui",              &PyExecutionContext::GetImGuiInterface, "UI interface for drawing menus based on imgui")
+		.def_readonly("cfg",             &PyExecutionContext::GetConfig,         "Used to load/save script specific configs")
 
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Game object under the mouse")
 		.def_readonly("player",          &PyExecutionContext::player,            "The champion used by the local player")
-
 		.def_readonly("champs",          &PyExecutionContext::GetChampions)
 		.def_readonly("turrets",         &PyExecutionContext::GetTurrets)
 		.def_readonly("missiles",        &PyExecutionContext::GetMissiles)
@@ -191,7 +195,18 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("image",                    &PyExecutionContext::DrawImageRounded)
 		;
 
-		class_<ImVec4>("Col", init<float, float, float, float>())
+	class_<ConfigSet>("Config")
+		.def("set_int",                  &ConfigSet::SetInt)
+		.def("set_bool",                 &ConfigSet::SetBool)
+		.def("set_float",                &ConfigSet::SetFloat)
+		.def("set_str",                  &ConfigSet::SetStr)
+		.def("get_int",                  &ConfigSet::GetInt)
+		.def("get_bool",                 &ConfigSet::GetBool)
+		.def("get_float",                &ConfigSet::GetFloat)
+		.def("get_str",                  &ConfigSet::GetStr)
+		;
+
+	class_<ImVec4>("Col", init<float, float, float, float>())
 		.def_readonly("Black",           &Color::BLACK)
 		.def_readonly("White",           &Color::WHITE)
 		.def_readonly("Red",             &Color::RED)

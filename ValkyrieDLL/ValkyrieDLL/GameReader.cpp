@@ -28,6 +28,7 @@ GameState* GameReader::GetNextState()
 		state.gameStarted = true;
 		state.renderer.ReadFromBaseAddress(baseAddr);
 		state.hud.ReadFromBaseAddress(baseAddr);
+		state.hovered = nullptr;
 
 		ReadObjectTree();
 		SieveObjects();

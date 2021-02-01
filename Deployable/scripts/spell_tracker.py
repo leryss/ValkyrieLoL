@@ -8,11 +8,32 @@ script_info = {
 
 size_img_skill = 24
 
+show_enemies = None
+show_allies  = None
+show_self    = None
+
 def valkyrie_menu(ctx):
-    pass
+    global show_enemies, show_allies, show_self
+    
+    ui = ctx.ui
+    show_enemies = ui.checkbox("Show for enemies", show_enemies)
+    show_allies  = ui.checkbox("Show for allies", show_allies)
+    show_self    = ui.checkbox("Show for self", show_self)
 
 def valkyrie_on_load(ctx):
-    pass
+    global show_enemies, show_allies, show_self
+    cfg = ctx.cfg
+    
+    show_enemies = cfg.get_bool("show_enemies", True)
+    show_allies  = cfg.get_bool("show_allies", True)
+    show_self    = cfg.get_bool("show_self", True)
+    
+def valkyrie_on_save(ctx):
+    cfg = ctx.cfg
+    
+    cfg.set_bool("show_enemies", show_enemies)
+    cfg.set_bool("show_allies",  show_allies)
+    cfg.set_bool("show_self",    show_self)
     
 def draw_spell(ctx, spell, pos):
     global size_img_skill
@@ -44,5 +65,14 @@ def draw_tracker_for(ctx, champ):
     
 def valkyrie_exec(ctx):
     for champ in ctx.champs:
-        draw_tracker_for(ctx, champ)
+        if not champ.visible or champ.dead or not ctx.is_on_screen(champ.pos):
+            continue
+            
+        if champ == ctx.player:
+            if show_self:
+                draw_tracker_for(ctx, champ)
+        elif show_enemies and champ.enemy_to(ctx.player):
+            draw_tracker_for(ctx, champ)
+        elif show_allies and champ.ally_to(ctx.player):
+            draw_tracker_for(ctx, champ)
         

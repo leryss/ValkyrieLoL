@@ -1,4 +1,5 @@
 #include "PyExecutionContext.h"
+#include "Script.h"
 
 template <class T>
 std::shared_ptr<list> MakePyList(std::vector<std::shared_ptr<T>>& cList) {
@@ -78,6 +79,16 @@ object PyExecutionContext::GetTurrets()
 object PyExecutionContext::GetOthers()
 {
 	return object(boost::ref(*others));
+}
+
+object PyExecutionContext::GetConfig()
+{
+	return object(boost::ref(currentScript->config));
+}
+
+void PyExecutionContext::SetScript(Script * script)
+{
+	this->currentScript = script;
 }
 
 void PyExecutionContext::SetGameState(GameState * state)

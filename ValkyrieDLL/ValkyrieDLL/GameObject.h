@@ -26,6 +26,9 @@ public:
 	               GameObject();
 	               GameObject(std::string name);
 	void           ReadFromBaseAddress(int baseAddr);
+	bool           IsAllyTo(const GameObject& other);
+	bool           IsEnemyTo(const GameObject& other);
+	bool           EqualsTo(const GameObject& other);
 	virtual void   ImGuiDraw();
 
 public:

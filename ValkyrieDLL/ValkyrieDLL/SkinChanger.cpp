@@ -28,7 +28,7 @@ void SkinChanger::ImGuiDraw()
 
 	if (ImGui::BeginCombo("Skins", skins[CurrentSkinIndex]->name.c_str(), ImGuiComboFlags_HeightLargest)) {
 		bool selected = false;
-		for (int i = 0; i < skins.size(); ++i) {
+		for (size_t i = 0; i < skins.size(); ++i) {
 			if (ImGui::Selectable(skins[i]->name.c_str(), &selected)) {
 				CurrentSkinIndex = i;
 				CurrentChromaIndex = -1;
@@ -42,7 +42,7 @@ void SkinChanger::ImGuiDraw()
 	auto& chromas = skins[CurrentSkinIndex]->chromas;
 	if (chromas.size() > 0)
 		ImGui::Text("Chromas");
-	for (int i = 0; i < chromas.size(); ++i) {
+	for (size_t i = 0; i < chromas.size(); ++i) {
 		ImGui::PushID(chromas[i].id);
 		if (ImGui::ColorButton(" ", chromas[i].color)) {
 			CurrentChromaIndex = i;

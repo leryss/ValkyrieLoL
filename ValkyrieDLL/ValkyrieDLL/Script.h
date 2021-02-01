@@ -1,6 +1,8 @@
 #pragma once
 
+#include "ConfigSet.h"
 #include "PyExecutionContext.h"
+
 #include <string>
 #include <boost/python.hpp>
 
@@ -9,11 +11,11 @@ using namespace boost::python;
 enum ScriptFunction {
 	ON_LOOP = 0,
 	ON_MENU = 1,
-	ON_LOAD = 2
+	ON_LOAD = 2,
+	ON_SAVE = 3
 };
 
 class Script {
-
 public:
 	                   Script();
 				       ~Script();
@@ -32,6 +34,8 @@ public:
 	std::string        author;
 	std::string        description;
 	std::string        targetChamp;
+
+	ConfigSet          config;
 				 
 private:		 
 				 
@@ -39,5 +43,5 @@ private:
 	bool         LoadInfo();
 
 	PyObject*    moduleObj;
-	PyObject*    functions[3];
+	PyObject*    functions[4];
 };

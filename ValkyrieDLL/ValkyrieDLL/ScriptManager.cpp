@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "Color.h"
 #include "Logger.h"
+#include "PyExecutionContext.h"
 
 void ScriptManager::LoadScriptsFromFolder(std::string & folderPath)
 {
@@ -43,6 +44,7 @@ void ScriptManager::ExecuteScripts(PyExecutionContext & ctx)
 {
 	for (auto script : scripts) {
 		if (script->error.empty()) {
+			ctx.SetScript(script.get());
 			if (script->neverExecuted)
 				script->Execute(ctx, ON_LOAD);
 			else
@@ -62,8 +64,15 @@ void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
 		if (ImGui::BeginMenu(scriptName)) {
 			if (errored)
 				ImGui::TextColored(Color::RED, script->error.c_str());
-			else
+			else {
+				ctx.SetScript(script.get());
+
 				script->Execute(ctx, ON_MENU);
+				if (script->config.IsTimeToSave()) {
+					script->Execute(ctx, ON_SAVE);
+					script->config.Save();
+				}
+			}
 			ImGui::EndMenu();
 		}
 
