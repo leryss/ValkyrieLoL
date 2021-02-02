@@ -58,6 +58,11 @@ public:
 		return col;
 	}
 
+	void Image(const char* image, const Vector2& size) {
+		std::string imgStr(image);
+		ImGui::Image(GameData::GetImage(imgStr), (ImVec2&)size);
+	}
+
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DragIntOverloads, DragInt, 2, 5);
 	int DragInt(const char* text, int i, int step = 1, int minVal = 0, int maxVal = 0) {
 		ImGui::DragInt(text, &i, (float)step, minVal, maxVal);

@@ -62,3 +62,11 @@ void GameUnit::ImGuiDraw()
 		ImGui::TreePop();
 	}
 }
+
+bool GameUnit::HasTags(UnitTag tag)
+{
+	if (staticData == nullptr)
+		return false;
+
+	return staticData->tags.test(tag);
+}
