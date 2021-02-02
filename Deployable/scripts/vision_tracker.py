@@ -1,4 +1,5 @@
 from valkyrie import *
+from helpers.drawings import Circle
 import json
 
 script_info = {
