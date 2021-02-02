@@ -9,6 +9,8 @@ script_info = {
 }
 
 show_clones, show_wards, show_traps = None, None, None
+circle_mm    = Circle(0.0, 15, 1.0, Col.Red, False, True)
+circle_world = Circle(0.0, 50, 3.0, Col.Red, False, True)
 
 traps = {
 	#Name -> (radius, show_radius_circle, show_radius_circle_minimap, icon)                      
@@ -53,17 +55,24 @@ def draw_settings(ui, objs, label):
 
 def valkyrie_menu(ctx):
     global show_clones, show_wards, show_traps, traps, wards
+    global circle_mm, circle_world
     ui = ctx.ui
+    
+    circle_world.ui("Circle world settings", ctx)
+    circle_mm.ui("Circle minimap settings", ctx)
+    ui.separator()
     
     show_clones = ui.checkbox("Show clones", show_clones)
     show_wards  = ui.checkbox("Show wards", show_wards)
     show_traps  = ui.checkbox("Show traps", show_traps)
+    ui.separator()
 
     draw_settings(ui, traps, "Traps")
     draw_settings(ui, wards, "Wards")
 
 def valkyrie_on_load(ctx):
     global show_clones, show_wards, show_traps, traps, wards
+    global circle_mm, circle_world
     cfg = ctx.cfg
     
     show_clones = cfg.get_bool("show_clones", True)
@@ -73,6 +82,9 @@ def valkyrie_on_load(ctx):
     traps = json.loads(cfg.get_str("traps", json.dumps(traps)))
     wards = json.loads(cfg.get_str("wards", json.dumps(wards)))
     
+    circle_world = Circle.from_str(cfg.get_str("circle_world", str(circle_world)))
+    circle_mm    = Circle.from_str(cfg.get_str("circle_mm",    str(circle_mm)))
+    
 def valkyrie_on_save(ctx):
     cfg = ctx.cfg
     
@@ -80,11 +92,13 @@ def valkyrie_on_save(ctx):
     cfg.set_bool("show_wards", show_wards)
     cfg.set_bool("show_traps", show_traps)
 	
+    cfg.set_str("circle_world", str(circle_world))
+    cfg.set_str("circle_mm", str(circle_mm))
+    
     cfg.set_str("traps", json.dumps(traps))
     cfg.set_str("wards", json.dumps(wards))
     
 def draw(ctx, obj, radius, show_circle_world, show_circle_map, icon):
-	
 	
     pos = ctx.w2s(obj.pos)
     if ctx.is_on_screen(pos):
@@ -94,10 +108,12 @@ def draw(ctx, obj, radius, show_circle_world, show_circle_map, icon):
             pos.y += 25
             ctx.text(pos, str(int(duration)), Col.White)
         if show_circle_world:
-            ctx.circle(obj.pos, radius, 50, 2, Col.Red)
+            circle_world.radius = radius
+            circle_world.draw_at(ctx, obj.pos)
 	
     if show_circle_map:
-        ctx.circle(ctx.w2m(obj.pos), ctx.d2m(radius), 15, 2, Col.Red)
+        circle_mm.radius = ctx.d2m(radius)
+        circle_mm.draw_at(ctx, ctx.w2m(obj.pos))
 
 def valkyrie_exec(ctx):
     

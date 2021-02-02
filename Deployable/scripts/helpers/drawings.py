@@ -15,7 +15,7 @@ class Circle:
         self.num_pts = pts
         self.width   = width
         self.color   = col
-        self.fill    = fill
+        self.filled  = fill
         self.enabled = enabled
     
     def ui(self, label, ctx, fixed_radius = True):
@@ -40,9 +40,9 @@ class Circle:
                 ctx.circle(pos, self.radius, self.num_pts, self.width, self.color)
     
     @classmethod
-    def from_serializable(self, serializable):
+    def from_str(self, serializable):
         serializable = json.loads(serializable)
         return Circle(serializable[0], serializable[1], serializable[2], Col(*(serializable[3])), serializable[4], serializable[5])
     
-    def to_serializable(self):
+    def __str__(self):
         return json.dumps([self.radius, self.num_pts, self.width, [self.color.r, self.color.g, self.color.b, self.color.a], self.filled, self.enabled])

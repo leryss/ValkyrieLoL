@@ -13,18 +13,18 @@ def valkyrie_menu(ctx):
     global player_circle
     ui = ctx.ui
     
-    player_circle.ui("Player attack range", ctx)
+    player_circle.ui("Attack range circle settings", ctx)
     
 def valkyrie_on_load(ctx):
     global player_circle
     cfg = ctx.cfg
     
-    player_circle = Circle.from_serializable(cfg.get_str("player_circle", player_circle.to_serializable()))                                                                                                                                                   
+    player_circle = Circle.from_str(cfg.get_str("player_circle", str(player_circle)))                                                                                                                                                   
     
 def valkyrie_on_save(ctx):
     cfg = ctx.cfg
     
-    cfg.set_str("player_circle", player_circle.to_serializable())
+    cfg.set_str("player_circle", str(player_circle))
     
 def valkyrie_exec(ctx):
     
