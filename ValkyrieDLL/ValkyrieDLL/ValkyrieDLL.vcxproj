@@ -175,6 +175,7 @@
     <ClInclude Include="GameUnit.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HKey.h" />
+    <ClInclude Include="InputController.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="json\json.h" />
     <ClInclude Include="Logger.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="GameTurret.cpp" />
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="GameReader.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />

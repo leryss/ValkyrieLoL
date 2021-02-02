@@ -12,6 +12,7 @@
 #include "GameReader.h"
 #include "ScriptManager.h"
 #include "ConfigSet.h"
+#include "InputController.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
@@ -40,12 +41,14 @@ private:
 	static void                        SetupScriptExecutionContext();
 	static std::condition_variable     OverlayInitialized;
 
-	// Game stuff
+	static InputController             inputController;
+
+	/// Game stuff
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
 	static PyExecutionContext          ScriptContext;
 
-	// DirectX stuff
+	/// DirectX stuff
 	static void                        HookDirectX();
 	static void                        UnhookDirectX();
 

@@ -15,6 +15,8 @@
 #include <stdexcept>
 #include <iostream>
 
+InputController                    Valkyrie::inputController;
+
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
 LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL;
@@ -60,13 +62,31 @@ bool Valkyrie::CheckEssentialsLoaded()
 	return false;
 }
 
+bool ChooseMenuStyle(const char* label, int& currentStyle)
+{
+	return ImGui::Combo(label, &currentStyle, "Dark\0Light\0Classic\0");
+}
+
+int SetStyle(int style) {
+	switch (style)
+	{
+		case 0: ImGui::StyleColorsDark(); break;
+		case 1: ImGui::StyleColorsLight(); break;
+		case 2: ImGui::StyleColorsClassic(); break;
+	}
+	return style;
+}
+
 void Valkyrie::ShowMenu()
 {
 	static bool ShowConsoleWindow        = Configs.GetBool("show_console", false);
 	static bool ShowObjectExplorerWindow = Configs.GetBool("show_obj_explorer", false);
 	static bool ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
 
-	if (ImGui::Begin("Valkyrie", nullptr,
+	static HKey ShowMenuKey       = (HKey) Configs.GetInt("show_key", HKey::LSHIFT);
+	static int  MenuStyle       = SetStyle(Configs.GetInt("menu_style", 0));
+
+	if (inputController.IsDown(ShowMenuKey) && ImGui::Begin("Valkyrie", nullptr,
 		ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -90,7 +110,9 @@ void Valkyrie::ShowMenu()
 		}
 
 		if (ImGui::BeginMenu("Menu Settings")) {
-			ImGui::ShowStyleSelector("Style");
+			if(ChooseMenuStyle("Menu Style", MenuStyle))
+				SetStyle(MenuStyle);
+			ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
 			ImGui::EndMenu();
 		}
 
@@ -106,6 +128,8 @@ void Valkyrie::ShowMenu()
 			Configs.SetBool("show_console",        ShowConsoleWindow);
 			Configs.SetBool("show_obj_explorer",   ShowConsoleWindow);
 			Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
+			Configs.SetInt("show_key",             ShowMenuKey);
+			Configs.SetInt("menu_style",           MenuStyle);
 			Configs.Save();
 		}
 	}
@@ -368,8 +392,7 @@ LRESULT ImGuiWindowMessageHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (ImGuiWindowMessageHandler(hWnd, msg, wParam, lParam))
-		return true;
+	ImGuiWindowMessageHandler(hWnd, msg, wParam, lParam);
 
 	switch (msg)
 	{
