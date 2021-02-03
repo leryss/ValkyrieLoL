@@ -2,6 +2,7 @@
 
 #include "ConfigSet.h"
 #include "PyExecutionContext.h"
+#include "InputController.h"
 
 #include <string>
 #include <boost/python.hpp>
@@ -36,6 +37,7 @@ public:
 	std::string        targetChamp;
 
 	ConfigSet          config;
+	InputController    input;
 				 
 private:		 
 				 

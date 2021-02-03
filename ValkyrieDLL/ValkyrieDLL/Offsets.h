@@ -78,11 +78,4 @@ public:
 	static int CharacterDataStack;
 	static int CharacterDataStackSkinId;
 	static int FnCharacterDataStackUpdate;
-
-	static int ChampionManager;
-	static int ChampionManagerChampionEntries;
-	static int ChampionEntryName;
-	static int ChampionEntrySkinEntries;
-	static int SkinEntryId;
-	static int SkinEntryName;
 };

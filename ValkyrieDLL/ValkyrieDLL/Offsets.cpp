@@ -2,22 +2,15 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.2.353.8505";
+std::string Offsets::GameVersion             = "11.3.356.7268";
 
-int Offsets::ObjectManager                   = 0x01c50190;
-int Offsets::Renderer                        = 0x035116ec;
-int Offsets::ViewMatrix                      = 0x0350e8f0;
-int Offsets::MinimapObject                   = 0x034ec5f0;
-int Offsets::LocalPlayer                     = 0x034ec5e0;
-int Offsets::GameTime                        = 0x034e4cd4;
-int Offsets::ChampionManager                 = 0x034e5df8;
-int Offsets::FnCharacterDataStackUpdate      = 0x0010ae70;
-
-int Offsets::ChampionManagerChampionEntries  = 0xC;
-int Offsets::ChampionEntryName               = 0x4;
-int Offsets::ChampionEntrySkinEntries        = 0x58;
-int Offsets::SkinEntryId                     = 0x0;
-int Offsets::SkinEntryName                   = 0x4;
+int Offsets::ObjectManager                   = 0x016b2a74;
+int Offsets::Renderer                        = 0x02f73e78;
+int Offsets::ViewMatrix                      = 0x02f71098;
+int Offsets::MinimapObject                   = 0x02F6BBBC;
+int Offsets::LocalPlayer                     = 0x02f4f764;
+int Offsets::GameTime                        = 0x02f4759c;
+int Offsets::FnCharacterDataStackUpdate      = 0x0010e530;
 
 int Offsets::ProjectionMatrix                = ViewMatrix + 16*sizeof(float);
 										    
@@ -37,15 +30,16 @@ int Offsets::ObjBaseAtk                      = 0x1270;
 int Offsets::ObjBonusAtk                     = 0x11F0;
 int Offsets::ObjMoveSpeed                    = 0x12B0;
 int Offsets::ObjSpellBook                    = 0x2b80;
-int Offsets::ObjName                         = 0x2F64;
-int Offsets::ObjLvl                          = 0x36B4;
+int Offsets::ObjName                         = 0x2F6C;
+int Offsets::ObjLvl                          = 0x36BC;
 int Offsets::ObjExpiry                       = 0x298; 
 int Offsets::ObjCrit                         = 0x1294;
 int Offsets::ObjCritMulti                    = 0x1284;
 int Offsets::ObjAbilityPower                 = 0x1200;
 int Offsets::ObjAtkSpeedMulti                = 0x126C;
-int Offsets::ObjItemList                     = 0x3700;
 int Offsets::ObjAtkRange                     = 0x12B8;
+
+int Offsets::ObjItemList                     = 0x3708;
 int Offsets::ItemListItem                    = 0xC;
 int Offsets::ItemInfo                        = 0x20;
 int Offsets::ItemInfoId                      = 0x68;
@@ -61,7 +55,7 @@ int Offsets::SpellInfoSpellData              = 0x44;
 int Offsets::SpellDataSpellName              = 0x64;
 int Offsets::SpellDataMissileName            = 0x64;
 										    
-int Offsets::UnderMouseObject                = 0x289E358;
+int Offsets::UnderMouseObject                = 0x2300BD8;
 										    
 int Offsets::ObjectMapCount                  = 0x2C;
 int Offsets::ObjectMapRoot                   = 0x28;
@@ -74,9 +68,9 @@ int Offsets::MissileDestIdx                  = 0x2E8;
 int Offsets::MissileStartPos                 = 0x2A8;
 int Offsets::MissileEndPos                   = 0x2B4;
 										    
-int Offsets::MinimapObjectHud                = 0x88;
+int Offsets::MinimapObjectHud                = 0xCC;
 int Offsets::MinimapHudPos                   = 0x5C;
-int Offsets::MinimapHudSize                  = 0x64;          // has values between (190, 190) and (390, 390)
+int Offsets::MinimapHudSize                  = 0x64;          // has values between (191, 191) and (383, 383)
 										    
-int Offsets::CharacterDataStack              = 0x2F58;
+int Offsets::CharacterDataStack              = 0x2F60;
 int Offsets::CharacterDataStackSkinId        = 0x18;

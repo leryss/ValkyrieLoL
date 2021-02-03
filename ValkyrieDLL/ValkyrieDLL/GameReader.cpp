@@ -25,10 +25,11 @@ GameState* GameReader::GetNextState()
 
 	/// Ghetto way of checking if game has started
 	if (state.time > 1.f) {
+		state.hovered = nullptr;
 		state.gameStarted = true;
+
 		state.renderer.ReadFromBaseAddress(baseAddr);
 		state.hud.ReadFromBaseAddress(baseAddr);
-		state.hovered = nullptr;
 
 		ReadObjectTree();
 		SieveObjects();

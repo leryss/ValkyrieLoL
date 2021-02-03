@@ -13,6 +13,16 @@ std::shared_ptr<list> MakePyList(std::vector<std::shared_ptr<T>>& cList) {
 	return pyList;
 }
 
+void PyExecutionContext::MoveToLocation(const Vector3 & location)
+{
+	currentScript->input.IssueClickAtAndReturn(CT_RIGHT_CLICK, state->renderer.WorldToScreen(location));
+}
+
+void PyExecutionContext::AttackUnit(const GameUnit & unit)
+{
+	currentScript->input.IssueClickAtAndReturn(CT_RIGHT_CLICK, state->renderer.WorldToScreen(unit.pos));
+}
+
 void PyExecutionContext::Log(const char * msg)
 {
 	if (msg == NULL)

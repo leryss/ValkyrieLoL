@@ -4,14 +4,17 @@
 
 void GameRenderer::ReadFromBaseAddress(int baseAddr) {
 
-	memcpy(&viewMatrix, (void*)(baseAddr + Offsets::ViewMatrix), 16 * sizeof(float));
-	memcpy(&projMatrix, (void*)(baseAddr + Offsets::ProjectionMatrix), 16 * sizeof(float));
+	__try {
+		memcpy(&viewMatrix, (void*)(baseAddr + Offsets::ViewMatrix), 16 * sizeof(float));
+		memcpy(&projMatrix, (void*)(baseAddr + Offsets::ProjectionMatrix), 16 * sizeof(float));
 
-	char* addrRenderer = (char*)*(int*)(baseAddr + Offsets::Renderer);
-	memcpy(&width,  addrRenderer + Offsets::RendererWidth,  sizeof(int));
-	memcpy(&height, addrRenderer + Offsets::RendererHeight, sizeof(int));
+		char* addrRenderer = (char*)*(int*)(baseAddr + Offsets::Renderer);
+		memcpy(&width, addrRenderer + Offsets::RendererWidth, sizeof(int));
+		memcpy(&height, addrRenderer + Offsets::RendererHeight, sizeof(int));
 
-	MultiplyMatrices(viewProjMatrix, viewMatrix, 4, 4, projMatrix, 4, 4);
+		MultiplyMatrices(viewProjMatrix, viewMatrix, 4, 4, projMatrix, 4, 4);
+	}
+	__except (1) {}
 }
 
 void GameRenderer::MultiplyMatrices(float * out, float * a, int row1, int col1, float * b, int row2, int col2)

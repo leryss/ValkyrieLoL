@@ -45,6 +45,10 @@ public:
 	void    SetImGuiOverlay(ImDrawList* overlay);
 
 	/* Exposed methods */
+
+	void    MoveToLocation(const Vector3& location);
+	void    AttackUnit(const GameUnit& unit);
+
 	void    Log(const char* msg);
 	Vector2 World2Screen(const Vector3& world);
 	Vector2 World2Minimap(const Vector3& world);
