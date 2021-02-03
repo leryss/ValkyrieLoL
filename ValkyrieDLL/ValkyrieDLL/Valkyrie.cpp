@@ -41,7 +41,7 @@ void Valkyrie::Run()
 		HookDirectX();
 	}
 	catch (std::exception& error) {
-		Logger::File.Log("Failed starting up Valkyrie %s", error.what());
+		Logger::File("Failed starting up Valkyrie %s", error.what());
 	}
 }
 
@@ -149,7 +149,7 @@ void Valkyrie::ShowConsole()
 	ImGui::Begin("Console");
 	
 	std::list<std::string> lines;
-	Logger::Console.GetLines(lines);
+	Logger::GetConsoleLines(lines);
 
 	for (auto& line : lines) {
 		ImGui::Text(line.c_str());
@@ -172,6 +172,8 @@ void Valkyrie::InitializeOverlay()
 
 	if (!ImGui_ImplDX9_Init(DxDevice))
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
+
+	ImGui::GetIO().IniFilename = Globals::ImGuiIniPath.c_str();
 	
 	OverlayInitialized.notify_all();
 }
@@ -256,7 +258,7 @@ void Valkyrie::HookDirectX()
 	DWORD objBase = (DWORD)LoadLibraryA("d3d9.dll");
 	DWORD stopAt = objBase + SearchLength;
 
-	Logger::File.Log("Found base of d3d9.dll at: %#010x", objBase);
+	Logger::File("Found base of d3d9.dll at: %#010x", objBase);
 	while (objBase++ < stopAt)
 	{
 		if ((*(WORD*)(objBase + 0x00)) == 0x06C7
@@ -270,7 +272,7 @@ void Valkyrie::HookDirectX()
 
 	if (objBase >= stopAt)
 		throw std::runtime_error("Did not find D3D device");
-	Logger::File.Log("Found D3D Device at: %#010x", objBase);
+	Logger::File("Found D3D Device at: %#010x", objBase);
 
 	PDWORD VTable;
 	*(DWORD*)& VTable = *(DWORD*)objBase;
@@ -289,7 +291,7 @@ void Valkyrie::HookDirectX()
 
 void Valkyrie::UnhookDirectX()
 {
-	Logger::File.Log("Unhooking DirectX");
+	Logger::File("Unhooking DirectX");
 
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
@@ -310,15 +312,15 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 		Update();
 	}
 	catch (std::exception& error) {
-		Logger::File.Log("Standard exception occured %s", error.what());
+		Logger::File("Standard exception occured %s", error.what());
 		UnhookDirectX();
 	}
 	catch (error_already_set&) {
-		Logger::File.Log("Boost::Python exception occured %s", Script::GetPyError().c_str());
+		Logger::File("Boost::Python exception occured %s", Script::GetPyError().c_str());
 		UnhookDirectX();
 	}
 	catch (...) {
-		Logger::File.Log("Unexpected exception occured");
+		Logger::File("Unexpected exception occured");
 		UnhookDirectX();
 	}
 	DxDeviceMutex.lock();

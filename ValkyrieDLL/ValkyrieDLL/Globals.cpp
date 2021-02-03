@@ -17,5 +17,14 @@ fs::path GetConfigsDir() {
 	return path;
 }
 
-fs::path    Globals::WorkingDir  = FindWorkingDir();
-fs::path    Globals::ConfigsDir  = GetConfigsDir();
+std::string GetImGuiIniPath() {
+	
+	fs::path path = Globals::WorkingDir;
+	path /= "imgui.ini";
+
+	return path.u8string();
+}
+
+const fs::path     Globals::WorkingDir   = FindWorkingDir();
+const fs::path     Globals::ConfigsDir   = GetConfigsDir();
+const std::string  Globals::ImGuiIniPath = GetImGuiIniPath();

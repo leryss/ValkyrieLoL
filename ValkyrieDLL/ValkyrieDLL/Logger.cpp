@@ -2,45 +2,28 @@
 #include <stdarg.h>
 #include "Valkyrie.h"
 
-Logger Logger::File(
-	std::shared_ptr<std::fstream>(new std::fstream("logs.txt", std::ios::out | std::ios::trunc))
-);
+std::shared_ptr<std::fstream>      Logger::FileStream    = nullptr;
+std::shared_ptr<std::stringstream> Logger::ConsoleStream = nullptr;
+std::mutex                         Logger::FileMutex;
+std::mutex                         Logger::ConsoleMutex;
 
-Logger Logger::Console(
-	std::shared_ptr<std::stringstream>(new std::stringstream(std::ios::out | std::ios::in))
-);
-
-Logger::Logger(std::shared_ptr<std::iostream> stream)
+void Logger::GetConsoleLines(std::list<std::string>& lines)
 {
-	this->stream = stream;
-}
-
-void Logger::Log(const char * str, ...)
-{
-	static char buff[2048];
-	va_list va;
-	va_start(va, str);
-	vsprintf_s(buff, str, va);
-	va_end(va);
-
-	streamMutex.lock();
-	stream->write(buff, strlen(buff));
-	stream->write("\n", 1);
-	stream->flush();
-	streamMutex.unlock();
-}
-
-void Logger::GetLines(std::list<std::string>& lines)
-{
-	streamMutex.lock();
-	stream->seekg(0, std::ios_base::beg);
+	ConsoleMutex.lock();
+	ConsoleStream->seekg(0, std::ios_base::beg);
 
 	std::string line;
-	while (std::getline(*stream, line)) {
+	while (std::getline(*ConsoleStream, line)) {
 		lines.push_back(line);
 	}
-	stream->clear();
-	streamMutex.unlock();
+	ConsoleStream->clear();
+	ConsoleMutex.unlock();
+}
+
+void Logger::InitLoggers(const char * pathFileLog)
+{
+	FileStream    = std::shared_ptr<std::fstream>(     new std::fstream(pathFileLog, std::ios::out | std::ios::trunc));
+	ConsoleStream = std::shared_ptr<std::stringstream>(new std::stringstream(        std::ios::out | std::ios::in));
 }
 
 void Logger::LogAll(const char * str, ...)
@@ -51,6 +34,49 @@ void Logger::LogAll(const char * str, ...)
 	vsprintf_s(buff, str, va);
 	va_end(va);
 
-	File.Log(buff);
-	Console.Log(buff);
+	ConsoleMutex.lock();
+	ConsoleStream->write(buff, strlen(buff));
+	ConsoleStream->write("\n", 1);
+	ConsoleStream->flush();
+	ConsoleMutex.unlock();
+
+	FileMutex.lock();
+	FileStream->write(buff, strlen(buff));
+	FileStream->write("\n", 1);
+	FileStream->flush();
+	FileMutex.unlock();
 }
+
+void Logger::Console(const char * str, ...)
+{
+	static char buff[2048];
+	va_list va;
+	va_start(va, str);
+	vsprintf_s(buff, str, va);
+	va_end(va);
+
+	ConsoleMutex.lock();
+	ConsoleStream->write(buff, strlen(buff));
+	ConsoleStream->write("\n", 1);
+	ConsoleStream->flush();
+	ConsoleMutex.unlock();
+}
+
+void Logger::File(const char * str, ...)
+{
+	static char buff[2048];
+	va_list va;
+	va_start(va, str);
+	vsprintf_s(buff, str, va);
+	va_end(va);
+
+	FileMutex.lock();
+	FileStream->write(buff, strlen(buff));
+	FileStream->write("\n", 1);
+	FileStream->flush();
+	FileMutex.unlock();
+}
+
+
+
+

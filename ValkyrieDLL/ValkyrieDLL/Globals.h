@@ -6,6 +6,7 @@ namespace fs = std::experimental::filesystem;
 
 class Globals {
 public:
-	static fs::path    WorkingDir;
-	static fs::path    ConfigsDir;
+	const static fs::path      WorkingDir;
+	const static fs::path      ConfigsDir;
+	const static std::string   ImGuiIniPath;
 };

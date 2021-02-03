@@ -7,16 +7,18 @@
 // Thread safe
 class Logger {
 
-public:
-	                               Logger(std::shared_ptr<std::iostream> stream);
-	void                           Log(const char* str, ...);
-	void                           GetLines(std::list<std::string>& lines);
 private:
-	std::shared_ptr<std::iostream> stream;
-	std::mutex                     streamMutex;
+	static std::shared_ptr<std::fstream>      FileStream;
+	static std::shared_ptr<std::stringstream> ConsoleStream;
+
+	static std::mutex                         FileMutex;
+	static std::mutex                         ConsoleMutex;
 
 public:
+	static void   InitLoggers(const char* pathFileLog);
+
 	static void   LogAll(const char* str, ...);
-	static Logger File;
-	static Logger Console;
+	static void   Console(const char* str, ...);
+	static void   File(const char* str, ...);
+	static void   GetConsoleLines(std::list<std::string>& lines);
 };

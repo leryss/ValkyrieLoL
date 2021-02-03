@@ -16,9 +16,9 @@ std::shared_ptr<list> MakePyList(std::vector<std::shared_ptr<T>>& cList) {
 void PyExecutionContext::Log(const char * msg)
 {
 	if (msg == NULL)
-		Logger::Console.Log("NULL");
+		Logger::Console("NULL");
 	else
-		Logger::Console.Log(msg);
+		Logger::Console(msg);
 
 }
 Vector2 PyExecutionContext::World2Screen(const Vector3 & world)

@@ -16,16 +16,6 @@ void SkinChanger::ImGuiDraw()
 	if (skins.size() == 0 || skins.size() <= CurrentSkinIndex)
 		return;
 
-	/*if (ImGui::Button("Prev")) {
-		info.currentSkin = (info.currentSkin - 1 < 0 ? 0 : info.currentSkin - 1);
-		changed = true;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Next")) {
-		info.currentSkin = (info.currentSkin + 1 >= info.ids.size() ? info.ids.size() - 1 : info.currentSkin + 1);
-		changed = true;
-	}*/
-
 	if (ImGui::BeginCombo("Skins", skins[CurrentSkinIndex]->name.c_str(), ImGuiComboFlags_HeightLargest)) {
 		bool selected = false;
 		for (size_t i = 0; i < skins.size(); ++i) {

@@ -7,7 +7,7 @@ script_info = {
 }
 
 size_portrait_minimap = 24
-size_portrait_world = 58
+size_portrait_world   = 48
 
 max_gank_distance    = None
 show_gank_alerts     = None
@@ -16,26 +16,36 @@ show_last_seen_world = None
 
 def valkyrie_menu(ctx):
     global max_gank_distance, show_last_seen_mm, show_last_seen_world, show_gank_alerts
+    global size_portrait_world
     ui = ctx.ui
     
     max_gank_distance    = ui.dragfloat("Trigger distance", max_gank_distance, 100, 1000, 10000)
     show_last_seen_mm    = ui.checkbox("Show enemy last position on minimap", show_last_seen_mm)
     show_last_seen_world = ui.checkbox("Show enemy last position on world", show_last_seen_world)
     show_gank_alerts     = ui.checkbox("Show gank alerts", show_gank_alerts)
+    
+    size_portrait_world   = ui.dragfloat("Size champion portrait", size_portrait_world)
+    ui.image("garen_square", Vec2(size_portrait_world, size_portrait_world))
 
 def valkyrie_on_load(ctx):
     global max_gank_distance, show_last_seen_mm, show_last_seen_world, show_gank_alerts
+    global size_portrait_world
     cfg = ctx.cfg
     
     max_gank_distance    = cfg.get_float("max_gank_distance", 4000)
     show_last_seen_mm    = cfg.get_bool("show_last_seen_mm", True)
     show_last_seen_world = cfg.get_bool("show_last_seen_world", True)
     show_gank_alerts     = cfg.get_bool("show_gank_alerts", True)
+    size_portrait_world  = cfg.get_float("size_portrait_world", size_portrait_world)
     
 def valkyrie_on_save(ctx):
     cfg = ctx.cfg
     
-    cfg.set_float("max_gank_distance", max_gank_distance)
+    cfg.set_float("max_gank_distance",   max_gank_distance)
+    cfg.set_float("size_portrait_world", size_portrait_world)
+    cfg.set_bool("show_last_seen_mm",    show_last_seen_mm)
+    cfg.set_bool("show_last_seen_world", show_last_seen_world)
+    cfg.set_bool("show_gank_alerts",     show_gank_alerts)
 
 def draw_portrait_world(ctx, champ, start, distance = None):
     ctx.image(champ.name + '_square', start, Vec2(size_portrait_world, size_portrait_world), Col.White if champ.visible else Col.Gray)
