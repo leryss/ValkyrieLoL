@@ -9,4 +9,5 @@ public:
 
 	Vector2 minimapSize;
 	Vector2 minimapPosition;
+	bool    isChatOpen;
 };

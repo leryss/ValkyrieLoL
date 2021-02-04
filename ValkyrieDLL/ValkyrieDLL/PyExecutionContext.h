@@ -45,7 +45,8 @@ public:
 	void    SetImGuiOverlay(ImDrawList* overlay);
 
 	/* Exposed methods */
-
+	bool    IsKeyDown(int key);
+	void    MoveToMouse();
 	void    MoveToLocation(const Vector3& location);
 	void    AttackUnit(const GameUnit& unit);
 

@@ -22,6 +22,7 @@ WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL
 LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL;
 GameState*                         Valkyrie::CurrentGameState             = NULL;
 std::mutex                         Valkyrie::DxDeviceMutex;
+HWND                               Valkyrie::LeagueWindowHandle;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
 
@@ -162,12 +163,12 @@ void Valkyrie::InitializeOverlay()
 {
 	Logger::LogAll("Initializing overlay");
 
-	HWND hWindow = FindWindowA("RiotWindowClass", NULL);
-	OriginalWindowMessageHandler = WNDPROC(SetWindowLongA(hWindow, GWL_WNDPROC, LONG_PTR(HookedWindowMessageHandler)));
+	LeagueWindowHandle = FindWindowA("RiotWindowClass", NULL);
+	OriginalWindowMessageHandler = WNDPROC(SetWindowLongA(LeagueWindowHandle, GWL_WNDPROC, LONG_PTR(HookedWindowMessageHandler)));
 
 	ImGui::CreateContext();
 
-	if (!ImGui_ImplWin32_Init(hWindow))
+	if (!ImGui_ImplWin32_Init(LeagueWindowHandle))
 		throw std::runtime_error("Failed to initialize ImGui_ImplWin32_Init");
 
 	if (!ImGui_ImplDX9_Init(DxDevice))
@@ -197,7 +198,8 @@ void Valkyrie::LoadScripts()
 
 void Valkyrie::ExecuteScripts()
 {
-	ScriptManager.ExecuteScripts(ScriptContext);
+	if(GetForegroundWindow() == LeagueWindowHandle)
+		ScriptManager.ExecuteScripts(ScriptContext);
 }
 
 void Valkyrie::SetupScriptExecutionContext()

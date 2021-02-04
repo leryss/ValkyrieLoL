@@ -144,6 +144,7 @@ void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 		return;
 
 	try {
+		input.UpdateIssuedOperations();
 		neverExecuted = false;
 		call<void>(functions[func], object(boost::ref(ctx)));
 	}

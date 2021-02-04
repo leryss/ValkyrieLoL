@@ -47,6 +47,7 @@ private:
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
 	static PyExecutionContext          ScriptContext;
+	static HWND                        LeagueWindowHandle;
 
 	/// DirectX stuff
 	static void                        HookDirectX();

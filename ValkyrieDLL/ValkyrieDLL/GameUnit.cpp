@@ -70,3 +70,15 @@ bool GameUnit::HasTags(UnitTag tag)
 
 	return staticData->tags.test(tag);
 }
+
+float GameUnit::GetAttackSpeed()
+{
+	if (staticData != nullptr)
+		return staticData->baseAttackSpeed * atkSpeedMulti;
+	return 0.0f;
+}
+
+object GameUnit::GetStaticData()
+{
+	return object(ptr(staticData));
+}

@@ -125,6 +125,25 @@ public:
 		return chosen;
 	}
 
+	int Combo(const char* label, list items, int selected) {
+		static std::vector<const char*> buffer;
+
+		buffer.clear();
+		int size = len(items);
+		for (int i = 0; i < size; ++i)
+			buffer.push_back(extract<const char*>(str(items[i])));
+
+		if (ImGui::BeginCombo(label, buffer[selected], ImGuiComboFlags_HeightLargest)) {
+			bool bsel = false;
+			for (int i = 0; i < size; ++i) {
+				if (ImGui::Selectable(buffer[i], &bsel))
+					selected = i;
+			}
+			ImGui::EndCombo();
+		}
+		return selected;
+	}
+
 	int KeySelect(const char* label, int key) {
 		return InputController::ImGuiKeySelect(label, key);
 	}

@@ -49,7 +49,9 @@ def valkyrie_on_save(ctx):
 
 def draw_portrait_world(ctx, champ, start, distance = None):
     ctx.image(champ.name + '_square', start, Vec2(size_portrait_world, size_portrait_world), Col.White if champ.visible else Col.Gray)
-    
+    if not champ.visible:
+        ctx.text(start, f'{int(ctx.time - champ.last_seen)}', Col.Red)
+        
     start.y += size_portrait_world/2.0
     ctx.rect_fill(start - Vec2(size_portrait_world/2.0, 0.0), Vec2(size_portrait_world*(champ.health/champ.max_health), 5.0), Col.Green)
     

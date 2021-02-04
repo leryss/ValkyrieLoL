@@ -9,6 +9,7 @@ Initializing overlay
 Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
 Loading script gank_awareness
 Loading script indicators
+Loading script orbwalker
 Loading script spell_tracker
 Loading script vision_tracker
 Loaded 3329 spells

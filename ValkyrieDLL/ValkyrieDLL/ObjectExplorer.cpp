@@ -69,6 +69,7 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 	auto& hud = state.hud;
 	if (ImGui::TreeNode("HUD")) {
 		
+		ImGui::Checkbox("Is chat open", &hud.isChatOpen);
 		hud.minimapPosition.ImGuiDraw("Minimap Position");
 		hud.minimapSize.ImGuiDraw("Minimap Size");
 

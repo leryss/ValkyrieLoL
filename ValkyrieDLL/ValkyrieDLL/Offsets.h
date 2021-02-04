@@ -78,4 +78,7 @@ public:
 	static int CharacterDataStack;
 	static int CharacterDataStackSkinId;
 	static int FnCharacterDataStackUpdate;
+
+	static int Chat;
+	static int ChatIsOpen;
 };

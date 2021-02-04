@@ -11,9 +11,13 @@ int Offsets::MinimapObject                   = 0x02F6BBBC;
 int Offsets::LocalPlayer                     = 0x02f4f764;
 int Offsets::GameTime                        = 0x02f4759c;
 int Offsets::FnCharacterDataStackUpdate      = 0x0010e530;
+int Offsets::Chat                            = 0x2F4F818;
+int Offsets::UnderMouseObject                = 0x2300BD8;
 
 int Offsets::ProjectionMatrix                = ViewMatrix + 16*sizeof(float);
-										    
+
+int Offsets::ChatIsOpen                      = 0x62C;
+
 int Offsets::ObjIndex                        = 0x20;
 int Offsets::ObjTeam                         = 0x4C;
 int Offsets::ObjNetworkID                    = 0xCC;
@@ -55,8 +59,6 @@ int Offsets::SpellInfoSpellData              = 0x44;
 int Offsets::SpellDataSpellName              = 0x64;
 int Offsets::SpellDataMissileName            = 0x64;
 										    
-int Offsets::UnderMouseObject                = 0x2300BD8;
-										    
 int Offsets::ObjectMapCount                  = 0x2C;
 int Offsets::ObjectMapRoot                   = 0x28;
 int Offsets::ObjectMapNodeNetId              = 0x10;
@@ -68,7 +70,7 @@ int Offsets::MissileDestIdx                  = 0x2E8;
 int Offsets::MissileStartPos                 = 0x2A8;
 int Offsets::MissileEndPos                   = 0x2B4;
 										    
-int Offsets::MinimapObjectHud                = 0xCC;
+int Offsets::MinimapObjectHud                = 0xAC;
 int Offsets::MinimapHudPos                   = 0x5C;
 int Offsets::MinimapHudSize                  = 0x64;          // has values between (191, 191) and (383, 383)
 										    

@@ -5,15 +5,18 @@
 
 void GameSpell::ReadFromBaseAddress(int addr)
 {
-	lvl     = ReadInt(addr + Offsets::SpellSlotLevel);
+	lvl = ReadInt(addr + Offsets::SpellSlotLevel);
 	readyAt = ReadFloat(addr + Offsets::SpellSlotTime);
-	value   = ReadFloat(addr + Offsets::SpellSlotValue);
+	value = ReadFloat(addr + Offsets::SpellSlotValue);
 
 	int spellInfo = ReadInt(addr + Offsets::SpellSlotSpellInfo);
+	if (CantRead(spellInfo))
+		return;
 	int spellData = ReadInt(spellInfo + Offsets::SpellInfoSpellData);
-
-	name       = Memory::ReadString(ReadInt(spellData + Offsets::SpellDataSpellName));
-	name       = Strings::ToLower(name);
+	if (CantRead(spellData))
+		return;
+	name = Memory::ReadString(ReadInt(spellData + Offsets::SpellDataSpellName));
+	name = Strings::ToLower(name);
 	staticData = GameData::GetSpell(name);
 }
 

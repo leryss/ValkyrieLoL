@@ -6,6 +6,9 @@
 void GameHud::ReadFromBaseAddress(int baseAddr)
 {
 	__try {
+		int chat = ReadInt(baseAddr + Offsets::Chat);
+		isChatOpen = ReadBool(chat + Offsets::ChatIsOpen);
+
 		int minimapObject = ReadInt(baseAddr + Offsets::MinimapObject);
 		int minimapHud = ReadInt(minimapObject + Offsets::MinimapObjectHud);
 
