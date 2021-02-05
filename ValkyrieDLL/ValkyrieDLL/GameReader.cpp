@@ -188,14 +188,6 @@ GameObject* GameReader::CreateObject(int addr)
 
 	/// Try to read missile name
 	int missileName = ReadInt(addr + Offsets::ObjMissileName);
-	/*int missileSpell = ReadInt(addr + Offsets::MissileSpellInfo);
-	if (CantRead(missileSpell)) return nullptr;
-
-	int missileSpellData = ReadInt(missileSpell + Offsets::SpellInfoSpellData);
-	if (CantRead(missileSpellData)) return nullptr;
-
-	nameAddr = ReadInt(missileSpellData + Offsets::SpellDataSpellName);
-	if (CantRead(nameAddr)) return nullptr;*/
 	name = Memory::ReadString(missileName);
 
 	if (!name.empty()) {

@@ -21,7 +21,9 @@ class Circle:
     def ui(self, label, ctx, fixed_radius = True):
         ui = ctx.ui
         
-        if ui.treenode(label):
+        ui.image('menu-circlef' if self.filled else 'menu-circle', Vec2(15, 15), self.color)
+        ui.sameline()
+        if ui.beginmenu(label):
             self.enabled = ui.checkbox("Enabled", self.enabled)
             self.filled  = ui.checkbox("Filled", self.filled)
             if not fixed_radius:
@@ -30,7 +32,7 @@ class Circle:
             self.num_pts = ui.dragint("Num Points", self.num_pts, 1, 4, 100)
             self.width   = ui.dragfloat("Width", self.width, 0.5, 1.0, 10.0)
             self.color   = ui.colorpick("Color", self.color)
-            ui.treepop()
+            ui.endmenu()
         
     def draw_at(self, ctx, pos):
         if self.enabled:

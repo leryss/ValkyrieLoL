@@ -24,7 +24,8 @@ public:
 	float    DistanceToMinimap(float dist, const Vector2& wSize) const;
 
 	/// Draws a circle at the given coordinate. Coordinates and radius must be in world space 
-	void     DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness = 3.f) const;
+	void     DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, int numPoints, ImColor color, float thickness = 3.f) const;
+	void     DrawCircleAtFilled(ImDrawList* canvas, const Vector3& worldPos, float radius, int numPoints, ImColor color) const;
 
 	/// Used to determine if a screen space point is on screen
 	bool     IsScreenPointOnScreen(const Vector2& point, float offsetX = 0.f, float offsetY = 0.f) const;

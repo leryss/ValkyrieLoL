@@ -163,11 +163,13 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("dragfloat",                &PyImGui::DragFloat, PyImGui::DragFloatOverloads())
 		.def("keyselect",                &PyImGui::KeySelect)
 		.def("sliderfloat",              &PyImGui::SliderFloat)
-		.def("image",                    &PyImGui::Image)
+		.def("image",                    &PyImGui::Image,     PyImGui::ImageOverloads())
 
 		.def("header",                   &PyImGui::CollapsingHeader)
 		.def("treenode",                 &PyImGui::TreeNode)
 		.def("treepop",                  &PyImGui::TreePop)
+		.def("beginmenu",                &PyImGui::BeginMenu)
+		.def("endmenu",                  &PyImGui::EndMenu)
 		.def("opennext",                 &PyImGui::SetNextItemOpen)
 						                 
 		.def("sameline",                 &PyImGui::SameLine)
@@ -183,6 +185,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("ui",              &PyExecutionContext::GetImGuiInterface, "UI interface for drawing menus based on imgui")
 		.def_readonly("cfg",             &PyExecutionContext::GetConfig,         "Used to load/save script specific configs")
 		.def_readonly("time",            &PyExecutionContext::time,              "Current game duration in seconds")
+		.def_readonly("ping",            &PyExecutionContext::ping,              "Current ping of the game")
 
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Game object under the mouse")
 		.def_readonly("player",          &PyExecutionContext::player,            "The champion used by the local player")

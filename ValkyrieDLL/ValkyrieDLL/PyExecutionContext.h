@@ -12,13 +12,14 @@ using namespace boost::python;
 class Script;
 class PyExecutionContext {
 
-private:
+public:
 	PyImGui     imgui;
 	GameState*  state;
 	ImDrawList* overlay;
 	Script*     currentScript;
 
 public:
+	float   ping;
 	float   time;
 	object  hovered;
 	object  player;

@@ -4,7 +4,8 @@ from helpers.drawings import Circle
 script_info = {
     'author': 'leryss',
     'description': 'none',
-    'name': 'Indicators'
+    'name': 'Indicators',
+    'icon': 'menu-pencil'
 }
 
 player_circle = Circle(0.0, 30, 1.0, Col.Green, False, True)
@@ -28,5 +29,5 @@ def valkyrie_on_save(ctx):
     
 def valkyrie_exec(ctx):
     
-    player_circle.radius = ctx.player.atk_range
+    player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
     player_circle.draw_at(ctx, ctx.player.pos)

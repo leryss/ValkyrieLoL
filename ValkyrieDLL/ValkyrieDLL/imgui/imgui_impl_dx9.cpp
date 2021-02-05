@@ -95,8 +95,8 @@ static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data)
             0.0f,         0.0f,         0.5f,  0.0f,
             (L+R)/(L-R),  (T+B)/(B-T),  0.5f,  1.0f
         } } };
-        g_pd3dDevice->SetTransform(D3DTS_WORLD, &mat_identity);
-        g_pd3dDevice->SetTransform(D3DTS_VIEW, &mat_identity);
+        g_pd3dDevice->SetTransform(D3DTS_WORLD,      &mat_identity);
+		g_pd3dDevice->SetTransform(D3DTS_VIEW,       &mat_identity);
         g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &mat_projection);
     }
 }
@@ -180,7 +180,8 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
     for (int n = 0; n < draw_data->CmdListsCount; n++)
     {
         const ImDrawList* cmd_list = draw_data->CmdLists[n];
-        for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
+      
+		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
         {
             const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
             if (pcmd->UserCallback != NULL)
@@ -201,6 +202,7 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
                 g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, pcmd->VtxOffset + global_vtx_offset, 0, (UINT)cmd_list->VtxBuffer.Size, pcmd->IdxOffset + global_idx_offset, pcmd->ElemCount / 3);
             }
         }
+
         global_idx_offset += cmd_list->IdxBuffer.Size;
         global_vtx_offset += cmd_list->VtxBuffer.Size;
     }

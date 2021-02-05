@@ -3,7 +3,8 @@ from valkyrie import *
 script_info = {
     'author': 'leryss',
     'description': 'none',
-    'name': 'Gank Awareness'
+    'name': 'Gank Awareness',
+    'icon': 'menu-bell'
 }
 
 size_portrait_minimap = 24
@@ -19,12 +20,13 @@ def valkyrie_menu(ctx):
     global size_portrait_world
     ui = ctx.ui
     
-    max_gank_distance    = ui.dragfloat("Trigger distance", max_gank_distance, 100, 1000, 10000)
-    show_last_seen_mm    = ui.checkbox("Show enemy last position on minimap", show_last_seen_mm)
-    show_last_seen_world = ui.checkbox("Show enemy last position on world", show_last_seen_world)
-    show_gank_alerts     = ui.checkbox("Show gank alerts", show_gank_alerts)
+    size_portrait_world   = ui.sliderfloat("Size champion portrait", size_portrait_world, 20, 80)
+    max_gank_distance     = ui.sliderfloat("Trigger distance", max_gank_distance, 1000, 10000)
+    show_last_seen_mm     = ui.checkbox("Show enemy last position on minimap", show_last_seen_mm)
+    show_last_seen_world  = ui.checkbox("Show enemy last position on world", show_last_seen_world)
+    show_gank_alerts      = ui.checkbox("Show gank alerts", show_gank_alerts)
     
-    size_portrait_world   = ui.dragfloat("Size champion portrait", size_portrait_world)
+    
     ui.image("garen_square", Vec2(size_portrait_world, size_portrait_world))
 
 def valkyrie_on_load(ctx):

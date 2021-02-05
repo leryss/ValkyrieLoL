@@ -32,6 +32,7 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 {
 	ImGui::Begin("Object Explorer");
 
+	ImGui::DragFloat("Ping",      &state.ping);
 	ImGui::DragFloat("Game Time", &state.time);
 	if (state.player != nullptr) {
 		if (ImGui::TreeNode("Player")) {

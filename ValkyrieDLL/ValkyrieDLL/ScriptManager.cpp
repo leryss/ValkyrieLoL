@@ -61,6 +61,9 @@ void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
 			ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
 
 		const char* scriptName = (script->prettyName.empty() ? script->fileName.c_str() : script->prettyName.c_str());
+
+		ImGui::Image(GameData::GetImage(script->icon), ImVec2(15, 15));
+		ImGui::SameLine();
 		if (ImGui::BeginMenu(scriptName)) {
 			if (errored)
 				ImGui::TextColored(Color::RED, script->error.c_str());

@@ -26,6 +26,10 @@ struct Vector2 {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2));
 	}
 
+	float l1(const Vector2& o) {
+		return abs(x - o.x) + abs(y - o.y);
+	}
+
 	Vector2 vscale(const Vector2& s) {
 		return Vector2(x*s.x, y*s.y);
 	}
@@ -76,6 +80,10 @@ struct Vector3 {
 
 	float distance(const Vector3& o) {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2));
+	}
+
+	float l1(const Vector3& o) {
+		return abs(x - o.x) + abs(y - o.y) + abs(z - o.z);
 	}
 
 	Vector3 rotate_x(float angle) {
@@ -153,6 +161,10 @@ struct Vector4 {
 
 	float distance(const Vector4& o) {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2) + pow(w - o.w, 2));
+	}
+
+	float l1(const Vector4& o) {
+		return abs(x - o.x) + abs(y - o.y) + abs(z - o.z) + abs(w - o.w);
 	}
 
 	Vector4 vscale(const Vector4& s) {

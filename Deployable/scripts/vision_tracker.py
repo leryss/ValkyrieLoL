@@ -5,7 +5,8 @@ import json
 script_info = {
     'author': 'leryss',
     'description': 'none',
-    'name': 'Vision Tracker'
+    'name': 'Vision Tracker',
+    'icon': 'menu-eye'
 }
 
 show_clones, show_wards, show_traps = None, None, None
@@ -47,11 +48,11 @@ def draw_settings(ui, objs, label):
     for x in objs.keys():
         ui.image(objs[x][-1], Vec2(15, 15))
         ui.sameline()
-        if ui.treenode(x):
+        if ui.beginmenu(x):
             objs[x][1] = ui.checkbox("Show range circles", objs[x][1])
             objs[x][2] = ui.checkbox("Show range circles on minimap", objs[x][2])
             
-            ui.treepop()
+            ui.endmenu()
 
 def valkyrie_menu(ctx):
     global show_clones, show_wards, show_traps, traps, wards

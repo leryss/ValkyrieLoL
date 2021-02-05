@@ -77,10 +77,11 @@ bool Script::LoadInfo() {
 		author      = extract<std::string>(d.get("author"));
 		description = extract<std::string>(d.get("description"));
 		prettyName  = extract<std::string>(d.get("name"));
+		icon        = extract<std::string>(d.get("icon"));
 	}
 	catch (error_already_set) {
 
-		error = std::string("`script_info` dict must have the following strings `author`, `description`, `name`");
+		error = std::string("`script_info` dict must have the following strings `author`, `description`, `name`, `icon`");
 		return false;
 	}
 

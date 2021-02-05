@@ -3,7 +3,8 @@ from valkyrie import *
 script_info = {
     'author': 'leryss',
     'description': 'none',
-    'name': 'Spell Tracker'
+    'name': 'Spell Tracker',
+    'icon': 'menu-spellbook'
 }
 
 size_img_skill = 24
