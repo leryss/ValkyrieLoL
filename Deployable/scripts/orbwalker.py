@@ -16,6 +16,8 @@ max_atk_speed   = 2.2
 key_kite        = 0
 key_last_hit    = 0
 key_lane_push   = 0
+move_interval   = 0.10
+
 class OrbwalkKite:
     def get_target(self, ctx):
         return target_selector.get_target(ctx.player, ctx.champs, ctx.player.atk_range + ctx.player.static.gameplay_radius)
@@ -56,23 +58,25 @@ last_hit_mode   = OrbwalkLastHit()
 lane_push_mode  = OrbwalkLanePush()
 
 def valkyrie_menu(ctx):
-    global target_selector, max_atk_speed
+    global target_selector, max_atk_speed, move_interval
     global key_kite, key_last_hit, key_lane_push
     ui = ctx.ui
     
     target_selector.ui(ctx)
-    max_atk_speed  = ui.sliderfloat("Attack speed cap", max_atk_speed, 1.0, 3.0)
+    max_atk_speed  = ui.sliderfloat("Attack speed cap", max_atk_speed, 1.0, 5.0)
+    move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
     key_kite       = ui.keyselect("Key kite champions", key_kite)
     key_last_hit   = ui.keyselect("Key last hit minions", key_last_hit)
     key_lane_push  = ui.keyselect("Key lane push (Not implemented yet)", key_lane_push)
 
 def valkyrie_on_load(ctx):
-    global target_selector, max_atk_speed
+    global target_selector, max_atk_speed, move_interval
     global key_kite, key_last_hit, key_lane_push
     cfg = ctx.cfg
     
     target_selector = TargetSelector.from_str(cfg.get_str("target", str(target_selector)))
     max_atk_speed   = cfg.get_float("max_atk_speed", max_atk_speed)
+    move_interval   = cfg.get_float("move_interval", move_interval)
     key_kite        = cfg.get_int("key_kite", key_kite)
     key_last_hit    = cfg.get_int("key_last_hit", key_last_hit)
     key_lane_push   = cfg.get_int("key_lane_push", key_lane_push)
@@ -82,6 +86,7 @@ def valkyrie_on_save(ctx):
     
     cfg.set_str("target", str(target_selector))
     cfg.set_float("max_atk_speed", max_atk_speed)
+    cfg.set_float("move_interval", move_interval)
     cfg.set_int("key_kite", key_kite)
     cfg.set_int("key_last_hit", key_last_hit)
     cfg.set_int("key_lane_push", key_lane_push)
@@ -137,6 +142,6 @@ def valkyrie_exec(ctx):
             ctx.attack(target)
             last_attacked = now
             
-    if not target and dt > b_windup_time and now - last_moved > 0.10:
+    if not target and dt > b_windup_time and now - last_moved > move_interval:
         ctx.move()
         last_moved = now
