@@ -1,6 +1,7 @@
 #include "Script.h"
 #include "Logger.h"
 #include "Strings.h"
+#include <boost/python/detail/convertible.hpp>
 
 std::string Script::GetPyError()
 {
@@ -8,21 +9,18 @@ std::string Script::GetPyError()
 	PyErr_Fetch(&exc, &val, &tb);
 	PyErr_NormalizeException(&exc, &val, &tb);
 
-	PyObject* errValStr = PyObject_Str(val);
-	PyObject* errExcLineNum = PyObject_Str(PyObject_GetAttrString(tb, "tb_lineno"));
-	PyObject* errExcType = PyObject_Str(exc);
+	object main = import("__main__");
+	exec("from traceback import format_exception", main.attr("__dict__"));
+	PyObject* formatFunc = object(main.attr("format_exception")).ptr();
+	
+	auto hExc    = handle<>(exc);
+	auto hVal    = handle<>(val);
+	auto hTb     = handle<>(tb);
+	list errList = call<list>(formatFunc, hExc, hVal, hTb);
+	str  errStr  = str("");
+	errStr       = errStr.join(errList);
 
-	std::string returnVal = "Exception ";
-	if(errExcType != NULL)
-		returnVal.append(extract<std::string>(errExcType));
-	returnVal.append(" occured on line: ");
-	if(errExcLineNum != NULL)
-		returnVal.append(extract<std::string>(errExcLineNum));
-	returnVal.append("\n");
-	if(errValStr != NULL)
-		returnVal.append(extract<std::string>(errValStr));
-
-	return returnVal;
+	return std::string(extract<const char*>(errStr));
 }
 
 Script::Script()
@@ -41,7 +39,7 @@ Script::~Script()
 {
 	if (moduleObj != NULL)
 		Py_DECREF(moduleObj);
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		if (functions[i] != NULL)
 			Py_DECREF(functions[i]);
 	}

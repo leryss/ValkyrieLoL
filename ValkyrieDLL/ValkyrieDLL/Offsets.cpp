@@ -20,11 +20,12 @@ int Offsets::ChatIsOpen                      = 0x62C;
 
 int Offsets::ObjIndex                        = 0x20;
 int Offsets::ObjTeam                         = 0x4C;
+int Offsets::ObjMissileName                  = 0x6C;
 int Offsets::ObjNetworkID                    = 0xCC;
 int Offsets::ObjPos                          = 0x1d8;
+int Offsets::ObjMissileSpellCast             = 0x228;
 int Offsets::ObjVisibility                   = 0x270;
 int Offsets::ObjSpawnCount                   = 0x284;
-int Offsets::ObjSrcIndex                     = 0x290;
 int Offsets::ObjMana                         = 0x298;
 int Offsets::ObjHealth                       = 0xD98;
 int Offsets::ObjMaxHealth                    = 0xDA8;
@@ -33,7 +34,7 @@ int Offsets::ObjMagicRes                     = 0x12A0;
 int Offsets::ObjBaseAtk                      = 0x1270;
 int Offsets::ObjBonusAtk                     = 0x11F0;
 int Offsets::ObjMoveSpeed                    = 0x12B0;
-int Offsets::ObjSpellBook                    = 0x2b80;
+int Offsets::ObjSpellBook                    = 0x2708;
 int Offsets::ObjName                         = 0x2F6C;
 int Offsets::ObjLvl                          = 0x36BC;
 int Offsets::ObjExpiry                       = 0x298; 
@@ -42,6 +43,23 @@ int Offsets::ObjCritMulti                    = 0x1284;
 int Offsets::ObjAbilityPower                 = 0x1200;
 int Offsets::ObjAtkSpeedMulti                = 0x126C;
 int Offsets::ObjAtkRange                     = 0x12B8;
+
+//oObjDirection = 0x1B48;
+//oObjBuffMgr = 0x2160;
+//oObjActionState = 0x1054;
+//oObjTargetable = 0xD00;
+//oObjInvulnerable = 0x3D0
+
+int Offsets::SpellBookActiveSpellCast        = 0x20;
+int Offsets::SpellBookSpellSlots             = 0x478;
+
+int Offsets::SpellCastSpellInfo              = 0x8;
+int Offsets::SpellCastStartTime              = 0x544;
+int Offsets::SpellCastCastTime               = 0x4C0;
+int Offsets::SpellCastStart                  = 0x80;
+int Offsets::SpellCastEnd                    = 0x8C;
+int Offsets::SpellCastSrcIdx                 = 0x68;
+int Offsets::SpellCastDestIdx                = 0xC0;
 
 int Offsets::ObjItemList                     = 0x3708;
 int Offsets::ItemListItem                    = 0xC;
@@ -63,13 +81,7 @@ int Offsets::ObjectMapCount                  = 0x2C;
 int Offsets::ObjectMapRoot                   = 0x28;
 int Offsets::ObjectMapNodeNetId              = 0x10;
 int Offsets::ObjectMapNodeObject             = 0x14;
-										    
-int Offsets::MissileSpellInfo                = 0x230;
-int Offsets::MissileSrcIdx                   = 0x290;
-int Offsets::MissileDestIdx                  = 0x2E8;
-int Offsets::MissileStartPos                 = 0x2A8;
-int Offsets::MissileEndPos                   = 0x2B4;
-										    
+
 int Offsets::MinimapObjectHud                = 0xAC;
 int Offsets::MinimapHudPos                   = 0x5C;
 int Offsets::MinimapHudSize                  = 0x64;          // has values between (191, 191) and (383, 383)

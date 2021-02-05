@@ -225,6 +225,9 @@
     <ClInclude Include="InputController.h">
       <Filter>Source Files\Utils\Input</Filter>
     </ClInclude>
+    <ClInclude Include="SpellCast.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -340,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="InputController.cpp">
       <Filter>Source Files\Utils\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellCast.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

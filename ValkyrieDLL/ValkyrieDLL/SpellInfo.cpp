@@ -13,7 +13,7 @@ void SpellInfo::ImGuiDraw()
 	ImGui::Text("Icon: %s",         icon.c_str());
 	ImGui::DragFloat("Cast Radius", &castRadius);
 	ImGui::DragFloat("Cast Range",  &castRange);
-	ImGui::DragFloat("Delay",       &delay);
+	ImGui::DragFloat("Cast Time",   &castTime);
 	ImGui::DragFloat("Height",      &height);
 	ImGui::DragFloat("Speed",       &speed);
 	ImGui::DragFloat("Travel Time", &travelTime);

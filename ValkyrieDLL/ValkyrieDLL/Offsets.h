@@ -35,7 +35,8 @@ public:
 	static int ObjAtkSpeedMulti;
 	static int ObjAtkRange;
 	static int ObjItemList;
-	static int ObjSrcIndex;
+	static int ObjMissileSpellCast;
+	static int ObjMissileName;
 
 	static int ItemListItem;
 	static int ItemInfo;
@@ -64,12 +65,6 @@ public:
 	static int ObjectMapNodeNetId;
 	static int ObjectMapNodeObject;
 
-	static int MissileSpellInfo;
-	static int MissileSrcIdx;
-	static int MissileDestIdx;
-	static int MissileStartPos;
-	static int MissileEndPos;
-
 	static int MinimapObject;
 	static int MinimapObjectHud;
 	static int MinimapHudPos;
@@ -81,4 +76,15 @@ public:
 
 	static int Chat;
 	static int ChatIsOpen;
+
+	static int SpellBookActiveSpellCast;
+	static int SpellBookSpellSlots;
+
+	static int SpellCastSpellInfo;
+	static int SpellCastStartTime;
+	static int SpellCastCastTime;
+	static int SpellCastEnd;
+	static int SpellCastStart;
+	static int SpellCastSrcIdx;
+	static int SpellCastDestIdx;
 };

@@ -204,6 +204,7 @@
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="SkinChanger.h" />
     <ClInclude Include="SkinInfo.h" />
+    <ClInclude Include="SpellCast.h" />
     <ClInclude Include="SpellInfo.h" />
     <ClInclude Include="stbi\stb_image.h" />
     <ClInclude Include="UnitInfo.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="SkinChanger.cpp" />
+    <ClCompile Include="SpellCast.cpp" />
     <ClCompile Include="SpellInfo.cpp" />
     <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Valkyrie.cpp" />

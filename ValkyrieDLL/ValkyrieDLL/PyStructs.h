@@ -11,6 +11,7 @@
 #include "SpellInfo.h"
 #include "ItemInfo.h"
 #include "UnitInfo.h"
+#include "SpellCast.h"
 
 #include "Color.h"
 
@@ -22,19 +23,20 @@ using namespace boost::python;
 BOOST_PYTHON_MODULE(valkyrie) {
 	
 	class_<UnitInfo>("UnitStatic",         "Static data loaded at runtime for an unit")
-		.def_readonly("hp_bar_height",      &UnitInfo::healthBarHeight)
-		.def_readonly("movement_speed",     &UnitInfo::baseMovementSpeed)
-		.def_readonly("base_atk_range",     &UnitInfo::baseAttackRange)
-		.def_readonly("base_atk_speed",     &UnitInfo::baseAttackSpeed)
-		.def_readonly("atk_speed_ratio",    &UnitInfo::attackSpeedRatio)
-
-		.def_readonly("acquisition_radius", &UnitInfo::acquisitionRange)
-		.def_readonly("selection_radius",   &UnitInfo::selectionRadius)
-		.def_readonly("pathing_radius",     &UnitInfo::pathRadius)
-		.def_readonly("gameplay_radius",    &UnitInfo::gameplayRadius)
-
-		.def_readonly("basic_atk_speed",    &UnitInfo::basicAttackMissileSpeed)
-		.def_readonly("basic_atk_windup",   &UnitInfo::basicAttackWindup)
+		.def_readonly("hp_bar_height",       &UnitInfo::healthBarHeight)
+		.def_readonly("movement_speed",      &UnitInfo::baseMovementSpeed)
+		.def_readonly("base_atk_range",      &UnitInfo::baseAttackRange)
+		.def_readonly("base_atk_speed",      &UnitInfo::baseAttackSpeed)
+		.def_readonly("atk_speed_ratio",     &UnitInfo::attackSpeedRatio)
+											 
+		.def_readonly("acquisition_radius",  &UnitInfo::acquisitionRange)
+		.def_readonly("selection_radius",    &UnitInfo::selectionRadius)
+		.def_readonly("pathing_radius",      &UnitInfo::pathRadius)
+		.def_readonly("gameplay_radius",     &UnitInfo::gameplayRadius)
+											 
+		.def_readonly("basic_atk",           &UnitInfo::GetBasicAttack)
+		.def_readonly("basic_atk_windup",    &UnitInfo::basicAttackWindup)
+		.def_readonly("basic_atk_cast_time", &UnitInfo::basicAttackCastTime)
 		;
 
 	class_<ItemInfo>("ItemStatic",        "Static data loaded at runtime for an item")
@@ -45,10 +47,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("crit",              &ItemInfo::crit)
 		.def_readonly("ap",                &ItemInfo::abilityPower)
 		.def_readonly("mana",              &ItemInfo::mana)
-		.def_readonly("armour",            &ItemInfo::armour)
-		.def_readonly("magic_resist",      &ItemInfo::magicResist)
-		.def_readonly("phys_damage",       &ItemInfo::physicalDamage)
-		.def_readonly("attack_speed",      &ItemInfo::attackSpeed)
+		.def_readonly("armor",             &ItemInfo::armour)
+		.def_readonly("magic_re",          &ItemInfo::magicResist)
+		.def_readonly("phys_dmg",          &ItemInfo::physicalDamage)
+		.def_readonly("atk_speed",         &ItemInfo::attackSpeed)
 		.def_readonly("life_steal",        &ItemInfo::lifeSteal)
 		.def_readonly("hp_regen",          &ItemInfo::hpRegen)
 		.def_readonly("mov_speed_percent", &ItemInfo::movementSpeedPercent)
@@ -56,7 +58,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<SpellInfo>("SpellStatic",      "Static data loaded at runtime for a spell")
 		.def_readonly("icon",              &SpellInfo::icon)
-		.def_readonly("delay",             &SpellInfo::delay)
+		.def_readonly("cast_time",         &SpellInfo::castTime)
 		.def_readonly("cast_range",        &SpellInfo::castRange)
 		.def_readonly("cast_radius",       &SpellInfo::castRadius)
 		.def_readonly("width",             &SpellInfo::width)
@@ -89,11 +91,18 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("static",            &GameSpell::GetStaticData)
 		;
 
-	class_<GameMissile, bases<GameObject>>("Missile", "Represent a missile object.")
-		.def_readonly("start_pos",         &GameMissile::startPos)
-		.def_readonly("end_pos",           &GameMissile::endPos)
-		.def_readonly("src_index",         &GameMissile::srcIndex)
-		.def_readonly("dest_index",        &GameMissile::destIndex)
+	class_<SpellCast>("SpellCast",         "Has data about a spell cast.")
+		.def_readonly("start_pos",         &SpellCast::start)
+		.def_readonly("end_pos",           &SpellCast::end)
+		.def_readonly("src_index",         &SpellCast::srcIndex)
+		.def_readonly("dest_index",        &SpellCast::destIndex)
+		.def_readonly("time_begin",        &SpellCast::timeBegin)
+		.def_readonly("cast_time",         &SpellCast::castTime)
+		.def_readonly("static",            &SpellCast::GetStaticData)
+		;
+
+	class_<GameMissile, bases<GameObject>>("Missile")
+		.def_readonly("spell",             &GameMissile::GetSpell)
 		;
 
 	class_<GameUnit, bases<GameObject>>("Unit", "Represents a base unit object")
@@ -114,6 +123,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("atk_speed_multi",   &GameUnit::atkSpeedMulti)
 		.def_readonly("atk_range",         &GameUnit::attackRange)
 		.def_readonly("atk_speed",         &GameUnit::GetAttackSpeed)
+
+		.def_readonly("curr_casting",      &GameUnit::GetCastingSpell)
 		.def_readonly("static",            &GameUnit::GetStaticData)
 
 		.def("has_tags",                   &GameUnit::HasTags)
@@ -195,6 +206,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("d2m",                      &PyExecutionContext::DistanceOnMinimap)
 										    
 		.def("line",                     &PyExecutionContext::DrawLine)
+		.def("line",                     &PyExecutionContext::DrawLineWorld)
 		.def("circle",                   &PyExecutionContext::DrawCircle)
 		.def("circle_fill",              &PyExecutionContext::DrawCircleFilled)
 		.def("circle",                   &PyExecutionContext::DrawCircleWorld)

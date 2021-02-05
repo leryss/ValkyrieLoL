@@ -68,7 +68,6 @@ void UnitInfo::ImGuiDraw()
 	ImGui::DragFloat("Selection Radius",    &selectionRadius);
 	ImGui::DragFloat("Base Attack Range",   &baseAttackRange);
 	ImGui::DragFloat("Base Movement Speed", &baseMovementSpeed);
-	ImGui::DragFloat("Basic Attack Speed",  &basicAttackMissileSpeed);
 	ImGui::DragFloat("Basic Attack Windup", &basicAttackWindup);
 	ImGui::DragFloat("Attack Speed Ratio",  &attackSpeedRatio);
 	ImGui::DragFloat("HP Bar Height",       &healthBarHeight);
@@ -100,4 +99,9 @@ std::string UnitInfo::StringifyTags()
 		}
 	}
 	return result;
+}
+
+object UnitInfo::GetBasicAttack()
+{
+	return object(ptr(basicAttack));
 }

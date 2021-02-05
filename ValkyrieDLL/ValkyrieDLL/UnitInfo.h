@@ -3,7 +3,11 @@
 #include <string>
 #include <bitset>
 #include <array>
+#include <boost/python.hpp>
 
+#include "SpellInfo.h"
+
+using namespace boost::python;
 
 enum UnitTag {
 	Unit_ = 1,
@@ -67,20 +71,21 @@ enum UnitTag {
 struct UnitInfo {
 
 public:
-	std::string name;
-	float healthBarHeight;
-	float baseMovementSpeed;
-	float baseAttackRange;
-	float baseAttackSpeed;
-	float attackSpeedRatio;
-	
-	float acquisitionRange;
-	float selectionRadius;
-	float pathRadius;
-	float gameplayRadius;
-	
-	float basicAttackMissileSpeed;
-	float basicAttackWindup;
+	std::string      name;
+	float            healthBarHeight;
+	float            baseMovementSpeed;
+	float            baseAttackRange;
+	float            baseAttackSpeed;
+	float            attackSpeedRatio;
+		             
+	float            acquisitionRange;
+	float            selectionRadius;
+	float            pathRadius;
+	float            gameplayRadius;
+			         
+	SpellInfo*       basicAttack;
+	float            basicAttackWindup;
+	float            basicAttackCastTime;
 	
 	std::bitset<128> tags;
 
@@ -90,6 +95,7 @@ public:
 	bool        HasTag(UnitTag tag);
 	void        SetTag(std::string& str);
 	std::string StringifyTags();
+	object      GetBasicAttack();
 private:
 	static std::map<std::string, UnitTag> TagMapping;
 };

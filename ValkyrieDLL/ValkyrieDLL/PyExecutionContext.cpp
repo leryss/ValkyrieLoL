@@ -189,6 +189,13 @@ void PyExecutionContext::DrawLine(const Vector2 & start, const Vector2 & end, fl
 	overlay->AddLine((const ImVec2&)start, (const ImVec2&)end, ImColor(color), thickness);
 }
 
+void PyExecutionContext::DrawLineWorld(const Vector3 & start, const Vector3 & end, float thickness, const ImVec4 & color)
+{
+	overlay->AddLine(
+		(ImVec2&)state->renderer.WorldToScreen(start), 
+		(ImVec2&)state->renderer.WorldToScreen(end), ImColor(color), thickness);
+}
+
 void PyExecutionContext::DrawImage(const char * img, const Vector2 & start, const Vector2 & size, const ImVec4 & color)
 {
 	static ImVec2 zero = ImVec2(0.f, 0.f);

@@ -28,7 +28,22 @@ def download_jsons_from(url, save_folder):
             with open(path_json, 'wb') as f:
                 f.write(page)
 
+def download_jsons_from_recursive(url, save_folder):
+    global pattern_item
+    
+    print('Requesting: ' + url)
+    req = urllib.request.Request(url, headers = headers)
+    page = urllib.request.urlopen(req).read().decode('utf-8')
+    
+    matches = re.findall(pattern_item, page)
+    for match in matches:
+        download_jsons_from(os.path.join(url, match), save_folder)
+        
+        
 download_type = sys.argv[1]
 
 if download_type == 'skindata':
     download_jsons_from('https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champions/', 'champ_skin_infos')
+
+elif download_type == 'unitdata':
+    download_jsons_from_recursive('https://raw.communitydragon.org/latest/game/data/characters/', 'champ_unit_infos')

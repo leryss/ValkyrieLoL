@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "UnitInfo.h"
+#include "SpellCast.h"
 
 #include <boost/python.hpp>
 using namespace boost::python;
@@ -16,6 +17,7 @@ public:
 	bool      HasTags(UnitTag tag);
 	float     GetAttackSpeed();
 	object    GetStaticData();
+	object    GetCastingSpell();
 
 public:
 
@@ -36,5 +38,9 @@ public:
 	float     atkSpeedMulti;
 	float     attackRange;
 
+	SpellCast castingSpell;
 	UnitInfo* staticData;
+
+private:
+	bool      hasCastingSpell = false;
 };

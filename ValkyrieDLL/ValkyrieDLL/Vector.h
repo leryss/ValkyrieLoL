@@ -66,6 +66,7 @@ struct Vector3 {
 
 	void ImGuiDraw(const char* label) {
 		ImGui::Text(label);
+		ImGui::SameLine();
 		ImGui::Button(Strings::Format("x: %.2f y: %.2f z: %.2f", x, y, z).c_str());
 	}
 

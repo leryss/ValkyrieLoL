@@ -42,7 +42,7 @@ public:
 	std::string icon;
 
 	SpellFlags flags;
-	float delay;
+	float castTime;
 	float castRange;
 	float castRadius;
 	float width;

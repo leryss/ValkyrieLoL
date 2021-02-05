@@ -67,6 +67,7 @@ public:
 	void    DrawCircleWorld(const Vector3& center, float radius, int numPoints, float thickness, const ImVec4& color);
 	void    DrawCircleWorldFilled(const Vector3& center, float radius, int numPoints, const ImVec4& color);
 	void    DrawLine(const Vector2& start, const Vector2& end, float thickness, const ImVec4& color);
+	void    DrawLineWorld(const Vector3 & start, const Vector3 & end, float thickness, const ImVec4 & color);
 	void    DrawImage(const char* img, const Vector2& start, const Vector2& end, const ImVec4& color);
 	void    DrawImageRounded(const char* img, const Vector2& start, const Vector2& end, const ImVec4& color, float rounding);
 	void    DrawTxt(const Vector2& pos, const char* text, const ImVec4& color);

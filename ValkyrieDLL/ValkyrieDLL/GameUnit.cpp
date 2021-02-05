@@ -31,6 +31,15 @@ void GameUnit::ReadFromBaseAddress(int addr)
 
 	isDead        = ReadInt(addr + Offsets::ObjSpawnCount) % 2;
 	lvl           = ReadInt(addr + Offsets::ObjLvl);
+
+	int activeSpellPtr = ReadInt(addr + Offsets::ObjSpellBook + Offsets::SpellBookActiveSpellCast);
+	if (activeSpellPtr != 0) {
+		hasCastingSpell = true;
+		castingSpell.ReadFromBaseAddress(activeSpellPtr);
+	}
+	else
+		hasCastingSpell = false;
+
 }
 
 void GameUnit::ImGuiDraw()
@@ -57,6 +66,10 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragInt("Level",           &lvl);
 
 	ImGui::Separator();
+	if(hasCastingSpell)
+		castingSpell.ImGuiDraw();
+
+	ImGui::Separator();
 	if (ImGui::TreeNode("Static Data")) {
 		staticData->ImGuiDraw();
 		ImGui::TreePop();
@@ -81,4 +94,12 @@ float GameUnit::GetAttackSpeed()
 object GameUnit::GetStaticData()
 {
 	return object(ptr(staticData));
+}
+
+object GameUnit::GetCastingSpell()
+{
+	if (hasCastingSpell)
+		return object(boost::ref(castingSpell));
+	else
+		return object();
 }
