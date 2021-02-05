@@ -82,7 +82,6 @@ void InputController::IssueClick(ClickType type)
 void InputController::IssueClickAt(ClickType type, const Vector2 & pos)
 {
 	IssueMoveCursor(pos);
-	ioQueue.push(new IoDelay(5.f));
 	IssueClick(type);
 }
 
@@ -90,7 +89,6 @@ void InputController::IssueClickAtAndReturn(ClickType type, const Vector2 & pos)
 {
 	Vector2 currentMouseCursor = GetMouseCursor();
 	IssueClickAt(type, pos);
-	ioQueue.push(new IoDelay(5.f));
 	IssueMoveCursor(currentMouseCursor);
 }
 

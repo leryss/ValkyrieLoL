@@ -137,7 +137,6 @@ public:
 		input.mi.dy = (LONG)(pos.y * InputController::HeightRatio);
 
 		SendInput(1, &input, sizeof(INPUT));
-		SendInput(1, &input, sizeof(INPUT));
 
 		return true;
 	}
@@ -181,4 +180,24 @@ public:
 	}
 
 	ClickType type;
+};
+
+class IoBlockInput : public IoStep {
+
+public:
+
+	bool Update() {
+		BlockInput(TRUE);
+		return true;
+	}
+};
+
+class IoUnBlockInput : public IoStep {
+
+public:
+
+	bool Update() {
+		BlockInput(FALSE);
+		return true;
+	}
 };

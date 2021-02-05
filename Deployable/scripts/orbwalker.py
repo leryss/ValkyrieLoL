@@ -39,7 +39,7 @@ class OrbwalkLastHit:
                 continue
              
             hit_dmg             = items.get_onhit_physical(player, enemy_minion) + items.get_onhit_magical(player, enemy_minion)
-            t_until_player_hits = basic_atk_delay + ctx.ping / 1000.0 + player.pos.distance(enemy_minion.pos) / basic_atk_speed  #0.3087
+            t_until_player_hits = basic_atk_delay + ctx.ping / 2000.0 + player.pos.distance(enemy_minion.pos) / basic_atk_speed  #0.3087
             enemy_minion_hp     = predict_minion_health(ctx, enemy_minion, minions, t_until_player_hits)
             
             if enemy_minion_hp - hit_dmg <= 0.0:
@@ -129,13 +129,13 @@ def valkyrie_exec(ctx):
     
     player        = ctx.player   
     atk_speed     = player.atk_speed
-    b_windup_time = player.static.basic_atk_windup/player.static.base_atk_speed
+    b_windup_time = player.static.basic_atk_windup/player.static.base_atk_speed#player.static.basic_atk_windup/(atk_speed if atk_speed >= 0.6 else player.static.base_atk_speed)                                                                    
     c_atk_time    = 1.0/atk_speed
     max_atk_time  = 1.0/max_atk_speed
     
     target = None
     now = time()
-    dt = now - last_attacked - ctx.ping / 1000.0
+    dt = now - last_attacked - ctx.ping / 2000.0
     if dt > max(c_atk_time, max_atk_time):
         target = mode.get_target(ctx)
         if target:
