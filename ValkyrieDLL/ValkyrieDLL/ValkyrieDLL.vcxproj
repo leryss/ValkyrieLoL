@@ -163,6 +163,7 @@
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigSet.h" />
+    <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameHud.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="Benchmark.cpp" />
     <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="FakeMouse.cpp" />
     <ClCompile Include="GameChampion.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameHud.cpp" />

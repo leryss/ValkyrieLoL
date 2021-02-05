@@ -34,14 +34,14 @@ void PyExecutionContext::MoveToLocation(const Vector3 & location)
 	if (!state->hud.isChatOpen) {
 		if (state->hovered != nullptr && state->hovered->IsEnemyTo(*state->player.get()))
 			return;
-		currentScript->input.IssueClickAtAndReturn(CT_RIGHT_CLICK, state->renderer.WorldToScreen(location));
+		currentScript->input.IssueClickAt(CT_RIGHT_CLICK, state->renderer.WorldToScreen(location));
 	}
 }
 
 void PyExecutionContext::AttackUnit(const GameUnit & unit)
 {
 	if (!state->hud.isChatOpen)
-		currentScript->input.IssueClickAtAndReturn(CT_RIGHT_CLICK, state->renderer.WorldToScreen(unit.pos));
+		currentScript->input.IssueClickAt(CT_RIGHT_CLICK, state->renderer.WorldToScreen(unit.pos));
 }
 
 void PyExecutionContext::Log(const char * msg)

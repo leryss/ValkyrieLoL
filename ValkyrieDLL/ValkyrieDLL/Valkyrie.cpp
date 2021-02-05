@@ -9,6 +9,7 @@
 #include "PyStructs.h"
 #include "OffsetScanner.h"
 #include "SkinChanger.h"
+#include "FakeMouse.h"
 
 #include <boost/exception/diagnostic_information.hpp>
 
@@ -39,6 +40,7 @@ void Valkyrie::Run()
 
 		Configs.Load();
 		GameData::LoadAsync();
+		FakeMouse::Init();
 		HookDirectX();
 	}
 	catch (std::exception& error) {

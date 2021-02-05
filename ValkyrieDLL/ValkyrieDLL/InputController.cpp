@@ -81,20 +81,9 @@ void InputController::IssueClick(ClickType type)
 
 void InputController::IssueClickAt(ClickType type, const Vector2 & pos)
 {
-	IssueMoveCursor(pos);
+	ioQueue.push(new IoSpoofMouse(pos));
 	IssueClick(type);
-}
-
-void InputController::IssueClickAtAndReturn(ClickType type, const Vector2 & pos)
-{
-	Vector2 currentMouseCursor = GetMouseCursor();
-	IssueClickAt(type, pos);
-	IssueMoveCursor(currentMouseCursor);
-}
-
-void InputController::IssueMoveCursor(const Vector2 & pos)
-{
-	ioQueue.push(new IoMoveMouse(pos));
+	ioQueue.push(new IoUnspoofMouse());
 }
 
 void DrawButton(HKey key, HKey& clickedBtn, bool& wasClicked) {

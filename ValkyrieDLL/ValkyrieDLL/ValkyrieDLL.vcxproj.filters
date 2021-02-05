@@ -228,6 +228,9 @@
     <ClInclude Include="SpellCast.h">
       <Filter>Source Files\Game\GameObjects\Spells</Filter>
     </ClInclude>
+    <ClInclude Include="FakeMouse.h">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -346,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="SpellCast.cpp">
       <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="FakeMouse.cpp">
+      <Filter>Source Files\Utils\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
