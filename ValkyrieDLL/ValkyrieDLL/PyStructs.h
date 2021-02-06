@@ -143,6 +143,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	class_<GameMinion, bases<GameUnit>>("Minion", "Represents a minion object")
+		.def_readonly("hpbar_pos",         &GameMinion::GetHpBarPosition)
 		;
 	
 	class_<GameJungle, bases<GameUnit>>("JungleMob", "Represents a jungle mob object")

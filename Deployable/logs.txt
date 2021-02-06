@@ -87,3 +87,309 @@ Reloading script indicators
 Reloading script orbwalker
 Reloading script spell_tracker
 Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
