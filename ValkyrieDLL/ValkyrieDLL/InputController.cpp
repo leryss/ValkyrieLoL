@@ -79,9 +79,9 @@ void InputController::IssueClick(ClickType type)
 	ioQueue.push(new IoReleaseMouse(type));
 }
 
-void InputController::IssueClickAt(ClickType type, const Vector2 & pos)
+void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posGetter)
 {
-	ioQueue.push(new IoSpoofMouse(pos));
+	ioQueue.push(new IoSpoofMouse(posGetter));
 	IssueClick(type);
 	ioQueue.push(new IoUnspoofMouse());
 }

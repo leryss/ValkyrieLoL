@@ -38,6 +38,9 @@ public:
 	static int ObjMissileSpellCast;
 	static int ObjMissileName;
 
+	static int ObjInvulnerable;
+	static int ObjTargetable;
+
 	static int ItemListItem;
 	static int ItemInfo;
 	static int ItemInfoId;

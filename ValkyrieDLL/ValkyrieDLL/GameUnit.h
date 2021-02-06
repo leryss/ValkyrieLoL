@@ -21,6 +21,8 @@ public:
 
 public:
 
+	bool      targetable;
+	bool      invulnerable;
 	bool      isDead;
 	float     mana;
 	float     health;

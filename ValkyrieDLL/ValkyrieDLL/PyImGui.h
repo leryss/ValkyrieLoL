@@ -83,6 +83,11 @@ public:
 		return val;
 	}
 
+	int SliderInt(const char* label, int val, int valMin, int valMax) {
+		ImGui::SliderInt(label, &val, valMin, valMax);
+		return val;
+	}
+
 	void Separator() {
 		ImGui::Separator();
 	}

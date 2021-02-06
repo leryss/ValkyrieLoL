@@ -21,3 +21,69 @@ Opening F:\Github\ValkyrieLoL\Deployable\data\icons_champs.zip
 Opening F:\Github\ValkyrieLoL\Deployable\data\icons_extra.zip
 Loaded 1362 images
 Static data loading complete
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker
+Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+Reloading script gank_awareness
+Reloading script indicators
+Reloading script orbwalker
+Reloading script spell_tracker
+Reloading script vision_tracker

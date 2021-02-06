@@ -2,6 +2,7 @@
 #include "HKey.h"
 #include "Vector.h"
 #include "FakeMouse.h"
+#include "GameObject.h"
 
 #include <queue>
 #include <chrono>
@@ -32,7 +33,7 @@ public:
 	void UpdateIssuedOperations();
 	void IssuePressKey(HKey key);
 	void IssueClick(ClickType type);
-	void IssueClickAt(ClickType type, const Vector2& pos);
+	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter);
 
 	static int ImGuiKeySelect(const char* label, int key);
 
@@ -125,16 +126,17 @@ class IoSpoofMouse : public IoStep {
 
 public:
 	IoSpoofMouse(Vector2 pos) {
-		this->pos = pos;
+		FakeMouse::FakePositionGetter = [pos] { return pos; };
+	}
+
+	IoSpoofMouse(std::function<Vector2()>& getter) {
+		FakeMouse::FakePositionGetter = getter;
 	}
 
 	bool Update() {
-		FakeMouse::Enabled      = true;
-		FakeMouse::FakePosition = pos;
+		FakeMouse::Enabled = true;
 		return true;
 	}
-
-	Vector2 pos;
 };
 
 class IoUnspoofMouse : public IoStep {

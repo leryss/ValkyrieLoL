@@ -29,8 +29,8 @@ class Circle:
             if not fixed_radius:
                 self.radius = ui.dragfloat("Radius", self.radius)
                         
-            self.num_pts = ui.dragint("Num Points", self.num_pts, 1, 4, 100)
-            self.width   = ui.dragfloat("Width", self.width, 0.5, 1.0, 10.0)
+            self.num_pts = ui.sliderint("Num Points", self.num_pts, 4, 100)
+            self.width   = ui.sliderfloat("Width", self.width, 1.0, 20.0)
             self.color   = ui.colorpick("Color", self.color)
             ui.endmenu()
         

@@ -32,7 +32,7 @@ class TargetSelector:
         best_target = None
         min_score   = 10000000
         for target in targets:
-            if target.dead or not target.visible or target.ally_to(player):
+            if target.dead or not target.visible or not target.targetable or target.ally_to(player):
                 continue
                 
             dist = target.pos.distance(player.pos)

@@ -82,7 +82,7 @@ void GameRenderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, flo
 
 	if (numPoints >= 200)
 		return;
-	static Vector2 points[200];
+	static Vector2 points[202];
 	static Vector2 center;
 
 	float step = 6.2831f / numPoints;
@@ -97,7 +97,7 @@ void GameRenderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, flo
 	points[0].y = screenSpace.y;
 
 	float thicknessFraction = thickness / 3.0f;
-	for (int i = 1; i < numPoints; i++, theta += step) {
+	for (int i = 1; i <= numPoints + 1; i++, theta += step) {
 		screenSpace = WorldToScreen({ worldPos.x + radius * cos(theta), worldPos.y, worldPos.z - radius * sin(theta) });
 
 		points[i].x = screenSpace.x;
@@ -105,7 +105,6 @@ void GameRenderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, flo
 
 		canvas->AddLine((ImVec2&)points[i - 1], (ImVec2&)points[i], color, thickness + thicknessFraction * sin(theta));
 	}
-	canvas->AddLine((ImVec2&)points[0], (ImVec2&)points[numPoints - 1], color, thickness + thicknessFraction * sin(step*numPoints));
 }
 
 void GameRenderer::DrawCircleAtFilled(ImDrawList* canvas, const Vector3& worldPos, float radius, int numPoints, ImColor color) const {

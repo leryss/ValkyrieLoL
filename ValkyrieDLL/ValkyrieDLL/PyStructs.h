@@ -107,6 +107,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<GameUnit, bases<GameObject>>("Unit", "Represents a base unit object")
 		.def_readonly("dead",              &GameUnit::isDead)
+		.def_readonly("targetable",        &GameUnit::targetable)
+		.def_readonly("invulnerable",      &GameUnit::invulnerable)
 		.def_readonly("mana",              &GameUnit::mana)
 		.def_readonly("health",            &GameUnit::health)
 		.def_readonly("max_health",        &GameUnit::maxHealth)
@@ -163,6 +165,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("dragfloat",                &PyImGui::DragFloat, PyImGui::DragFloatOverloads())
 		.def("keyselect",                &PyImGui::KeySelect)
 		.def("sliderfloat",              &PyImGui::SliderFloat)
+		.def("sliderint",                &PyImGui::SliderInt)
 		.def("image",                    &PyImGui::Image,     PyImGui::ImageOverloads())
 
 		.def("header",                   &PyImGui::CollapsingHeader)

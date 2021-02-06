@@ -43,12 +43,12 @@ int Offsets::ObjCritMulti                    = 0x1284;
 int Offsets::ObjAbilityPower                 = 0x1200;
 int Offsets::ObjAtkSpeedMulti                = 0x126C;
 int Offsets::ObjAtkRange                     = 0x12B8;
+int Offsets::ObjTargetable                   = 0xD00;
+int Offsets::ObjInvulnerable                 = 0x3D0; 
 
 //oObjDirection = 0x1B48;
 //oObjBuffMgr = 0x2160;
 //oObjActionState = 0x1054;
-//oObjTargetable = 0xD00;
-//oObjInvulnerable = 0x3D0
 
 int Offsets::SpellBookActiveSpellCast        = 0x20;
 int Offsets::SpellBookSpellSlots             = 0x478;
@@ -82,7 +82,7 @@ int Offsets::ObjectMapRoot                   = 0x28;
 int Offsets::ObjectMapNodeNetId              = 0x10;
 int Offsets::ObjectMapNodeObject             = 0x14;
 
-int Offsets::MinimapObjectHud                = 0xAC;
+int Offsets::MinimapObjectHud                = 0xA8;
 int Offsets::MinimapHudPos                   = 0x5C;
 int Offsets::MinimapHudSize                  = 0x64;          // has values between (191, 191) and (383, 383)
 										    

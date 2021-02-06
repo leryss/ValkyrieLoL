@@ -29,6 +29,8 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	atkSpeedMulti = ReadFloat(addr + Offsets::ObjAtkSpeedMulti);
 	attackRange   = ReadFloat(addr + 0x12B8);
 
+	targetable    = ReadBool(addr + Offsets::ObjTargetable);
+	invulnerable  = ReadBool(addr + Offsets::ObjInvulnerable);
 	isDead        = ReadInt(addr + Offsets::ObjSpawnCount) % 2;
 	lvl           = ReadInt(addr + Offsets::ObjLvl);
 
@@ -63,6 +65,8 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragFloat("AttackRange",   &attackRange);
 
 	ImGui::Checkbox("IsDead",         &isDead);
+	ImGui::Checkbox("Targetable",     &targetable);
+	ImGui::Checkbox("Invulnerable",   &invulnerable);
 	ImGui::DragInt("Level",           &lvl);
 
 	ImGui::Separator();
