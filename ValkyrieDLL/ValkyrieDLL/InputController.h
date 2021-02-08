@@ -32,6 +32,7 @@ public:
 
 	void UpdateIssuedOperations();
 	void IssuePressKey(HKey key);
+	void IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter);
 	void IssueClick(ClickType type);
 	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter);
 

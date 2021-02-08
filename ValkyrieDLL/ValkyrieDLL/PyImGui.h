@@ -13,6 +13,43 @@ class PyImGui {
 
 public:
 
+	void Demo() {
+		ImGui::ShowDemoWindow();
+	}
+
+	bool BeginPopupModal(const char* label) {
+		return ImGui::BeginPopupModal(label, NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	}
+
+	void CloseCurrentPopup() {
+		ImGui::CloseCurrentPopup();
+	}
+
+	str InputText(const char* label, const char* text) {
+		char buff[256];
+		strcpy_s(buff, text);
+
+		ImGui::InputText(label, buff, 256);
+
+		return str(buff);
+	}
+
+	bool Selectable(const char* label) {
+		return ImGui::Selectable(label, false);
+	}
+
+	void OpenPopup(const char* label) {
+		ImGui::OpenPopup(label);
+	}
+
+	bool BeginPopup(const char* label) {
+		return ImGui::BeginPopup(label);
+	}
+
+	void EndPopup() {
+		ImGui::EndPopup();
+	}
+
 	void Begin(const char* name) {
 		ImGui::Begin(name);
 	}
@@ -25,8 +62,11 @@ public:
 		return ImGui::Button(text);
 	}
 
-	bool ColorButton(const char* text, object color) {
-		return ImGui::ColorButton(text, extract<ImVec4>(color));
+	bool ColorButton(const char* text, const ImVec4& color) {
+		ImGui::PushStyleColor(ImGuiCol_Button, color);
+		bool result = ImGui::Button(text);
+		ImGui::PopStyleColor();
+		return result;
 	}
 
 	bool Checkbox(const char* text, bool enabled) {
@@ -38,8 +78,8 @@ public:
 		ImGui::Text(text);
 	}
 
-	void TextColored(const char* text, object color) {
-		ImGui::TextColored(extract<ImVec4>(color), text);
+	void TextColored(const char* text, const ImVec4& color) {
+		ImGui::TextColored(color, text);
 	}
 
 	void LabelText(const char* label, const char* text) {
@@ -86,6 +126,22 @@ public:
 	int SliderInt(const char* label, int val, int valMin, int valMax) {
 		ImGui::SliderInt(label, &val, valMin, valMax);
 		return val;
+	}
+
+	bool BeginTable(const char* label, int columns) {
+		return ImGui::BeginTable(label, columns, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable | ImGuiTableFlags_BordersInner);
+	}
+
+	void EndTable() {
+		ImGui::EndTable();
+	}
+
+	void TableNextRow() {
+		ImGui::TableNextRow();
+	}
+
+	void TableSetColumn(int column) {
+		ImGui::TableSetColumnIndex(column);
 	}
 
 	void Separator() {

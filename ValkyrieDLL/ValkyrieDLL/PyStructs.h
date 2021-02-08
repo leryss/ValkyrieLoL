@@ -65,6 +65,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("height",            &SpellInfo::height)
 		.def_readonly("speed",             &SpellInfo::speed)
 		.def_readonly("travel_time",       &SpellInfo::travelTime)
+		.def_readonly("name",              &SpellInfo::name)
 		;
 
 	class_<GameObject>("Obj",             "Represents the base of a ingame object. Most ingame objects derive from this.")
@@ -154,7 +155,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("end",                      &PyImGui::End)
 						                 
 		.def("button",                   &PyImGui::Button)
-		.def("colorbutton",              &PyImGui::ColorButton)
+		.def("button",                   &PyImGui::ColorButton)
 		.def("colorpick",                &PyImGui::ColorPicker)
 		.def("checkbox",                 &PyImGui::Checkbox)
 		.def("text",                     &PyImGui::Text)
@@ -175,6 +176,18 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("beginmenu",                &PyImGui::BeginMenu)
 		.def("endmenu",                  &PyImGui::EndMenu)
 		.def("opennext",                 &PyImGui::SetNextItemOpen)
+		.def("openpopup",                &PyImGui::OpenPopup)
+		.def("beginpopup",               &PyImGui::BeginPopup)
+		.def("endpopup",                 &PyImGui::EndPopup)
+		.def("beginmodal",               &PyImGui::BeginPopupModal)
+		.def("closepopup",               &PyImGui::CloseCurrentPopup)
+		.def("selectable",               &PyImGui::Selectable)
+
+		.def("begintbl",                 &PyImGui::BeginTable)
+		.def("endtbl",                   &PyImGui::EndTable)
+		.def("tblnextrow",               &PyImGui::TableNextRow)
+		.def("tblcolumn",                &PyImGui::TableSetColumn)
+		.def("inputtext",                &PyImGui::InputText)
 						                 
 		.def("sameline",                 &PyImGui::SameLine)
 		.def("begingroup",               &PyImGui::BeginGroup)
@@ -182,6 +195,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 						                 
 		.def("listbox",                  &PyImGui::ListBox)
 		.def("combo",                    &PyImGui::Combo)
+		.def("demo",                     &PyImGui::Demo)
 		;
 
 	class_<PyExecutionContext>("Context", "Contains everything necessarry to create scripts. From utility functions to game data")
@@ -205,6 +219,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("move",                     &PyExecutionContext::MoveToMouse)
 
 		.def("is_held",                  &PyExecutionContext::IsKeyDown)
+		.def("was_pressed",              &PyExecutionContext::WasKeyPressed)
+
+		.def("cast_spell",               &PyExecutionContext::CastSpell)
+		.def("get_spell",                &PyExecutionContext::GetSpellInfo)
 
 		.def("is_on_screen",             &PyExecutionContext::IsScreenPointOnScreen, PyExecutionContext::IsScreenPointOnScreenOverloads())
 		.def("is_on_screen",             &PyExecutionContext::IsWorldPointOnScreen,  PyExecutionContext::IsWorldPointOnScreenOverloads())

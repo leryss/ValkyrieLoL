@@ -27,7 +27,7 @@ bool InputController::WasPressed(HKey key, float lastMillis)
 	timeDiff = nowTime - lastTimePressed[virtualKey];
 	if (pressed[virtualKey]) {
 
-		if (timeDiff.count() > 200)
+		if (timeDiff.count() > lastMillis)
 			pressed[virtualKey] = false;
 		return false;
 	}
@@ -70,6 +70,12 @@ void InputController::IssuePressKey(HKey key)
 	ioQueue.push(new IoPressKey(key));
 	ioQueue.push(new IoDelay(10.f));
 	ioQueue.push(new IoReleaseKey(key));
+}
+
+void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter) {
+	ioQueue.push(new IoSpoofMouse(posGetter));
+	IssuePressKey(key);
+	ioQueue.push(new IoUnspoofMouse());
 }
 
 void InputController::IssueClick(ClickType type)

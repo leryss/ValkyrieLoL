@@ -10,6 +10,13 @@ GameChampion::GameChampion(std::string name)
 	:GameUnit(name)
 {
 	type = OBJ_CHAMPION;
+	spells[0].castKey = HKey::Q;
+	spells[1].castKey = HKey::W;
+	spells[2].castKey = HKey::E;
+	spells[3].castKey = HKey::R;
+
+	spells[4].castKey = HKey::D;
+	spells[5].castKey = HKey::F;
 }
 
 void GameChampion::ReadFromBaseAddress(int addr)

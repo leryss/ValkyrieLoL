@@ -3,7 +3,8 @@ from valkyrie import *
 script_info = {
     'author': 'leryss',
     'description': 'none',
-    'name': 'Base'
+    'name': 'Base',
+	'icon': 'menu-dev'
 }
 
 def valkyrie_menu(ctx):

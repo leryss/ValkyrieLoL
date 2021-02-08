@@ -21,6 +21,26 @@ bool PyExecutionContext::IsKeyDown(int key)
 	return currentScript->input.IsDown((HKey)key);
 }
 
+bool PyExecutionContext::WasKeyPressed(int key)
+{
+	if (state->hud.isChatOpen)
+		return false;
+
+	return currentScript->input.WasPressed((HKey)key);
+}
+
+object PyExecutionContext::GetSpellInfo(const char* label) {
+	std::string labelStr(label);
+	return object(ptr(GameData::GetSpell(labelStr)));
+}
+
+void PyExecutionContext::CastSpell(GameSpell* spell, const Vector3& targetLocation) {
+	
+	//
+	Vector2 screenPos = state->renderer.WorldToScreen(targetLocation);
+	currentScript->input.IssuePressKeyAt(spell->castKey, [screenPos] { return screenPos; });
+}
+
 void PyExecutionContext::MoveToMouse() {
 	if (!state->hud.isChatOpen) {
 		if (state->hovered != nullptr && state->hovered->IsEnemyTo(*state->player.get()))

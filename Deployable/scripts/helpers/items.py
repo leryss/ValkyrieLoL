@@ -3,7 +3,8 @@ from valkyrie import *
 def crit_from_items(items):
 	crit = 0.0
 	for item in items:
-		crit += item.crit
+		if item:
+			crit += item.crit
 	return crit
 
 def onhit_guinsoo(src, target):
@@ -13,14 +14,14 @@ def onhit_rageknife(src, target):
 	return crit_from_items(src.items) * 100.0 * 1.75
 
 def onhit_noonquiver(src, target):
-	return 0.0 if target.has_tags(UnitTag.Unit_Champion) else 20.0
+	return 0.0 if target.has_tags(Unit.Champion) else 20.0
 	
 def onhit_recurve_bow(src, target):
 	return 15.0
 	
 def onhit_botrk(src, target):
 	dmg = target.health * (0.06 if src.is_ranged else 0.1)
-	if dmg > 60.0 and not target.has_tags(UnitTag.Unit_Champion):
+	if dmg > 60.0 and not target.has_tags(Unit.Champion):
 		return 60.0
 	return dmg
 	

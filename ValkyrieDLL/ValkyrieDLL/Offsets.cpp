@@ -7,7 +7,7 @@ std::string Offsets::GameVersion             = "11.3.356.7268";
 int Offsets::ObjectManager                   = 0x016b2a74;
 int Offsets::Renderer                        = 0x02f73e78;
 int Offsets::ViewMatrix                      = 0x02f71098;
-int Offsets::MinimapObject                   = 0x02F6BBBC;
+int Offsets::MinimapObject                   = 0x2F4F3C8;
 int Offsets::LocalPlayer                     = 0x02f4f764;
 int Offsets::GameTime                        = 0x02f4759c;
 int Offsets::FnCharacterDataStackUpdate      = 0x0010e530;
@@ -82,9 +82,9 @@ int Offsets::ObjectMapRoot                   = 0x28;
 int Offsets::ObjectMapNodeNetId              = 0x10;
 int Offsets::ObjectMapNodeObject             = 0x14;
 
-int Offsets::MinimapObjectHud                = 0xA8;
-int Offsets::MinimapHudPos                   = 0x5C;
-int Offsets::MinimapHudSize                  = 0x64;          // has values between (191, 191) and (383, 383)
+int Offsets::MinimapObjectHud                = 0x88;
+int Offsets::MinimapHudPos                   = 0x60;
+int Offsets::MinimapHudSize                  = 0x68;          // has values between (191, 191) and (383, 383)
 										    
 int Offsets::CharacterDataStack              = 0x2F60;
 int Offsets::CharacterDataStackSkinId        = 0x18;

@@ -47,9 +47,13 @@ public:
 
 	/* Exposed methods */
 	bool    IsKeyDown(int key);
+	bool    WasKeyPressed(int key);
 	void    MoveToMouse();
 	void    MoveToLocation(const Vector3& location);
 	void    AttackUnit(const GameUnit& unit);
+
+	object  GetSpellInfo(const char* label);
+	void    CastSpell(GameSpell* spell, const Vector3& targetLocation);
 
 	void    Log(const char* msg);
 	Vector2 World2Screen(const Vector3& world);

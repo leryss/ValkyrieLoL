@@ -4,6 +4,7 @@
 #include "MemoryReadable.h"
 #include "SpellInfo.h"
 #include "imgui/imgui.h"
+#include "HKey.h"
 
 #include <boost/python.hpp>
 using namespace boost::python;
@@ -21,6 +22,7 @@ public:
 	int         lvl;
 	float       readyAt;
 	float       value;
+	HKey        castKey;
 
 	SpellInfo*  staticData;
 };

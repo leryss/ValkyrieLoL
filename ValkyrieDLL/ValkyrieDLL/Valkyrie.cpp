@@ -153,6 +153,8 @@ void Valkyrie::ShowMenu()
 		}
 	}
 
+	//ImGui::ShowDemoWindow();
+
 	if (ShowConsoleWindow)
 		ShowConsole();
 
