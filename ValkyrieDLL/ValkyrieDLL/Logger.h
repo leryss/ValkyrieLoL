@@ -4,21 +4,39 @@
 #include <mutex>
 #include <list>
 
+enum LogType {
+
+	LOG_ERROR,
+	LOG_WARNING,
+	LOG_INFO
+};
+
+class LogEntry {
+
+public:
+	LogType type;
+	char    message[2048];
+};
+
 // Thread safe
 class Logger {
 
 private:
 	static std::shared_ptr<std::fstream>      FileStream;
-	static std::shared_ptr<std::stringstream> ConsoleStream;
+	static std::mutex                         LoggerMutex;
 
-	static std::mutex                         FileMutex;
-	static std::mutex                         ConsoleMutex;
-
+	static void IncrementBufferIndices();
 public:
-	static void   InitLoggers(const char* pathFileLog);
+	/// Circular buffer for log lines
+	static const int                          SIZE_LINE_BUFFER = 1024;
+	static LogEntry                           Buffer[SIZE_LINE_BUFFER];
+	static int                                BufferStart;
+	static int                                BufferEnd;
 
-	static void   LogAll(const char* str, ...);
-	static void   Console(const char* str, ...);
-	static void   File(const char* str, ...);
-	static void   GetConsoleLines(std::list<std::string>& lines);
+	static void   InitLoggers(const char* pathFileLog);
+	static int    NextIndex(int currentIndex);
+
+	static void   Info(const char* str, ...);
+	static void   Warn(const char* str, ...);
+	static void   Error(const char* str, ...);
 };

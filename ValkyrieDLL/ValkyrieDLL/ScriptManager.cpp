@@ -7,7 +7,7 @@
 
 void ScriptManager::LoadScriptsFromFolder(std::string & folderPath)
 {
-	Logger::LogAll("Loading scripts from %s", folderPath.c_str());
+	Logger::Info("Loading scripts from %s", folderPath.c_str());
 
 	object sys = import("sys");
 	sys.attr("path").attr("insert")(0, folderPath.c_str());

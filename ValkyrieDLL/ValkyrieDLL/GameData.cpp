@@ -28,7 +28,7 @@ std::map<int, ItemInfo*>                      GameData::Items;
 
 void GameData::LoadAsync()
 {
-	Logger::LogAll("Loading game data...");
+	Logger::Info("Loading game data...");
 	std::thread loadThread(GameData::Load);
 	loadThread.detach();
 }
@@ -123,25 +123,25 @@ void GameData::Load()
 
 	LoadSpells("SpellData.json",       LoadProgress->essentialsPercent, 0.2f);
 	LoadSpells("SpellDataCustom.json", LoadProgress->essentialsPercent, 0.25f);
-	Logger::LogAll("Loaded %zu spells", Spells.size());
+	Logger::Info("Loaded %zu spells", Spells.size());
 
 	LoadUnits("UnitData.json", LoadProgress->essentialsPercent, 0.5f);
-	Logger::LogAll("Loaded %zu units", Units.size());
+	Logger::Info("Loaded %zu units", Units.size());
 
 	LoadItems("ItemData.json", LoadProgress->essentialsPercent, 0.8f);
-	Logger::LogAll("Loaded %zu items", Items.size());
+	Logger::Info("Loaded %zu items", Items.size());
 
 	LoadSkins("SkinInfo.json", LoadProgress->essentialsPercent, 1.f);
-	Logger::LogAll("Loaded skins");
+	Logger::Info("Loaded skins");
 
 	LoadProgress->essentialsLoaded = true;
 
 	LoadImagesFromZip("icons_spells.zip", LoadProgress->imagesLoadPercent, 0.8f);
 	LoadImagesFromZip("icons_champs.zip", LoadProgress->imagesLoadPercent, 0.95f);
 	LoadImagesFromZip("icons_extra.zip",  LoadProgress->imagesLoadPercent, 1.f);
-	Logger::LogAll("Loaded %zu images", Images.size());
+	Logger::Info("Loaded %zu images", Images.size());
 
-	Logger::LogAll("Static data loading complete");
+	Logger::Info("Static data loading complete");
 	LoadProgress->allLoaded = true;
 }
 
@@ -152,7 +152,7 @@ void GameData::LoadSpells(const char* fileName, float& percentValue, float perce
 	std::ifstream file(path.generic_string().c_str());
 
 	if (!file.is_open()) {
-		Logger::LogAll("Couldn't open file %s", path.generic_string().c_str());
+		Logger::Error("Couldn't open file %s", path.generic_string().c_str());
 		return;
 	}
 
@@ -190,7 +190,7 @@ void GameData::LoadItems(const char* fileName, float& percentValue, float percen
 	std::ifstream file(path.generic_string().c_str());
 
 	if (!file.is_open()) {
-		Logger::LogAll("Couldn't open file %s", path.generic_string().c_str());
+		Logger::Error("Couldn't open file %s", path.generic_string().c_str());
 		return;
 	}
 
@@ -228,7 +228,7 @@ void GameData::LoadUnits(const char* fileName, float& percentValue, float percen
 	std::ifstream file(path.generic_string().c_str());
 
 	if (!file.is_open()) {
-		Logger::LogAll("Couldn't open file %s", path.generic_string().c_str());
+		Logger::Error("Couldn't open file %s", path.generic_string().c_str());
 		return;
 	}
 
@@ -293,7 +293,7 @@ void GameData::LoadSkins(const char * fileName, float & percentValue, float perc
 	std::ifstream file(path.generic_string().c_str());
 
 	if (!file.is_open()) {
-		Logger::LogAll("Couldn't open file %s", path.generic_string().c_str());
+		Logger::Error("Couldn't open file %s", path.generic_string().c_str());
 		return;
 	}
 
@@ -339,12 +339,12 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 	path.append(FolderData).append(zipName);
 	const char* zipPath = path.u8string().c_str();
 
-	Logger::LogAll("Opening %s", zipPath);
+	Logger::Info("Opening %s", zipPath);
 
 	mz_zip_archive archive;
 	memset(&archive, 0, sizeof(archive));
 	if (!mz_zip_reader_init_file(&archive, zipPath, 0)) {
-		Logger::LogAll("Failed to load %s", zipName);
+		Logger::Error("Failed to load %s", zipName);
 		return;
 	}
 
@@ -354,14 +354,14 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 	for (int i = 0; i < numImages; ++i) {
 		mz_zip_archive_file_stat fileStat;
 		if (!mz_zip_reader_file_stat(&archive, i, &fileStat)) {
-			Logger::LogAll("Failed to get image num %d from %s", i, zipName);
+			Logger::Error("Failed to get image num %d from %s", i, zipName);
 			continue;
 		}
 
 		size_t imgSize = 0;
 		void* imgBin = mz_zip_reader_extract_file_to_heap(&archive, fileStat.m_filename, &imgSize, 0);
 		if (imgBin == NULL) {
-			Logger::LogAll("Failed to uncompress image num %d from %s", i, zipName);
+			Logger::Error("Failed to uncompress image num %d from %s", i, zipName);
 			continue;
 		}
 
@@ -370,7 +370,7 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 
 		PDIRECT3DTEXTURE9 image = NULL;
 		if (!LoadTextureFromHeap(imgBin, (size_t)fileStat.m_uncomp_size, &image))
-			Logger::LogAll("Failed to load %s", imgName);
+			Logger::Error("Failed to load %s", imgName);
 		else 
 			Images[Strings::ToLower(imgName)] = image;
 

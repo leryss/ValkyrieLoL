@@ -199,7 +199,9 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	class_<PyExecutionContext>("Context", "Contains everything necessarry to create scripts. From utility functions to game data")
-		.def("log",                      &PyExecutionContext::Log,               "Logs a message in the Valkyrie Console")
+		.def("info",                     &PyExecutionContext::LogInfo)
+		.def("warn",                     &PyExecutionContext::LogWarning)
+		.def("error",                    &PyExecutionContext::LogError)
 		.def_readonly("ui",              &PyExecutionContext::GetImGuiInterface, "UI interface for drawing menus based on imgui")
 		.def_readonly("cfg",             &PyExecutionContext::GetConfig,         "Used to load/save script specific configs")
 		.def_readonly("time",            &PyExecutionContext::time,              "Current game duration in seconds")

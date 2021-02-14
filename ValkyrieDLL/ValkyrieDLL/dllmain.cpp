@@ -12,7 +12,7 @@ bool CheckWindowsVersion() {
 	HKEY currentVersion;
 	LSTATUS status;
 	if (ERROR_SUCCESS != (status = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_READ, &currentVersion))) {
-		Logger::File("Failed to get Windows CurrentVersion: %d", status);
+		Logger::Error("Failed to get Windows CurrentVersion: %d", status);
 		return false;
 	}
 
@@ -21,11 +21,11 @@ bool CheckWindowsVersion() {
 	DWORD bufferSize = 256;
 
 	if (ERROR_SUCCESS != (status = RegQueryValueExA(currentVersion, "DisplayVersion", nullptr, &valueType, buffer, &bufferSize))) {
-		Logger::File("Failed to get Windows DisplayVersion: %d", status);
+		Logger::Error("Failed to get Windows DisplayVersion: %d", status);
 		return false;
 	}
 
-	Logger::File("OS: %s", buffer);
+	Logger::Info("OS: %s", buffer);
 }
 
 DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
@@ -36,7 +36,7 @@ DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
 
 	CheckWindowsVersion();
 
-	Logger::File("Starting up Valkyrie");
+	Logger::Info("Starting up Valkyrie");
 	Valkyrie::Run();
 
 	return 0;

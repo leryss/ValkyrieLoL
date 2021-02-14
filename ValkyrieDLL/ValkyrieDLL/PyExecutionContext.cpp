@@ -66,14 +66,21 @@ void PyExecutionContext::AttackUnit(const GameUnit & unit)
 		currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [&renderer = state->renderer, unit]()->Vector2 { return renderer.WorldToScreen(unit.pos); });
 }
 
-void PyExecutionContext::Log(const char * msg)
+void PyExecutionContext::LogInfo(const char * msg)
 {
-	if (msg == NULL)
-		Logger::Console("NULL");
-	else
-		Logger::Console(msg);
-
+	Logger::Info("[%s] %s", currentScript->fileName.c_str(), (msg != NULL ? msg : "NULL"));
 }
+
+void PyExecutionContext::LogWarning(const char * msg)
+{
+	Logger::Warn("[%s] %s", currentScript->fileName.c_str(), (msg != NULL ? msg : "NULL"));
+}
+
+void PyExecutionContext::LogError(const char * msg)
+{
+	Logger::Error("[%s] %s", currentScript->fileName.c_str(), (msg != NULL ? msg : "NULL"));
+}
+
 Vector2 PyExecutionContext::World2Screen(const Vector3 & world)
 {
 	return state->renderer.WorldToScreen(world);

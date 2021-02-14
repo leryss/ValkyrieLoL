@@ -137,6 +137,7 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)ValkyrieDLL\boost\stage\lib;$(SolutionDir)ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)VOversix$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

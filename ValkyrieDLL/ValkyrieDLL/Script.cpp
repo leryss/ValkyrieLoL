@@ -101,16 +101,16 @@ bool Script::LoadFromFile(std::string & file)
 	error.clear();
 	
 	if (NULL != moduleObj) {
-		Logger::LogAll("Reloading script %s", file.c_str());
+		Logger::Info("Reloading script %s", file.c_str());
 		moduleObj = PyImport_ReloadModule(moduleObj);
 	}
 	else {
-		Logger::LogAll("Loading script %s", file.c_str());
+		Logger::Info("Loading script %s", file.c_str());
 		moduleObj = PyImport_ImportModule(file.c_str());
 	}
 
 	if (NULL == moduleObj) {
-		Logger::LogAll("Error loading %s", file.c_str());
+		Logger::Error("Error loading %s", file.c_str());
 
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);

@@ -55,7 +55,9 @@ public:
 	object  GetSpellInfo(const char* label);
 	void    CastSpell(GameSpell* spell, const Vector3& targetLocation);
 
-	void    Log(const char* msg);
+	void    LogInfo(const char* msg);
+	void    LogWarning(const char* msg);
+	void    LogError(const char* msg);
 	Vector2 World2Screen(const Vector3& world);
 	Vector2 World2Minimap(const Vector3& world);
 	float   DistanceOnMinimap(float dist);

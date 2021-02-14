@@ -11,12 +11,14 @@
 #include "SkinChanger.h"
 #include "FakeMouse.h"
 
+#include "D3DX9Shader.h"
+
 #include <boost/exception/diagnostic_information.hpp>
 
 #include <stdexcept>
 #include <iostream>
 
-InputController                    Valkyrie::inputController;
+InputController                    Valkyrie::InputController;
 
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
@@ -26,7 +28,6 @@ std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
 
 std::condition_variable            Valkyrie::OverlayInitialized;
-
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
@@ -44,7 +45,7 @@ void Valkyrie::Run()
 		HookDirectX();
 	}
 	catch (std::exception& error) {
-		Logger::File("Failed starting up Valkyrie %s", error.what());
+		Logger::Error("Failed starting up Valkyrie %s", error.what());
 	}
 }
 
@@ -94,7 +95,7 @@ void Valkyrie::ShowMenu()
 	static int   MenuStyle         = SetStyle(Configs.GetInt("menu_style", 0));
 	static float AveragePing       = Configs.GetFloat("ping", 60.0f);
 
-	if (inputController.IsDown(ShowMenuKey) && ImGui::Begin("Valkyrie", nullptr,
+	if (InputController.IsDown(ShowMenuKey) && ImGui::Begin("Valkyrie", nullptr,
 		ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -169,11 +170,36 @@ void Valkyrie::ShowConsole()
 {
 	ImGui::Begin("Console");
 	
-	std::list<std::string> lines;
-	Logger::GetConsoleLines(lines);
+	int current = Logger::BufferStart;
+	while (current != Logger::BufferEnd) {
+		LogEntry& entry = Logger::Buffer[current];
 
-	for (auto& line : lines) {
-		ImGui::Text(line.c_str());
+		bool pushedColor = false;
+		switch (entry.type) {
+		
+			case LOG_ERROR:
+				ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
+				pushedColor = true;
+				ImGui::Text("[error]");
+				ImGui::SameLine();
+				break;
+			case LOG_WARNING:
+				ImGui::PushStyleColor(ImGuiCol_Text, Color::YELLOW);
+				pushedColor = true;
+				ImGui::Text("[warning]");
+				ImGui::SameLine();
+				break;
+			case LOG_INFO:
+				ImGui::Text("[info]");
+				ImGui::SameLine();
+				break;
+		}
+
+		ImGui::Text(entry.message);
+		if (pushedColor)
+			ImGui::PopStyleColor(1);
+
+		current = Logger::NextIndex(current);
 	}
 	
 	ImGui::End();
@@ -181,7 +207,7 @@ void Valkyrie::ShowConsole()
 
 void Valkyrie::InitializeOverlay()
 {
-	Logger::LogAll("Initializing overlay");
+	Logger::Info("Initializing overlay");
 
 	LeagueWindowHandle = FindWindowA("RiotWindowClass", NULL);
 	OriginalWindowMessageHandler = WNDPROC(SetWindowLongA(LeagueWindowHandle, GWL_WNDPROC, LONG_PTR(HookedWindowMessageHandler)));
@@ -201,7 +227,7 @@ void Valkyrie::InitializeOverlay()
 
 void Valkyrie::InitializePython()
 {
-	Logger::LogAll("Initializing Python");
+	Logger::Info("Initializing Python");
 	PyImport_AppendInittab("valkyrie", &PyInit_valkyrie);
 	Py_Initialize();
 	exec("from valkyrie import *");
@@ -257,7 +283,7 @@ void Valkyrie::Update()
 		}
 	}
 	__except (1) {
-		Logger::LogAll("SEH exception occured in main loop. This shouldn't happen.");
+		Logger::Error("SEH exception occured in main loop. This shouldn't happen.");
 	}
 
 	// Render
@@ -271,22 +297,29 @@ void Valkyrie::Update()
 
 void Valkyrie::HookDirectX()
 {
-	static const int SearchLength       = 0x500000;
-	static const int PresentVTableIndex = 17;
-	static const int EndSceneVTableIndex = 42;
+	static const int SearchLength               = 0x500000;
+	static const int SetVertexShaderVTableIndex = 92;
+	static const int PresentVTableIndex         = 17;
+	static const int EndSceneVTableIndex        = 42;
+	static const int SetTransformVTableIndex    = 44;
 
-	Logger::LogAll("Hooking DirectX");
+	Logger::Info("Hooking DirectX");
 
 	DWORD objBase = (DWORD)LoadLibraryA("d3d9.dll");
 	DWORD stopAt = objBase + SearchLength;
 
-	Logger::File("Found base of d3d9.dll at: %#010x", objBase);
+	Logger::Info("Found base of d3d9.dll at: %#010x", objBase);
+	int skips = 0;
 	while (objBase++ < stopAt)
 	{
 		if ((*(WORD*)(objBase + 0x00)) == 0x06C7
 			&& (*(WORD*)(objBase + 0x06)) == 0x8689
 			&& (*(WORD*)(objBase + 0x0C)) == 0x8689
 			) {
+			if (skips > 0) {
+				skips--;
+				continue;
+			}
 			objBase += 2;
 			break;
 		}
@@ -294,7 +327,7 @@ void Valkyrie::HookDirectX()
 
 	if (objBase >= stopAt)
 		throw std::runtime_error("Did not find D3D device");
-	Logger::File("Found D3D Device at: %#010x", objBase);
+	Logger::Info("Found D3D Device at: %#010x", objBase);
 
 	PDWORD VTable;
 	*(DWORD*)& VTable = *(DWORD*)objBase;
@@ -305,16 +338,15 @@ void Valkyrie::HookDirectX()
 	OriginalD3DPresent = (D3DPresentFunc)(VTable[PresentVTableIndex]);
 	LONG error = DetourAttach(&(PVOID&)OriginalD3DPresent, (PVOID)HookedD3DPresent);
 	if (error)
-		throw std::runtime_error(Strings::Format("Failed to hook DirectX present. Detours error code: %d"));
-
+		throw std::runtime_error(Strings::Format("Failed to hook DirectX Present. Detours error code: %d"));
+	
 	DetourTransactionCommit();
 	
 }
 
 void Valkyrie::UnhookDirectX()
 {
-	Logger::File("Unhooking DirectX");
-
+	Logger::Info("Unhooking DirectX");
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourDetach(&(PVOID&)OriginalD3DPresent, (PVOID)HookedD3DPresent);
@@ -334,15 +366,15 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 		Update();
 	}
 	catch (std::exception& error) {
-		Logger::File("Standard exception occured %s", error.what());
+		Logger::Error("Standard exception occured %s", error.what());
 		UnhookDirectX();
 	}
 	catch (error_already_set&) {
-		Logger::File("Boost::Python exception occured %s", Script::GetPyError().c_str());
+		Logger::Error("Boost::Python exception occured %s", Script::GetPyError().c_str());
 		UnhookDirectX();
 	}
 	catch (...) {
-		Logger::File("Unexpected exception occured");
+		Logger::Error("Unexpected exception occured");
 		UnhookDirectX();
 	}
 	DxDeviceMutex.lock();

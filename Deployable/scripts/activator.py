@@ -204,7 +204,7 @@ class Activator:
 			# Draw target spells
 			ui.text("Target spells", Col.Yellow)
 			for spell in self.spells.values():
-				if ui.button("Delete###" + spell.name, Col(0.8, 0.2, 0.2, 1)):
+				if ui.button("X###" + spell.name, Col(0.8, 0.2, 0.2, 1)):
 					del self.spells[spell.name]
 					Activator.BySpellName[spell.name].remove(spell)
 					break
@@ -253,7 +253,7 @@ class Activator:
 			
 			ui.separator()
 			for i, condition in enumerate(self.conditions):
-				if ui.button("Delete###" + str(i), Col(0.8, 0.2, 0.2, 1)):
+				if ui.button("X###" + str(i), Col(0.8, 0.2, 0.2, 1)):
 					del self.conditions[i]
 					break
 				ui.sameline()	
@@ -336,7 +336,7 @@ def valkyrie_menu(ctx):
 	to_rename = None
 	for name, activator in Activator.All.items():
 		
-		if ui.button("Delete###d" + name, Col(0.8, 0.2, 0.2, 1)):
+		if ui.button("X###d" + name, Col(0.8, 0.2, 0.2, 1)):
 			del Activator.All[name]
 			break
 			
