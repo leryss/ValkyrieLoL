@@ -18,9 +18,6 @@
 [info] Loaded 201 items
 [info] Loaded skins
 [info] Opening F:\Github\ValkyrieLoL\Deployable\data\icons_spells.zip
-[info] [indicators] This is info
-[warning] [indicators] This is warn
-[error] [indicators] This is error
 [info] Opening F:\Github\ValkyrieLoL\Deployable\data\icons_champs.zip
 [info] Opening F:\Github\ValkyrieLoL\Deployable\data\icons_extra.zip
 [info] Loaded 1363 images
