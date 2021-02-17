@@ -9,17 +9,33 @@
 #include <aws/core/auth/AWSCredentials.h>
 #include <aws/core/client/ClientConfiguration.h>
 
-class OperationResponse {};
+using namespace Aws::Lambda;
+
+enum APIRequestStatus {
+	RS_EXECUTING,
+	RS_SUCCESS,
+	RS_FAILURE
+};
 
 class BaseAPIResponse {
 public:
-	bool        success = true;
-	Aws::String error;
+	APIRequestStatus status = RS_SUCCESS;
+	Aws::String      error;
+
+	virtual void OnFinish(Model::InvokeOutcome& outcome);
+
+protected:
+	Aws::Utils::Json::JsonValue lambdaRawResponse;
 };
 
 class AuthResponse: public BaseAPIResponse {
 public:
 	Aws::String token;
+
+	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx){
+		this->OnFinish(outcome);
+		this->token = lambdaRawResponse.View().GetString("body");
+	};
 };
 
 class ValkyrieAPI {
@@ -27,11 +43,9 @@ class ValkyrieAPI {
 public:
 	ValkyrieAPI();
 
-	AuthResponse Authorize(const char* name, const char* password, float durationSecs);
+	std::shared_ptr<AuthResponse> Authorize(const char* name, const char* password, float durationSecs);
 private:
-	void SendLambdaRequest(BaseAPIResponse* response, std::shared_ptr<Aws::IOStream>& payload);
 
-	Aws::Utils::Json::JsonValue lambdaRawResponse;
 	Aws::String apiToken;
 
 	std::shared_ptr<Aws::Lambda::LambdaClient> lambdaClient;

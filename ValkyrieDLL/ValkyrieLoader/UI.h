@@ -26,7 +26,7 @@ private:
 	static const int INPUT_TEXT_BUFF_SIZE            = 256;
 	char             nameBuff[INPUT_TEXT_BUFF_SIZE]  = "your_username";
 	char             passBuff[INPUT_TEXT_BUFF_SIZE]  = "<pass>";
-	AuthResponse     authResponse;
+	std::shared_ptr<AuthResponse> authResponse;
 
 	/// Create account stuff
 	char             passConfirmBuff[INPUT_TEXT_BUFF_SIZE] = "<pass>";

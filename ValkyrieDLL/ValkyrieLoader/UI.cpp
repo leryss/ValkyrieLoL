@@ -28,16 +28,24 @@ void UI::DisplayLogin()
 	ImGui::Separator();
 	if (ImGui::Button("Login")) {
 		authResponse = api.Authorize(nameBuff, passBuff, 60.f*60.f);
-		if (authResponse.success)
-			displayMode = DM_PANEL;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Use invite code"))
 		displayMode = DM_CREATE_ACCOUNT;
 
-	if (!authResponse.success) {
-		ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Failed to login:");
-		ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), authResponse.error.c_str());
+	if (authResponse != nullptr) {
+		if (authResponse->status == RS_FAILURE) {
+			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Failed to login:");
+			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), authResponse->error.c_str());
+		}
+
+		if (authResponse->status == RS_EXECUTING) {
+			ImGui::Text("Logging in");
+		}
+
+		if (authResponse->status == RS_SUCCESS) {
+			displayMode = DM_PANEL;
+		}
 	}
 
 	ImGui::End();

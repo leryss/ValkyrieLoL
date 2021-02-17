@@ -1,4 +1,5 @@
 #include "ValkyrieAPI.h"
+#include <thread>
 
 ValkyrieAPI::ValkyrieAPI()
 {
@@ -16,7 +17,7 @@ ValkyrieAPI::ValkyrieAPI()
 	s3Client     = Aws::MakeShared<Aws::S3::S3Client>("s3_client_tag", credentials, config);
 }
 
-AuthResponse ValkyrieAPI::Authorize(const char * name, const char * password, float durationSecs)
+std::shared_ptr<AuthResponse> ValkyrieAPI::Authorize(const char * name, const char * password, float durationSecs)
 {
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadAuthorize");
 
@@ -35,31 +36,29 @@ AuthResponse ValkyrieAPI::Authorize(const char * name, const char * password, fl
 
 	*payload << json.View().WriteReadable();
 
-	AuthResponse response;
-	SendLambdaRequest(&response, payload);
-
-	response.token = lambdaRawResponse.View().GetString("body");
-
-	return response;
-}
-
-void ValkyrieAPI::SendLambdaRequest(BaseAPIResponse* response, std::shared_ptr<Aws::IOStream>& payload)
-{
+	std::shared_ptr<AuthResponse> response(new AuthResponse());
+	
 	Aws::Lambda::Model::InvokeRequest req;
 	req.SetFunctionName("valkyrie-api");
 	req.SetInvocationType(Aws::Lambda::Model::InvocationType::RequestResponse);
 	req.SetLogType(Aws::Lambda::Model::LogType::Tail);
 	req.SetBody(payload);
 	req.SetContentType("application/javascript");
+	response->status = RS_EXECUTING;
 
-	auto outcome = lambdaClient->Invoke(req);
+	lambdaClient->InvokeAsync(req, response->onFinishHandler);
+	return response;
+}
+
+void BaseAPIResponse::OnFinish(Model::InvokeOutcome& outcome)
+{
 	if (!outcome.IsSuccess()) {
-		response->success = false;
-		response->error = "Failed to connect to server";
+		status = RS_FAILURE;
+		error = "Failed to connect to server";
 	}
 
 	lambdaRawResponse = Aws::Utils::Json::JsonValue(outcome.GetResult().GetPayload());
-	response->success = lambdaRawResponse.View().GetInteger("code") == 200 ? true : false;
-	if (!response->success)
-		response->error = lambdaRawResponse.View().GetString("error");
+	status = lambdaRawResponse.View().GetInteger("code") == 200 ? RS_SUCCESS : RS_FAILURE;
+	if (status == RS_FAILURE)
+		error = lambdaRawResponse.View().GetString("error");
 }
