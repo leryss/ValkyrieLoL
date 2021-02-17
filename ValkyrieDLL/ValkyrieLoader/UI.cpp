@@ -9,8 +9,8 @@ void UI::ImGuiShow()
 	case DM_LOGIN:
 		DisplayLogin();
 		break;
-	case DM_LOGGED_IN:
-		DisplayLoggedIn();
+	case DM_PANEL:
+		DisplayPanel();
 		break;
 	case DM_CREATE_ACCOUNT:
 		DisplayCreateAccount();
@@ -26,10 +26,19 @@ void UI::DisplayLogin()
 	ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
 
 	ImGui::Separator();
-	ImGui::Button("Login");
+	if (ImGui::Button("Login")) {
+		authResponse = api.Authorize(nameBuff, passBuff, 60.f*60.f);
+		if (authResponse.success)
+			displayMode = DM_PANEL;
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("Use invite code"))
 		displayMode = DM_CREATE_ACCOUNT;
+
+	if (!authResponse.success) {
+		ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Failed to login:");
+		ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), authResponse.error.c_str());
+	}
 
 	ImGui::End();
 }
@@ -53,6 +62,16 @@ void UI::DisplayCreateAccount()
 	ImGui::End();
 }
 
-void UI::DisplayLoggedIn()
+void UI::DisplayPanel()
 {
+	ImGui::Begin("Valkyrie", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+
+	ImGui::Text("Welcome <user> !");
+	ImGui::Text("Your subscription will expire on <date>");
+
+	ImGui::Separator();
+	ImGui::Text("No league process active.");
+	ImGui::Button("Inject Valkyrie");
+
+	ImGui::End();
 }
