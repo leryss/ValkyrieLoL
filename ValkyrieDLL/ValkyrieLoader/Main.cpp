@@ -1,10 +1,12 @@
+#define DIRECTINPUT_VERSION 0x0800
 
-#include "UI.h"
+#include "ValkyrieLoader.h"
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
 #include "imgui/imgui_impl_win32.h"
+
 #include <d3d9.h>
-#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
 
@@ -22,7 +24,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char**)
 {
-	UI ui;
+	ValkyrieLoader ui;
 
 	// Create application window
 	//ImGui_ImplWin32_EnableDpiAwareness();

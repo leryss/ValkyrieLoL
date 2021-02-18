@@ -16,11 +16,11 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{e352f2c0-6c54-4991-aa64-32ad76547e0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\miniz">
+      <UniqueIdentifier>{47dfa186-3dd1-473c-b795-85422e6b6d76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
@@ -48,11 +48,14 @@
     <ClInclude Include="ValkyrieAPI.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="miniz\miniz.h">
+      <Filter>Source Files\miniz</Filter>
+    </ClInclude>
+    <ClInclude Include="ValkyrieLoader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="UI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,6 +81,12 @@
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="ValkyrieAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz\miniz.c">
+      <Filter>Source Files\miniz</Filter>
+    </ClCompile>
+    <ClCompile Include="ValkyrieLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
