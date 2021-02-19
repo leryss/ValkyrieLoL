@@ -21,17 +21,29 @@ enum APIRequestStatus {
 	RS_FAILURE
 };
 
-class BaseAPIResponse {
+class APIAsyncRequest {
 public:
 	APIRequestStatus status = RS_SUCCESS;
 	Aws::String      error;
 
 	void OnFinish(Model::InvokeOutcome& outcome);
+
 protected:
 	Aws::Utils::Json::JsonValue lambdaRawResponse;
 };
 
-class GetUserInfoResponse: public BaseAPIResponse {
+class GenerateInviteAsync : public APIAsyncRequest {
+public:
+	Aws::String inviteCode;
+
+	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
+		this->OnFinish(outcome);
+		if (status == RS_SUCCESS)
+			inviteCode = lambdaRawResponse.View().GetString("result");
+	};
+};
+
+class GetUserAsync: public APIAsyncRequest {
 public:
 	UserInfo user;
 
@@ -42,7 +54,18 @@ public:
 	};
 };
 
-class GetUserListInfoResponse : public BaseAPIResponse {
+class CreateAccountAsync : public APIAsyncRequest {
+public:
+	UserInfo user;
+
+	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
+		this->OnFinish(outcome);
+		if (status == RS_SUCCESS)
+			user = UserInfo::FromJsonView(lambdaRawResponse.View().GetObject("result"));
+	};
+};
+
+class GetUserListAsync : public APIAsyncRequest {
 public:
 	std::vector<UserInfo> users;
 
@@ -59,7 +82,7 @@ public:
 	};
 };
 
-class GetS3ObjectResponse : public BaseAPIResponse {
+class GetS3ObjectAsync : public APIAsyncRequest {
 public:
 	Aws::S3::Model::GetObjectResult result;
 
@@ -82,9 +105,13 @@ class ValkyrieAPI {
 public:
 	ValkyrieAPI();
 
-	std::shared_ptr<GetUserListInfoResponse> GetUsers(const IdentityInfo& identity);
-	std::shared_ptr<GetUserInfoResponse>     GetUser(const IdentityInfo& identity, const char* target);
-	std::shared_ptr<GetS3ObjectResponse>     GetCheatS3Object(const char* bucket, const char* key);
+	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
+	std::shared_ptr<CreateAccountAsync>   CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
+
+	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
+	std::shared_ptr<GetUserAsync>         GetUser(const IdentityInfo& identity, const char* target);
+	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days);
+	
 private:
 
 	Aws::String apiToken;

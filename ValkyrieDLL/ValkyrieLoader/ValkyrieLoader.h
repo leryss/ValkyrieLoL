@@ -17,12 +17,10 @@ enum UpdateState {
 	US_COMPLETE
 };
 
-class AsyncRequest {
+class AsyncRequestTracker {
 public:
-	bool triggeredCallbacks = false;
-
-	std::shared_ptr<BaseAPIResponse>                                response;
-	std::function<void(std::shared_ptr<BaseAPIResponse>& response)> onSuccess;
+	std::shared_ptr<APIAsyncRequest>                                request;
+	std::function<void(std::shared_ptr<APIAsyncRequest>& response)> onSuccess;
 };
 
 class UpdaterProgress {
@@ -64,12 +62,15 @@ private:
 
 	void ShowRequestsStatus();
 	void ShowUpdateStatus();
-	void UpdateValkyrie(GetS3ObjectResponse* updateResponse);
+	void UpdateValkyrie(std::shared_ptr<GetS3ObjectAsync> updateResponse);
 
 	void DisplayLogin();
 	void DisplayCreateAccount();
 	void DisplayUserPanel();
 	void DisplayAdminPanel();
+
+	bool TaskNotExecuting(std::string trackingId);
+	void TrackRequest(std::string trackingId, std::shared_ptr<APIAsyncRequest> request, std::function<void(std::shared_ptr<APIAsyncRequest>& response)> onSuccess);
 
 	/// Flags for requests
 	bool                                performUpdate = true;
@@ -87,6 +88,12 @@ private:
 	HardwareInfo                        hardwareInfo;
 	UserInfo                            loggedUser;
 	std::vector<UserInfo>               allUsers;
+
+	std::string trackIdLogin          = "LogIn";
+	std::string trackIdGetUsers       = "GetUsers";
+	std::string trackIdCreateAccount  = "CreateAccount";
+	std::string trackIdCheckVersion   = "CheckVersion";
+	std::string trackIdGenerateInvite = "GenerateInvite";
 
 	/// Login stuff
 	static const int INPUT_TEXT_BUFF_SIZE            = 256;
@@ -106,6 +113,6 @@ private:
 	int              selectedUser = 0;
 	float            deltaDays = 0.f;
 
-	std::map<std::string, std::shared_ptr<AsyncRequest>> asyncRequests;
+	std::map<std::string, std::shared_ptr<AsyncRequestTracker>> asyncRequests;
 
 };

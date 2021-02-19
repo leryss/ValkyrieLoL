@@ -72,11 +72,18 @@ void ValkyrieLoader::ImGuiShow()
 	if (loggedUser.level > 0) {
 		DisplayAdminPanel();
 	}
+
+	ShowRequestsStatus();
 }
 
 void ValkyrieLoader::ShowRequestsStatus()
 {
 	DWORD tickCount = GetTickCount() % 600;
+
+	ImGui::SetNextWindowPos(ImVec2(10, 10));
+	ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+
+	ImGui::TextColored(COLOR_YELLOW, "Background tasks");
 
 	auto it = asyncRequests.begin();
 	while (it != asyncRequests.end()) {
@@ -84,25 +91,25 @@ void ValkyrieLoader::ShowRequestsStatus()
 		auto  operationName = pair.first.c_str();
 		auto& req = pair.second;
 
-		switch (req->response->status) {
+		switch (req->request->status) {
 		case RS_EXECUTING:
 			ImGui::Separator();
-			ImGui::TextColored(COLOR_PURPLE, "Performing: %s%s", operationName, (tickCount < 200 ? "." : (tickCount < 400 ? ".." : "...")));
+			ImGui::TextColored(COLOR_PURPLE, "Executing request: %s%s", operationName, (tickCount < 200 ? "." : (tickCount < 400 ? ".." : "...")));
 			break;
 		case RS_FAILURE:
 			ImGui::Separator();
-			ImGui::TextColored(COLOR_RED, "Failed `%s`: %s", operationName, req->response->error.c_str());
+			ImGui::TextColored(COLOR_RED, "Failed request: `%s`: %s", operationName, req->request->error.c_str());
 			break;
 		case RS_SUCCESS:
-			if (!req->triggeredCallbacks) {
-				req->onSuccess(req->response);
-				req->triggeredCallbacks = true;
-			}
-			break;
+			req->onSuccess(req->request);
+			asyncRequests.erase(it++);
+			continue;
 		}
 
 		++it;
 	}
+
+	ImGui::End();
 }
 
 void ValkyrieLoader::ShowUpdateStatus()
@@ -130,7 +137,7 @@ void ValkyrieLoader::ShowUpdateStatus()
 	}
 }
 
-void ValkyrieLoader::UpdateValkyrie(GetS3ObjectResponse* updateResponse)
+void ValkyrieLoader::UpdateValkyrie(std::shared_ptr<GetS3ObjectAsync> updateResponse)
 {
 	auto& updateFileStream = updateResponse->result.GetBody();
 	updater = std::shared_ptr<UpdaterProgress>(new UpdaterProgress(updateFileStream));
@@ -204,20 +211,21 @@ void ValkyrieLoader::DisplayLogin()
 	ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
 
 	ImGui::Separator();
-	if (ImGui::Button("Login")) {
-		std::shared_ptr<AsyncRequest> request(new AsyncRequest());
-		request->response      = api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff);
-		request->onSuccess     = [this](std::shared_ptr<BaseAPIResponse>& response) {
-			loggedUser = ((GetUserInfoResponse*)response.get())->user;
-			displayMode    = DM_USER_PANEL;
-		};
-		asyncRequests["logging in"] = request;
+	if (ImGui::Button("Login") && TaskNotExecuting(trackIdLogin)) {
+		TrackRequest(
+			trackIdLogin,
+			api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff),
+
+			[this](std::shared_ptr<APIAsyncRequest>& response) {
+				loggedUser = ((GetUserAsync*)response.get())->user;
+				displayMode = DM_USER_PANEL;
+			}
+		);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Use invite code"))
 		displayMode = DM_CREATE_ACCOUNT;
 
-	ShowRequestsStatus();
 	ImGui::End();
 }
 
@@ -232,30 +240,38 @@ void ValkyrieLoader::DisplayCreateAccount()
 	ImGui::InputText("Discord",          discordBuff, INPUT_TEXT_BUFF_SIZE);
 
 	ImGui::Separator();
-	ImGui::Button("Create Account");
+	if (ImGui::Button("Create Account") && TaskNotExecuting(trackIdCreateAccount)) {
+		TrackRequest(
+			trackIdCreateAccount,
+			api.CreateAccount(nameBuff, passBuff, discordBuff, hardwareInfo, inviteCodeBuff),
+			[this](std::shared_ptr<APIAsyncRequest>& response) {
+				loggedUser = ((CreateAccountAsync*)response.get())->user;
+				displayMode = DM_USER_PANEL;
+			}
+		);
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("Cancel"))
 		displayMode = DM_LOGIN;
 
-	ShowRequestsStatus();
 	ImGui::End();
 }
 
 void ValkyrieLoader::DisplayUserPanel()
 {
-	if (performUpdate) {
-		std::shared_ptr<AsyncRequest> request(new AsyncRequest());
-		request->response = api.GetCheatS3Object("valkyrie-releases-eu-north-1", "latest.zip");
-		request->onSuccess = [this](std::shared_ptr<BaseAPIResponse>& response) {
-			auto resp = (GetS3ObjectResponse*)response.get();
-			std::thread downloadThread([this, &resp]() {
-				UpdateValkyrie(resp);
-			});
+	if (performUpdate && TaskNotExecuting(trackIdCheckVersion)) {
+		TrackRequest(
+			trackIdCheckVersion,
+			api.GetCheatS3Object("valkyrie-releases-eu-north-1", "latest.zip"),
 
-			downloadThread.detach();
-		};
+			[this](std::shared_ptr<APIAsyncRequest>& response) {
+				std::thread downloadThread([this, &response]() {
+					UpdateValkyrie(std::static_pointer_cast<GetS3ObjectAsync>(response));
+				});
 
-		asyncRequests["checking for updates"] = request;
+				downloadThread.detach();
+			}
+		);
 		performUpdate = false;
 	}
 
@@ -282,7 +298,6 @@ void ValkyrieLoader::DisplayUserPanel()
 	ImGui::Text("No league process active.");
 	ImGui::Button("Inject Valkyrie");
 
-	ShowRequestsStatus();
 	ShowUpdateStatus();
 
 	ImGui::End();
@@ -291,21 +306,22 @@ void ValkyrieLoader::DisplayUserPanel()
 void ValkyrieLoader::DisplayAdminPanel()
 {
 	ImGui::ShowDemoWindow();
-	if (retrieveUsers) {
-		std::shared_ptr<AsyncRequest> request(new AsyncRequest());
-		request->response = api.GetUsers(IdentityInfo(nameBuff, passBuff, hardwareInfo));
-		request->onSuccess = [this](std::shared_ptr<BaseAPIResponse>& response) {
-			auto resp = (GetUserListInfoResponse*)response.get();
-			allUsers = resp->users;
-			selectedUser = 0;
-		};
+	if (retrieveUsers && TaskNotExecuting(trackIdGetUsers)) {
+		TrackRequest(
+			trackIdGetUsers,
+			api.GetUsers(IdentityInfo(nameBuff, passBuff, hardwareInfo)),
 
-		asyncRequests["getting users"] = request;
+			[this](std::shared_ptr<APIAsyncRequest>& response) {
+				auto resp = (GetUserListAsync*)response.get();
+				allUsers = resp->users;
+				selectedUser = 0;
+			}
+		);
 		retrieveUsers = false;
 	}
 
 	ImGui::Begin("Admin Panel");
-	ImGui::PushItemWidth(100.f);
+	ImGui::PushItemWidth(140.f);
 
 	/// Show user manager
 	ImGui::Separator();
@@ -396,11 +412,35 @@ void ValkyrieLoader::DisplayAdminPanel()
 	ImGui::TextColored(COLOR_PURPLE, "Invite code generator");
 	ImGui::DragFloat("Subscription Days", &inviteSubscriptionDays);
 	ImGui::InputText("Generated Code", generatedInviteCodeBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_ReadOnly);
-	if (ImGui::Button("Generate code")) {
-		/// bla bla bla
-		strcpy_s(generatedInviteCodeBuff, "generated bleahhh");
+	if (ImGui::Button("Generate code") && TaskNotExecuting(trackIdGenerateInvite)) {
+		TrackRequest(
+			trackIdGenerateInvite,
+			api.GenerateInviteCode(IdentityInfo(nameBuff, passBuff, hardwareInfo), inviteSubscriptionDays),
+			[this](std::shared_ptr<APIAsyncRequest>& response) {
+				auto resp = (GenerateInviteAsync*)response.get();
+				strcpy_s(generatedInviteCodeBuff, resp->inviteCode.c_str());
+			}
+		);
+		
 	}
 
 	ImGui::PopItemWidth();
 	ImGui::End();
+}
+
+bool ValkyrieLoader::TaskNotExecuting(std::string trackingId)
+{
+	auto find = asyncRequests.find(trackingId);
+	if (find == asyncRequests.end())
+		return true;
+	return find->second->request->status != RS_EXECUTING;
+}
+
+void ValkyrieLoader::TrackRequest(std::string trackingId, std::shared_ptr<APIAsyncRequest> request, std::function<void(std::shared_ptr<APIAsyncRequest>&response)> onSuccess)
+{
+	AsyncRequestTracker* req = new AsyncRequestTracker();
+	req->onSuccess = onSuccess;
+	req->request = request;
+
+	asyncRequests[trackingId] = std::shared_ptr<AsyncRequestTracker>(req);
 }
