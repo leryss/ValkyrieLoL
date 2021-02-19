@@ -11,6 +11,8 @@
 #include <aws/core/auth/AWSCredentials.h>
 #include <aws/core/client/ClientConfiguration.h>
 
+#include "Models.h"
+
 using namespace Aws::Lambda;
 
 enum APIRequestStatus {
@@ -29,13 +31,31 @@ protected:
 	Aws::Utils::Json::JsonValue lambdaRawResponse;
 };
 
-class AuthResponse: public BaseAPIResponse {
+class GetUserInfoResponse: public BaseAPIResponse {
 public:
-	Aws::String token;
+	UserInfo user;
 
 	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx){
 		this->OnFinish(outcome);
-		this->token = lambdaRawResponse.View().GetString("result");
+		if(status == RS_SUCCESS)
+			user = UserInfo::FromJsonView(lambdaRawResponse.View().GetObject("result"));
+	};
+};
+
+class GetUserListInfoResponse : public BaseAPIResponse {
+public:
+	std::vector<UserInfo> users;
+
+	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
+		this->OnFinish(outcome);
+		if (status == RS_SUCCESS) {
+			auto jsonUsers = lambdaRawResponse.View().GetArray("result");
+			int numUsers = jsonUsers.GetLength();
+			for (int i = 0; i < numUsers; ++i) {
+				auto jsonUser = jsonUsers.GetItem(i);
+				users.push_back(UserInfo::FromJsonView(jsonUser));
+			}
+		}
 	};
 };
 
@@ -55,13 +75,16 @@ public:
 	};
 };
 
+
+
 class ValkyrieAPI {
 
 public:
 	ValkyrieAPI();
 
-	std::shared_ptr<AuthResponse>          Authorize(const char* name, const char* password, float durationSecs);
-	std::shared_ptr<GetS3ObjectResponse>   GetCheatS3Object(const char* bucket, const char* key);
+	std::shared_ptr<GetUserListInfoResponse> GetUsers(const IdentityInfo& identity);
+	std::shared_ptr<GetUserInfoResponse>     GetUser(const IdentityInfo& identity, const char* target);
+	std::shared_ptr<GetS3ObjectResponse>     GetCheatS3Object(const char* bucket, const char* key);
 private:
 
 	Aws::String apiToken;

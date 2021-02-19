@@ -19,6 +19,9 @@
     <Filter Include="Source Files\miniz">
       <UniqueIdentifier>{47dfa186-3dd1-473c-b795-85422e6b6d76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{90d5c3ee-f296-475f-a14c-1cbb979cf174}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -53,6 +56,18 @@
     </ClInclude>
     <ClInclude Include="ValkyrieLoader.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="HardwareInfo.h">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Models.h">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentityInfo.h">
+      <Filter>Source Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

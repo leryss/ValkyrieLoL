@@ -22,30 +22,50 @@ ValkyrieAPI::ValkyrieAPI()
 	lambdaRequest.SetContentType("application/javascript");
 }
 
-std::shared_ptr<AuthResponse> ValkyrieAPI::Authorize(const char * name, const char * password, float durationSecs)
+std::shared_ptr<GetUserListInfoResponse> ValkyrieAPI::GetUsers(const IdentityInfo & identity)
 {
-	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadAuthorize");
+	std::shared_ptr<GetUserListInfoResponse> response(new GetUserListInfoResponse());
 
-	Aws::Utils::Json::JsonValue jsonHardware;
-	jsonHardware.WithString("cpu", "wtf");
+	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
 
 	Aws::Utils::Json::JsonValue jsonParams;
-	jsonParams.WithString("name", name);
-	jsonParams.WithString("pass", password);
-	jsonParams.WithDouble("duration", durationSecs);
-	jsonParams.WithObject("hardware", jsonHardware);
+	jsonParams.WithString("name", identity.name.c_str());
+	jsonParams.WithString("pass", identity.pass.c_str());
+	jsonParams.WithObject("hardware", identity.hardware.ToJsonValue());
 
 	Aws::Utils::Json::JsonValue json;
-	json.WithString("operation", "authorize");
+	json.WithString("operation", "list-users");
 	json.WithObject("operation-params", jsonParams);
 
 	*payload << json.View().WriteReadable();
 	lambdaRequest.SetBody(payload);
-
-	std::shared_ptr<AuthResponse> response(new AuthResponse());
+	lambdaClient->InvokeAsync(lambdaRequest, response->onFinishHandler);
 	response->status = RS_EXECUTING;
 
+	return response;
+}
+
+std::shared_ptr<GetUserInfoResponse> ValkyrieAPI::GetUser(const IdentityInfo & identity, const char* target)
+{
+	std::shared_ptr<GetUserInfoResponse> response(new GetUserInfoResponse());
+
+	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
+
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithString("name", identity.name.c_str());
+	jsonParams.WithString("pass", identity.pass.c_str());
+	jsonParams.WithObject("hardware", identity.hardware.ToJsonValue());
+	jsonParams.WithString("target", target);
+
+	Aws::Utils::Json::JsonValue json;
+	json.WithString("operation", "get-user");
+	json.WithObject("operation-params", jsonParams);
+
+	*payload << json.View().WriteReadable();
+	lambdaRequest.SetBody(payload);
 	lambdaClient->InvokeAsync(lambdaRequest, response->onFinishHandler);
+	response->status = RS_EXECUTING;
+
 	return response;
 }
 

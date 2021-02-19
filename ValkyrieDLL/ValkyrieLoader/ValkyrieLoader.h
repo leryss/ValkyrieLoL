@@ -6,7 +6,7 @@
 enum DisplayMode {
 	DM_LOGIN,
 	DM_CREATE_ACCOUNT,
-	DM_PANEL
+	DM_USER_PANEL
 };
 
 enum UpdateState {
@@ -64,22 +64,29 @@ private:
 
 	void ShowRequestsStatus();
 	void ShowUpdateStatus();
-	void UpdateValkyrie(Aws::IOStream& updateFileStream);
+	void UpdateValkyrie(GetS3ObjectResponse* updateResponse);
 
 	void DisplayLogin();
 	void DisplayCreateAccount();
-	void DisplayPanel();
+	void DisplayUserPanel();
+	void DisplayAdminPanel();
 
+	/// Flags for requests
 	bool                                performUpdate = true;
+	bool                                retrieveUsers = true;
 
+	std::string                         changeLog;
 	std::string                         valkyrieFolder;
 	std::string                         versionFilePath;
 	std::string                         versionHash;
 	std::shared_ptr<UpdaterProgress>    updater;
 
-	Aws::String                         apiToken;
 	ValkyrieAPI                         api;
 	DisplayMode                         displayMode = DM_LOGIN;
+
+	HardwareInfo                        hardwareInfo;
+	UserInfo                            loggedUser;
+	std::vector<UserInfo>               allUsers;
 
 	/// Login stuff
 	static const int INPUT_TEXT_BUFF_SIZE            = 256;
@@ -90,6 +97,14 @@ private:
 	char             passConfirmBuff[INPUT_TEXT_BUFF_SIZE] = "<pass>";
 	char             discordBuff[INPUT_TEXT_BUFF_SIZE]     = "your_discord#0000";
 	char             inviteCodeBuff[INPUT_TEXT_BUFF_SIZE]  = "your_invite_code";
+
+	/// Invite code generator stuff
+	float            inviteSubscriptionDays;
+	char             generatedInviteCodeBuff[INPUT_TEXT_BUFF_SIZE] = "";
+
+	/// User Manager stuff
+	int              selectedUser = 0;
+	float            deltaDays = 0.f;
 
 	std::map<std::string, std::shared_ptr<AsyncRequest>> asyncRequests;
 
