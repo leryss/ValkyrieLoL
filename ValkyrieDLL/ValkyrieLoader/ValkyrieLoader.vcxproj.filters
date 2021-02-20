@@ -22,6 +22,15 @@
     <Filter Include="Source Files\Model">
       <UniqueIdentifier>{90d5c3ee-f296-475f-a14c-1cbb979cf174}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Async">
+      <UniqueIdentifier>{4da58402-6080-40c6-ac03-245f1f8d650c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Loader">
+      <UniqueIdentifier>{1ca90330-5dad-476e-95d4-4243afb54835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{20b9992b-3a42-4152-a278-65384f70da16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -48,14 +57,8 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="ValkyrieAPI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="miniz\miniz.h">
       <Filter>Source Files\miniz</Filter>
-    </ClInclude>
-    <ClInclude Include="ValkyrieLoader.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="UserInfo.h">
       <Filter>Source Files\Model</Filter>
@@ -68,6 +71,21 @@
     </ClInclude>
     <ClInclude Include="IdentityInfo.h">
       <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncTask.h">
+      <Filter>Source Files\Async</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncTaskPool.h">
+      <Filter>Source Files\Async</Filter>
+    </ClInclude>
+    <ClInclude Include="ValkyrieLoader.h">
+      <Filter>Source Files\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="ValkyrieAPI.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdaterAsync.h">
+      <Filter>Source Files\Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,14 +113,14 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ValkyrieAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="miniz\miniz.c">
       <Filter>Source Files\miniz</Filter>
     </ClCompile>
     <ClCompile Include="ValkyrieLoader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="ValkyrieAPI.cpp">
+      <Filter>Source Files\API</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

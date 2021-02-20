@@ -12,93 +12,135 @@
 #include <aws/core/client/ClientConfiguration.h>
 
 #include "Models.h"
+#include "AsyncTask.h"
 
 using namespace Aws::Lambda;
 
-enum APIRequestStatus {
-	RS_EXECUTING,
-	RS_SUCCESS,
-	RS_FAILURE
-};
+class GetS3ObjectAsync : public AsyncTask {
 
-class APIAsyncRequest {
 public:
-	APIRequestStatus status = RS_SUCCESS;
-	Aws::String      error;
+	GetS3ObjectAsync(Aws::S3::S3Client& s3Client, Aws::S3::Model::GetObjectRequest& request)
+		:s3Client(s3Client), request(request)
+	{}
 
-	void OnFinish(Model::InvokeOutcome& outcome);
+	virtual void Perform() {
+		
+		currentStep = "Requesting S3 Object";
+		auto outcome = s3Client.GetObject(request);
 
-protected:
-	Aws::Utils::Json::JsonValue lambdaRawResponse;
+		if (!outcome.IsSuccess()) {
+			SetStatus(ASYNC_FAILED);
+			error = "Failed to get s3 object";
+		}
+		else {
+			SetStatus(ASYNC_SUCCEEDED);
+			result = (Aws::S3::Model::GetObjectResult&&)outcome.GetResult();
+		}
+	}
+
+	Aws::S3::Model::GetObjectResult   result;
+	Aws::S3::S3Client&                s3Client;
+	Aws::S3::Model::GetObjectRequest& request;
 };
 
-class GenerateInviteAsync : public APIAsyncRequest {
+class AsyncLambdaInvoke: public AsyncTask {
+
 public:
-	Aws::String inviteCode;
 
-	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
-		this->OnFinish(outcome);
-		if (status == RS_SUCCESS)
-			inviteCode = lambdaRawResponse.View().GetString("result");
-	};
+	AsyncLambdaInvoke(LambdaClient& lambdaClient, Model::InvokeRequest& req)
+      :lambda(lambdaClient),
+       request(req)
+	{}
+
+	virtual void Perform() {
+		
+		currentStep = "Invoking AWS Lambda";
+
+		Model::InvokeOutcome outcome = lambda.Invoke(request);
+		if (!outcome.IsSuccess()) {
+			SetStatus(ASYNC_FAILED);
+			error = "Failed to invoke lambda";
+		}
+		else {
+			rawJson = Aws::Utils::Json::JsonValue(outcome.GetResult().GetPayload());
+			int code = rawJson.View().GetInteger("code");
+			if(code == 200)
+				SetStatus(ASYNC_SUCCEEDED);
+			else {
+				SetStatus(ASYNC_FAILED);
+				error = rawJson.View().GetString("error").c_str();
+			}
+		}
+	}
+
+	Aws::Utils::Json::JsonValue rawJson;
+	LambdaClient&               lambda;
+	Model::InvokeRequest&       request;
 };
 
-class GetUserAsync: public APIAsyncRequest {
-public:
-	UserInfo user;
-
-	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx){
-		this->OnFinish(outcome);
-		if(status == RS_SUCCESS)
-			user = UserInfo::FromJsonView(lambdaRawResponse.View().GetObject("result"));
-	};
-};
-
-class CreateAccountAsync : public APIAsyncRequest {
-public:
-	UserInfo user;
-
-	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
-		this->OnFinish(outcome);
-		if (status == RS_SUCCESS)
-			user = UserInfo::FromJsonView(lambdaRawResponse.View().GetObject("result"));
-	};
-};
-
-class GetUserListAsync : public APIAsyncRequest {
+class GetUserListAsync : public AsyncLambdaInvoke {
 public:
 	std::vector<UserInfo> users;
 
-	InvokeResponseReceivedHandler onFinishHandler = [this](const LambdaClient* client, const Model::InvokeRequest& req, Model::InvokeOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
-		this->OnFinish(outcome);
-		if (status == RS_SUCCESS) {
-			auto jsonUsers = lambdaRawResponse.View().GetArray("result");
+	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+
+	virtual void Perform() {
+		AsyncLambdaInvoke::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED) {
+			auto jsonUsers = rawJson.View().GetArray("result");
 			int numUsers = jsonUsers.GetLength();
+
 			for (int i = 0; i < numUsers; ++i) {
 				auto jsonUser = jsonUsers.GetItem(i);
 				users.push_back(UserInfo::FromJsonView(jsonUser));
 			}
 		}
-	};
+	}
 };
 
-class GetS3ObjectAsync : public APIAsyncRequest {
+class GetUserAsync : public AsyncLambdaInvoke {
 public:
-	Aws::S3::Model::GetObjectResult result;
+	UserInfo user;
 
-	Aws::S3::GetObjectResponseReceivedHandler onFinishHandler = [this](const Aws::S3::S3Client* client, const Aws::S3::Model::GetObjectRequest& req, Aws::S3::Model::GetObjectOutcome outcome, const std::shared_ptr<const Aws::Client::AsyncCallerContext>& ctx) {
-		if (!outcome.IsSuccess()) {
-			status = RS_FAILURE;
-			error = "Failed to retrieve S3 object";
+	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+
+	virtual void Perform() {
+		AsyncLambdaInvoke::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED) {
+			user = UserInfo::FromJsonView(rawJson.View().GetObject("result"));
 		}
-		else {
-			status = RS_SUCCESS;
-			result = (Aws::S3::Model::GetObjectResult&&)outcome.GetResult();
-		}
-	};
+	}
 };
 
+class GenerateInviteAsync : public AsyncLambdaInvoke {
+public:
+	Aws::String inviteCode;
 
+	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+
+	virtual void Perform() {
+		AsyncLambdaInvoke::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED)
+			inviteCode = rawJson.View().GetString("result");
+	}
+};
+
+class CreateAccountAsync : public AsyncLambdaInvoke {
+public:
+	UserInfo user;
+
+	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+
+	virtual void Perform() {
+		AsyncLambdaInvoke::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED)
+			user = UserInfo::FromJsonView(rawJson.View().GetObject("result"));
+	}
+};
 
 class ValkyrieAPI {
 
@@ -106,12 +148,14 @@ public:
 	ValkyrieAPI();
 
 	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
+
 	std::shared_ptr<CreateAccountAsync>   CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
 
 	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
 	std::shared_ptr<GetUserAsync>         GetUser(const IdentityInfo& identity, const char* target);
 	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days);
 	
+
 private:
 
 	Aws::String apiToken;
@@ -119,5 +163,6 @@ private:
 	std::shared_ptr<Aws::Lambda::LambdaClient> lambdaClient;
 	std::shared_ptr<Aws::S3::S3Client>         s3Client;
 
-	Aws::Lambda::Model::InvokeRequest          lambdaRequest;
+	Model::InvokeRequest                       lambdaInvokeRequest;
+	Aws::S3::Model::GetObjectRequest           s3GetObjectRequest;
 };

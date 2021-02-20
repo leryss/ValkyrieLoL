@@ -128,10 +128,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AsyncTask.h" />
+    <ClInclude Include="AsyncTaskPool.h" />
     <ClInclude Include="HardwareInfo.h" />
     <ClInclude Include="IdentityInfo.h" />
     <ClInclude Include="miniz\miniz.h" />
     <ClInclude Include="Models.h" />
+    <ClInclude Include="UpdaterAsync.h" />
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="ValkyrieAPI.h" />
     <ClInclude Include="imgui\imconfig.h" />

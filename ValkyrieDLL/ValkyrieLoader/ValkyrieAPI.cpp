@@ -16,16 +16,14 @@ ValkyrieAPI::ValkyrieAPI()
 	lambdaClient = Aws::MakeShared<Aws::Lambda::LambdaClient>("lambda_client_tag", credentials, config);
 	s3Client     = Aws::MakeShared<Aws::S3::S3Client>("s3_client_tag", credentials, config);
 
-	lambdaRequest.SetFunctionName("valkyrie-api");
-	lambdaRequest.SetInvocationType(Aws::Lambda::Model::InvocationType::RequestResponse);
-	lambdaRequest.SetLogType(Aws::Lambda::Model::LogType::Tail);
-	lambdaRequest.SetContentType("application/javascript");
+	lambdaInvokeRequest.SetFunctionName("valkyrie-api");
+	lambdaInvokeRequest.SetInvocationType(Aws::Lambda::Model::InvocationType::RequestResponse);
+	lambdaInvokeRequest.SetLogType(Aws::Lambda::Model::LogType::Tail);
+	lambdaInvokeRequest.SetContentType("application/javascript");
 }
 
 std::shared_ptr<CreateAccountAsync> ValkyrieAPI::CreateAccount(const char * name, const char * pass, const char * discord, const HardwareInfo & hardware, const char * inviteCode)
 {
-	std::shared_ptr<CreateAccountAsync> response(new CreateAccountAsync());
-
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadCreateAcc");
 
 	Aws::Utils::Json::JsonValue jsonParams;
@@ -40,17 +38,13 @@ std::shared_ptr<CreateAccountAsync> ValkyrieAPI::CreateAccount(const char * name
 	json.WithObject("operation-params", jsonParams);
 
 	*payload << json.View().WriteReadable();
-	lambdaRequest.SetBody(payload);
-	lambdaClient->InvokeAsync(lambdaRequest, response->onFinishHandler);
-	response->status = RS_EXECUTING;
+	lambdaInvokeRequest.SetBody(payload);
 
-	return response;
+	return std::shared_ptr<CreateAccountAsync>(new CreateAccountAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GetUserListAsync> ValkyrieAPI::GetUsers(const IdentityInfo & identity)
 {
-	std::shared_ptr<GetUserListAsync> response(new GetUserListAsync());
-
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
 
 	Aws::Utils::Json::JsonValue jsonParams;
@@ -63,17 +57,13 @@ std::shared_ptr<GetUserListAsync> ValkyrieAPI::GetUsers(const IdentityInfo & ide
 	json.WithObject("operation-params", jsonParams);
 
 	*payload << json.View().WriteReadable();
-	lambdaRequest.SetBody(payload);
-	lambdaClient->InvokeAsync(lambdaRequest, response->onFinishHandler);
-	response->status = RS_EXECUTING;
+	lambdaInvokeRequest.SetBody(payload);
 
-	return response;
+	return std::shared_ptr<GetUserListAsync>(new GetUserListAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GetUserAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity, const char* target)
 {
-	std::shared_ptr<GetUserAsync> response(new GetUserAsync());
-
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
 
 	Aws::Utils::Json::JsonValue jsonParams;
@@ -87,17 +77,13 @@ std::shared_ptr<GetUserAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity
 	json.WithObject("operation-params", jsonParams);
 
 	*payload << json.View().WriteReadable();
-	lambdaRequest.SetBody(payload);
-	lambdaClient->InvokeAsync(lambdaRequest, response->onFinishHandler);
-	response->status = RS_EXECUTING;
+	lambdaInvokeRequest.SetBody(payload);
 
-	return response;
+	return std::shared_ptr<GetUserAsync>(new GetUserAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days)
 {
-	std::shared_ptr<GenerateInviteAsync> response(new GenerateInviteAsync());
-
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGenerateIdentity");
 
 	Aws::Utils::Json::JsonValue jsonParams;
@@ -111,35 +97,15 @@ std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const Ident
 	json.WithObject("operation-params", jsonParams);
 
 	*payload << json.View().WriteReadable();
-	lambdaRequest.SetBody(payload);
-	lambdaClient->InvokeAsync(lambdaRequest, response->onFinishHandler);
-	response->status = RS_EXECUTING;
+	lambdaInvokeRequest.SetBody(payload);
 
-	return response;
+	return std::shared_ptr<GenerateInviteAsync>(new GenerateInviteAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GetS3ObjectAsync> ValkyrieAPI::GetCheatS3Object(const char* bucket, const char* key)
 {
-	std::shared_ptr<GetS3ObjectAsync> response(new GetS3ObjectAsync());
+	s3GetObjectRequest.SetBucket(bucket);
+	s3GetObjectRequest.SetKey(key);
 
-	Aws::S3::Model::GetObjectRequest req;
-	req.SetBucket(bucket);
-	req.SetKey(key);
-
-	s3Client->GetObjectAsync(req, response->onFinishHandler);
-	response->status = RS_EXECUTING;
-	return response;
-}
-
-void APIAsyncRequest::OnFinish(Model::InvokeOutcome& outcome)
-{
-	if (!outcome.IsSuccess()) {
-		status = RS_FAILURE;
-		error = "Failed to connect to server";
-	}
-
-	lambdaRawResponse = Aws::Utils::Json::JsonValue(outcome.GetResult().GetPayload());
-	status = lambdaRawResponse.View().GetInteger("code") == 200 ? RS_SUCCESS : RS_FAILURE;
-	if (status == RS_FAILURE)
-		error = lambdaRawResponse.View().GetString("error");
+	return std::shared_ptr<GetS3ObjectAsync>(new GetS3ObjectAsync(*s3Client, s3GetObjectRequest));
 }

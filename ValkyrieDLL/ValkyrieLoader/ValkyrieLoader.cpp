@@ -15,10 +15,10 @@ static ImVec4      COLOR_PURPLE = ImVec4(0.5f, 0.3f, 0.8f, 1.f);
 static ImVec4      COLOR_GREEN  = ImVec4(0.f, 1.f, 0.f, 1.f);
 static ImVec4      COLOR_YELLOW = ImVec4(1.f, 1.f, 0.f, 1.f);
 
-static const int   MB_IN_BYTES  = 1000000;
 static const float ONE_DAY_SECS = 60.f * 60.f * 24.f;
 
 ValkyrieLoader::ValkyrieLoader()
+	:taskPool(4)
 {
 	/// Get appdata folder and create path for valkyrie folder
 	char path[1024];
@@ -85,122 +85,24 @@ void ValkyrieLoader::ShowRequestsStatus()
 
 	ImGui::TextColored(COLOR_YELLOW, "Background tasks");
 
-	auto it = asyncRequests.begin();
-	while (it != asyncRequests.end()) {
-		auto& pair = *it;
-		auto  operationName = pair.first.c_str();
-		auto& req = pair.second;
+	taskPool.VisitTasks([this, &tickCount](std::string taskId, std::shared_ptr<AsyncTask>& task) {
+		const char* operationName = taskId.c_str();
 
-		switch (req->request->status) {
-		case RS_EXECUTING:
+		switch (task->GetStatus()) {
+		case ASYNC_RUNNING:
 			ImGui::Separator();
-			ImGui::TextColored(COLOR_PURPLE, "Executing request: %s%s", operationName, (tickCount < 200 ? "." : (tickCount < 400 ? ".." : "...")));
+			ImGui::TextColored(COLOR_PURPLE, operationName);
+			ImGui::TextColored(COLOR_GREEN, "Executing step: %s%s", task->currentStep.c_str(), (tickCount < 200 ? "." : (tickCount < 400 ? ".." : "...")));
 			break;
-		case RS_FAILURE:
+		case ASYNC_FAILED:
 			ImGui::Separator();
-			ImGui::TextColored(COLOR_RED, "Failed request: `%s`: %s", operationName, req->request->error.c_str());
+			ImGui::TextColored(COLOR_PURPLE, operationName);
+			ImGui::TextColored(COLOR_RED, "Step `%s` failed: %s", task->currentStep.c_str(), task->error.c_str());
 			break;
-		case RS_SUCCESS:
-			req->onSuccess(req->request);
-			asyncRequests.erase(it++);
-			continue;
 		}
-
-		++it;
-	}
+	});
 
 	ImGui::End();
-}
-
-void ValkyrieLoader::ShowUpdateStatus()
-{
-	if (updater == nullptr)
-		return;
-
-	switch (updater->status) {
-	case US_COMPLETE:
-		ImGui::Separator();
-		ImGui::TextColored(COLOR_GREEN, "Valkyrie is up to date with the latest version.");
-		break;
-	case US_FAILED:
-		ImGui::Separator();
-		ImGui::TextColored(COLOR_RED, "Updating failed: %s", updater->error);
-		break;
-	case US_EXTRACTING:
-		ImGui::Separator();
-		ImGui::Text("Unpacking updates %d / %d", updater->numFilesExtracted, updater->numFilesToExtract);
-		break;
-	case US_DOWNLOADING:
-		ImGui::Separator();
-		ImGui::Text("Downloading updates: %.2f / %.2f MB", float(updater->sizeDownload) / MB_IN_BYTES, float(updater->sizeDownloadBuff) / MB_IN_BYTES);
-		break;
-	}
-}
-
-void ValkyrieLoader::UpdateValkyrie(std::shared_ptr<GetS3ObjectAsync> updateResponse)
-{
-	auto& updateFileStream = updateResponse->result.GetBody();
-	updater = std::shared_ptr<UpdaterProgress>(new UpdaterProgress(updateFileStream));
-	
-	/// Check if there is a new version and download the files
-	auto& etag = updateResponse->result.GetETag();
-	if (etag.compare(versionHash.c_str()) != 0) {
-		
-		/// Download from stream
-		updater->status = US_DOWNLOADING;
-
-		while (true) {
-			std::streamsize readBytes = updateFileStream.readsome(updater->downloadBuff + updater->sizeDownload, 10000);
-			updater->sizeDownload += readBytes;
-			if (readBytes == 0)
-				break;
-		}
-
-		/// Extract from downloaded archive
-		updater->status = US_EXTRACTING;
-
-		mz_zip_archive archive;
-		memset(&archive, 0, sizeof(archive));
-		if (!mz_zip_reader_init_mem(&archive, updater->downloadBuff, updater->sizeDownload, 0)) {
-			updater->status = US_FAILED;
-			updater->error = "Failed to open update archive";
-		}
-
-		updater->numFilesToExtract = mz_zip_reader_get_num_files(&archive);
-		for (int i = 0; i < updater->numFilesToExtract; ++i) {
-			mz_zip_archive_file_stat fileStat;
-			if (!mz_zip_reader_file_stat(&archive, i, &fileStat)) {
-				updater->status = US_FAILED;
-				updater->error = "Failed to get archived file info for";
-				return;
-			}
-
-			std::string path = valkyrieFolder + "\\" + fileStat.m_filename;
-			if (fileStat.m_is_directory) {
-				CreateDirectoryA(path.c_str(), NULL);
-			}
-			else if (!mz_zip_reader_extract_file_to_file(&archive, fileStat.m_filename, path.c_str(), 0)) {
-				updater->status = US_FAILED;
-				updater->error = std::string("Failed to unzip file ") + fileStat.m_filename;
-				return;
-			}
-
-			updater->numFilesExtracted = i;
-		}
-
-		mz_zip_reader_end(&archive);
-
-		/// Update version hash
-		versionHash = etag.c_str();
-		std::ofstream versionFile(valkyrieFolder + "\\version");
-		versionFile.write(versionHash.c_str(), versionHash.size());
-	}
-
-	/// Read change logs
-	std::ifstream changeLogFile(valkyrieFolder + "\\changelog.txt");
-	changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
-
-	updater->status = US_COMPLETE;
 }
 
 void ValkyrieLoader::DisplayLogin()
@@ -211,12 +113,11 @@ void ValkyrieLoader::DisplayLogin()
 	ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
 
 	ImGui::Separator();
-	if (ImGui::Button("Login") && TaskNotExecuting(trackIdLogin)) {
-		TrackRequest(
+	if (ImGui::Button("Login") && !taskPool.IsExecuting(trackIdLogin)) {
+		taskPool.DispatchTask(
 			trackIdLogin,
 			api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff),
-
-			[this](std::shared_ptr<APIAsyncRequest>& response) {
+			[this](std::shared_ptr<AsyncTask> response) {
 				loggedUser = ((GetUserAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}
@@ -240,11 +141,11 @@ void ValkyrieLoader::DisplayCreateAccount()
 	ImGui::InputText("Discord",          discordBuff, INPUT_TEXT_BUFF_SIZE);
 
 	ImGui::Separator();
-	if (ImGui::Button("Create Account") && TaskNotExecuting(trackIdCreateAccount)) {
-		TrackRequest(
+	if (ImGui::Button("Create Account") && !taskPool.IsExecuting(trackIdCreateAccount)) {
+		taskPool.DispatchTask(
 			trackIdCreateAccount,
 			api.CreateAccount(nameBuff, passBuff, discordBuff, hardwareInfo, inviteCodeBuff),
-			[this](std::shared_ptr<APIAsyncRequest>& response) {
+			[this](std::shared_ptr<AsyncTask> response) {
 				loggedUser = ((CreateAccountAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}
@@ -259,17 +160,17 @@ void ValkyrieLoader::DisplayCreateAccount()
 
 void ValkyrieLoader::DisplayUserPanel()
 {
-	if (performUpdate && TaskNotExecuting(trackIdCheckVersion)) {
-		TrackRequest(
+	if (performUpdate && !taskPool.IsExecuting(trackIdCheckVersion)) {
+		taskPool.DispatchTask(
 			trackIdCheckVersion,
 			api.GetCheatS3Object("valkyrie-releases-eu-north-1", "latest.zip"),
 
-			[this](std::shared_ptr<APIAsyncRequest>& response) {
-				std::thread downloadThread([this, &response]() {
-					UpdateValkyrie(std::static_pointer_cast<GetS3ObjectAsync>(response));
-				});
-
-				downloadThread.detach();
+			[this](std::shared_ptr<AsyncTask> response) {
+				taskPool.DispatchTask(
+					trackIdUpdate, 
+					std::shared_ptr<AsyncTask>((AsyncTask*)new UpdaterAsync(*this, std::static_pointer_cast<GetS3ObjectAsync>(response))),
+					[this](std::shared_ptr<AsyncTask> response) {}
+				);
 			}
 		);
 		performUpdate = false;
@@ -298,20 +199,18 @@ void ValkyrieLoader::DisplayUserPanel()
 	ImGui::Text("No league process active.");
 	ImGui::Button("Inject Valkyrie");
 
-	ShowUpdateStatus();
-
 	ImGui::End();
 }
 
 void ValkyrieLoader::DisplayAdminPanel()
 {
 	ImGui::ShowDemoWindow();
-	if (retrieveUsers && TaskNotExecuting(trackIdGetUsers)) {
-		TrackRequest(
+	if (retrieveUsers && !taskPool.IsExecuting(trackIdGetUsers)) {
+		taskPool.DispatchTask(
 			trackIdGetUsers,
 			api.GetUsers(IdentityInfo(nameBuff, passBuff, hardwareInfo)),
 
-			[this](std::shared_ptr<APIAsyncRequest>& response) {
+			[this](std::shared_ptr<AsyncTask> response) {
 				auto resp = (GetUserListAsync*)response.get();
 				allUsers = resp->users;
 				selectedUser = 0;
@@ -412,11 +311,12 @@ void ValkyrieLoader::DisplayAdminPanel()
 	ImGui::TextColored(COLOR_PURPLE, "Invite code generator");
 	ImGui::DragFloat("Subscription Days", &inviteSubscriptionDays);
 	ImGui::InputText("Generated Code", generatedInviteCodeBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_ReadOnly);
-	if (ImGui::Button("Generate code") && TaskNotExecuting(trackIdGenerateInvite)) {
-		TrackRequest(
+
+	if (ImGui::Button("Generate code") && !taskPool.IsExecuting(trackIdGenerateInvite)) {
+		taskPool.DispatchTask(
 			trackIdGenerateInvite,
 			api.GenerateInviteCode(IdentityInfo(nameBuff, passBuff, hardwareInfo), inviteSubscriptionDays),
-			[this](std::shared_ptr<APIAsyncRequest>& response) {
+			[this](std::shared_ptr<AsyncTask> response) {
 				auto resp = (GenerateInviteAsync*)response.get();
 				strcpy_s(generatedInviteCodeBuff, resp->inviteCode.c_str());
 			}
@@ -428,19 +328,77 @@ void ValkyrieLoader::DisplayAdminPanel()
 	ImGui::End();
 }
 
-bool ValkyrieLoader::TaskNotExecuting(std::string trackingId)
-{
-	auto find = asyncRequests.find(trackingId);
-	if (find == asyncRequests.end())
-		return true;
-	return find->second->request->status != RS_EXECUTING;
-}
+UpdaterAsync::UpdaterAsync(ValkyrieLoader & vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile)
+	:loader(vloader), updateFile(s3UpdateFile)
+{}
 
-void ValkyrieLoader::TrackRequest(std::string trackingId, std::shared_ptr<APIAsyncRequest> request, std::function<void(std::shared_ptr<APIAsyncRequest>&response)> onSuccess)
+void UpdaterAsync::Perform()
 {
-	AsyncRequestTracker* req = new AsyncRequestTracker();
-	req->onSuccess = onSuccess;
-	req->request = request;
+	auto& updateFileStream = updateFile->result.GetBody();
 
-	asyncRequests[trackingId] = std::shared_ptr<AsyncRequestTracker>(req);
+	/// Check if there is a new version and download the files
+	auto& etag = updateFile->result.GetETag();
+	if (etag.compare(loader.versionHash.c_str()) != 0) {
+
+		/// Download from stream
+		currentStep = "Downloading data";
+
+		int sizeDownload = 0.0;
+		char* downloadBuff = new char[30 * MB_IN_BYTES];
+		while (true) {
+			std::streamsize readBytes = updateFileStream.readsome(downloadBuff + sizeDownload, 10000);
+			sizeDownload += readBytes;
+			if (readBytes == 0)
+				break;
+		}
+
+		/// Extract from downloaded archive
+		currentStep = "Extracting data";
+
+		mz_zip_archive archive;
+		memset(&archive, 0, sizeof(archive));
+		if (!mz_zip_reader_init_mem(&archive, downloadBuff, sizeDownload, 0)) {
+			SetStatus(ASYNC_FAILED);
+			error = "Failed to open update archive";
+			delete[] downloadBuff;
+			return;
+		}
+
+		int numFilesToExtract = mz_zip_reader_get_num_files(&archive);
+		for (int i = 0; i < numFilesToExtract; ++i) {
+			mz_zip_archive_file_stat fileStat;
+			if (!mz_zip_reader_file_stat(&archive, i, &fileStat)) {
+				SetStatus(ASYNC_FAILED);
+				error = std::string("Failed to get archive file info for file num ") + std::to_string(i);
+				delete[] downloadBuff;
+				return;
+			}
+
+			std::string path = loader.valkyrieFolder + "\\" + fileStat.m_filename;
+			if (fileStat.m_is_directory) {
+				CreateDirectoryA(path.c_str(), NULL);
+			}
+			else if (!mz_zip_reader_extract_file_to_file(&archive, fileStat.m_filename, path.c_str(), 0)) {
+				SetStatus(ASYNC_FAILED);
+				error = std::string("Failed to unarchive file ") + fileStat.m_filename;
+				delete[] downloadBuff;
+				return;
+			}
+		}
+
+		mz_zip_reader_end(&archive);
+
+		/// Update version hash
+		loader.versionHash = etag.c_str();
+		std::ofstream versionFile(loader.valkyrieFolder + "\\version");
+		versionFile.write(loader.versionHash.c_str(), loader.versionHash.size());
+
+		delete[] downloadBuff;
+	}
+
+	/// Read change logs
+	std::ifstream changeLogFile(loader.valkyrieFolder + "\\changelog.txt");
+	loader.changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
+
+	SetStatus(ASYNC_SUCCEEDED);
 }
