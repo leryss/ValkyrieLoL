@@ -17,7 +17,7 @@
 mono_crash.*
 
 # Boost library
-ValkyrieDLL/ValkyrieDLL/boost/
+ProjectValkyrie/ValkyrieDLL/boost/
 
 # Build results
 [Dd]ebug/
