@@ -1,52 +1,7 @@
 [Valkyrie v0.10]
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
+	> First release ~yay~
+	> Enjoy ~~
 	
-[Valkyrie v0.10]
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
-	
-[Valkyrie v0.10]
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
-	
-[Valkyrie v0.10]
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
-	
-[Valkyrie v0.10]
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
-	
-[Valkyrie v0.10]
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
-	
-[Valkyrie v0.10]
 	* Added Gank Awareness
 	* Added Basic Indicators
 	* Added Base Activator

@@ -1,0 +1,357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{e4edb407-3b32-42d5-b224-4b2a67f7ca6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{5da88115-f1d6-48a7-8eb1-abf1291ae5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External">
+      <UniqueIdentifier>{ea5075dd-a453-4a95-8702-726274bc2c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\imgui">
+      <UniqueIdentifier>{2d9c5173-0a36-4eb1-a35b-27bd99fd8c16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{3e51df4d-21c2-413e-997f-2cf18766c079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{fc4fe807-f531-4a7c-ab55-87baa1061437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils\Logging">
+      <UniqueIdentifier>{be00a518-2ecf-4b42-ae6a-75acf600004e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\StaticData">
+      <UniqueIdentifier>{6e81dd77-a800-4fde-aa43-af218e83625f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\json">
+      <UniqueIdentifier>{70a5bbbe-503a-48c0-b3de-242050e59344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\stbi">
+      <UniqueIdentifier>{59aad87d-998d-432d-94ce-1e5c050379d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects">
+      <UniqueIdentifier>{ee4649f3-765c-41eb-a540-e00e4f6efd6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils\Benchmarking">
+      <UniqueIdentifier>{e0754310-e8a5-4660-98c1-179382215dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Python">
+      <UniqueIdentifier>{4a38a7c4-d8ad-4399-8428-1d2e818af2b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\miniz">
+      <UniqueIdentifier>{1928303f-df65-4c85-9a33-ea1fce27da7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils\Input">
+      <UniqueIdentifier>{1bea2fe5-5b69-4ae3-9322-9162c1b4b233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Units">
+      <UniqueIdentifier>{b52c08f6-d96d-4e8b-a0c8-35599735b02a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Spells">
+      <UniqueIdentifier>{49571d73-2188-47f3-9a26-f91cd6ece2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\GameObjects\Rendering">
+      <UniqueIdentifier>{6c559b50-2093-449d-98f9-b5730e666b6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Offsets">
+      <UniqueIdentifier>{0108ada6-81a5-4d57-95e2-a9241392272e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameReader.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Strings.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_win32.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_dx9.h">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Source Files\Utils\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json.h">
+      <Filter>Source Files\External\json</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="stbi\stb_image.h">
+      <Filter>Source Files\External\stbi</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryReadable.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectExplorer.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Valkyrie.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Benchmark.h">
+      <Filter>Source Files\Utils\Benchmarking</Filter>
+    </ClInclude>
+    <ClInclude Include="PyStructs.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz\miniz.h">
+      <Filter>Source Files\External\miniz</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptManager.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="PyExecutionContext.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HKey.h">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PyImGui.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="GameChampion.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMinion.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameJungle.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTurret.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUnit.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMissile.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpell.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRenderer.h">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHud.h">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="OffsetScanner.h">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinChanger.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigSet.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinInfo.h">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="InputController.h">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellCast.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeMouse.h">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameReader.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Strings.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx9.cpp">
+      <Filter>Source Files\External\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files\Utils\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellInfo.cpp">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitInfo.cpp">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Source Files\Game\StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectExplorer.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Valkyrie.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Benchmark.cpp">
+      <Filter>Source Files\Utils\Benchmarking</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz\miniz.c">
+      <Filter>Source Files\External\miniz</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptManager.cpp">
+      <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="PyExecutionContext.cpp">
+      <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="GameChampion.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMinion.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTurret.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUnit.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMissile.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpell.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRenderer.cpp">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameHud.cpp">
+      <Filter>Source Files\Game\GameObjects\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameJungle.cpp">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.cpp">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClCompile>
+    <ClCompile Include="OffsetScanner.cpp">
+      <Filter>Source Files\Core\Offsets</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinChanger.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigSet.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="InputController.cpp">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellCast.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="FakeMouse.cpp">
+      <Filter>Source Files\Utils\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
