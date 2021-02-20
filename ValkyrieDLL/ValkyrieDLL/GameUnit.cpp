@@ -27,7 +27,7 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	critMulti     = ReadFloat(addr + Offsets::ObjCritMulti);
 	abilityPower  = ReadFloat(addr + Offsets::ObjAbilityPower);
 	atkSpeedMulti = ReadFloat(addr + Offsets::ObjAtkSpeedMulti);
-	attackRange   = ReadFloat(addr + 0x12B8);
+	attackRange   = ReadFloat(addr + Offsets::ObjAtkRange);
 
 	targetable    = ReadBool(addr + Offsets::ObjTargetable);
 	invulnerable  = ReadBool(addr + Offsets::ObjInvulnerable);

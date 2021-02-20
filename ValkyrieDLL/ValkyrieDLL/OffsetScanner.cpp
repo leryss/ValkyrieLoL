@@ -20,8 +20,9 @@ std::vector<OffsetSignature> OffsetScanner::signatures     = std::vector<OffsetS
 	OffsetSignature("Chat",                       "8B 0D ? ? ? ? 8A D8 E8 ? ? ? ? 84 C0",             2),
 
 	/// For skin changer
-	OffsetSignature("ChampionManager",            "8B 0D ? ? ? ? 83 C1 0C 89 14 24",                  2),
+	//OffsetSignature("ChampionManager",            "8B 0D ? ? ? ? 83 C1 0C 89 14 24",                  2),
 	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 18 53 56 57 8D 44 24 20",                    0, true),
+	
 });
 
 void OffsetScanner::ImGuiDraw()

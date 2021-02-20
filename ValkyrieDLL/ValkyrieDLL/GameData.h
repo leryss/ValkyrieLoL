@@ -20,7 +20,7 @@ public:
 class GameData {
 
 public:
-	static void               LoadAsync();
+	static void                    LoadAsync();
 
 	static UnitInfo*               GetUnit(std::string& str);
 	static SpellInfo*              GetSpell(std::string& str);
@@ -28,8 +28,8 @@ public:
 	static PDIRECT3DTEXTURE9       GetImage(std::string& str);
 	static std::vector<SkinInfo*>& GetSkins(std::string& name);
 
-	static void               ImGuiDrawLoader();
-	static void               ImGuiDrawObjects();
+	static void                    ImGuiDrawLoader();
+	static void                    ImGuiDrawObjects();
 
 private:
 	static void Load();

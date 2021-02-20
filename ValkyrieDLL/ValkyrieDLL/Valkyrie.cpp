@@ -274,6 +274,7 @@ void Valkyrie::Update()
 	ImGui::NewFrame();
 	__try {
 		if (CheckEssentialsLoaded()) {
+			//ShowMenu();
 			CurrentGameState = Reader.GetNextState();
 			if (CurrentGameState->gameStarted) {
 				SetupScriptExecutionContext();

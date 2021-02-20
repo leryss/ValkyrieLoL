@@ -1,0 +1,24 @@
+[info] OS: 20H2
+[info] Starting up Valkyrie
+[info] Loading game data...
+[info] Hooking DirectX
+[info] Found base of d3d9.dll at: 0x583f0000
+[info] Found D3D Device at: 0x5844b104
+[info] Initializing Python
+[info] Initializing overlay
+[info] Loading scripts from F:\Github\ValkyrieLoL\Deployable\scripts
+[info] Loading script activator
+[info] Loading script gank_awareness
+[info] Loading script indicators
+[info] Loading script orbwalker
+[info] Loading script spell_tracker
+[info] Loading script vision_tracker
+[info] Loaded 3329 spells
+[info] Loaded 497 units
+[info] Loaded 201 items
+[info] Loaded skins
+[info] Opening F:\Github\ValkyrieLoL\Deployable\data\icons_spells.zip
+[info] Opening F:\Github\ValkyrieLoL\Deployable\data\icons_champs.zip
+[info] Opening F:\Github\ValkyrieLoL\Deployable\data\icons_extra.zip
+[info] Loaded 1363 images
+[info] Static data loading complete
