@@ -115,7 +115,6 @@ bool AsyncUpdater::CopyDependencies()
 
 			std::string copyFrom = folderPath + "\\" + findData.cFileName;
 			std::string copyTo   = winDir + "\\" + findData.cFileName;
-			//printf("Copying %s to %s\n", copyFrom.c_str(), copyTo.c_str());
 			CopyFileA(copyFrom.c_str(), copyTo.c_str(), FALSE);
 		}
 	} while (FindNextFileA(hFind, &findData));

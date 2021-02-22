@@ -7,6 +7,8 @@
 #include "ItemInfo.h"
 #include "SkinInfo.h"
 
+#include "AsyncTask.h"
+
 class LoadDataProgress {
 
 public:
@@ -17,11 +19,21 @@ public:
 	bool        allLoaded         = false;
 };
 
+class GameDataEssentialsLoad : public AsyncTask {
+
+public:
+	void Perform();
+};
+
+class GameDataImagesLoad : public AsyncTask {
+
+public:
+	void Perform();
+};
+
 class GameData {
 
 public:
-	static void                    LoadAsync();
-
 	static UnitInfo*               GetUnit(std::string& str);
 	static SpellInfo*              GetSpell(std::string& str);
 	static ItemInfo*               GetItem(int id);
@@ -31,14 +43,11 @@ public:
 	static void                    ImGuiDrawLoader();
 	static void                    ImGuiDrawObjects();
 
-private:
-	static void Load();
-	static void LoadSpells(const char* fileName, float& percentValue, float percentEnd);
-	static void LoadItems(const char* fileName, float& percentValue, float percentEnd);
-	static void LoadUnits(const char* fileName, float& percentValue, float percentEnd);
-	static void LoadSkins(const char* fileName, float& percentValue, float percentEnd);
-
-	static void LoadImagesFromZip(const char* zipPath, float& percentValue, float percentEnd);
+	static void                    LoadSpells(const char* fileName, float& percentValue, float percentEnd);
+	static void                    LoadItems(const char* fileName, float& percentValue, float percentEnd);
+	static void                    LoadUnits(const char* fileName, float& percentValue, float percentEnd);
+	static void                    LoadSkins(const char* fileName, float& percentValue, float percentEnd);
+	static void                    LoadImagesFromZip(const char* zipPath, float& percentValue, float percentEnd);
 
 public:
 	static std::shared_ptr<LoadDataProgress>     LoadProgress;
@@ -51,3 +60,4 @@ private:
 	static std::map<int, ItemInfo*>                       Items;
 	static std::map<std::string, PDIRECT3DTEXTURE9>       Images;
 };
+

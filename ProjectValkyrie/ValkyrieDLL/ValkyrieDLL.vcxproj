@@ -162,7 +162,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
-    <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameChampion.h" />
@@ -184,17 +183,8 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameReader.h" />
     <ClInclude Include="GameState.h" />
-    <ClInclude Include="imgui\imconfig.h" />
-    <ClInclude Include="imgui\imgui.h" />
-    <ClInclude Include="imgui\imgui_impl_dx9.h" />
-    <ClInclude Include="imgui\imgui_impl_win32.h" />
-    <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="imgui\imstb_rectpack.h" />
-    <ClInclude Include="imgui\imstb_textedit.h" />
-    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryReadable.h" />
-    <ClInclude Include="miniz\miniz.h" />
     <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
@@ -235,15 +225,7 @@
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="GameReader.cpp" />
-    <ClCompile Include="imgui\imgui.cpp" />
-    <ClCompile Include="imgui\imgui_demo.cpp" />
-    <ClCompile Include="imgui\imgui_draw.cpp" />
-    <ClCompile Include="imgui\imgui_impl_dx9.cpp" />
-    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="imgui\imgui_tables.cpp" />
-    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Memory.cpp" />
-    <ClCompile Include="miniz\miniz.c" />
     <ClCompile Include="ObjectExplorer.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="OffsetScanner.cpp" />

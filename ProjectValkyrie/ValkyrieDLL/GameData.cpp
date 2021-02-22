@@ -25,14 +25,6 @@ std::map<std::string, PDIRECT3DTEXTURE9>      GameData::Images;
 std::map<std::string, std::vector<SkinInfo*>> GameData::Skins;
 std::map<int, ItemInfo*>                      GameData::Items;
 
-
-void GameData::LoadAsync()
-{
-	Logger::Info("Loading game data...");
-	std::thread loadThread(GameData::Load);
-	loadThread.detach();
-}
-
 UnitInfo * GameData::GetUnit(std::string & str)
 {
 	auto find = Units.find(str);
@@ -115,34 +107,6 @@ void GameData::ImGuiDrawObjects()
 			}
 		}
 	}
-}
-
-void GameData::Load()
-{
-	Valkyrie::WaitForOverlayToInit();
-
-	LoadSpells("SpellData.json",       LoadProgress->essentialsPercent, 0.2f);
-	LoadSpells("SpellDataCustom.json", LoadProgress->essentialsPercent, 0.25f);
-	Logger::Info("Loaded %zu spells", Spells.size());
-
-	LoadUnits("UnitData.json", LoadProgress->essentialsPercent, 0.5f);
-	Logger::Info("Loaded %zu units", Units.size());
-
-	LoadItems("ItemData.json", LoadProgress->essentialsPercent, 0.8f);
-	Logger::Info("Loaded %zu items", Items.size());
-
-	LoadSkins("SkinInfo.json", LoadProgress->essentialsPercent, 1.f);
-	Logger::Info("Loaded skins");
-
-	LoadProgress->essentialsLoaded = true;
-
-	LoadImagesFromZip("icons_spells.zip", LoadProgress->imagesLoadPercent, 0.8f);
-	LoadImagesFromZip("icons_champs.zip", LoadProgress->imagesLoadPercent, 0.95f);
-	LoadImagesFromZip("icons_extra.zip",  LoadProgress->imagesLoadPercent, 1.f);
-	Logger::Info("Loaded %zu images", Images.size());
-
-	Logger::Info("Static data loading complete");
-	LoadProgress->allLoaded = true;
 }
 
 void GameData::LoadSpells(const char* fileName, float& percentValue, float percentEnd)
@@ -378,4 +342,36 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 	}
 
 	mz_zip_reader_end(&archive);
+}
+
+void GameDataEssentialsLoad::Perform()
+{
+	percentDone = 0.f;
+	currentStep = "Load static game data";
+	GameData::LoadSpells("SpellData.json", percentDone, 0.2f);
+	GameData::LoadSpells("SpellDataCustom.json", percentDone, 0.25f);
+	Logger::Info("Loaded spells");
+
+	GameData::LoadUnits("UnitData.json", percentDone, 0.5f);
+	Logger::Info("Loaded units");
+
+	GameData::LoadItems("ItemData.json", percentDone, 0.8f);
+	Logger::Info("Loaded items");
+
+	GameData::LoadSkins("SkinInfo.json", percentDone, 1.f);
+	Logger::Info("Loaded skins");
+
+	SetStatus(ASYNC_SUCCEEDED);
+}
+
+void GameDataImagesLoad::Perform()
+{
+	percentDone = 0.f;
+	currentStep = "Load icons";
+	GameData::LoadImagesFromZip("icons_spells.zip", percentDone, 0.8f);
+	GameData::LoadImagesFromZip("icons_champs.zip", percentDone, 0.95f);
+	GameData::LoadImagesFromZip("icons_extra.zip", percentDone, 1.f);
+	Logger::Info("Loaded images");
+
+	SetStatus(ASYNC_SUCCEEDED);
 }

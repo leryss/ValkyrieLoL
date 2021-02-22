@@ -21,9 +21,10 @@ static ImVec4      COLOR_YELLOW = ImVec4(1.f, 1.f, 0.f, 1.f);
 static const float ONE_DAY_SECS = 60.f * 60.f * 24.f;
 
 ValkyrieLoader::ValkyrieLoader()
-	:taskPool(4)
 {
-	valkyrieFolder = GetValkyrieFolder();
+	taskPool.AddWorkers(4);
+
+	valkyrieFolder = ValkyrieShared::GetWorkingDir();
 
 	/// Check if valkyrie dir exists
 	bool directoryExists = false;
@@ -70,36 +71,7 @@ void ValkyrieLoader::ImGuiShow()
 		DisplayAdminPanel();
 	}
 
-	ShowRequestsStatus();
-}
-
-void ValkyrieLoader::ShowRequestsStatus()
-{
-	DWORD tickCount = GetTickCount() % 600;
-
-	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-
-	ImGui::TextColored(COLOR_YELLOW, "Background tasks");
-
-	taskPool.VisitTasks([this, &tickCount](std::string taskId, std::shared_ptr<AsyncTask>& task) {
-		const char* operationName = taskId.c_str();
-
-		switch (task->GetStatus()) {
-		case ASYNC_RUNNING:
-			ImGui::Separator();
-			ImGui::TextColored(COLOR_PURPLE, operationName);
-			ImGui::TextColored(COLOR_GREEN, "Executing step: %s%s", task->currentStep.c_str(), (tickCount < 200 ? "." : (tickCount < 400 ? ".." : "...")));
-			break;
-		case ASYNC_FAILED:
-			ImGui::Separator();
-			ImGui::TextColored(COLOR_PURPLE, operationName);
-			ImGui::TextColored(COLOR_RED, "Step `%s` failed: %s", task->currentStep.c_str(), task->error.c_str());
-			break;
-		}
-	});
-
-	ImGui::End();
+	taskPool.ImGuiDraw();
 }
 
 void ValkyrieLoader::DisplayLogin()
@@ -115,6 +87,7 @@ void ValkyrieLoader::DisplayLogin()
 			trackIdLogin,
 			api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff),
 			[this](std::shared_ptr<AsyncTask> response) {
+				ValkyrieShared::SaveCredentials(nameBuff, passBuff);
 				loggedUser = ((GetUserAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}

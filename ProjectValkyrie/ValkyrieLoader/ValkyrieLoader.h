@@ -26,8 +26,6 @@ public:
 
 private:
 
-	void ShowRequestsStatus();
-
 	void DisplayLogin();
 	void DisplayCreateAccount();
 	void DisplayUserPanel();

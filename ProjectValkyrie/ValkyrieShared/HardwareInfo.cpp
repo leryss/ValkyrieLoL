@@ -59,7 +59,7 @@ HardwareInfo HardwareInfo::Calculate()
 	if (FAILED(hres))
 		throw std::exception("Failed to initialize COM");
 
-	hres = CoInitializeSecurity(
+	/*hres = CoInitializeSecurity(
 		NULL,
 		-1,                          // COM authentication
 		NULL,                        // Authentication services
@@ -71,7 +71,7 @@ HardwareInfo HardwareInfo::Calculate()
 		NULL                         // Reserved
 	);
 	if (FAILED(hres))
-		throw std::exception("Failed to initialize COM security");
+		throw std::exception("Failed to initialize COM security");*/
 
 	IWbemLocator *pLoc = NULL;
 

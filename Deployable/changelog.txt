@@ -1,6 +1,6 @@
 [Valkyrie v0.10]
-	> First release ~yay~
-	> Enjoy ~~
+	> First release
+	> Enjoy
 	
 	* Added Gank Awareness
 	* Added Basic Indicators

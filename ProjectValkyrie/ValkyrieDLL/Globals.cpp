@@ -18,6 +18,6 @@ std::string GetImGuiIniPath() {
 	return path.u8string();
 }
 
-const fs::path     Globals::WorkingDir   = GetValkyrieFolder();
+const fs::path     Globals::WorkingDir   = ValkyrieShared::GetWorkingDir();
 const fs::path     Globals::ConfigsDir   = GetConfigsDir();
 const std::string  Globals::ImGuiIniPath = GetImGuiIniPath();

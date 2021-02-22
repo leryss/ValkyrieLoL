@@ -20,8 +20,9 @@ void AsyncInjector::Perform()
 			DWORD processId = 0;
 			GetWindowThreadProcessId(hWindow, &processId);
 
+			Sleep(10000);
 			InjectIntoPID(dllPath, processId);
-			currentStep = "Cheat is injected. Enjoy your game";
+			currentStep = "Injected. Enjoy your game";
 		}
 
 		Sleep(100);

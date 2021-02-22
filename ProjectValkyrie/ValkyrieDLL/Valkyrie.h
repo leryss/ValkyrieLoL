@@ -19,6 +19,8 @@
 #include "imgui/imgui_impl_win32.h"
 
 #include "ValkyrieAPI.h"
+#include "AsyncTaskPool.h"
+#include "UserInfo.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 typedef HRESULT(__stdcall * D3DPresentFunc)(LPDIRECT3DDEVICE9, CONST RECT*, CONST RECT*, HWND, CONST RGNDATA*);
@@ -31,10 +33,8 @@ class Valkyrie {
 public:
 
 	static void   Run();
-	static void   WaitForOverlayToInit();
 
 private:
-	static bool                        CheckEssentialsLoaded();
 	static void                        ShowMenu();
 	static void                        ShowConsole();
 
@@ -44,7 +44,6 @@ private:
 	static void                        LoadScripts();
 	static void                        ExecuteScripts();
 	static void                        SetupScriptExecutionContext();
-	static std::condition_variable     OverlayInitialized;
 
 	static InputController             InputController;
 
@@ -67,6 +66,11 @@ private:
 	
 	/// API
 	static ValkyrieAPI                 Api;
+	static UserInfo                    LoggedUser;
+
+	/// Background Tasks
+	static AsyncTaskPool               TaskPool;
+	static bool                        EssentialsLoaded;
 
 public:
 	static std::mutex                  DxDeviceMutex;

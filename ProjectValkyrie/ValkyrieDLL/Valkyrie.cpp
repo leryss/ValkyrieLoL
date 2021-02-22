@@ -10,6 +10,7 @@
 #include "OffsetScanner.h"
 #include "SkinChanger.h"
 #include "FakeMouse.h"
+#include "ValkyrieShared.h"
 
 #include "D3DX9Shader.h"
 
@@ -17,6 +18,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <functional>
 
 InputController                    Valkyrie::InputController;
 
@@ -28,8 +30,10 @@ std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
 
 ValkyrieAPI                        Valkyrie::Api;
+UserInfo                           Valkyrie::LoggedUser;
+AsyncTaskPool                      Valkyrie::TaskPool;
+bool                               Valkyrie::EssentialsLoaded = false;
 
-std::condition_variable            Valkyrie::OverlayInitialized;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
@@ -41,31 +45,41 @@ void Valkyrie::Run()
 	try {
 		DxDeviceMutex.lock();
 
-		Configs.Load();
-		GameData::LoadAsync();
-		FakeMouse::Init();
 		HookDirectX();
+		Configs.Load();
+		FakeMouse::Init();
+
+		TaskPool.AddWorkers(1);
+		
+		char* name;
+		char* pass;
+		ValkyrieShared::LoadCredentials(&name, &pass);
+
+		TaskPool.DispatchTask(
+			"Logging In",
+			Api.GetUser(IdentityInfo(name, pass, HardwareInfo::Calculate()), name),
+
+			[](std::shared_ptr<AsyncTask> response) {
+				LoggedUser = ((GetUserAsync*)response.get())->user;
+				TaskPool.DispatchTask(
+					"Load Essentials",
+					std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
+
+					[](std::shared_ptr<AsyncTask> response) {
+						EssentialsLoaded = true;
+						TaskPool.DispatchTask(
+							"Load Extras", std::shared_ptr<GameDataImagesLoad>(new GameDataImagesLoad()), [](std::shared_ptr<AsyncTask> response) {}
+						);
+					}
+				);
+			}
+		);
+		
+		
 	}
 	catch (std::exception& error) {
 		Logger::Error("Failed starting up Valkyrie %s", error.what());
 	}
-}
-
-void Valkyrie::WaitForOverlayToInit()
-{
-	std::mutex mtx;
-	std::unique_lock<std::mutex> lock(mtx);
-	Valkyrie::OverlayInitialized.wait(lock);
-}
-
-bool Valkyrie::CheckEssentialsLoaded()
-{
-	if(!GameData::LoadProgress->allLoaded)
-		GameData::ImGuiDrawLoader();
-
-	if (GameData::LoadProgress->essentialsLoaded)
-		return true;
-	return false;
 }
 
 bool ChooseMenuStyle(const char* label, int& currentStyle)
@@ -223,8 +237,6 @@ void Valkyrie::InitializeOverlay()
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 
 	ImGui::GetIO().IniFilename = Globals::ImGuiIniPath.c_str();
-	
-	OverlayInitialized.notify_all();
 }
 
 void Valkyrie::InitializePython()
@@ -275,7 +287,8 @@ void Valkyrie::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	__try {
-		if (CheckEssentialsLoaded()) {
+		TaskPool.ImGuiDraw();
+		if (EssentialsLoaded) {
 			//ShowMenu();
 			CurrentGameState = Reader.GetNextState();
 			if (CurrentGameState->gameStarted) {
