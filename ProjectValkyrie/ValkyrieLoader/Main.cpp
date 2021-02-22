@@ -24,90 +24,92 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char**)
 {
-	ValkyrieLoader ui;
+	try {
+		ValkyrieLoader ui;
 
-	// Create application window
-	//ImGui_ImplWin32_EnableDpiAwareness();
-	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
-	::RegisterClassEx(&wc);
-	HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
+		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Valkyrie"), NULL };
+		::RegisterClassEx(&wc);
+		HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Loader"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
-	// Initialize Direct3D
-	if (!CreateDeviceD3D(hwnd))
-	{
+		// Initialize Direct3D
+		if (!CreateDeviceD3D(hwnd))
+		{
+			CleanupDeviceD3D();
+			::UnregisterClass(wc.lpszClassName, wc.hInstance);
+			return 1;
+		}
+
+		// Show the window
+		::ShowWindow(hwnd, SW_SHOWDEFAULT);
+		::UpdateWindow(hwnd);
+
+		// Setup Dear ImGui context
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+		// Setup Dear ImGui style
+		ImGui::StyleColorsDark();
+
+		// Setup Platform/Renderer backends
+		ImGui_ImplWin32_Init(hwnd);
+		ImGui_ImplDX9_Init(g_pd3dDevice);
+
+		// Our state
+		bool show_demo_window = true;
+		bool show_another_window = false;
+		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+		// Main loop
+		MSG msg;
+		ZeroMemory(&msg, sizeof(msg));
+		while (msg.message != WM_QUIT)
+		{
+			if (::PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+			{
+				::TranslateMessage(&msg);
+				::DispatchMessage(&msg);
+				continue;
+			}
+
+			// Start the Dear ImGui frame
+			ImGui_ImplDX9_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+
+			ui.ImGuiShow();
+
+			// Rendering
+			ImGui::EndFrame();
+			g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+			g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+			g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+			D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x*255.0f), (int)(clear_color.y*255.0f), (int)(clear_color.z*255.0f), (int)(clear_color.w*255.0f));
+			g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
+			if (g_pd3dDevice->BeginScene() >= 0)
+			{
+				ImGui::Render();
+				ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+				g_pd3dDevice->EndScene();
+			}
+			HRESULT result = g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+
+			// Handle loss of D3D9 device
+			if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+				ResetDevice();
+		}
+
+		ImGui_ImplDX9_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		ImGui::DestroyContext();
+
 		CleanupDeviceD3D();
+		::DestroyWindow(hwnd);
 		::UnregisterClass(wc.lpszClassName, wc.hInstance);
-		return 1;
 	}
-
-	// Show the window
-	::ShowWindow(hwnd, SW_SHOWDEFAULT);
-	::UpdateWindow(hwnd);
-
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-
-	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_Init(hwnd);
-	ImGui_ImplDX9_Init(g_pd3dDevice);
-
-	// Our state
-	bool show_demo_window = true;
-	bool show_another_window = false;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-	// Main loop
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
-	while (msg.message != WM_QUIT)
-	{
-		if (::PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-		{
-			::TranslateMessage(&msg);
-			::DispatchMessage(&msg);
-			continue;
-		}
-
-		// Start the Dear ImGui frame
-		ImGui_ImplDX9_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-
-		ui.ImGuiShow();
-		
-		// Rendering
-		ImGui::EndFrame();
-		g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-		g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-		D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x*255.0f), (int)(clear_color.y*255.0f), (int)(clear_color.z*255.0f), (int)(clear_color.w*255.0f));
-		g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
-		if (g_pd3dDevice->BeginScene() >= 0)
-		{
-			ImGui::Render();
-			ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-			g_pd3dDevice->EndScene();
-		}
-		HRESULT result = g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
-
-		// Handle loss of D3D9 device
-		if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
-			ResetDevice();
+	catch (std::exception& exc) {
+		MessageBoxA(NULL, exc.what(), "Initialization Failure", MB_OK);
 	}
-
-	ImGui_ImplDX9_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
-
-	CleanupDeviceD3D();
-	::DestroyWindow(hwnd);
-	::UnregisterClass(wc.lpszClassName, wc.hInstance);
-
 	return 0;
 }
 

@@ -27,6 +27,8 @@ GameState*                         Valkyrie::CurrentGameState             = NULL
 std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
 
+ValkyrieAPI                        Valkyrie::Api;
+
 std::condition_variable            Valkyrie::OverlayInitialized;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;

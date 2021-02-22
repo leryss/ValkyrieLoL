@@ -20,8 +20,8 @@ BOOL __stdcall FakeMouse::HookedGetCursorPos(LPPOINT lpPoint)
 {
 	if (lpPoint != NULL && FakeMouse::Enabled) {
 		Vector2 v = FakeMouse::FakePositionGetter();
-		lpPoint->x = v.x;
-		lpPoint->y = v.y;
+		lpPoint->x = (LONG)v.x;
+		lpPoint->y = (LONG)v.y;
 
 		return TRUE;
 	}

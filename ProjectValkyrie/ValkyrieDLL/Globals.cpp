@@ -1,13 +1,6 @@
 #include "Globals.h"
+#include "ValkyrieShared.h"
 #include <fstream>
-
-fs::path FindWorkingDir() {
-	char* buff;
-	size_t buffCount;
-	_dupenv_s(&buff, &buffCount, "VPath");
-
-	return fs::path(buff);
-}
 
 fs::path GetConfigsDir() {
 
@@ -25,6 +18,6 @@ std::string GetImGuiIniPath() {
 	return path.u8string();
 }
 
-const fs::path     Globals::WorkingDir   = FindWorkingDir();
+const fs::path     Globals::WorkingDir   = GetValkyrieFolder();
 const fs::path     Globals::ConfigsDir   = GetConfigsDir();
 const std::string  Globals::ImGuiIniPath = GetImGuiIniPath();

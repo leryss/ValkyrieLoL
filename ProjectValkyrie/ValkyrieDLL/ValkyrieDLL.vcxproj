@@ -123,11 +123,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;VALKYRIEDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_IMPORT_EXPORT;USE_WINDOWS_DLL_SEMANTICS;WIN32;NDEBUG;VALKYRIEDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ValkyrieDLL\boost;$(SolutionDir)ValkyrieDLL\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ValkyrieShared;$(SolutionDir)Commons\Includes;$(SolutionDir)ValkyrieDLL\boost;$(SolutionDir)ValkyrieDLL\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,8 +135,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ValkyrieDLL\boost\stage\lib;$(SolutionDir)ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;detours.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Commons\Libs;$(SolutionDir)ValkyrieDLL\boost\stage\lib;$(SolutionDir)ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)VOversix$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -256,6 +256,11 @@
     <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Valkyrie.cpp" />
     <ClCompile Include="Strings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ValkyrieShared\ValkyrieShared.vcxproj">
+      <Project>{ff0bdaef-707f-4d6f-a79a-5119e71eeb59}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

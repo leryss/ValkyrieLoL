@@ -18,6 +18,8 @@
 #include "imgui/imgui_impl_dx9.h"
 #include "imgui/imgui_impl_win32.h"
 
+#include "ValkyrieAPI.h"
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 typedef HRESULT(__stdcall * D3DPresentFunc)(LPDIRECT3DDEVICE9, CONST RECT*, CONST RECT*, HWND, CONST RGNDATA*);
 typedef HRESULT(__stdcall * BeginSceneFunc)(LPDIRECT3DDEVICE9);
@@ -62,6 +64,9 @@ private:
 	static SetTransformFunc            OriginalSetTransform;
 	static D3DPresentFunc              OriginalD3DPresent;
 	static WNDPROC                     OriginalWindowMessageHandler;
+	
+	/// API
+	static ValkyrieAPI                 Api;
 
 public:
 	static std::mutex                  DxDeviceMutex;

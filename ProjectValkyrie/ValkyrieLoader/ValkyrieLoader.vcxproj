@@ -78,7 +78,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ValkyrieLoader\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ValkyrieShared;$(SolutionDir)Commons\Includes;$(SolutionDir)ValkyrieLoader\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>USE_IMPORT_EXPORT;USE_WINDOWS_DLL_SEMANTICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -86,8 +86,9 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;d3d9.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ValkyrieLoader\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ValkyrieShared.lib;aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;d3d9.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Commons\Libs;$(SolutionDir)ValkyrieLoader\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -129,14 +130,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AsyncInjector.h" />
-    <ClInclude Include="AsyncTask.h" />
-    <ClInclude Include="AsyncTaskPool.h" />
-    <ClInclude Include="HardwareInfo.h" />
-    <ClInclude Include="IdentityInfo.h" />
+    <ClInclude Include="AsyncUpdater.h" />
     <ClInclude Include="miniz\miniz.h" />
-    <ClInclude Include="Models.h" />
-    <ClInclude Include="UserInfo.h" />
-    <ClInclude Include="ValkyrieAPI.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx9.h" />
@@ -148,6 +143,8 @@
     <ClInclude Include="ValkyrieLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AsyncInjector.cpp" />
+    <ClCompile Include="AsyncUpdater.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -158,7 +155,11 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="miniz\miniz.c" />
     <ClCompile Include="ValkyrieLoader.cpp" />
-    <ClCompile Include="ValkyrieAPI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ValkyrieShared\ValkyrieShared.vcxproj">
+      <Project>{ff0bdaef-707f-4d6f-a79a-5119e71eeb59}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

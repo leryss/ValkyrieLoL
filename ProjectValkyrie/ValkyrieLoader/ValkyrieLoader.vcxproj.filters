@@ -19,17 +19,8 @@
     <Filter Include="Source Files\miniz">
       <UniqueIdentifier>{47dfa186-3dd1-473c-b795-85422e6b6d76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Model">
-      <UniqueIdentifier>{90d5c3ee-f296-475f-a14c-1cbb979cf174}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Async">
-      <UniqueIdentifier>{4da58402-6080-40c6-ac03-245f1f8d650c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Loader">
       <UniqueIdentifier>{1ca90330-5dad-476e-95d4-4243afb54835}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\API">
-      <UniqueIdentifier>{20b9992b-3a42-4152-a278-65384f70da16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,31 +51,13 @@
     <ClInclude Include="miniz\miniz.h">
       <Filter>Source Files\miniz</Filter>
     </ClInclude>
-    <ClInclude Include="UserInfo.h">
-      <Filter>Source Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="HardwareInfo.h">
-      <Filter>Source Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Models.h">
-      <Filter>Source Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="IdentityInfo.h">
-      <Filter>Source Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="AsyncTask.h">
-      <Filter>Source Files\Async</Filter>
-    </ClInclude>
-    <ClInclude Include="AsyncTaskPool.h">
-      <Filter>Source Files\Async</Filter>
-    </ClInclude>
     <ClInclude Include="ValkyrieLoader.h">
       <Filter>Source Files\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="ValkyrieAPI.h">
-      <Filter>Source Files\API</Filter>
-    </ClInclude>
     <ClInclude Include="AsyncInjector.h">
+      <Filter>Source Files\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncUpdater.h">
       <Filter>Source Files\Loader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,8 +92,11 @@
     <ClCompile Include="ValkyrieLoader.cpp">
       <Filter>Source Files\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="ValkyrieAPI.cpp">
-      <Filter>Source Files\API</Filter>
+    <ClCompile Include="AsyncUpdater.cpp">
+      <Filter>Source Files\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncInjector.cpp">
+      <Filter>Source Files\Loader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

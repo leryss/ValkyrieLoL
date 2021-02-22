@@ -52,8 +52,7 @@ private:
 	std::string trackIdCheckVersion   = "CheckVersion";
 	std::string trackIdGenerateInvite = "GenerateInvite";
 
-	const std::string DLL_PATH_PYTHON   = "\\boost_python39-vc141-mt-x32-1_75.dll";
-	const std::string DLL_PATH_VALKYRIE = "\\ValkyrieDLL.dll";
+	const std::string DLL_PATH_VALKYRIE = "\\payload\\ValkyrieDLL.dll";
 
 	/// Login stuff
 	static const int INPUT_TEXT_BUFF_SIZE            = 256;
@@ -74,16 +73,4 @@ private:
 	float            deltaDays = 0.f;
 
 	AsyncTaskPool    taskPool;
-};
-
-class UpdaterAsync : public AsyncTask {
-
-public:
-
-	UpdaterAsync(ValkyrieLoader& vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile);
-
-	ValkyrieLoader&                   loader;
-	std::shared_ptr<GetS3ObjectAsync> updateFile;
-
-	virtual void Perform();
 };

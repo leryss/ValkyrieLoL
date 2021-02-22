@@ -132,12 +132,12 @@ void OffsetSignature::Scan(int startAddr, int size)
 		pageEnd = pageStart + memInfo.RegionSize;
 
 		if (memInfo.Protect != PAGE_NOACCESS) {
-			for (int addr = pageStart; addr < pageEnd - bytes.size(); ++addr) {
+			for (size_t addr = pageStart; addr < pageEnd - bytes.size(); ++addr) {
 
 				char* mem = (char*)addr;
 				bool matched = true;
 
-				for (int i = 0; i < bytes.size(); ++i) {
+				for (size_t i = 0; i < bytes.size(); ++i) {
 					if (mask[i] && bytes[i] != mem[i]) {
 						matched = false;
 						break;

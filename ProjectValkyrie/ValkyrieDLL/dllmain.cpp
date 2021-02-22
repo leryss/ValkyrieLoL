@@ -1,5 +1,3 @@
-#define USE_IMPORT_EXPORT
-#define USE_WINDOWS_DLL_SEMANTICS
 #define STATUS_SUCCESS (0x00000000)
 
 #include <codecvt>

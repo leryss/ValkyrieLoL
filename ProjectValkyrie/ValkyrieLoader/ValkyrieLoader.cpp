@@ -1,13 +1,15 @@
 #include "ValkyrieLoader.h"
 #include "AsyncInjector.h"
+#include "AsyncUpdater.h"
+#include "ValkyrieShared.h"
 
 #include "imgui/imgui.h"
 #include "miniz/miniz.h"
 
 #include <fstream>
 #include <windows.h>
-#include <shlobj_core.h>
 #include <chrono>
+#include <cstdlib>
 
 using namespace std::chrono;
 
@@ -21,12 +23,7 @@ static const float ONE_DAY_SECS = 60.f * 60.f * 24.f;
 ValkyrieLoader::ValkyrieLoader()
 	:taskPool(4)
 {
-	/// Get appdata folder and create path for valkyrie folder
-	char path[1024];
-	if (!SHGetSpecialFolderPathA(0, path, CSIDL_APPDATA, TRUE))
-		throw std::exception("Fatal error. Couldn't get appdata folder.");
-
-	valkyrieFolder = std::string(path) + "\\" + "Valkyrie";
+	valkyrieFolder = GetValkyrieFolder();
 
 	/// Check if valkyrie dir exists
 	bool directoryExists = false;
@@ -51,9 +48,6 @@ ValkyrieLoader::ValkyrieLoader()
 
 	/// Calculate hardware info for HWID
 	hardwareInfo = HardwareInfo::Calculate();
-
-	if (!SetEnvironmentVariable("VPath", valkyrieFolder.c_str()))
-		throw std::exception("Fatal error. Couldn't set VPath");
 }
 
 void ValkyrieLoader::ImGuiShow()
@@ -171,12 +165,12 @@ void ValkyrieLoader::DisplayUserPanel()
 			[this](std::shared_ptr<AsyncTask> response) {
 				taskPool.DispatchTask(
 					trackIdUpdate, 
-					std::shared_ptr<AsyncTask>((AsyncTask*)new UpdaterAsync(*this, std::static_pointer_cast<GetS3ObjectAsync>(response))),
+					std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncUpdater(*this, std::static_pointer_cast<GetS3ObjectAsync>(response))),
 					[this](std::shared_ptr<AsyncTask> response) {
 						
 						taskPool.DispatchTask(
 							trackIdInjector,
-							std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncInjector({ valkyrieFolder + DLL_PATH_PYTHON, valkyrieFolder + DLL_PATH_VALKYRIE })),
+							std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE)),
 							[this](std::shared_ptr<AsyncTask> response) {} /// This task is not supposed to finish
 						);
 					}
@@ -209,7 +203,6 @@ void ValkyrieLoader::DisplayUserPanel()
 
 void ValkyrieLoader::DisplayAdminPanel()
 {
-	ImGui::ShowDemoWindow();
 	if (retrieveUsers && !taskPool.IsExecuting(trackIdGetUsers)) {
 		taskPool.DispatchTask(
 			trackIdGetUsers,
@@ -245,8 +238,8 @@ void ValkyrieLoader::DisplayAdminPanel()
 
 	ImGui::TableHeadersRow();
 
-	float timestampNow = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
-	for (int i = 0; i < allUsers.size(); ++i) {
+	float timestampNow = (float)duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
+	for (size_t i = 0; i < allUsers.size(); ++i) {
 		auto& user = allUsers[i];
 
 		ImGui::TableNextRow();
@@ -331,82 +324,4 @@ void ValkyrieLoader::DisplayAdminPanel()
 
 	ImGui::PopItemWidth();
 	ImGui::End();
-}
-
-UpdaterAsync::UpdaterAsync(ValkyrieLoader & vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile)
-	:loader(vloader), updateFile(s3UpdateFile)
-{}
-
-void UpdaterAsync::Perform()
-{
-	auto& updateFileStream = updateFile->result.GetBody();
-
-	/// Check if there is a new version and download the files
-	auto& etag = updateFile->result.GetETag();
-	if (etag.compare(loader.versionHash.c_str()) != 0) {
-
-		/// Download from stream
-		currentStep = "Downloading data";
-
-		updateFileStream.seekg(0, updateFileStream.end);
-		int sizeDownloadFull = updateFileStream.tellg();
-		updateFileStream.seekg(0, updateFileStream.beg);
-
-		int   sizeDownloaded = 0;
-		char* downloadBuff = new char[sizeDownloadFull];
-		while (true) {
-			std::streamsize readBytes = updateFileStream.readsome(downloadBuff + sizeDownloaded, 10000);
-			sizeDownloaded += readBytes;
-			if (readBytes == 0)
-				break;
-		}
-
-		/// Extract from downloaded archive
-		currentStep = "Extracting data";
-
-		mz_zip_archive archive;
-		memset(&archive, 0, sizeof(archive));
-		if (!mz_zip_reader_init_mem(&archive, downloadBuff, sizeDownloaded, 0)) {
-			SetError("Failed to open update archive");
-			delete[] downloadBuff;
-			return;
-		}
-
-		int numFilesToExtract = mz_zip_reader_get_num_files(&archive);
-		for (int i = 0; i < numFilesToExtract; ++i) {
-			mz_zip_archive_file_stat fileStat;
-			if (!mz_zip_reader_file_stat(&archive, i, &fileStat)) {
-				auto err = std::string("Failed to get archive file info for file num ") + std::to_string(i);
-				SetError(err.c_str());
-				delete[] downloadBuff;
-				return;
-			}
-
-			std::string path = loader.valkyrieFolder + "\\" + fileStat.m_filename;
-			if (fileStat.m_is_directory) {
-				CreateDirectoryA(path.c_str(), NULL);
-			}
-			else if (!mz_zip_reader_extract_file_to_file(&archive, fileStat.m_filename, path.c_str(), 0)) {
-				auto err = std::string("Failed to unarchive file ") + fileStat.m_filename;
-				SetError(err.c_str());
-				delete[] downloadBuff;
-				return;
-			}
-		}
-
-		mz_zip_reader_end(&archive);
-
-		/// Update version hash
-		loader.versionHash = etag.c_str();
-		std::ofstream versionFile(loader.valkyrieFolder + "\\version");
-		versionFile.write(loader.versionHash.c_str(), loader.versionHash.size());
-
-		delete[] downloadBuff;
-	}
-
-	/// Read change logs
-	std::ifstream changeLogFile(loader.valkyrieFolder + "\\changelog.txt");
-	loader.changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
-
-	SetStatus(ASYNC_SUCCEEDED);
 }
