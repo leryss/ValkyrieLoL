@@ -1,6 +1,7 @@
 from valkyrie import *
 from helpers.targeting import *
 from helpers.prediction import *
+from helpers.inputs import KeyInput
 from time import time
 from enum import Enum
 
@@ -11,11 +12,11 @@ script_info = {
 	'icon': 'menu-bow'
 }
 
-target_selector = TargetSelector()
+target_selector = TargetSelector(0, TargetSet.Champion)
 max_atk_speed   = 2.2
-key_kite		= 0
-key_last_hit	= 0
-key_lane_push   = 0
+key_kite		= KeyInput(0, True)
+key_last_hit	= KeyInput(0, True)
+key_lane_push   = KeyInput(0, True)
 move_interval   = 0.10
 
 class OrbwalkKite:
@@ -74,7 +75,7 @@ class OrbwalkLanePush:
 			
 		return None
 		
-kite_mode	   = OrbwalkKite()
+kite_mode	    = OrbwalkKite()
 last_hit_mode   = OrbwalkLastHit()
 lane_push_mode  = OrbwalkLanePush()
 
@@ -83,26 +84,25 @@ def valkyrie_menu(ctx):
 	global key_kite, key_last_hit, key_lane_push
 	ui = ctx.ui
 	
-	target_selector.ui(ctx, "Champion targeting")
+	target_selector.ui("Champion targeting", ui)
 	max_atk_speed  = ui.sliderfloat("Attack speed cap", max_atk_speed, 1.0, 5.0)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
-	key_kite	   = ui.keyselect("Key kite champions", key_kite)
-	key_last_hit   = ui.keyselect("Key last hit minions (No Turret Farming Yet)", key_last_hit)
-	key_lane_push  = ui.keyselect("Key lane push", key_lane_push)
+	key_kite.ui("Key kite champions", ui)
+	key_last_hit.ui("Key last hit minions (No Turret Farming Yet)", ui)
+	key_lane_push.ui("Key lane push", ui)
 
 def valkyrie_on_load(ctx):
 	global target_selector, max_atk_speed, move_interval
 	global key_kite, key_last_hit, key_lane_push
 	cfg = ctx.cfg
 	
-	target_selector		   = TargetSelector.from_str(cfg.get_str("target", str(target_selector)))
-	target_selector.targeters = TargetersChampion 
+	target_selector		      = TargetSelector.from_str(cfg.get_str("target", str(target_selector)))
 	
 	max_atk_speed   = cfg.get_float("max_atk_speed", max_atk_speed)
 	move_interval   = cfg.get_float("move_interval", move_interval)
-	key_kite		= cfg.get_int("key_kite", key_kite)
-	key_last_hit	= cfg.get_int("key_last_hit", key_last_hit)
-	key_lane_push   = cfg.get_int("key_lane_push", key_lane_push)
+	key_kite		= KeyInput.from_str(cfg.get_str("key_kite", str(key_kite)))
+	key_last_hit	= KeyInput.from_str(cfg.get_str("key_last_hit", str(key_last_hit)))
+	key_lane_push   = KeyInput.from_str(cfg.get_str("key_lane_push", str(key_lane_push)))
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
@@ -110,9 +110,9 @@ def valkyrie_on_save(ctx):
 	cfg.set_str("target", str(target_selector))
 	cfg.set_float("max_atk_speed", max_atk_speed)
 	cfg.set_float("move_interval", move_interval)
-	cfg.set_int("key_kite", key_kite)
-	cfg.set_int("key_last_hit", key_last_hit)
-	cfg.set_int("key_lane_push", key_lane_push)
+	cfg.set_str("key_kite", str(key_kite))
+	cfg.set_str("key_last_hit", str(key_last_hit))
+	cfg.set_str("key_lane_push", str(key_lane_push))
 
 last_moved	= 0
 last_attacked = 0
@@ -121,11 +121,14 @@ def valkyrie_exec(ctx):
 	global last_moved, last_attacked
 	
 	mode = None
-	if ctx.is_held(key_kite):
+	if key_kite.check(ctx):
+		ctx.pill('Kite', Col.Black, Col.White)
 		mode = kite_mode
-	elif ctx.is_held(key_last_hit):
+	elif key_last_hit.check(ctx):
+		ctx.pill('LastHit', Col.Black, Col.White)
 		mode = last_hit_mode
-	elif ctx.is_held(key_lane_push):
+	elif key_lane_push.check(ctx):
+		ctx.pill('LanePush', Col.Black, Col.White)
 		mode = lane_push_mode
 	else:
 		return

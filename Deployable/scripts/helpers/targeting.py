@@ -1,5 +1,6 @@
 import json
 from valkyrie import *
+from enum import Enum
 
 class TargeterClosestToPlayer:
 	def __str__(self):
@@ -27,25 +28,35 @@ class TargeterMonsterRarity:
 		else:
 			return -10
 
-TargetersChampion = [
-	TargeterClosestToPlayer(),
-	TargeterLowestHealth()
-]
-TargetersMonster = TargetersChampion + [TargeterMonsterRarity()]
-
+class TargetSet:
+	Champion = 0
+	Monster  = 1
+	
 class TargetSelector:
 	
-	targeters = [
-		TargeterClosestToPlayer(),
-		TargeterLowestHealth()
-	]
-	
-	selected_targeter = 0
-	
-	def ui(self, ctx, label):
-		ui = ctx.ui
-		self.selected_targeter = ui.combo(label, self.targeters, self.selected_targeter)
+	target_sets = {
+		TargetSet.Champion: [
+			TargeterClosestToPlayer(),
+			TargeterLowestHealth()
+		],
 		
+		TargetSet.Monster: [
+			TargeterClosestToPlayer(),
+			TargeterLowestHealth(),
+			TargeterMonsterRarity()
+		]
+	}
+	
+	def __init__(self, selected = 0, target_set = TargetSet.Champion):
+		self.target_set        = target_set
+		self.targeters         = self.target_sets[target_set]
+		self.selected_targeter = selected
+	
+	def ui(self, label, ui):
+		ui.pushid(id(self))
+		self.selected_targeter = ui.combo(label, self.targeters, self.selected_targeter)
+		ui.popid()
+
 	def get_target(self, ctx, targets, radius):
 		
 		best_target = None
@@ -65,12 +76,10 @@ class TargetSelector:
 		return best_target
 		
 	def __str__(self):
-		return json.dumps([self.selected_targeter])
+		return json.dumps([self.selected_targeter, self.target_set])
 		
 	@classmethod
 	def from_str(self, s):
-		selector = TargetSelector()
 		j = json.loads(s)
-		selector.selected_targeter = j[0]
 		
-		return selector
+		return TargetSelector(*j)

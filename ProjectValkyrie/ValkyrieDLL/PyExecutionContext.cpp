@@ -155,6 +155,8 @@ void PyExecutionContext::SetGameState(GameState * state)
 {
 	this->state = state;
 
+	pillPosition = state->renderer.WorldToScreen(state->player->pos);
+
 	ping     = state->ping;
 	time     = state->time;
 	hovered  = object(ptr(state->hovered.get()));
@@ -265,4 +267,15 @@ void PyExecutionContext::DrawRect(const Vector2& start, const Vector2& size, con
 void PyExecutionContext::DrawRectFilled(const Vector2& start, const Vector2& size, const ImVec4 & color, float rounding)
 {
 	overlay->AddRectFilled((ImVec2&)start, (ImVec2&)Vector2(start.x + size.x, start.y + size.y), ImColor(color), rounding);
+}
+
+void PyExecutionContext::Pill(const char * text, const ImVec4 & colText, const ImVec4 & colRect)
+{
+	ImVec2 size = ImGui::CalcTextSize(text);
+	size.x += 10.f;
+	size.y += 6.f;
+	pillPosition.y += size.y + 4.f;
+
+	overlay->AddRectFilled((ImVec2&)pillPosition, ImVec2(pillPosition.x + size.x, pillPosition.y + size.y), ImColor(colRect), 10.f);
+	DrawTxt(Vector2(pillPosition.x + size.x / 2.f, pillPosition.y + size.y / 2.f), text, colText);
 }

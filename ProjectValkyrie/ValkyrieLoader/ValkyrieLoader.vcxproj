@@ -83,7 +83,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>ValkyrieShared.lib;aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;d3d9.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>

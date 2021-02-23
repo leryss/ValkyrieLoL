@@ -19,6 +19,8 @@ public:
 	Script*     currentScript;
 
 public:
+	Vector2 pillPosition;
+
 	float   ping;
 	float   time;
 	object  hovered;
@@ -82,5 +84,6 @@ public:
 	void    DrawRect(const Vector2& start, const Vector2& size, const ImVec4& color, float rounding = 0, float thickness = 1.0);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectFilledOverloads, DrawRectFilled, 3, 4);
 	void    DrawRectFilled(const Vector2& start, const Vector2& size, const ImVec4& color, float rounding = 0);
+	void    Pill(const char* text, const ImVec4& colText, const ImVec4& colRect);
 
 };

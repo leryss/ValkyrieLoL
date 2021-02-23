@@ -71,11 +71,16 @@ public:
 
 		DWORD size = sizeBuffs;
 		if (ERROR_SUCCESS != (status = RegGetValueA(key, "", "username", RRF_RT_REG_SZ, NULL, name, &size))) {
-			auto err = std::string("Failed to set valkyrie registry value ") + std::to_string(status);
+			if (status == ERROR_FILE_NOT_FOUND)
+				return;
+
+			auto err = std::string("Failed to get valkyrie registry value ") + std::to_string(status);
 			throw std::exception(err.c_str());
 		}
+
+		size = sizeBuffs;
 		if (ERROR_SUCCESS != (status = RegGetValueA(key, "", "password", RRF_RT_REG_SZ, NULL, pass, &size))) {
-			auto err = std::string("Failed to set valkyrie registry value ") + std::to_string(status);
+			auto err = std::string("Failed to get valkyrie registry value ") + std::to_string(status);
 			throw std::exception(err.c_str());
 		}
 

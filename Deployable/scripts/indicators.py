@@ -10,7 +10,7 @@ script_info = {
 	'icon': 'menu-pencil'
 }
 
-player_circle	= Circle(0.0, 30, 1.0, Col.Green, False, True)
+player_circle	 = Circle(0.0, 30, 1.0, Col.Green, False, True)
 show_minion_hit  = True
 
 def valkyrie_menu(ctx):
@@ -55,7 +55,6 @@ def draw_minion_hit_indicators(ctx):
 		ctx.line(hp_bar_pos + Vec2(0, -6), hp_bar_pos + Vec2(0, 10), 1, Col.Black)
 	
 def valkyrie_exec(ctx):
-	
 	player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
 	player_circle.draw_at(ctx, ctx.player.pos)
 	

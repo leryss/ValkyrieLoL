@@ -17,6 +17,14 @@ public:
 		ImGui::ShowDemoWindow();
 	}
 
+	void PushId(int id) {
+		ImGui::PushID(id);
+	}
+
+	void PopId() {
+		ImGui::PopID();
+	}
+
 	bool BeginPopupModal(const char* label) {
 		return ImGui::BeginPopupModal(label, NULL, ImGuiWindowFlags_AlwaysAutoResize);
 	}

@@ -196,6 +196,9 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("listbox",                  &PyImGui::ListBox)
 		.def("combo",                    &PyImGui::Combo)
 		.def("demo",                     &PyImGui::Demo)
+
+		.def("pushid",                   &PyImGui::PushId)
+		.def("popid",                    &PyImGui::PopId)
 		;
 
 	class_<PyExecutionContext>("Context", "Contains everything necessarry to create scripts. From utility functions to game data")
@@ -246,6 +249,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("triangle_fill",            &PyExecutionContext::DrawTriangleWorldFilled)
 		.def("image",                    &PyExecutionContext::DrawImage)
 		.def("image",                    &PyExecutionContext::DrawImageRounded)
+		.def("pill",                     &PyExecutionContext::Pill)
 		;
 
 	class_<ConfigSet>("Config")
