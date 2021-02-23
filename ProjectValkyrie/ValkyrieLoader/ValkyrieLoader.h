@@ -1,5 +1,6 @@
 #pragma once
 #include "ValkyrieAPI.h"
+#include "ConfigSet.h"
 #include <vector>
 #include <map>
 
@@ -31,9 +32,25 @@ private:
 	void DisplayUserPanel();
 	void DisplayAdminPanel();
 
+	void DrawUserManager();
+	void DrawInviteGenerator();
+
+	void LoadConfigs();
+	void SaveConfigs();
+	void SetupWorkingDir();
+	void ReadVersion();
+
 	/// Flags for requests
 	bool                                performUpdate = true;
 	bool                                retrieveUsers = true;
+	
+	ConfigSet                           configs;
+	bool                                autoInject;
+	bool                                autoSaveCredentials;
+
+	std::shared_ptr<AsyncTask>          injectorTask;
+	bool                                updateComplete = false;
+	bool                                loadCredentials;
 
 	ValkyrieAPI                         api;
 	DisplayMode                         displayMode = DM_LOGIN;
@@ -44,6 +61,7 @@ private:
 
 	std::string trackIdInjector       = "Injector";
 	std::string trackIdUpdate         = "Update";
+	std::string trackIdUpdateUser     = "UpdateUser";
 	std::string trackIdLogin          = "LogIn";
 	std::string trackIdGetUsers       = "GetUsers";
 	std::string trackIdCreateAccount  = "CreateAccount";
@@ -63,12 +81,12 @@ private:
 	char             inviteCodeBuff[INPUT_TEXT_BUFF_SIZE]  = "your_invite_code";
 
 	/// Invite code generator stuff
-	float            inviteSubscriptionDays;
+	float            inviteSubscriptionDays = 30.f;
 	char             generatedInviteCodeBuff[INPUT_TEXT_BUFF_SIZE] = "";
 
 	/// User Manager stuff
 	int              selectedUser = 0;
-	float            deltaDays = 0.f;
+	float            deltaDays = 2.f;
 
 	AsyncTaskPool    taskPool;
 };

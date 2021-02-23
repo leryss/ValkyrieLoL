@@ -56,7 +56,7 @@ public:
 		ImGui::SetNextWindowPos(ImVec2(10, 10));
 		ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
-		ImGui::TextColored(Color::YELLOW, "Background tasks");
+		ImGui::TextColored(Color::YELLOW, "Valkyrie");
 
 		for (auto& pair : runningTasks) {
 			const char* operationName = pair.first.c_str();

@@ -1,16 +1,21 @@
 #include "AsyncInjector.h"
 
 
-AsyncInjector::AsyncInjector(std::string dllPath)
+AsyncInjector::AsyncInjector(std::string dllPath, bool oneTimeInjection)
 {
 	this->dllPath = dllPath;
+	this->oneTimeInjection = oneTimeInjection;
 }
 
 void AsyncInjector::Perform()
 {
-	while (true) {
+	while (!shouldStop) {
 		HWND hWindow = FindWindowA("RiotWindowClass", NULL);
 		if (hWindow == NULL) {
+			if (oneTimeInjection) {
+				SetError("No league process active");
+				return;
+			}
 			currentStep = "Waiting for league process";
 		}
 		else if (hWindow != handleInjected) {
@@ -23,10 +28,14 @@ void AsyncInjector::Perform()
 			Sleep(10000);
 			InjectIntoPID(dllPath, processId);
 			currentStep = "Injected. Enjoy your game";
+			if (oneTimeInjection)
+				break;
 		}
 
 		Sleep(100);
 	}
+
+	SetStatus(ASYNC_SUCCEEDED);
 }
 
 void AsyncInjector::InjectIntoPID(std::string & dllPath, DWORD pid)

@@ -12,6 +12,7 @@ enum AsyncTaskStatus {
 class AsyncTask {
 
 public:
+	bool            shouldStop = false;
 	float           percentDone = -1;
 	std::string     currentStep;
 	std::string     error;
@@ -33,6 +34,7 @@ public:
 		SetStatus(ASYNC_FAILED);
 		this->error = error;
 	}
+
 private:
 	AsyncTaskStatus status;
 };

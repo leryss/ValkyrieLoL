@@ -180,9 +180,6 @@
     <ClInclude Include="SkinChanger.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigSet.h">
-      <Filter>Source Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="SkinInfo.h">
       <Filter>Source Files\Game\StaticData</Filter>
     </ClInclude>
@@ -280,9 +277,6 @@
     </ClCompile>
     <ClCompile Include="SkinChanger.cpp">
       <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigSet.cpp">
-      <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="InputController.cpp">
       <Filter>Source Files\Utils\Input</Filter>

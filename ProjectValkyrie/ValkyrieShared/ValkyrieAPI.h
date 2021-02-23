@@ -99,7 +99,7 @@ public:
 	}
 };
 
-class GetUserAsync : public AsyncLambdaInvoke {
+class UserOperationAsync : public AsyncLambdaInvoke {
 public:
 	UserInfo user;
 
@@ -128,20 +128,6 @@ public:
 	}
 };
 
-class CreateAccountAsync : public AsyncLambdaInvoke {
-public:
-	UserInfo user;
-
-	using AsyncLambdaInvoke::AsyncLambdaInvoke;
-
-	virtual void Perform() {
-		AsyncLambdaInvoke::Perform();
-
-		if (GetStatus() == ASYNC_SUCCEEDED)
-			user = UserInfo::FromJsonView(rawJson.View().GetObject("result"));
-	}
-};
-
 class ValkyrieAPI {
 
 public:
@@ -149,11 +135,13 @@ public:
 
 	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
 
-	std::shared_ptr<CreateAccountAsync>   CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
+	std::shared_ptr<UserOperationAsync>   CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
 
 	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
-	std::shared_ptr<GetUserAsync>         GetUser(const IdentityInfo& identity, const char* target);
+	std::shared_ptr<UserOperationAsync>   GetUser(const IdentityInfo& identity, const char* target);
 	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days);
+
+	std::shared_ptr<UserOperationAsync>   UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
 	
 
 private:

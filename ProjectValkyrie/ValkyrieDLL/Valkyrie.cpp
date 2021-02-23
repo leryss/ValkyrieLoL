@@ -37,7 +37,7 @@ bool                               Valkyrie::EssentialsLoaded = false;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
-ConfigSet                          Valkyrie::Configs("valkyrie");
+ConfigSet                          Valkyrie::Configs;
 
 
 void Valkyrie::Run()
@@ -45,7 +45,11 @@ void Valkyrie::Run()
 	try {
 		DxDeviceMutex.lock();
 
+		auto configPath = Globals::ConfigsDir;
+		configPath.append("valkyrie.cfg");
+
 		HookDirectX();
+		Configs.SetConfigFile(configPath.u8string());
 		Configs.Load();
 		FakeMouse::Init();
 
@@ -60,7 +64,7 @@ void Valkyrie::Run()
 			Api.GetUser(IdentityInfo(name, pass, HardwareInfo::Calculate()), name),
 
 			[](std::shared_ptr<AsyncTask> response) {
-				LoggedUser = ((GetUserAsync*)response.get())->user;
+				LoggedUser = ((UserOperationAsync*)response.get())->user;
 				TaskPool.DispatchTask(
 					"Load Essentials",
 					std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),

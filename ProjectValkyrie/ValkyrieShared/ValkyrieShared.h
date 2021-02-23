@@ -49,7 +49,7 @@ public:
 		RegCloseKey(key);
 	}
 
-	static void LoadCredentials(char** name, char** pass) {
+	static void LoadCredentials(char* name, char* pass, int sizeBuffs) { 
 		HKEY key;
 		DWORD disposition;
 		LSTATUS status;
@@ -60,7 +60,7 @@ public:
 			NULL,
 			NULL,
 			REG_OPTION_NON_VOLATILE,
-			KEY_WRITE,
+			KEY_READ,
 			NULL,
 			&key,
 			&disposition))) {
@@ -69,20 +69,25 @@ public:
 			throw std::exception(err.c_str());
 		}
 
-		DWORD sizeName = 256;
-		DWORD sizePass = 256;
-		*name = new char[sizeName];
-		*pass = new char[sizePass];
-
-		if (ERROR_SUCCESS != (status = RegGetValueA(key, "", "username", RRF_RT_REG_SZ, NULL, *name, &sizeName))) {
+		DWORD size = sizeBuffs;
+		if (ERROR_SUCCESS != (status = RegGetValueA(key, "", "username", RRF_RT_REG_SZ, NULL, name, &size))) {
 			auto err = std::string("Failed to set valkyrie registry value ") + std::to_string(status);
 			throw std::exception(err.c_str());
 		}
-		if (ERROR_SUCCESS != (status = RegGetValueA(key, "", "password", RRF_RT_REG_SZ, NULL, *pass, &sizePass))) {
+		if (ERROR_SUCCESS != (status = RegGetValueA(key, "", "password", RRF_RT_REG_SZ, NULL, pass, &size))) {
 			auto err = std::string("Failed to set valkyrie registry value ") + std::to_string(status);
 			throw std::exception(err.c_str());
 		}
 
 		RegCloseKey(key);
+	}
+
+	static void LoadCredentials(char** name, char** pass) {
+
+		DWORD size = 256;
+		*name = new char[size];
+		*pass = new char[size];
+
+		LoadCredentials(*name, *pass, size);
 	}
 };

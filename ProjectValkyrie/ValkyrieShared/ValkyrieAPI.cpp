@@ -22,7 +22,7 @@ ValkyrieAPI::ValkyrieAPI()
 	lambdaInvokeRequest.SetContentType("application/javascript");
 }
 
-std::shared_ptr<CreateAccountAsync> ValkyrieAPI::CreateAccount(const char * name, const char * pass, const char * discord, const HardwareInfo & hardware, const char * inviteCode)
+std::shared_ptr<UserOperationAsync> ValkyrieAPI::CreateAccount(const char * name, const char * pass, const char * discord, const HardwareInfo & hardware, const char * inviteCode)
 {
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadCreateAcc");
 
@@ -40,7 +40,7 @@ std::shared_ptr<CreateAccountAsync> ValkyrieAPI::CreateAccount(const char * name
 	*payload << json.View().WriteReadable();
 	lambdaInvokeRequest.SetBody(payload);
 
-	return std::shared_ptr<CreateAccountAsync>(new CreateAccountAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GetUserListAsync> ValkyrieAPI::GetUsers(const IdentityInfo & identity)
@@ -62,7 +62,7 @@ std::shared_ptr<GetUserListAsync> ValkyrieAPI::GetUsers(const IdentityInfo & ide
 	return std::shared_ptr<GetUserListAsync>(new GetUserListAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
-std::shared_ptr<GetUserAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity, const char* target)
+std::shared_ptr<UserOperationAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity, const char* target)
 {
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
 
@@ -79,7 +79,7 @@ std::shared_ptr<GetUserAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity
 	*payload << json.View().WriteReadable();
 	lambdaInvokeRequest.SetBody(payload);
 
-	return std::shared_ptr<GetUserAsync>(new GetUserAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days)
@@ -100,6 +100,27 @@ std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const Ident
 	lambdaInvokeRequest.SetBody(payload);
 
 	return std::shared_ptr<GenerateInviteAsync>(new GenerateInviteAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
+std::shared_ptr<UserOperationAsync> ValkyrieAPI::UpdateUser(const IdentityInfo & identity, const char * target, const UserInfo & targetInfo)
+{
+	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
+
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithString("name", identity.name.c_str());
+	jsonParams.WithString("pass", identity.pass.c_str());
+	jsonParams.WithObject("hardware", identity.hardware.ToJsonValue());
+	jsonParams.WithString("target", target);
+	jsonParams.WithObject("target-info", targetInfo.ToJsonValue());
+
+	Aws::Utils::Json::JsonValue json;
+	json.WithString("operation", "update-user");
+	json.WithObject("operation-params", jsonParams);
+
+	*payload << json.View().WriteReadable();
+	lambdaInvokeRequest.SetBody(payload);
+
+	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GetS3ObjectAsync> ValkyrieAPI::GetCheatS3Object(const char* bucket, const char* key)

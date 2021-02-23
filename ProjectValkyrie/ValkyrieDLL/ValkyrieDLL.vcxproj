@@ -162,7 +162,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
-    <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
@@ -207,7 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Benchmark.cpp" />
-    <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FakeMouse.cpp" />
     <ClCompile Include="GameChampion.cpp" />

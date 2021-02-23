@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="AsyncTask.h" />
     <ClInclude Include="AsyncTaskPool.h" />
+    <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="HardwareInfo.h" />
     <ClInclude Include="IdentityInfo.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="ValkyrieShared.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="HardwareInfo.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />

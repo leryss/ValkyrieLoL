@@ -68,6 +68,9 @@
     <ClInclude Include="miniz\miniz.h">
       <Filter>Source Files\miniz</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigSet.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HardwareInfo.cpp">
@@ -102,6 +105,9 @@
     </ClCompile>
     <ClCompile Include="miniz\miniz.c">
       <Filter>Source Files\miniz</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigSet.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

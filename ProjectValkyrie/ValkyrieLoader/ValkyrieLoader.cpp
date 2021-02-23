@@ -24,31 +24,10 @@ ValkyrieLoader::ValkyrieLoader()
 {
 	taskPool.AddWorkers(4);
 
-	valkyrieFolder = ValkyrieShared::GetWorkingDir();
-
-	/// Check if valkyrie dir exists
-	bool directoryExists = false;
-	DWORD ftyp = GetFileAttributesA(valkyrieFolder.c_str());
-	if (ftyp != INVALID_FILE_ATTRIBUTES && ftyp & FILE_ATTRIBUTE_DIRECTORY)
-		directoryExists = true;
-
-	/// Create valkyrie dir if not exists
-	if (!directoryExists) {
-		if (!CreateDirectoryA(valkyrieFolder.c_str(), NULL)) {
-			throw std::exception("Fatal error. Couldn't create valkyrie folder");
-		}
-	}
-
-	/// Get version hash from file for auto update checking
-	versionFilePath = valkyrieFolder + "\\version";
-	ftyp = GetFileAttributesA(versionFilePath.c_str());
-	if (ftyp != INVALID_FILE_ATTRIBUTES) {
-		std::ifstream versionFile(versionFilePath);
-		std::getline(versionFile, versionHash);
-	}
-
-	/// Calculate hardware info for HWID
+	SetupWorkingDir();
+	ReadVersion();
 	hardwareInfo = HardwareInfo::Calculate();
+	LoadConfigs();
 }
 
 void ValkyrieLoader::ImGuiShow()
@@ -72,6 +51,8 @@ void ValkyrieLoader::ImGuiShow()
 	}
 
 	taskPool.ImGuiDraw();
+	if (configs.IsTimeToSave())
+		SaveConfigs();
 }
 
 void ValkyrieLoader::DisplayLogin()
@@ -82,20 +63,28 @@ void ValkyrieLoader::DisplayLogin()
 	ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
 
 	ImGui::Separator();
-	if (ImGui::Button("Login") && !taskPool.IsExecuting(trackIdLogin)) {
+	if (loadCredentials) {
+		ValkyrieShared::LoadCredentials(nameBuff, passBuff, INPUT_TEXT_BUFF_SIZE);
+		loadCredentials = false;
+	}
+
+	if ((ImGui::Button("Login")) && !taskPool.IsExecuting(trackIdLogin)) {
+
 		taskPool.DispatchTask(
 			trackIdLogin,
 			api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff),
 			[this](std::shared_ptr<AsyncTask> response) {
 				ValkyrieShared::SaveCredentials(nameBuff, passBuff);
-				loggedUser = ((GetUserAsync*)response.get())->user;
+				loggedUser = ((UserOperationAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}
 		);
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Use invite code"))
+	if (ImGui::Button("Register"))
 		displayMode = DM_CREATE_ACCOUNT;
+
+	ImGui::Checkbox("Remember credentials", &autoSaveCredentials);
 
 	ImGui::End();
 }
@@ -116,7 +105,7 @@ void ValkyrieLoader::DisplayCreateAccount()
 			trackIdCreateAccount,
 			api.CreateAccount(nameBuff, passBuff, discordBuff, hardwareInfo, inviteCodeBuff),
 			[this](std::shared_ptr<AsyncTask> response) {
-				loggedUser = ((CreateAccountAsync*)response.get())->user;
+				loggedUser = ((UserOperationAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}
 		);
@@ -141,11 +130,7 @@ void ValkyrieLoader::DisplayUserPanel()
 					std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncUpdater(*this, std::static_pointer_cast<GetS3ObjectAsync>(response))),
 					[this](std::shared_ptr<AsyncTask> response) {
 						
-						taskPool.DispatchTask(
-							trackIdInjector,
-							std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE)),
-							[this](std::shared_ptr<AsyncTask> response) {} /// This task is not supposed to finish
-						);
+						updateComplete = true;
 					}
 				);
 			}
@@ -166,34 +151,72 @@ void ValkyrieLoader::DisplayUserPanel()
 	if (changeLog.size() > 0) {
 		ImGui::Separator();
 		ImGui::TextColored(COLOR_PURPLE, "** Change Log **");
-		ImGui::BeginChildFrame(10000, ImVec2(400.f, 300.f));
+		ImGui::BeginChildFrame(10000, ImVec2(400.f, 200.f));
 		ImGui::Text(changeLog.c_str());
 		ImGui::EndChildFrame();
 	}
+
+	/// Inject stuff
+	ImGui::Separator();
+	ImGui::Checkbox("Auto inject", &autoInject);
+	if ((injectorTask == nullptr || injectorTask->GetStatus() != ASYNC_RUNNING) && updateComplete) {
+		if (autoInject) {
+			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE, false));
+			taskPool.DispatchTask(
+				trackIdInjector,
+				injectorTask,
+				[this](std::shared_ptr<AsyncTask> response) {}
+			);
+		}
+		else if (ImGui::Button("Inject")) {
+			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE, true));
+			taskPool.DispatchTask(
+				trackIdInjector,
+				injectorTask,
+				[this](std::shared_ptr<AsyncTask> response) {}
+			);
+		}
+	}
+	
+	if (!autoInject && injectorTask != nullptr && injectorTask->GetStatus() == ASYNC_RUNNING)
+		injectorTask->shouldStop = true;
 
 	ImGui::End();
 }
 
 void ValkyrieLoader::DisplayAdminPanel()
 {
-	if (retrieveUsers && !taskPool.IsExecuting(trackIdGetUsers)) {
+	ImGui::Begin("Admin Panel");
+	ImGui::PushItemWidth(140.f);
+
+	DrawUserManager();
+	DrawInviteGenerator();
+
+	ImGui::PopItemWidth();
+	ImGui::End();
+}
+
+void ValkyrieLoader::DrawUserManager()
+{
+	if (taskPool.IsExecuting(trackIdGetUsers)) {
+		ImGui::TextColored(Color::YELLOW, "Refreshing...");
+		return;
+	}
+
+	if (retrieveUsers) {
 		taskPool.DispatchTask(
 			trackIdGetUsers,
 			api.GetUsers(IdentityInfo(nameBuff, passBuff, hardwareInfo)),
 
 			[this](std::shared_ptr<AsyncTask> response) {
-				auto resp = (GetUserListAsync*)response.get();
-				allUsers = resp->users;
-				selectedUser = 0;
-			}
+			auto resp = (GetUserListAsync*)response.get();
+			allUsers = resp->users;
+			selectedUser = 0;
+		}
 		);
 		retrieveUsers = false;
 	}
 
-	ImGui::Begin("Admin Panel");
-	ImGui::PushItemWidth(140.f);
-
-	/// Show user manager
 	ImGui::Separator();
 	ImGui::TextColored(COLOR_PURPLE, "All users");
 	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders);
@@ -267,17 +290,52 @@ void ValkyrieLoader::DisplayAdminPanel()
 	}
 	ImGui::EndTable();
 
+	if (ImGui::Button("Refresh")) {
+		selectedUser = 0;
+		retrieveUsers = true;
+	}
+
+	if (taskPool.IsExecuting(trackIdUpdateUser)) {
+		ImGui::TextColored(Color::YELLOW, "Performing action...");
+		return;
+	}
+
+	bool  doUpdate = false;
+	auto& selected = allUsers[selectedUser];
+
 	ImGui::TextColored(COLOR_PURPLE, "User actions");
 	ImGui::DragFloat("Subscription days to add", &deltaDays);
-	ImGui::Button("Add days to selected");
-	ImGui::SameLine();
-	ImGui::Button("Add days to all");
-	ImGui::SameLine();
-	ImGui::Button("Ban/Unban Selected");
-	ImGui::SameLine();
-	ImGui::Button("HWID Reset Selected");
+	if (ImGui::Button("Add days to selected")) {
+		doUpdate = true;
+		selected.expiry += ONE_DAY_SECS * deltaDays;
+	}
 
-	/// Show invite code generator
+	ImGui::SameLine();
+	if (ImGui::Button("Ban/Unban Selected")) {
+		doUpdate = true;
+		selected.locked = !selected.locked;
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("HWID Reset Selected")) {
+		doUpdate = true;
+		selected.resetHardware = true;
+	}
+
+	if (doUpdate) {
+		int toReplace = selectedUser;
+		taskPool.DispatchTask(
+			trackIdUpdateUser,
+			api.UpdateUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), selected.name.c_str(), selected),
+			[this, toReplace](std::shared_ptr<AsyncTask> response) {
+				allUsers[toReplace] = ((UserOperationAsync*) response.get())->user;
+			}
+		);
+	}
+}
+
+void ValkyrieLoader::DrawInviteGenerator()
+{
 	ImGui::Separator();
 	ImGui::TextColored(COLOR_PURPLE, "Invite code generator");
 	ImGui::DragFloat("Subscription Days", &inviteSubscriptionDays);
@@ -288,13 +346,55 @@ void ValkyrieLoader::DisplayAdminPanel()
 			trackIdGenerateInvite,
 			api.GenerateInviteCode(IdentityInfo(nameBuff, passBuff, hardwareInfo), inviteSubscriptionDays),
 			[this](std::shared_ptr<AsyncTask> response) {
-				auto resp = (GenerateInviteAsync*)response.get();
-				strcpy_s(generatedInviteCodeBuff, resp->inviteCode.c_str());
-			}
+			auto resp = (GenerateInviteAsync*)response.get();
+			strcpy_s(generatedInviteCodeBuff, resp->inviteCode.c_str());
+		}
 		);
-		
 	}
+}
 
-	ImGui::PopItemWidth();
-	ImGui::End();
+void ValkyrieLoader::LoadConfigs()
+{
+	configs.SetSaveInterval(5000);
+	configs.SetConfigFile("vload.cfg");
+	configs.Load();
+
+	autoSaveCredentials  = loadCredentials = configs.GetBool("save_credentials", false);
+	autoInject = configs.GetBool("auto_inject", false);
+}
+
+void ValkyrieLoader::SaveConfigs()
+{
+	configs.SetBool("save_credentials", autoSaveCredentials);
+	configs.SetBool("auto_inject", autoInject);
+
+	configs.Save();
+}
+
+void ValkyrieLoader::SetupWorkingDir()
+{
+	valkyrieFolder = ValkyrieShared::GetWorkingDir();
+
+	/// Check if valkyrie dir exists
+	bool directoryExists = false;
+	DWORD ftyp = GetFileAttributesA(valkyrieFolder.c_str());
+	if (ftyp != INVALID_FILE_ATTRIBUTES && ftyp & FILE_ATTRIBUTE_DIRECTORY)
+		directoryExists = true;
+
+	/// Create valkyrie dir if not exists
+	if (!directoryExists) {
+		if (!CreateDirectoryA(valkyrieFolder.c_str(), NULL)) {
+			throw std::exception("Fatal error. Couldn't create valkyrie folder");
+		}
+	}
+}
+
+void ValkyrieLoader::ReadVersion()
+{
+	versionFilePath = valkyrieFolder + "\\version";
+	DWORD ftyp = GetFileAttributesA(versionFilePath.c_str());
+	if (ftyp != INVALID_FILE_ATTRIBUTES) {
+		std::ifstream versionFile(versionFilePath);
+		std::getline(versionFile, versionHash);
+	}
 }
