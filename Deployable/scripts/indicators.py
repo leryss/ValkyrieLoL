@@ -2,6 +2,7 @@ from valkyrie import *
 from helpers.drawings import Circle
 from helpers.prediction import *
 from helpers.items import *
+from time import time
 
 script_info = {
 	'author': 'leryss',
@@ -10,30 +11,35 @@ script_info = {
 	'icon': 'menu-pencil'
 }
 
-player_circle	 = Circle(0.0, 30, 1.0, Col.Green, False, True)
-turret_circle    = Circle(0.0, 50, 1.0, Col.Red,   False, True)
-show_minion_hit  = True
+player_circle	     = Circle(0.0, 30, 1.0, Col.Green, False, True)
+turret_circle_enemy  = Circle(0.0, 50, 1.0, Col.Red,   False, True)
+turret_circle_ally   = Circle(0.0, 50, 1.0, Col.Blue, False, True)
+show_minion_hit      = True
 
 def valkyrie_menu(ctx):
-	global player_circle, show_minion_hit, i
+	global player_circle, show_minion_hit
 	ui = ctx.ui
 	
 	player_circle.ui("Attack range circle settings", ctx)
-	turret_circle.ui("Turret range circle settings", ctx)
+	turret_circle_enemy.ui("Enemy turret range circle settings", ctx)
+	turret_circle_ally.ui("Ally turret range circle settings", ctx)
 	show_minion_hit = ui.checkbox("Show minion hit damage indicator", show_minion_hit)
 	
 def valkyrie_on_load(ctx):
-	global player_circle, show_minion_hit, turret_circle
+	global player_circle, show_minion_hit, turret_circle_ally, turret_circle_enemy
 	cfg = ctx.cfg
 	
-	player_circle   = Circle.from_str(cfg.get_str("player_circle", str(player_circle)))	  
-	turret_circle   = Circle.from_str(cfg.get_str("turret_circle", str(turret_circle)))	 
-	show_minion_hit = cfg.get_bool("show_minion_hit", show_minion_hit)
+	player_circle         = Circle.from_str(cfg.get_str("player_circle", str(player_circle)))	  
+	turret_circle_enemy   = Circle.from_str(cfg.get_str("turret_circle_enemy", str(turret_circle_enemy)))
+	turret_circle_ally    = Circle.from_str(cfg.get_str("turret_circle_ally", str(turret_circle_ally)))	
+	
+	show_minion_hit       = cfg.get_bool("show_minion_hit", show_minion_hit)
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
 	
-	cfg.set_str("turret_circle", str(turret_circle))
+	cfg.set_str("turret_circle_enemy", str(turret_circle_enemy))
+	cfg.set_str("turret_circle_ally", str(turret_circle_ally))
 	cfg.set_str("player_circle", str(player_circle))
 	cfg.set_bool("show_minion_hit", show_minion_hit)
 	
@@ -61,8 +67,9 @@ def draw_minion_hit_indicators(ctx):
 def draw_turret_range(ctx):
 	for turret in ctx.turrets:
 		if not turret.dead and ctx.is_on_screen(turret.pos):
-			turret_circle.radius = turret.static.base_atk_range + turret.static.gameplay_radius
-			turret_circle.draw_at(ctx, turret.pos)
+			circle = turret_circle_ally if turret.ally_to(ctx.player) else turret_circle_enemy
+			circle.radius = turret.static.base_atk_range + turret.static.gameplay_radius
+			circle.draw_at(ctx, turret.pos)
 			
 def draw_player_range(ctx):
 	player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
@@ -71,7 +78,7 @@ def draw_player_range(ctx):
 def valkyrie_exec(ctx):
 	draw_player_range(ctx)
 	draw_turret_range(ctx)
-			
+	
 	if show_minion_hit:
 		draw_minion_hit_indicators(ctx)
 	

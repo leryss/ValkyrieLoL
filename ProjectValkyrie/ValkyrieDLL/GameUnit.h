@@ -44,7 +44,6 @@ public:
 	UnitInfo*   staticData;
 
 	std::string nameTransformed;
-	bool        isTransformed;
 
 private:
 	bool      hasCastingSpell = false;

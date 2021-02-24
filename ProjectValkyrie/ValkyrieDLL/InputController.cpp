@@ -1,6 +1,7 @@
 #include "InputController.h"
 #include <windows.h>
 #include "imgui/imgui.h"
+#include "Valkyrie.h"
 
 const float InputController::ScreenHeight = (float)::GetSystemMetrics(SM_CYSCREEN) - 1;
 const float InputController::ScreenWidth  = (float)::GetSystemMetrics(SM_CXSCREEN) - 1;
@@ -81,7 +82,7 @@ void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGett
 void InputController::IssueClick(ClickType type)
 {
 	ioQueue.push(new IoPressMouse(type));
-	ioQueue.push(new IoDelay(10.f));
+	ioQueue.push(new IoDelay(5.f));
 	ioQueue.push(new IoReleaseMouse(type));
 }
 
@@ -89,6 +90,25 @@ void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posG
 {
 	ioQueue.push(new IoSpoofMouse(posGetter));
 	IssueClick(type);
+	ioQueue.push(new IoUnspoofMouse());
+}
+
+void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
+{
+	std::function<Vector2()> posGetter = [&unit]() {
+		return Valkyrie::CurrentGameState->renderer.WorldToScreen(unit.pos); 
+	};
+
+	std::function<bool()> clickCondition = [&unit]() {
+		return unit.targetable && !unit.isDead && unit.isVisible;
+	};
+
+	ioQueue.push(new IoSpoofMouse(posGetter));
+
+	ioQueue.push(new IoPressMouse(type, clickCondition));
+	ioQueue.push(new IoDelay(5.f));
+	ioQueue.push(new IoReleaseMouse(type, clickCondition));
+
 	ioQueue.push(new IoUnspoofMouse());
 }
 

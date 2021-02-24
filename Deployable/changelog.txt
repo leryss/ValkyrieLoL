@@ -1,3 +1,10 @@
+[Valkyrie v0.12]
+	* Fixed a bug where skins would revert to default after death
+	* Fixed a bug where orbwalker would attack dead units
+
+	+ Added new script Recall Tracker
+	+ Indicators: Added separate circles for enemy/ally turrets
+
 [Valkyrie v0.11]
 	* Fixed a bug where hp bar position was not calculated correctly for transformed entities (ex: nidalee cougar form)
 	* Fixed a bug where while lane pushing when no enemy creeps nearby the orbwalker would wait for last hit

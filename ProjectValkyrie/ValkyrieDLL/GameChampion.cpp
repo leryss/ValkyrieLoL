@@ -49,6 +49,9 @@ void GameChampion::ReadFromBaseAddress(int addr)
 		int id = ReadInt(itemInfo + Offsets::ItemInfoId);
 		items[i] = GameData::GetItem(id);
 	}
+
+	/// Check recalling
+	recalling = ReadInt(addr + Offsets::ObjRecallState);
 }
 
 void GameChampion::ImGuiDraw()

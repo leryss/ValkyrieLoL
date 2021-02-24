@@ -62,6 +62,14 @@ public:
 		ImGui::Begin(name);
 	}
 
+	void BeginWithFlags(const char* name, ImGuiWindowFlags flags) {
+		ImGui::Begin(name, NULL, flags);
+	}
+
+	void ProgressBar(float fraction, const Vector2& size, const char* text) {
+		ImGui::ProgressBar(fraction, (ImVec2&)size, text);
+	}
+
 	void End() {
 		ImGui::End();
 	}

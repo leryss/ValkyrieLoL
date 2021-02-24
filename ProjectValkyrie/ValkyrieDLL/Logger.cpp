@@ -52,7 +52,7 @@ void Logger::Info(const char * str, ...)
 	FileStream->write(entry.message, strlen(entry.message));
 	FileStream->write("\n", 1);
 
-	FileStream->flush();
+	//FileStream->flush();
 	LoggerMutex.unlock();
 }
 

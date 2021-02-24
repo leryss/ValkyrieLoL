@@ -43,23 +43,16 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	else
 		hasCastingSpell = false;
 
-	/// If the unit is transformed (ex: nidalee cougar form) we read the name of the transformed unit
-	bool transformFlag = (ReadInt(addr + Offsets::ObjTransformCount) % 2);
-	if (transformFlag) {
-		if (!isTransformed) {
-			int transformation = ReadInt(addr + Offsets::ObjTransformation);
-			if (transformation != NULL) {
-				nameTransformed = Memory::ReadString(ReadInt(transformation));
-				nameTransformed = Strings::ToLower(nameTransformed);
-				staticData = GameData::GetUnit(nameTransformed);
+	/// Check if transformed (ex nidalee cougar form) and update static data
+	int transformAddr = ReadInt(addr + Offsets::ObjTransformation);
+	if (transformAddr != NULL) {
+		nameTransformed = Memory::ReadString(ReadInt(transformAddr));
+		nameTransformed = Strings::ToLower(nameTransformed);
 
-				isTransformed = true;
-			}
+		staticData = GameData::GetUnit(nameTransformed);
+		if (staticData == nullptr) {
+			staticData = GameData::GetUnit(name);
 		}
-	}
-	else if (isTransformed) {
-		staticData = GameData::GetUnit(name);
-		isTransformed = false;
 	}
 }
 
@@ -87,7 +80,6 @@ void GameUnit::ImGuiDraw()
 	ImGui::Checkbox("IsDead",         &isDead);
 	ImGui::Checkbox("Targetable",     &targetable);
 	ImGui::Checkbox("Invulnerable",   &invulnerable);
-	ImGui::Checkbox("IsTransformed", &isTransformed);
 	ImGui::DragInt("Level",           &lvl);
 
 	ImGui::Separator();

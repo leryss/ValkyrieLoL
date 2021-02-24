@@ -167,5 +167,18 @@
         "speed": 0.0,
 		"travelTime": 0.0,
         "projectDestination": false
+    }, 
+	{
+        "name": "recall",
+        "icon": "",
+        "flags": 0,
+        "castTime": 8.0,
+        "castRange": 0.0,
+        "castRadius": 0.0,
+        "width": 0.0,
+        "height": 0.0,
+        "speed": 10000.0,
+        "travelTime": 0.0,
+        "projectDestination": false
     }
 ]

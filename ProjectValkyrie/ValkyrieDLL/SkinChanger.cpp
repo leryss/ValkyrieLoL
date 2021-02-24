@@ -5,17 +5,16 @@
 
 int SkinChanger::CurrentSkinIndex   = 0;
 int SkinChanger::CurrentChromaIndex = -1;
+int SkinChanger::CurrentSkinId      = -1;
+bool SkinChanger::HasDied = false;
 
 void SkinChanger::ImGuiDraw()
 {
-	static auto Update = reinterpret_cast<void(__thiscall*)(void*, bool)>((int)GetModuleHandle(NULL) + Offsets::FnCharacterDataStackUpdate);
-
-	bool changed = false;
-	
 	std::vector<SkinInfo*>& skins = GameData::GetSkins(Valkyrie::CurrentGameState->player->name);
 	if (skins.size() == 0 || skins.size() <= CurrentSkinIndex)
 		return;
 
+	bool changed = false;
 	if (ImGui::BeginCombo("Skins", skins[CurrentSkinIndex]->name.c_str(), ImGuiComboFlags_HeightLargest)) {
 		bool selected = false;
 		for (size_t i = 0; i < skins.size(); ++i) {
@@ -43,17 +42,29 @@ void SkinChanger::ImGuiDraw()
 	}
 
 	if (changed) {
-		int baseAddr = (int)GetModuleHandle(NULL);
-		int charDataStack = Valkyrie::CurrentGameState->player->address + Offsets::CharacterDataStack;
-		int* charSkinId = (int*)(charDataStack + Offsets::CharacterDataStackSkinId);
-
 		if (CurrentChromaIndex >= 0)
-			*charSkinId = skins[CurrentSkinIndex]->chromas[CurrentChromaIndex].id;
+			CurrentSkinId = skins[CurrentSkinIndex]->chromas[CurrentChromaIndex].id;
 		else
-			*charSkinId = skins[CurrentSkinIndex]->id;
-		Update((void*)charDataStack, true);
+			CurrentSkinId = skins[CurrentSkinIndex]->id;
 	}
+}
 
-	ImGui::EndMenu();
-	
+void SkinChanger::Refresh()
+{
+	static auto UpdateSkin = reinterpret_cast<void(__thiscall*)(void*, bool)>((int)GetModuleHandle(NULL) + Offsets::FnCharacterDataStackUpdate);
+
+	/// If champ is dead no need to check or change skin
+	if (CurrentSkinId == -1 || Valkyrie::CurrentGameState->player->isDead)
+		return;
+
+	/// Check if skin id was changed in memory
+	int charDataStack = Valkyrie::CurrentGameState->player->address + Offsets::CharacterDataStack;
+	int* charSkinId = (int*)(charDataStack + Offsets::CharacterDataStackSkinId);
+
+	/// Update skin if necessary
+	if (*charSkinId != CurrentSkinId) {
+		*charSkinId = CurrentSkinId;
+		UpdateSkin((void*)charDataStack, true);
+		Logger::Info("[skin_changer] Changed skin to %d", CurrentSkinId);
+	}
 }

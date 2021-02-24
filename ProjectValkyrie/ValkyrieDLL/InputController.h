@@ -3,6 +3,7 @@
 #include "Vector.h"
 #include "FakeMouse.h"
 #include "GameObject.h"
+#include "GameUnit.h"
 
 #include <queue>
 #include <chrono>
@@ -35,6 +36,8 @@ public:
 	void IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter);
 	void IssueClick(ClickType type);
 	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter);
+
+	void IssueClickUnit(ClickType type, const GameUnit& unit);
 
 	static int ImGuiKeySelect(const char* label, int key);
 
@@ -152,11 +155,15 @@ public:
 class IoPressMouse : public IoStep {
 
 public:
-	IoPressMouse(ClickType type) {
+	IoPressMouse(ClickType type, std::function<bool()> condition = nullptr) {
 		this->type = type;
+		this->condition = condition;
 	}
 
 	bool Update() {
+		if (condition && !condition())
+			return true;
+
 		INPUT input = { 0 };
 		input.type = INPUT_MOUSE;
 		input.mi.dwFlags = (type == ClickType::CT_LEFT_CLICK ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN);
@@ -166,16 +173,21 @@ public:
 	}
 
 	ClickType type;
+	std::function<bool()> condition;
 };
 
 class IoReleaseMouse : public IoStep {
 
 public:
-	IoReleaseMouse(ClickType type) {
+	IoReleaseMouse(ClickType type, std::function<bool()> condition = nullptr) {
 		this->type = type;
+		this->condition = condition;
 	}
 
 	bool Update() {
+		if (condition && !condition())
+			return true;
+
 		INPUT input = { 0 };
 		input.type = INPUT_MOUSE;
 		input.mi.dwFlags = (type == ClickType::CT_LEFT_CLICK ? MOUSEEVENTF_LEFTUP : MOUSEEVENTF_RIGHTUP);
@@ -185,6 +197,7 @@ public:
 	}
 
 	ClickType type;
+	std::function<bool()> condition;
 };
 
 class IoBlockInput : public IoStep {

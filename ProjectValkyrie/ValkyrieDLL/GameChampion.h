@@ -22,6 +22,7 @@ public:
 	object    ItemsToPy();
 
 public:
+	bool      recalling;
 	GameSpell spells[6];
 	ItemInfo* items[6];
 };

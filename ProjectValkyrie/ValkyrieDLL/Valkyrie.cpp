@@ -93,18 +93,22 @@ void Valkyrie::ShowMenu()
 		ImGui::SameLine();
 		if (ImGui::BeginMenu("Development")) {
 			DrawDevMenu();
+			ImGui::EndMenu();
 		}
 
 		ImGui::Image(GameData::GetImage(IconSettings), ImVec2(15, 15));
 		ImGui::SameLine();
 		if (ImGui::BeginMenu("Menu Settings")) {
 			DrawUIMenu();
+			ImGui::EndMenu();
 		}
 
 		ImGui::Image(GameData::GetImage(IconSkinChanger), ImVec2(15, 15));
 		ImGui::SameLine();
-		if (ImGui::BeginMenu("Skin Changer"))
+		if (ImGui::BeginMenu("Skin Changer")) {
 			SkinChanger::ImGuiDraw();
+			ImGui::EndMenu();
+		}
 
 		ImGui::Separator();
 		ScriptManager.ImGuiDrawMenu(ScriptContext);
@@ -305,8 +309,6 @@ void Valkyrie::DrawDevMenu()
 		}
 		ImGui::EndMenu();
 	}
-
-	ImGui::EndMenu();
 }
 
 void Valkyrie::DrawUIMenu()
@@ -314,21 +316,21 @@ void Valkyrie::DrawUIMenu()
 	if (ChooseMenuStyle("Menu Style", MenuStyle))
 		SetStyle(MenuStyle);
 	ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
-	ImGui::EndMenu();
 }
 
 void Valkyrie::Update()
 {
-	// Create frame
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
 	__try {
 		TaskPool.ImGuiDraw();
 		if (EssentialsLoaded) {
-			//ShowMenu();
+			
 			CurrentGameState = Reader.GetNextState();
 			if (CurrentGameState->gameStarted) {
+				SkinChanger::Refresh();
 				SetupScriptExecutionContext();
 				ShowMenu();
 				ExecuteScripts();
@@ -339,7 +341,6 @@ void Valkyrie::Update()
 		Logger::Error("SEH exception occured in main loop. This shouldn't happen.");
 	}
 
-	// Render
 	ImGui::EndFrame();
 	ImGui::Render();
 

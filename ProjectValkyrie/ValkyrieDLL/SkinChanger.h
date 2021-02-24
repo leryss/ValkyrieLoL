@@ -10,8 +10,13 @@ class SkinChanger {
 
 public:
 
-	static void                                  ImGuiDraw();
+	static void   ImGuiDraw();
+	static void   Refresh();
 
-	static int CurrentSkinIndex;
-	static int CurrentChromaIndex;
+private:
+	static int    CurrentSkinId;
+	static int    CurrentSkinIndex;
+	static int    CurrentChromaIndex;
+
+	static bool   HasDied;
 };

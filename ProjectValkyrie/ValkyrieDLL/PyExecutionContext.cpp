@@ -63,7 +63,7 @@ void PyExecutionContext::MoveToLocation(const Vector3 & location)
 void PyExecutionContext::AttackUnit(const GameUnit & unit)
 {
 	if (!state->hud.isChatOpen)
-		currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [&renderer = state->renderer, unit]()->Vector2 { return renderer.WorldToScreen(unit.pos); });
+		currentScript->input.IssueClickUnit(CT_RIGHT_CLICK, unit);
 }
 
 void PyExecutionContext::LogInfo(const char * msg)

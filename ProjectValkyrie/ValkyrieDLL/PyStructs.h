@@ -138,6 +138,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("spells",            &GameChampion::SpellsToPy)
 		.def_readonly("items",             &GameChampion::ItemsToPy)
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition)
+		.def_readonly("recalling",         &GameChampion::recalling)
 		;
 
 	class_<GameTurret, bases<GameUnit>>("Turret", "Represents a turret object")
@@ -152,6 +153,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<PyImGui>("UI")
 		.def("begin",                    &PyImGui::Begin)
+		.def("begin",                    &PyImGui::BeginWithFlags)
 		.def("end",                      &PyImGui::End)
 						                 
 		.def("button",                   &PyImGui::Button)
@@ -168,6 +170,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("keyselect",                &PyImGui::KeySelect)
 		.def("sliderfloat",              &PyImGui::SliderFloat)
 		.def("sliderint",                &PyImGui::SliderInt)
+		.def("progressbar",              &PyImGui::ProgressBar)
 		.def("image",                    &PyImGui::Image,     PyImGui::ImageOverloads())
 
 		.def("header",                   &PyImGui::CollapsingHeader)
@@ -328,6 +331,33 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("__add__",                  &Vector2::add)
 		.def("__sub__",                  &Vector2::sub)
 		.def("clone",                    &Vector2::clone)
+		;
+
+	enum_<ImGuiWindowFlags>("WindowFlag")
+		.value("None",                      ImGuiWindowFlags_None)
+		.value("NoTitleBar",                ImGuiWindowFlags_NoTitleBar)
+		.value("NoResize",                  ImGuiWindowFlags_NoResize)
+		.value("NoMove",                    ImGuiWindowFlags_NoMove)
+		.value("NoScrollbar",               ImGuiWindowFlags_NoScrollbar)
+		.value("NoScrollWithMouse",         ImGuiWindowFlags_NoScrollWithMouse)
+		.value("NoCollapse",                ImGuiWindowFlags_NoCollapse)
+		.value("AlwaysAutoResize",          ImGuiWindowFlags_AlwaysAutoResize)
+		.value("NoBackground",              ImGuiWindowFlags_NoBackground)
+		.value("NoSavedSettings",           ImGuiWindowFlags_NoSavedSettings)
+		.value("NoMouseInputs",             ImGuiWindowFlags_NoMouseInputs)
+		.value("MenuBar",                   ImGuiWindowFlags_MenuBar)
+		.value("HorizontalScrollbar",       ImGuiWindowFlags_HorizontalScrollbar)
+		.value("NoFocusOnAppearing",        ImGuiWindowFlags_NoFocusOnAppearing)
+		.value("NoBringToFrontOnFocus",     ImGuiWindowFlags_NoBringToFrontOnFocus)
+		.value("AlwaysVerticalScrollbar",   ImGuiWindowFlags_AlwaysVerticalScrollbar)
+		.value("AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar)
+		.value("AlwaysUseWindowPadding",    ImGuiWindowFlags_AlwaysUseWindowPadding)
+		.value("NoNavInputs",               ImGuiWindowFlags_NoNavInputs)
+		.value("NoNavFocus",                ImGuiWindowFlags_NoNavFocus)
+		.value("UnsavedDocument",           ImGuiWindowFlags_UnsavedDocument)
+		.value("NoNav",                     ImGuiWindowFlags_NoNav)
+		.value("NoDecoration",              ImGuiWindowFlags_NoDecoration)
+		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
 		;
 
 	enum_<UnitTag>("Unit")
