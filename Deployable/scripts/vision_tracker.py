@@ -36,11 +36,11 @@ wards = {
 }
 
 clones = {
-	'shaco'                : [0, False, False, "shaco_square"],
-	'leblanc'              : [0, False, False, "leblanc_square"],
-	'monkeyking'           : [0, False, False, "monkeyking_square"],
-	'neeko'                : [0, False, False, "neeko_square"],
-	'fiddlesticks'         : [0, False, False, "fiddlesticks_square"],
+	'shaco'                : [0, False, False, "jester_hallucinogenbomb"],
+	'leblanc'              : [0, False, False, "leblancmirrorimage"],
+	'monkeyking'           : [0, False, False, "monkeykingdecoy"],
+	'neeko'                : [0, False, False, "neeko_w"],
+	'fiddlestickseffigy'   : [0, False, False, "fiddlesticksp2.fiddlesticksrework"],
 }
 
 def draw_settings(ui, objs, label):
@@ -104,7 +104,7 @@ def draw(ctx, obj, radius, show_circle_world, show_circle_map, icon):
     pos = ctx.w2s(obj.pos)
     if ctx.is_on_screen(pos):
         duration = obj.expiry + obj.last_seen - ctx.time
-        ctx.image(icon, pos, Vec2(30, 30), Col.White, 10)
+        ctx.image(icon, pos, Vec2(40, 40), Col.White, 10)
         if duration > 0.0:
             pos.y += 25
             ctx.text(pos, str(int(duration)), Col.White)

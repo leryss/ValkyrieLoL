@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="AsyncTask.h" />
     <ClInclude Include="AsyncTaskPool.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="HardwareInfo.h" />
     <ClInclude Include="IdentityInfo.h" />

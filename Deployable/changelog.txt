@@ -1,10 +1,16 @@
+[Valkyrie v0.11]
+	* Fixed a bug where hp bar position was not calculated correctly for transformed entities (ex: nidalee cougar form)
+	* Fixed a bug where while lane pushing when no enemy creeps nearby the orbwalker would wait for last hit
+	* Fixed other minor bugs
+
+	+ Indicators: Added turret ranges 
+	+ Vision Tracker: Added better icons for clones
+	+ Added script benchmarks
+
 [Valkyrie v0.10]
-	> First release
-	> Enjoy
-	
-	* Added Gank Awareness
-	* Added Basic Indicators
-	* Added Base Activator
-	* Added Orbwalker
-	* Added Spell Tracker
-	* Added Vision Tracker
+	+ Added Gank Awareness
+	+ Added Basic Indicators
+	+ Added Base Activator
+	+ Added Orbwalker
+	+ Added Spell Tracker
+	+ Added Vision Tracker

@@ -204,7 +204,7 @@ def extract_unit_info(folder):
 
 	for i, fname in enumerate(os.listdir(folder)):
 		print("Processing: "+ fname)
-		if fname.startswith(('brush_', 'nexusblitz_', 'slime_', 'tft4', 'tft_')):
+		if fname.startswith(('brush_', 'nexusblitz_', 'slime_', 'tft4', 'tft_', 'sru_camprespawnmarker', 'preseason', 'test', 's5test')):
 			print('Object blacklisted. Skipping...')
 			continue
 			
@@ -243,20 +243,20 @@ def extract_unit_info(folder):
 
 		tags = set(['Unit_' + x.strip().replace('=', '_') for x in root.get("unitTagsString", "").split('|')])
 		unit = {
-			"name":				 name.lower(),
-			"healthBarHeight":	  root.get("healthBarHeight", 100.0),
+			"name":				    name.lower(),
+			"healthBarHeight":	    root.get("healthBarHeight", 100.0),
 			"baseMoveSpeed":		root.get("baseMoveSpeed", 0.0),
-			"attackRange":		  root.get("attackRange", 0.0),
-			"attackSpeed":		  root.get("attackSpeed", 0.0), 
-			"attackSpeedRatio":	 root.get("attackSpeedRatio", 0.0), 
-			"acquisitionRange":	 root.get("acquisitionRange", 0.0),
-			"selectionRadius":	  root.get("selectionRadius", 0.0),
+			"attackRange":		    root.get("attackRange", 0.0),
+			"attackSpeed":		    root.get("attackSpeed", 0.0), 
+			"attackSpeedRatio":	    root.get("attackSpeedRatio", 0.0), 
+			"acquisitionRange":	    root.get("acquisitionRange", 0.0),
+			"selectionRadius":	    root.get("selectionRadius", 0.0),
 			"pathingRadius":		root.get("pathfindingCollisionRadius", 0.0),
-			"gameplayRadius":	   root.get("overrideGameplayCollisionRadius", 65.0),
-			"basicAtkWindup":	   ba_windup,
-			"basicAtkCastTime":	 ba_cast_time,
-			"basicAtk":			 ba_name.lower(),
-			"tags":				 list(tags)
+			"gameplayRadius":	    root.get("overrideGameplayCollisionRadius", 65.0),
+			"basicAtkWindup":	    ba_windup,
+			"basicAtkCastTime":	    ba_cast_time,
+			"basicAtk":			    ba_name.lower(),
+			"tags":				    list(tags)
 		}
 		units[unit["name"]] = unit
 		
@@ -271,18 +271,18 @@ def extract_unit_info(folder):
 				spell_calculations[val['mScriptName']] = calcs
 			
 			if s:
-				icon_name = os.path.basename(s.get("mImgIconName", [""])[0]).replace(".dds", "")
+				icon_name = os.path.basename(s.get("mImgIconName", [""])[0]).lower().replace(".dds", "")
 				spell = {
-					"name":			   os.path.basename(key),
-					"icon":			   icon_name,
+					"name":	    	      os.path.basename(key).lower(),
+					"icon":			      icon_name,
 					"flags":			  s.get("mAffectsTypeFlags", 0),
-					"castTime":		   s.get("mCastTime", 0.0),
+					"castTime":		      s.get("mCastTime", 0.0),
 					"castRange":		  s.get("castRangeDisplayOverride", s.get("castRange", [s.get("castConeDistance", 0.0)]))[0],
-					"castRadius":		 s.get("castRadiusSecondary", s.get("castRadius", [0.0]))[0],
+					"castRadius":		  s.get("castRadiusSecondary", s.get("castRadius", [0.0]))[0],
 					"width":			  s.get("mLineWidth", 0.0),
-					"height":			 0.0,
+					"height":			  0.0,
 					"speed":			  s.get("missileSpeed", 0.0),
-					"travelTime":		 0.0,
+					"travelTime":		  0.0,
 					"projectDestination": False
 				}
 				
@@ -300,10 +300,10 @@ def extract_unit_info(folder):
 				if missile:
 					movcomp = missile.get("movementComponent", None)
 					if movcomp:
-						spell["speed"]			  = movcomp.get("mSpeed", spell["speed"])
-						spell["height"]			 = movcomp.get("mOffsetInitialTargetHeight", 100.0)
+						spell["speed"]	     	    = movcomp.get("mSpeed", spell["speed"])
+						spell["height"]	     	    = movcomp.get("mOffsetInitialTargetHeight", 100.0)
 						spell["projectDestination"] = movcomp.get("mProjectTargetToCastRange", False)
-						spell["travelTime"]		 = movcomp.get("mTravelTime", 0.0)
+						spell["travelTime"]	        = movcomp.get("mTravelTime", 0.0)
 						
 				spells[spell["name"]] = spell
 		

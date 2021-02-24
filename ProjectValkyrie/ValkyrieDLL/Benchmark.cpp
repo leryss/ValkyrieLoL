@@ -1,5 +1,10 @@
 #include "Benchmark.h"
 
+BenchmarkTiming::BenchmarkTiming()
+{
+	this->name = "Unnamed";
+}
+
 BenchmarkTiming::BenchmarkTiming(const char * name)
 {
 	this->name = name;

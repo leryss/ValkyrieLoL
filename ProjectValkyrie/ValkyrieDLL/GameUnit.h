@@ -21,27 +21,30 @@ public:
 
 public:
 
-	bool      targetable;
-	bool      invulnerable;
-	bool      isDead;
-	float     mana;
-	float     health;
-	float     maxHealth;
-	float     armor;
-	float     magicRes;
-	float     baseAtk;
-	float     bonusAtk;
-	float     moveSpeed;
-	int       lvl;
-	float     expiry;
-	float     crit;
-	float     critMulti;
-	float     abilityPower;
-	float     atkSpeedMulti;
-	float     attackRange;
+	bool        targetable;
+	bool        invulnerable;
+	bool        isDead;
+	float       mana;
+	float       health;
+	float       maxHealth;
+	float       armor;
+	float       magicRes;
+	float       baseAtk;
+	float       bonusAtk;
+	float       moveSpeed;
+	int         lvl;
+	float       expiry;
+	float       crit;
+	float       critMulti;
+	float       abilityPower;
+	float       atkSpeedMulti;
+	float       attackRange;
+			    
+	SpellCast   castingSpell;
+	UnitInfo*   staticData;
 
-	SpellCast castingSpell;
-	UnitInfo* staticData;
+	std::string nameTransformed;
+	bool        isTransformed;
 
 private:
 	bool      hasCastingSpell = false;

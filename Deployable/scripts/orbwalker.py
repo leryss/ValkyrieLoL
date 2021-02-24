@@ -63,8 +63,9 @@ class OrbwalkLanePush:
 	
 		for minion, predicted_hp, player_dmg in lasthits:
 			predicted_dmg = minion.health - predicted_hp
-			#t_until_player_hits = basic_atk_delay + ctx.ping / 2000.0 + player.pos.distance(minion.pos) / basic_atk_speed
-			#double_prediction = predict_minion_health(ctx, minion, minions, t_until_player_hits*2.0)
+			
+			if predicted_dmg == 0.0:
+				return minion
 			
 			# Wait for last hit, this method is heuristic definitely not perfect
 			if predicted_hp - player_dmg < player_dmg + predicted_dmg:

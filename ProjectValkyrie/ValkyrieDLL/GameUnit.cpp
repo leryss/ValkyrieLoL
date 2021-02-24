@@ -34,6 +34,7 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	isDead        = ReadInt(addr + Offsets::ObjSpawnCount) % 2;
 	lvl           = ReadInt(addr + Offsets::ObjLvl);
 
+	/// Read spell being cast
 	int activeSpellPtr = ReadInt(addr + Offsets::ObjSpellBook + Offsets::SpellBookActiveSpellCast);
 	if (activeSpellPtr != 0) {
 		hasCastingSpell = true;
@@ -42,6 +43,24 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	else
 		hasCastingSpell = false;
 
+	/// If the unit is transformed (ex: nidalee cougar form) we read the name of the transformed unit
+	bool transformFlag = (ReadInt(addr + Offsets::ObjTransformCount) % 2);
+	if (transformFlag) {
+		if (!isTransformed) {
+			int transformation = ReadInt(addr + Offsets::ObjTransformation);
+			if (transformation != NULL) {
+				nameTransformed = Memory::ReadString(ReadInt(transformation));
+				nameTransformed = Strings::ToLower(nameTransformed);
+				staticData = GameData::GetUnit(nameTransformed);
+
+				isTransformed = true;
+			}
+		}
+	}
+	else if (isTransformed) {
+		staticData = GameData::GetUnit(name);
+		isTransformed = false;
+	}
 }
 
 void GameUnit::ImGuiDraw()
@@ -49,6 +68,7 @@ void GameUnit::ImGuiDraw()
 	GameObject::ImGuiDraw();
 	ImGui::Separator();
 
+	ImGui::LabelText("Transformed name", nameTransformed.c_str());
 	ImGui::DragFloat("Mana",          &mana);
 	ImGui::DragFloat("Health",        &health);
 	ImGui::DragFloat("MaxHealth",     &maxHealth);
@@ -67,6 +87,7 @@ void GameUnit::ImGuiDraw()
 	ImGui::Checkbox("IsDead",         &isDead);
 	ImGui::Checkbox("Targetable",     &targetable);
 	ImGui::Checkbox("Invulnerable",   &invulnerable);
+	ImGui::Checkbox("IsTransformed", &isTransformed);
 	ImGui::DragInt("Level",           &lvl);
 
 	ImGui::Separator();

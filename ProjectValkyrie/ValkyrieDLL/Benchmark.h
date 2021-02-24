@@ -6,6 +6,7 @@ using namespace std::chrono;
 
 class BenchmarkTiming {
 public:
+	BenchmarkTiming();
 	BenchmarkTiming(const char* name);
 
 	void Start();
@@ -20,10 +21,20 @@ public:
 template<class T>
 class BenchmarkValue {
 public:
-	BenchmarkValue(const char* name) {
-		this->name = name;
-	}
+	BenchmarkValue();
+	BenchmarkValue(const char* name);
 
 	const char* name;
 	T           value;
 };
+
+template<class T>
+inline BenchmarkValue<T>::BenchmarkValue()
+{
+	this->name = "Unnamed";
+}
+
+template<class T>
+inline BenchmarkValue<T>::BenchmarkValue(const char * name) {
+	this->name = name;
+}

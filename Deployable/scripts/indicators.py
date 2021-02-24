@@ -11,6 +11,7 @@ script_info = {
 }
 
 player_circle	 = Circle(0.0, 30, 1.0, Col.Green, False, True)
+turret_circle    = Circle(0.0, 50, 1.0, Col.Red,   False, True)
 show_minion_hit  = True
 
 def valkyrie_menu(ctx):
@@ -18,18 +19,21 @@ def valkyrie_menu(ctx):
 	ui = ctx.ui
 	
 	player_circle.ui("Attack range circle settings", ctx)
+	turret_circle.ui("Turret range circle settings", ctx)
 	show_minion_hit = ui.checkbox("Show minion hit damage indicator", show_minion_hit)
 	
 def valkyrie_on_load(ctx):
-	global player_circle, show_minion_hit
+	global player_circle, show_minion_hit, turret_circle
 	cfg = ctx.cfg
 	
 	player_circle   = Circle.from_str(cfg.get_str("player_circle", str(player_circle)))	  
+	turret_circle   = Circle.from_str(cfg.get_str("turret_circle", str(turret_circle)))	 
 	show_minion_hit = cfg.get_bool("show_minion_hit", show_minion_hit)
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
 	
+	cfg.set_str("turret_circle", str(turret_circle))
 	cfg.set_str("player_circle", str(player_circle))
 	cfg.set_bool("show_minion_hit", show_minion_hit)
 	
@@ -53,11 +57,21 @@ def draw_minion_hit_indicators(ctx):
 		
 		ctx.rect_fill(hp_bar_pos, Vec2((percent_curr - percent_after_hit)*62 + 1, 3.5), Col(1, 0.8, 0.5, 0.7) if minion.health - hit_dmg > 0.0 else Col(0.1, 1, 0.35, 0.7))
 		ctx.line(hp_bar_pos + Vec2(0, -6), hp_bar_pos + Vec2(0, 10), 1, Col.Black)
-	
-def valkyrie_exec(ctx):
+
+def draw_turret_range(ctx):
+	for turret in ctx.turrets:
+		if not turret.dead and ctx.is_on_screen(turret.pos):
+			turret_circle.radius = turret.static.base_atk_range + turret.static.gameplay_radius
+			turret_circle.draw_at(ctx, turret.pos)
+			
+def draw_player_range(ctx):
 	player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
 	player_circle.draw_at(ctx, ctx.player.pos)
 	
+def valkyrie_exec(ctx):
+	draw_player_range(ctx)
+	draw_turret_range(ctx)
+			
 	if show_minion_hit:
 		draw_minion_hit_indicators(ctx)
 	

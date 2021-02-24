@@ -149,7 +149,10 @@ void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 	try {
 		input.UpdateIssuedOperations();
 		neverExecuted = false;
+
+		executionTimes[func].Start();
 		call<void>(functions[func], object(boost::ref(ctx)));
+		executionTimes[func].End();
 	}
 	catch (error_already_set) {
 		error.clear();

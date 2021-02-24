@@ -38,15 +38,22 @@ private:
 	static void                        ShowMenu();
 	static void                        ShowConsole();
 
+	static void                        DrawDevMenu();
+	static void                        DrawUIMenu();
+
 	static void                        Update();
 	static void                        InitializeOverlay();
 	static void                        InitializePython();
+	static void                        LoginAndLoadData();
+	static void                        LoadConfigs();
+	static void                        SaveConfigs();
+
+	/// Script stuff
 	static void                        LoadScripts();
 	static void                        ExecuteScripts();
 	static void                        SetupScriptExecutionContext();
-
-	static InputController             InputController;
-
+	
+private:
 	/// Game stuff
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
@@ -71,6 +78,16 @@ private:
 	/// Background Tasks
 	static AsyncTaskPool               TaskPool;
 	static bool                        EssentialsLoaded;
+
+	/// Menu stuff
+	static bool                        ShowConsoleWindow;
+	static bool                        ShowObjectExplorerWindow;
+	static bool                        ShowOffsetScanner;
+	static HKey                        ShowMenuKey;
+	static int                         MenuStyle;
+	static float                       AveragePing;
+
+	static InputController             InputController;
 
 public:
 	static std::mutex                  DxDeviceMutex;

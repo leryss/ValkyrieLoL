@@ -20,12 +20,9 @@
 #include <iostream>
 #include <functional>
 
-InputController                    Valkyrie::InputController;
-
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
 LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL;
-GameState*                         Valkyrie::CurrentGameState             = NULL;
 std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
 
@@ -37,54 +34,16 @@ bool                               Valkyrie::EssentialsLoaded = false;
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
 ScriptManager                      Valkyrie::ScriptManager;
+GameState*                         Valkyrie::CurrentGameState = NULL;
+
+InputController                    Valkyrie::InputController;
 ConfigSet                          Valkyrie::Configs;
-
-
-void Valkyrie::Run()
-{
-	try {
-		DxDeviceMutex.lock();
-
-		auto configPath = Globals::ConfigsDir;
-		configPath.append("valkyrie.cfg");
-
-		HookDirectX();
-		Configs.SetConfigFile(configPath.u8string());
-		Configs.Load();
-		FakeMouse::Init();
-
-		TaskPool.AddWorkers(1);
-		
-		char* name;
-		char* pass;
-		ValkyrieShared::LoadCredentials(&name, &pass);
-
-		TaskPool.DispatchTask(
-			"Logging In",
-			Api.GetUser(IdentityInfo(name, pass, HardwareInfo::Calculate()), name),
-
-			[](std::shared_ptr<AsyncTask> response) {
-				LoggedUser = ((UserOperationAsync*)response.get())->user;
-				TaskPool.DispatchTask(
-					"Load Essentials",
-					std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
-
-					[](std::shared_ptr<AsyncTask> response) {
-						EssentialsLoaded = true;
-						TaskPool.DispatchTask(
-							"Load Extras", std::shared_ptr<GameDataImagesLoad>(new GameDataImagesLoad()), [](std::shared_ptr<AsyncTask> response) {}
-						);
-					}
-				);
-			}
-		);
-		
-		
-	}
-	catch (std::exception& error) {
-		Logger::Error("Failed starting up Valkyrie %s", error.what());
-	}
-}
+bool                               Valkyrie::ShowConsoleWindow;
+bool                               Valkyrie::ShowObjectExplorerWindow;
+bool                               Valkyrie::ShowOffsetScanner;
+HKey                               Valkyrie::ShowMenuKey;
+int                                Valkyrie::MenuStyle;
+float                              Valkyrie::AveragePing;
 
 bool ChooseMenuStyle(const char* label, int& currentStyle)
 {
@@ -94,11 +53,25 @@ bool ChooseMenuStyle(const char* label, int& currentStyle)
 int SetStyle(int style) {
 	switch (style)
 	{
-		case 0: ImGui::StyleColorsDark(); break;
-		case 1: ImGui::StyleColorsLight(); break;
-		case 2: ImGui::StyleColorsClassic(); break;
+	case 0: ImGui::StyleColorsDark(); break;
+	case 1: ImGui::StyleColorsLight(); break;
+	case 2: ImGui::StyleColorsClassic(); break;
 	}
 	return style;
+}
+
+void Valkyrie::Run()
+{
+	try {
+		DxDeviceMutex.lock();
+
+		FakeMouse::Init();
+		HookDirectX();
+		LoginAndLoadData();
+	}
+	catch (std::exception& error) {
+		Logger::Error("Failed starting up Valkyrie %s", error.what());
+	}
 }
 
 void Valkyrie::ShowMenu()
@@ -106,14 +79,6 @@ void Valkyrie::ShowMenu()
 	static std::string IconDev("menu-dev");
 	static std::string IconSkinChanger("menu-cloth");
 	static std::string IconSettings("menu-settings");
-
-	static bool  ShowConsoleWindow        = Configs.GetBool("show_console", false);
-	static bool  ShowObjectExplorerWindow = Configs.GetBool("show_obj_explorer", false);
-	static bool  ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
-				 
-	static HKey  ShowMenuKey       = (HKey) Configs.GetInt("show_key", HKey::LSHIFT);
-	static int   MenuStyle         = SetStyle(Configs.GetInt("menu_style", 0));
-	static float AveragePing       = Configs.GetFloat("ping", 60.0f);
 
 	if (InputController.IsDown(ShowMenuKey) && ImGui::Begin("Valkyrie", nullptr,
 		ImGuiWindowFlags_NoScrollbar |
@@ -127,30 +92,13 @@ void Valkyrie::ShowMenu()
 		ImGui::Image(GameData::GetImage(IconDev), ImVec2(15, 15));
 		ImGui::SameLine();
 		if (ImGui::BeginMenu("Development")) {
-
-			if (ImGui::Button("Reload Scripts"))
-				LoadScripts();
-
-			ImGui::LabelText("VPath", Globals::WorkingDir.u8string().c_str());
-			ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
-			ImGui::Checkbox("Show Console", &ShowConsoleWindow);
-			ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
-			ImGui::Checkbox("Show Offset Scanner", &ShowOffsetScanner);
-			if (ImGui::TreeNode("Benchmarks")) {
-
-				Reader.GetBenchmarks().ImGuiDraw();
-				ImGui::TreePop();
-			}
-			ImGui::EndMenu();
+			DrawDevMenu();
 		}
 
 		ImGui::Image(GameData::GetImage(IconSettings), ImVec2(15, 15));
 		ImGui::SameLine();
 		if (ImGui::BeginMenu("Menu Settings")) {
-			if(ChooseMenuStyle("Menu Style", MenuStyle))
-				SetStyle(MenuStyle);
-			ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
-			ImGui::EndMenu();
+			DrawUIMenu();
 		}
 
 		ImGui::Image(GameData::GetImage(IconSkinChanger), ImVec2(15, 15));
@@ -163,15 +111,8 @@ void Valkyrie::ShowMenu()
 
 		ImGui::End();
 
-		if (Configs.IsTimeToSave()) {
-			Configs.SetBool("show_console",        ShowConsoleWindow);
-			Configs.SetBool("show_obj_explorer",   ShowConsoleWindow);
-			Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
-			Configs.SetInt("show_key",             ShowMenuKey);
-			Configs.SetInt("menu_style",           MenuStyle);
-			Configs.SetFloat("ping",               AveragePing);
-			Configs.Save();
-		}
+		if (Configs.IsTimeToSave())
+			SaveConfigs();
 	}
 
 	//ImGui::ShowDemoWindow();
@@ -241,6 +182,8 @@ void Valkyrie::InitializeOverlay()
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 
 	ImGui::GetIO().IniFilename = Globals::ImGuiIniPath.c_str();
+
+	LoadConfigs();
 }
 
 void Valkyrie::InitializePython()
@@ -249,6 +192,63 @@ void Valkyrie::InitializePython()
 	PyImport_AppendInittab("valkyrie", &PyInit_valkyrie);
 	Py_Initialize();
 	exec("from valkyrie import *");
+}
+
+void Valkyrie::LoginAndLoadData()
+{
+	TaskPool.AddWorkers(1);
+
+	char* name;
+	char* pass;
+	ValkyrieShared::LoadCredentials(&name, &pass);
+
+	TaskPool.DispatchTask(
+		"Logging In",
+		Api.GetUser(IdentityInfo(name, pass, HardwareInfo::Calculate()), name),
+
+		[](std::shared_ptr<AsyncTask> response) {
+		LoggedUser = ((UserOperationAsync*)response.get())->user;
+		TaskPool.DispatchTask(
+			"Load Essentials",
+			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
+
+			[](std::shared_ptr<AsyncTask> response) {
+			EssentialsLoaded = true;
+			TaskPool.DispatchTask(
+				"Load Extras", std::shared_ptr<GameDataImagesLoad>(new GameDataImagesLoad()), [](std::shared_ptr<AsyncTask> response) {}
+			);
+		}
+		);
+	}
+	);
+}
+
+void Valkyrie::LoadConfigs()
+{
+	auto configPath = Globals::ConfigsDir;
+	configPath.append("valkyrie.cfg");
+
+	Configs.SetConfigFile(configPath.u8string());
+	Configs.Load();
+
+	ShowConsoleWindow        = Configs.GetBool("show_console", false);
+	ShowObjectExplorerWindow = Configs.GetBool("show_obj_explorer", false);
+	ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
+
+	ShowMenuKey              = (HKey)Configs.GetInt("show_key", HKey::Tab);
+	MenuStyle                = SetStyle(Configs.GetInt("menu_style", 0));
+	AveragePing              = Configs.GetFloat("ping", 60.0f);
+}
+
+void Valkyrie::SaveConfigs()
+{
+	Configs.SetBool("show_console", ShowConsoleWindow);
+	Configs.SetBool("show_obj_explorer", ShowConsoleWindow);
+	Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
+	Configs.SetInt("show_key", ShowMenuKey);
+	Configs.SetInt("menu_style", MenuStyle);
+	Configs.SetFloat("ping", AveragePing);
+	Configs.Save();
 }
 
 void Valkyrie::LoadScripts()
@@ -282,6 +282,39 @@ void Valkyrie::SetupScriptExecutionContext()
 	ScriptContext.SetGameState(CurrentGameState);
 	ScriptContext.SetImGuiOverlay(ImGui::GetWindowDrawList());
 	ImGui::End();
+}
+
+void Valkyrie::DrawDevMenu()
+{
+	if (ImGui::Button("Reload Scripts"))
+		LoadScripts();
+
+	ImGui::LabelText("VPath", Globals::WorkingDir.u8string().c_str());
+	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
+	ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
+	ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
+	ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
+	if (ImGui::BeginMenu("Core Benchmarks")) {
+		Reader.GetBenchmarks().ImGuiDraw();
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Scripts Benchmarks")) {
+		for (auto& script : ScriptManager.scripts) {
+			ImGui::DragFloat(script->fileName.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
+		}
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMenu();
+}
+
+void Valkyrie::DrawUIMenu()
+{
+	if (ChooseMenuStyle("Menu Style", MenuStyle))
+		SetStyle(MenuStyle);
+	ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
+	ImGui::EndMenu();
 }
 
 void Valkyrie::Update()

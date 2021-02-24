@@ -26,6 +26,8 @@ public:
 	static int ObjBonusAtk;
 	static int ObjMoveSpeed;
 	static int ObjSpellBook;
+	static int ObjTransformCount;
+	static int ObjTransformation;
 	static int ObjName;
 	static int ObjLvl;
 	static int ObjExpiry;

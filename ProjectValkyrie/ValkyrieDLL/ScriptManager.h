@@ -13,6 +13,6 @@ public:
 	void ExecuteScripts(PyExecutionContext& ctx);
 	void ImGuiDrawMenu(PyExecutionContext& ctx);
 
-private:
+public:
 	std::deque<std::shared_ptr<Script>> scripts;
 };
