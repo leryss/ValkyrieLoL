@@ -3,6 +3,7 @@
 #include "GameSpell.h"
 #include "ItemInfo.h"
 
+#include <set>
 #include <boost/python.hpp>
 
 using namespace boost::python;
@@ -13,6 +14,7 @@ public:
 	          GameChampion();
 	          GameChampion(std::string name);
 		      
+	void      ReadBuffs(int addr);
 	void      ReadFromBaseAddress(int addr);
 	void      ImGuiDraw();
 			  
@@ -20,9 +22,12 @@ public:
 			  
 	object    SpellsToPy();
 	object    ItemsToPy();
+	bool      HasBuff(const char* buff);
 
 public:
 	bool      recalling;
 	GameSpell spells[6];
 	ItemInfo* items[6];
+
+	std::set<std::string> buffs;
 };

@@ -42,10 +42,10 @@ public:
 	static int ImGuiKeySelect(const char* label, int key);
 
 public:
-	static const float ScreenWidth;
-	static const float ScreenHeight;
-	static const float WidthRatio;
-	static const float HeightRatio;
+	static const float                ScreenWidth;
+	static const float                ScreenHeight;
+	static const float                WidthRatio;
+	static const float                HeightRatio;
 
 private:
 	IoStep*                           ioCurrent;

@@ -57,64 +57,66 @@ void ValkyrieLoader::ImGuiShow()
 
 void ValkyrieLoader::DisplayLogin()
 {
-	ImGui::Begin("Login", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::Begin("Login", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 
-	ImGui::InputText("Name", nameBuff, INPUT_TEXT_BUFF_SIZE);
-	ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
+		ImGui::InputText("Name", nameBuff, INPUT_TEXT_BUFF_SIZE);
+		ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
 
-	ImGui::Separator();
-	if (loadCredentials) {
-		ValkyrieShared::LoadCredentials(nameBuff, passBuff, INPUT_TEXT_BUFF_SIZE);
-		loadCredentials = false;
-	}
+		ImGui::Separator();
+		if (loadCredentials) {
+			ValkyrieShared::LoadCredentials(nameBuff, passBuff, INPUT_TEXT_BUFF_SIZE);
+			loadCredentials = false;
+		}
 
-	if ((ImGui::Button("Login")) && !taskPool.IsExecuting(trackIdLogin)) {
+		if ((ImGui::Button("Login")) && !taskPool.IsExecuting(trackIdLogin)) {
 
-		taskPool.DispatchTask(
-			trackIdLogin,
-			api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff),
-			[this](std::shared_ptr<AsyncTask> response) {
+			taskPool.DispatchTask(
+				trackIdLogin,
+				api.GetUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), nameBuff),
+				[this](std::shared_ptr<AsyncTask> response) {
 				ValkyrieShared::SaveCredentials(nameBuff, passBuff);
 				loggedUser = ((UserOperationAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}
-		);
+			);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Register"))
+			displayMode = DM_CREATE_ACCOUNT;
+
+		ImGui::Checkbox("Remember credentials", &autoSaveCredentials);
+
+		ImGui::End();
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("Register"))
-		displayMode = DM_CREATE_ACCOUNT;
-
-	ImGui::Checkbox("Remember credentials", &autoSaveCredentials);
-
-	ImGui::End();
 }
 
 void ValkyrieLoader::DisplayCreateAccount()
 {
-	ImGui::Begin("Create account", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::Begin("Create account", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 
-	ImGui::InputText("Invite Code",      inviteCodeBuff, INPUT_TEXT_BUFF_SIZE);
-	ImGui::InputText("Name",             nameBuff, INPUT_TEXT_BUFF_SIZE);
-	ImGui::InputText("Password",         passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
-	ImGui::InputText("Confirm Password", passConfirmBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
-	ImGui::InputText("Discord",          discordBuff, INPUT_TEXT_BUFF_SIZE);
+		ImGui::InputText("Invite Code", inviteCodeBuff, INPUT_TEXT_BUFF_SIZE);
+		ImGui::InputText("Name", nameBuff, INPUT_TEXT_BUFF_SIZE);
+		ImGui::InputText("Password", passBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
+		ImGui::InputText("Confirm Password", passConfirmBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_Password);
+		ImGui::InputText("Discord", discordBuff, INPUT_TEXT_BUFF_SIZE);
 
-	ImGui::Separator();
-	if (ImGui::Button("Create Account") && !taskPool.IsExecuting(trackIdCreateAccount)) {
-		taskPool.DispatchTask(
-			trackIdCreateAccount,
-			api.CreateAccount(nameBuff, passBuff, discordBuff, hardwareInfo, inviteCodeBuff),
-			[this](std::shared_ptr<AsyncTask> response) {
+		ImGui::Separator();
+		if (ImGui::Button("Create Account") && !taskPool.IsExecuting(trackIdCreateAccount)) {
+			taskPool.DispatchTask(
+				trackIdCreateAccount,
+				api.CreateAccount(nameBuff, passBuff, discordBuff, hardwareInfo, inviteCodeBuff),
+				[this](std::shared_ptr<AsyncTask> response) {
 				loggedUser = ((UserOperationAsync*)response.get())->user;
 				displayMode = DM_USER_PANEL;
 			}
-		);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Cancel"))
-		displayMode = DM_LOGIN;
+			);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel"))
+			displayMode = DM_LOGIN;
 
-	ImGui::End();
+		ImGui::End();
+	}
 }
 
 void ValkyrieLoader::DisplayUserPanel()
@@ -139,61 +141,63 @@ void ValkyrieLoader::DisplayUserPanel()
 	}
 
 	/// Greeting
-	ImGui::Begin("Valkyrie", NULL, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::Text("Welcome %s !", loggedUser.name.c_str());
+	if (ImGui::Begin("Valkyrie", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::Text("Welcome %s !", loggedUser.name.c_str());
 
-	float days = (loggedUser.expiry - duration_cast<seconds>(system_clock::now().time_since_epoch()).count()) / ONE_DAY_SECS;
-	float hours = (days - int(days)) * 24.f;
+		float days = (loggedUser.expiry - duration_cast<seconds>(system_clock::now().time_since_epoch()).count()) / ONE_DAY_SECS;
+		float hours = (days - int(days)) * 24.f;
 
-	ImGui::TextColored((days < 5.f ? COLOR_YELLOW : COLOR_GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
+		ImGui::TextColored((days < 5.f ? COLOR_YELLOW : COLOR_GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
 
-	/// Change log
-	if (changeLog.size() > 0) {
+		/// Change log
+		if (changeLog.size() > 0) {
+			ImGui::Separator();
+			ImGui::TextColored(COLOR_PURPLE, "** Change Log **");
+			ImGui::BeginChildFrame(10000, ImVec2(400.f, 200.f));
+			ImGui::Text(changeLog.c_str());
+			ImGui::EndChildFrame();
+		}
+
+		/// Inject stuff
 		ImGui::Separator();
-		ImGui::TextColored(COLOR_PURPLE, "** Change Log **");
-		ImGui::BeginChildFrame(10000, ImVec2(400.f, 200.f));
-		ImGui::Text(changeLog.c_str());
-		ImGui::EndChildFrame();
-	}
-
-	/// Inject stuff
-	ImGui::Separator();
-	ImGui::Checkbox("Auto inject", &autoInject);
-	if ((injectorTask == nullptr || injectorTask->GetStatus() != ASYNC_RUNNING) && updateComplete) {
-		if (autoInject) {
-			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE, false));
-			taskPool.DispatchTask(
-				trackIdInjector,
-				injectorTask,
-				[this](std::shared_ptr<AsyncTask> response) {}
-			);
+		ImGui::Checkbox("Auto inject", &autoInject);
+		if ((injectorTask == nullptr || injectorTask->GetStatus() != ASYNC_RUNNING) && updateComplete) {
+			if (autoInject) {
+				injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE, false));
+				taskPool.DispatchTask(
+					trackIdInjector,
+					injectorTask,
+					[this](std::shared_ptr<AsyncTask> response) {}
+				);
+			}
+			else if (ImGui::Button("Inject")) {
+				injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE, true));
+				taskPool.DispatchTask(
+					trackIdInjector,
+					injectorTask,
+					[this](std::shared_ptr<AsyncTask> response) {}
+				);
+			}
 		}
-		else if (ImGui::Button("Inject")) {
-			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(valkyrieFolder + DLL_PATH_VALKYRIE, true));
-			taskPool.DispatchTask(
-				trackIdInjector,
-				injectorTask,
-				[this](std::shared_ptr<AsyncTask> response) {}
-			);
-		}
-	}
-	
-	if (!autoInject && injectorTask != nullptr && injectorTask->GetStatus() == ASYNC_RUNNING)
-		injectorTask->shouldStop = true;
 
-	ImGui::End();
+		if (!autoInject && injectorTask != nullptr && injectorTask->GetStatus() == ASYNC_RUNNING)
+			injectorTask->shouldStop = true;
+
+		ImGui::End();
+	}
 }
 
 void ValkyrieLoader::DisplayAdminPanel()
 {
-	ImGui::Begin("Admin Panel");
-	ImGui::PushItemWidth(140.f);
+	if (ImGui::Begin("Admin Panel")) {
+		ImGui::PushItemWidth(140.f);
 
-	DrawUserManager();
-	DrawInviteGenerator();
+		DrawUserManager();
+		DrawInviteGenerator();
 
-	ImGui::PopItemWidth();
-	ImGui::End();
+		ImGui::PopItemWidth();
+		ImGui::End();
+	}
 }
 
 void ValkyrieLoader::DrawUserManager()

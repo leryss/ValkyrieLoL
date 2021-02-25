@@ -1,5 +1,6 @@
 from valkyrie import *
 from time import time
+from gank_awareness import set_champ_last_position
 
 script_info = {
 	'author': 'leryss',
@@ -12,6 +13,14 @@ recalls = {}
 bar_width   = 300
 bar_height  = 30
 show_mock = False 
+
+flags_draggable     = WindowFlag.NoBackground | WindowFlag.AlwaysAutoResize | WindowFlag.NoTitleBar
+flags_not_draggable = flags_draggable | WindowFlag.NoMove
+
+team_base_pos = {
+	100: Vec3(0, 0, 0),
+	200: Vec3(14500, 0, 14500)
+}
 
 def valkyrie_menu(ctx):
 	global bar_width, bar_height, show_mock
@@ -44,7 +53,7 @@ def valkyrie_exec(ctx):
 	global recalls
 	
 	ui = ctx.ui
-	ui.begin("Recalls", WindowFlag.NoBackground | WindowFlag.AlwaysAutoResize | WindowFlag.NoTitleBar)
+	ui.begin("Recalls", flags_draggable if show_mock else flags_not_draggable)
 	
 	if not show_mock:
 		for champ in ctx.champs:
@@ -61,6 +70,7 @@ def valkyrie_exec(ctx):
 				draw_bar(ui, champ.name, tleft)
 				
 			elif was_recalling:
+				set_champ_last_position(champ, team_base_pos[champ.team])
 				was_recalling = False
 				
 			recalls[champ.net_id] = (timestamp, was_recalling)

@@ -83,12 +83,15 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragInt("Level",           &lvl);
 
 	ImGui::Separator();
-	if(hasCastingSpell)
-		castingSpell.ImGuiDraw();
-
-	ImGui::Separator();
 	if (ImGui::TreeNode("Static Data")) {
 		staticData->ImGuiDraw();
+		ImGui::TreePop();
+	}
+
+	ImGui::Separator();
+	if (ImGui::TreeNode("Currently casting")) {
+		if (hasCastingSpell)
+			castingSpell.ImGuiDraw();
 		ImGui::TreePop();
 	}
 }

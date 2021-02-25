@@ -12,7 +12,12 @@ script_info = {
 	'icon': 'menu-bow'
 }
 
-target_selector = TargetSelector(0, TargetSet.Champion)
+BUFF_TEMPO     = 'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua'
+BUFF_TEMPO_EMP = 'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempoEmpowered.lua'
+
+target_selector         = TargetSelector(0, TargetSet.Champion)
+target_selector_monster = TargetSelector(0, TargetSet.Monster)
+
 max_atk_speed   = 2.2
 key_kite		= KeyInput(0, True)
 key_last_hit	= KeyInput(0, True)
@@ -21,7 +26,7 @@ move_interval   = 0.10
 
 class OrbwalkKite:
 	def get_target(self, ctx):
-		return target_selector.get_target(ctx, filter(lambda x: x.enemy_to(ctx.player), ctx.champs), ctx.player.atk_range + ctx.player.static.gameplay_radius)
+		return target_selector.get_target(ctx, [champ for champ in ctx.champs if champ.enemy_to(ctx.player)], ctx.player.atk_range + ctx.player.static.gameplay_radius)
 
 class OrbwalkLastHit:
 	def get_target(self, ctx):
@@ -42,7 +47,7 @@ class OrbwalkLanePush:
 		player			  = ctx.player
 		
 		# Try getting jungle mob
-		jungle_target = target_selector.get_target(ctx, ctx.jungle, player.atk_range + player.static.gameplay_radius)
+		jungle_target = target_selector_monster.get_target(ctx, ctx.jungle, player.atk_range + player.static.gameplay_radius)
 		if jungle_target:
 			return jungle_target
 			
@@ -86,6 +91,7 @@ def valkyrie_menu(ctx):
 	ui = ctx.ui
 	
 	target_selector.ui("Champion targeting", ui)
+	target_selector_monster.ui('Monster targeting', ui)
 	max_atk_speed  = ui.sliderfloat("Attack speed cap", max_atk_speed, 1.0, 5.0)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
 	key_kite.ui("Key kite champions", ui)
@@ -93,11 +99,12 @@ def valkyrie_menu(ctx):
 	key_lane_push.ui("Key lane push", ui)
 
 def valkyrie_on_load(ctx):
-	global target_selector, max_atk_speed, move_interval
+	global target_selector, max_atk_speed, move_interval, target_selector_monster
 	global key_kite, key_last_hit, key_lane_push
 	cfg = ctx.cfg
 	
 	target_selector		      = TargetSelector.from_str(cfg.get_str("target", str(target_selector)))
+	target_selector_monster   = TargetSelector.from_str(cfg.get_str("target_monster", str(target_selector_monster)))
 	
 	max_atk_speed   = cfg.get_float("max_atk_speed", max_atk_speed)
 	move_interval   = cfg.get_float("move_interval", move_interval)
@@ -109,6 +116,8 @@ def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
 	
 	cfg.set_str("target", str(target_selector))
+	cfg.set_str("target_monster", str(target_selector_monster))
+	
 	cfg.set_float("max_atk_speed", max_atk_speed)
 	cfg.set_float("move_interval", move_interval)
 	cfg.set_str("key_kite", str(key_kite))
@@ -134,16 +143,19 @@ def valkyrie_exec(ctx):
 	else:
 		return
 	
-	player		= ctx.player   
-	atk_speed	 = player.atk_speed
-	b_windup_time = player.static.basic_atk_windup/player.static.base_atk_speed#player.static.basic_atk_windup/(atk_speed if atk_speed >= 0.6 else player.static.base_atk_speed)																	
-	c_atk_time	= 1.0/atk_speed
-	max_atk_time  = 1.0/max_atk_speed
+	player		     = ctx.player   
+	has_lethal_tempo =player.has_buff(BUFF_TEMPO_EMP) 
+	atk_speed	     = player.atk_speed if has_lethal_tempo else min(player.atk_speed, 2.5)
+	b_windup_time    = player.static.basic_atk_windup/player.static.base_atk_speed#player.static.basic_atk_windup/(atk_speed if atk_speed >= 0.6 else player.static.base_atk_speed)																	
+	c_atk_time	     = 1.0/atk_speed
+	max_atk_time     = 1.0/max_atk_speed
 	
 	target = None
 	now = time()
-	dt = now - last_attacked - ctx.ping / 2000.0
+	dt = now - last_attacked
+	
 	if dt > max(c_atk_time, max_atk_time):
+		#ctx.warn(str(has_lethal_tempo))
 		target = mode.get_target(ctx)
 		if target:
 			ctx.attack(target)

@@ -79,18 +79,19 @@ def draw_champ_last_position(ctx, champ):
 		return
 		
 	now = time()
-	pos, timestamp_changed = last_positions.get(champ.net_id, [None, None])
+	pos, timestamp_changed, override_pos = last_positions.get(champ.net_id, [None, None, None])
 	color = Col.Gray
 	if not timestamp_changed and pos and pos.x != champ.pos.x:
+		override_pos = None
 		timestamp_changed = now
 	elif timestamp_changed:
 		if now - timestamp_changed > 10.0:
 			timestamp_changed = None
 		else:
 			color = Col.Green
-		
-	pos_world = ctx.w2s(champ.pos)
-	pos_mm	  = ctx.w2m(champ.pos)
+	
+	pos_world = ctx.w2s(override_pos if override_pos else champ.pos)
+	pos_mm	  = ctx.w2m(override_pos if override_pos else champ.pos)
 	
 	if show_last_seen_mm:
 		ctx.image(champ.name + '_square', pos_mm, Vec2(size_portrait_minimap, size_portrait_minimap), color, 10)
@@ -98,7 +99,12 @@ def draw_champ_last_position(ctx, champ):
 	if show_last_seen_world:
 		draw_portrait_world(ctx, champ, pos_world, color=color)
 		
-	last_positions[champ.net_id] = [champ.pos, timestamp_changed]
+	last_positions[champ.net_id] = [champ.pos, timestamp_changed, override_pos]
+	
+def set_champ_last_position(champ, new_pos):
+	global last_positions
+	
+	last_positions[champ.net_id] = [champ.pos, time(), new_pos]
 	
 def valkyrie_exec(ctx):
 	for champ in ctx.champs:

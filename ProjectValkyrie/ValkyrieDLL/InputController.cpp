@@ -95,12 +95,24 @@ void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posG
 
 void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 {
-	std::function<Vector2()> posGetter = [&unit]() {
-		return Valkyrie::CurrentGameState->renderer.WorldToScreen(unit.pos); 
+	int unitNetId = unit.networkId;
+
+	std::function<Vector2()> posGetter = [unitNetId]() {
+		auto find = Valkyrie::CurrentGameState->objectCache.find(unitNetId);
+		if (find == Valkyrie::CurrentGameState->objectCache.end())
+			return Vector2(0.f, 0.f);
+		auto& unit = find->second;
+
+		return Valkyrie::CurrentGameState->renderer.WorldToScreen(unit->pos);
 	};
 
-	std::function<bool()> clickCondition = [&unit]() {
-		return unit.targetable && !unit.isDead && unit.isVisible;
+	std::function<bool()> clickCondition = [unitNetId]() {
+		auto find = Valkyrie::CurrentGameState->objectCache.find(unitNetId);
+		if (find == Valkyrie::CurrentGameState->objectCache.end())
+			return false;
+		auto unit = (GameUnit*)(find->second.get());
+
+		return unit->targetable && !unit->isDead && unit->isVisible;
 	};
 
 	ioQueue.push(new IoSpoofMouse(posGetter));

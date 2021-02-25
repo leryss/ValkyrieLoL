@@ -67,9 +67,9 @@ if not os.path.isdir(result_folder):
 #read_character_icons(x, y, lambda x: 'square' in x)
 
 # Read spell icons
-x = 'https://raw.communitydragon.org/latest/game/assets/characters/'
-y = 'https://raw.communitydragon.org/latest/game/assets/characters/{}/hud/icons2d/'
-read_character_icons(x, y, character_filter = lambda x: x in champs)
+#x = 'https://raw.communitydragon.org/latest/game/assets/characters/'
+#y = 'https://raw.communitydragon.org/latest/game/assets/characters/{}/hud/icons2d/'
+#read_character_icons(x, y, character_filter = lambda x: x in champs)
 
 # Read specific champ icon
-#download_icons('https://raw.communitydragon.org/latest/game/assets/characters/viego/hud/icons2d/')
+download_icons('https://raw.communitydragon.org/latest/game/data/characters/qiyana/hud/icons2d/')

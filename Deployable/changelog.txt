@@ -1,3 +1,10 @@
+[Valkyrie v0.13]
+	* Lots of bug fixes
+	
+	+ Now reading champion buffs
+	+ Orbwalker: Improved orbwalking when using lethal tempo
+	+ Recall Tracker: Now updates the position on minimap of recalled enemies
+
 [Valkyrie v0.12]
 	* Fixed a bug where skins would revert to default after death
 	* Fixed a bug where orbwalker would attack dead units

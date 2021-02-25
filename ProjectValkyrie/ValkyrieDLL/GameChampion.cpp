@@ -19,6 +19,38 @@ GameChampion::GameChampion(std::string name)
 	spells[5].castKey = HKey::F;
 }
 
+void GameChampion::ReadBuffs(int addr)
+{
+	buffs.clear();
+
+	int buffManager = addr + 0x2178;
+	int buffArray = ReadInt(buffManager + 0x10);
+
+	if (CantRead(buffArray))
+		return;
+
+	float gameTime = ReadFloat((int)GetModuleHandle(NULL) + Offsets::GameTime);
+
+	int i = 0;
+	while (true) {
+		int buffEntry = ReadInt(buffArray + i * 0x8);
+		i++;
+
+		if (CantRead(buffEntry))
+			break;
+
+		float buffEndTime = ReadFloat(buffEntry + 0x10);
+		if (buffEndTime < gameTime)
+			continue;
+
+		int buff = ReadInt(buffEntry + 0x8);
+		if (CantRead(buff))
+			continue;
+
+		buffs.insert(Memory::ReadString(buff + 0x8, 100));
+	}
+}
+
 void GameChampion::ReadFromBaseAddress(int addr)
 {
 	GameUnit::ReadFromBaseAddress(addr);
@@ -51,7 +83,9 @@ void GameChampion::ReadFromBaseAddress(int addr)
 	}
 
 	/// Check recalling
-	recalling = ReadInt(addr + Offsets::ObjRecallState);
+	recalling = (ReadInt(addr + Offsets::ObjRecallState) == 6);
+
+	ReadBuffs(addr);
 }
 
 void GameChampion::ImGuiDraw()
@@ -59,21 +93,29 @@ void GameChampion::ImGuiDraw()
 	GameUnit::ImGuiDraw();
 	ImGui::Separator();
 
+	if (ImGui::TreeNode("Buffs")) {
+		for (auto& buff : buffs)
+			ImGui::TextColored(Color::YELLOW, buff.c_str());
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Items")) {
+		for (int i = 0; i < 6; ++i) {
+			if (items[i] == nullptr)
+				continue;
+
+			if (ImGui::TreeNode(Strings::Format("%d", items[i]->id).c_str())) {
+				ImGui::TreePop();
+			}
+		}
+		ImGui::TreePop();
+	}
+
 	ImGui::Text("Spells");
 	for (int i = 0; i < 6; ++i) {
 		if (ImGui::TreeNode(spells[i].name.c_str())) {
-			
+
 			spells[i].ImGuiDraw();
-			ImGui::TreePop();
-		}
-	}
-
-	ImGui::Text("Items");
-	for (int i = 0; i < 6; ++i) {
-		if (items[i] == nullptr)
-			continue;
-
-		if (ImGui::TreeNode(Strings::Format("%d", items[i]->id).c_str())) {
 			ImGui::TreePop();
 		}
 	}
@@ -106,4 +148,9 @@ object GameChampion::ItemsToPy()
 		l.append(ptr(items[i]));
 	
 	return l;
+}
+
+bool GameChampion::HasBuff(const char * buff)
+{
+	return buffs.find(std::string(buff)) != buffs.end();
 }

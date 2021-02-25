@@ -135,6 +135,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	class_<GameChampion, bases<GameUnit>>("Champion", "Represents a champion object")
+		.def("has_buff",                   &GameChampion::HasBuff)
 		.def_readonly("spells",            &GameChampion::SpellsToPy)
 		.def_readonly("items",             &GameChampion::ItemsToPy)
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition)
@@ -359,7 +360,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("NoDecoration",              ImGuiWindowFlags_NoDecoration)
 		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
 		;
-
+	
 	enum_<UnitTag>("Unit")
 		.value("Champion",                    UnitTag::Unit_Champion)
 		.value("ChampionClone",               UnitTag::Unit_Champion_Clone)

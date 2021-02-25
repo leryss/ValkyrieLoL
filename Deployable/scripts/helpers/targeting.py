@@ -16,7 +16,7 @@ class TargeterLowestHealth:
 	def get_score(self, ctx, target):
 		return target.health
 		
-class TargeterMonsterRarity:
+class TargeterMonsterLargest:
 	def __str__(self):
 		return "Largest Jungle Monster"
 	
@@ -27,6 +27,18 @@ class TargeterMonsterRarity:
 			return -100
 		else:
 			return -10
+			
+class TargeterMonsterSmallest:
+	def __str__(self):
+		return "Smallest Jungle Monster"
+	
+	def get_score(self, ctx, target):
+		if target.has_tags(Unit.MonsterEpic):
+			return -10
+		elif target.has_tags(Unit.MonsterLarge):
+			return -100
+		else:
+			return -1000
 
 class TargetSet:
 	Champion = 0
@@ -43,7 +55,8 @@ class TargetSelector:
 		TargetSet.Monster: [
 			TargeterClosestToPlayer(),
 			TargeterLowestHealth(),
-			TargeterMonsterRarity()
+			TargeterMonsterLargest(),
+			TargeterMonsterSmallest()
 		]
 	}
 	
