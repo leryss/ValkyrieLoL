@@ -1,5 +1,6 @@
 #include "ConfigSet.h"
 #include <fstream>
+#include <windows.h>
 
 void ConfigSet::Load() {
 	std::string line;
@@ -111,4 +112,9 @@ void ConfigSet::SetSaveInterval(float interval)
 void ConfigSet::SetConfigFile(std::string path)
 {
 	filePath = path;
+}
+
+void ConfigSet::Reset()
+{
+	rawValues.clear();
 }

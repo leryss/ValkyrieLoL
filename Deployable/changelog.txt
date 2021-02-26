@@ -1,3 +1,10 @@
+[Valkyrie v0.14]
+	* Fixed some minor bugs
+
+	+ Core: Now reading more info about buffs
+	+ Orbwalker: Improved orbwalker at very high attack speeds
+	+ Activator: Added QSS/Cleanse (not all roots/slows supported)
+
 [Valkyrie v0.13]
 	* Lots of bug fixes
 	

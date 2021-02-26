@@ -1,5 +1,82 @@
 import os, json
+from enum import Enum
 
+class CCType:
+	Charm    = 0
+	Stun     = 1
+	Fear     = 2
+	Slow     = 3
+	Suppress = 4
+	Root     = 5
+	Taunt    = 6
+	Drowsy   = 7
+	Sleep    = 8
+	
+	Names = {
+		Charm    : 'Charm',
+		Stun     : 'Stun',     		
+		Fear     : 'Fear',     		
+		Slow     : 'Slow',     		
+		Suppress : 'Suppress',
+		Root     : 'Root',
+		Taunt    : 'Taunt',
+		Drowsy   : 'Drowsy',
+		Sleep    : 'Sleep'
+	}
+
+class BuffType:
+	Mastery = 1
+	CC      = 2
+
+class Buff:
+	
+	def __init__(self, pretty_name, name, type, type_info = None):
+		self.type = type
+		self.type_info = type_info
+		self.pretty_name = pretty_name
+		self.name = name
+		
+	def is_type(self, type):
+		return self.type & type == type
+
+class Buffs:
+
+	UnknownBuff = Buff('UnknownBuff', '?', 0)
+	AllBuffs = [
+		Buff('Charm',           'Charm',                      BuffType.CC,      CCType.Charm),
+		Buff('Stun',            'Stun',                       BuffType.CC,      CCType.Stun),
+		Buff('Flee',            'Flee',                       BuffType.CC,      CCType.Fear),
+		Buff('Suppress',        'suppression',                BuffType.CC,      CCType.Suppress),
+		Buff('Taunt',           'puncturingtauntattackspeed', BuffType.CC,      CCType.Taunt),
+		
+		# Slows                                         
+		Buff('Slow',            'slow',                       BuffType.CC,      CCType.Slow),
+		Buff('WaterDrakeSlow',  'waterdragonslow',            BuffType.CC,      CCType.Slow),
+		Buff('AshePassiveSlow', 'ashepassiveslow',            BuffType.CC,      CCType.Slow),
+														      
+		# Roots                                               
+		Buff('JhinWRoot',       'JhinW',                      BuffType.CC,      CCType.Root),
+		Buff('LuxQRoot',        'LuxLightBindingMis',         BuffType.CC,      CCType.Root),
+							    
+		# Masteries             
+		Buff('LethalTempo',     'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempoEmpowered.lua', BuffType.Mastery),
+	]
+	
+	AllBuffsDict = { buff.pretty_name : buff for buff in AllBuffs } | { buff.name : buff for buff in AllBuffs }
+
+	@classmethod
+	def has_buff(self, champ, buff_name):
+		buff_obj = Buffs.AllBuffsDict.get(buff_name, None)
+		if buff_obj == None:
+			return False
+			
+		return champ.has_buff(buff_obj.name)
+	
+	@classmethod
+	def get(self, buff_name):
+		return Buffs.AllBuffsDict.get(buff_name, Buffs.UnknownBuff)
+
+'''
 Spells = {}
 
 def load_spell_calcs(path):
@@ -57,9 +134,4 @@ def get_spell_effective_dmg(champ, spell):
 		return 0.0
 		
 	return spell_info.calculate_property()
-
-load_spell_calcs(os.path.join(os.getenv('VPath'), 'data\\SpellCalculations.json'))
-
-print(Spells['garene'])
-x = Spells['garene'].TotalDamage(ChampDummy(), SkillDummy())
-print(x)
+'''

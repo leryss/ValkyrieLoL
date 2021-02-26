@@ -7,6 +7,7 @@
 #include "GameChampion.h"
 #include "GameMissile.h"
 #include "GameSpell.h"
+#include "GameBuff.h"
 
 #include "SpellInfo.h"
 #include "ItemInfo.h"
@@ -22,6 +23,12 @@ using namespace boost::python;
 
 BOOST_PYTHON_MODULE(valkyrie) {
 	
+	class_<GameBuff>("Buff", "Contains data related to a buff on a champion")
+		.def_readonly("name",                &GameBuff::name)
+		.def_readonly("time_begin",          &GameBuff::startTime)
+		.def_readonly("time_end",            &GameBuff::endTime)
+		;
+
 	class_<UnitInfo>("UnitStatic",         "Static data loaded at runtime for an unit")
 		.def_readonly("hp_bar_height",       &UnitInfo::healthBarHeight)
 		.def_readonly("movement_speed",      &UnitInfo::baseMovementSpeed)
@@ -136,6 +143,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<GameChampion, bases<GameUnit>>("Champion", "Represents a champion object")
 		.def("has_buff",                   &GameChampion::HasBuff)
+		.def_readonly("buffs",             &GameChampion::BuffsToPy)
 		.def_readonly("spells",            &GameChampion::SpellsToPy)
 		.def_readonly("items",             &GameChampion::ItemsToPy)
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition)

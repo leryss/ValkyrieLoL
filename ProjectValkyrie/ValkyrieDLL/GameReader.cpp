@@ -40,6 +40,11 @@ GameState* GameReader::GetNextState()
 	return &state;
 }
 
+GameState * GameReader::GetCurrentState()
+{
+	return &state;
+}
+
 BenchmarkGameReader& GameReader::GetBenchmarks()
 {
 	return benchmark;

@@ -2,8 +2,10 @@ from valkyrie import *
 from helpers.targeting import *
 from helpers.prediction import *
 from helpers.inputs import KeyInput
+from helpers.spells import Buffs
 from time import time
 from enum import Enum
+
 
 script_info = {
 	'author': 'leryss',
@@ -12,13 +14,10 @@ script_info = {
 	'icon': 'menu-bow'
 }
 
-BUFF_TEMPO     = 'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua'
-BUFF_TEMPO_EMP = 'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempoEmpowered.lua'
-
 target_selector         = TargetSelector(0, TargetSet.Champion)
 target_selector_monster = TargetSelector(0, TargetSet.Monster)
 
-max_atk_speed   = 2.2
+max_atk_speed   = 5.0
 key_kite		= KeyInput(0, True)
 key_last_hit	= KeyInput(0, True)
 key_lane_push   = KeyInput(0, True)
@@ -92,7 +91,6 @@ def valkyrie_menu(ctx):
 	
 	target_selector.ui("Champion targeting", ui)
 	target_selector_monster.ui('Monster targeting', ui)
-	max_atk_speed  = ui.sliderfloat("Attack speed cap", max_atk_speed, 1.0, 5.0)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
 	key_kite.ui("Key kite champions", ui)
 	key_last_hit.ui("Key last hit minions (No Turret Farming Yet)", ui)
@@ -144,18 +142,16 @@ def valkyrie_exec(ctx):
 		return
 	
 	player		     = ctx.player   
-	has_lethal_tempo =player.has_buff(BUFF_TEMPO_EMP) 
+	has_lethal_tempo = Buffs.has_buff(player, 'LethalTempo') 
 	atk_speed	     = player.atk_speed if has_lethal_tempo else min(player.atk_speed, 2.5)
-	b_windup_time    = player.static.basic_atk_windup/player.static.base_atk_speed#player.static.basic_atk_windup/(atk_speed if atk_speed >= 0.6 else player.static.base_atk_speed)																	
-	c_atk_time	     = 1.0/atk_speed
-	max_atk_time     = 1.0/max_atk_speed
+	c_atk_time	     = 1.1/atk_speed
+	b_windup_time    = player.static.basic_atk_windup*c_atk_time						
 	
 	target = None
 	now = time()
 	dt = now - last_attacked
 	
-	if dt > max(c_atk_time, max_atk_time):
-		#ctx.warn(str(has_lethal_tempo))
+	if dt > c_atk_time:
 		target = mode.get_target(ctx)
 		if target:
 			ctx.attack(target)

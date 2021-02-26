@@ -10,26 +10,31 @@ GameChampion::GameChampion(std::string name)
 	:GameUnit(name)
 {
 	type = OBJ_CHAMPION;
-	spells[0].castKey = HKey::Q;
-	spells[1].castKey = HKey::W;
-	spells[2].castKey = HKey::E;
-	spells[3].castKey = HKey::R;
-
-	spells[4].castKey = HKey::D;
-	spells[5].castKey = HKey::F;
+	spells[0].castKey  = HKey::Q;
+	spells[1].castKey  = HKey::W;
+	spells[2].castKey  = HKey::E;
+	spells[3].castKey  = HKey::R;
+					   
+	spells[4].castKey  = HKey::D;
+	spells[5].castKey  = HKey::F;
+					   
+	spells[6].castKey  = HKey::N_1;
+	spells[7].castKey  = HKey::N_2;
+	spells[8].castKey  = HKey::N_3;
+	spells[9].castKey  = HKey::N_4;
+	spells[10].castKey = HKey::N_5;
+	spells[11].castKey = HKey::N_6;
 }
 
 void GameChampion::ReadBuffs(int addr)
 {
 	buffs.clear();
 
-	int buffManager = addr + 0x2178;
-	int buffArray = ReadInt(buffManager + 0x10);
+	int buffManager = addr + Offsets::ObjBuffManager;
+	int buffArray = ReadInt(buffManager + Offsets::BuffManagerEntriesArray);
 
 	if (CantRead(buffArray))
 		return;
-
-	float gameTime = ReadFloat((int)GetModuleHandle(NULL) + Offsets::GameTime);
 
 	int i = 0;
 	while (true) {
@@ -39,15 +44,13 @@ void GameChampion::ReadBuffs(int addr)
 		if (CantRead(buffEntry))
 			break;
 
-		float buffEndTime = ReadFloat(buffEntry + 0x10);
-		if (buffEndTime < gameTime)
+		auto buff = new GameBuff();
+		buff->ReadFromBaseAddress(buffEntry);
+
+		if (buff->name.empty())
 			continue;
 
-		int buff = ReadInt(buffEntry + 0x8);
-		if (CantRead(buff))
-			continue;
-
-		buffs.insert(Memory::ReadString(buff + 0x8, 100));
+		buffs[buff->name] = std::shared_ptr<GameBuff>(buff);
 	}
 }
 
@@ -58,7 +61,7 @@ void GameChampion::ReadFromBaseAddress(int addr)
 	/// Read spells
 	int spellBook  = addr + Offsets::ObjSpellBook;
 	int spellSlots = spellBook + Offsets::SpellBookSpellSlots;
-	for (int i = 0; i < 6; ++i) {
+	for (int i = 0; i < NUM_SPELLS; ++i) {
 		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
 	}
 
@@ -67,7 +70,7 @@ void GameChampion::ReadFromBaseAddress(int addr)
 	if (CantRead(itemList))
 		return;
 
-	for (int i = 0; i < 6; ++i) {
+	for (int i = 0; i < NUM_ITEMS; ++i) {
 		items[i] = nullptr;
 
 		int item = ReadInt(itemList + i * 0x10 + Offsets::ItemListItem);
@@ -94,13 +97,17 @@ void GameChampion::ImGuiDraw()
 	ImGui::Separator();
 
 	if (ImGui::TreeNode("Buffs")) {
-		for (auto& buff : buffs)
-			ImGui::TextColored(Color::YELLOW, buff.c_str());
+		for (auto& pair : buffs) {
+			if (ImGui::TreeNode(pair.first.c_str())) {
+				pair.second->ImGuiDraw();
+				ImGui::TreePop();
+			}
+		}
 		ImGui::TreePop();
 	}
 
 	if (ImGui::TreeNode("Items")) {
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < NUM_ITEMS; ++i) {
 			if (items[i] == nullptr)
 				continue;
 
@@ -112,8 +119,11 @@ void GameChampion::ImGuiDraw()
 	}
 
 	ImGui::Text("Spells");
-	for (int i = 0; i < 6; ++i) {
-		if (ImGui::TreeNode(spells[i].name.c_str())) {
+	for (int i = 0; i < NUM_SPELLS; ++i) {
+		if (i == 4 || i == 6)
+			ImGui::Separator();
+
+		if (!spells[i].name.empty() && ImGui::TreeNode(spells[i].name.c_str())) {
 
 			spells[i].ImGuiDraw();
 			ImGui::TreePop();
@@ -132,10 +142,20 @@ Vector2 GameChampion::GetHpBarPosition()
 	return w2s;
 }
 
+list GameChampion::BuffsToPy()
+{
+	list l = list();
+	for (auto& pair : buffs) {
+		l.append(ptr(pair.second.get()));
+	}
+
+	return l;
+}
+
 object GameChampion::SpellsToPy()
 {
 	list l;
-	for (int i = 0; i < 6; ++i)
+	for (int i = 0; i < NUM_SPELLS; ++i)
 		l.append(boost::ref(spells[i]));
 
 	return l;
@@ -144,7 +164,7 @@ object GameChampion::SpellsToPy()
 object GameChampion::ItemsToPy()
 {
 	list l;
-	for (int i = 0; i < 6; ++i)
+	for (int i = 0; i < NUM_ITEMS; ++i)
 		l.append(ptr(items[i]));
 	
 	return l;

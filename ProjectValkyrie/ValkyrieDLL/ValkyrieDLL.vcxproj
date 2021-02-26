@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="FakeMouse.h" />
+    <ClInclude Include="GameBuff.h" />
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameHud.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Benchmark.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FakeMouse.cpp" />
+    <ClCompile Include="GameBuff.cpp" />
     <ClCompile Include="GameChampion.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameHud.cpp" />

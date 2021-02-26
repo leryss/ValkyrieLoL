@@ -13,6 +13,7 @@ void AsyncInjector::Perform()
 		HWND hWindow = FindWindowA("RiotWindowClass", NULL);
 		if (hWindow == NULL) {
 			if (oneTimeInjection) {
+				currentStep = "Finding LoL process";
 				SetError("No league process active");
 				return;
 			}

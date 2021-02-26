@@ -49,6 +49,12 @@ int Offsets::ObjAtkRange                     = 0x12BC;
 int Offsets::ObjTargetable                   = 0xD00;
 int Offsets::ObjInvulnerable                 = 0x3D0; 
 
+int Offsets::ObjBuffManager                  = 0x2178;
+int Offsets::BuffManagerEntriesArray         = 0x10;
+int Offsets::BuffEntryBuff                   = 0x8;
+int Offsets::BuffEntryBuffStartTime          = 0xC;
+int Offsets::BuffEntryBuffEndTime            = 0x10;
+int Offsets::BuffName                        = 0x8;
 //oObjDirection = 0x1B48;
 //oObjBuffMgr = 0x2160;
 //oObjActionState = 0x1054;

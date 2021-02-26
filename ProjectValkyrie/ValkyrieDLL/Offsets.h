@@ -39,9 +39,15 @@ public:
 	static int ObjItemList;
 	static int ObjMissileSpellCast;
 	static int ObjMissileName;
-
+	static int ObjBuffManager;
 	static int ObjInvulnerable;
 	static int ObjTargetable;
+
+	static int BuffManagerEntriesArray;
+	static int BuffEntryBuff;
+	static int BuffEntryBuffStartTime;
+	static int BuffEntryBuffEndTime;
+	static int BuffName;
 
 	static int ItemListItem;
 	static int ItemInfo;

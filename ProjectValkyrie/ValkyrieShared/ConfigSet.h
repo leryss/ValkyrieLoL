@@ -28,6 +28,7 @@ public:
 
 	void           SetSaveInterval(float interval);
 	void           SetConfigFile(std::string path);
+	void           Reset();
 
 	void           Load();
 	void           Save();

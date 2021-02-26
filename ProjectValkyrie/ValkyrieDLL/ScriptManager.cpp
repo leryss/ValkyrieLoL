@@ -65,8 +65,14 @@ void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
 		ImGui::Image(GameData::GetImage(script->icon), ImVec2(15, 15));
 		ImGui::SameLine();
 		if (ImGui::BeginMenu(scriptName)) {
-			if (errored)
+			if (errored) {
+				if (ImGui::Button("Clear cfg & reload")) {
+					script->config.Reset();
+					script->config.Save();
+					script->LoadFromFile(script->fileName);
+				}
 				ImGui::TextColored(Color::RED, script->error.c_str());
+			}
 			else {
 				ctx.SetScript(script.get());
 

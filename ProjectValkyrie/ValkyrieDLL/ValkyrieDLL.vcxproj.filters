@@ -192,6 +192,9 @@
     <ClInclude Include="FakeMouse.h">
       <Filter>Source Files\Utils\Input</Filter>
     </ClInclude>
+    <ClInclude Include="GameBuff.h">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -286,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="FakeMouse.cpp">
       <Filter>Source Files\Utils\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBuff.cpp">
+      <Filter>Source Files\Game\GameObjects\Spells</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

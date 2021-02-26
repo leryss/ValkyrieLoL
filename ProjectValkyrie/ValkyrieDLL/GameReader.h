@@ -26,6 +26,7 @@ class GameReader {
 
 public:
 	GameState*           GetNextState();
+	GameState*           GetCurrentState();
 	BenchmarkGameReader& GetBenchmarks();
 
 public:

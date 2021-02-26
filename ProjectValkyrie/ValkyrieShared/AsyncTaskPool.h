@@ -64,7 +64,7 @@ public:
 
 			ImGui::Separator();
 			ImGui::TextColored(Color::PURPLE, operationName);
-			ImGui::TextColored(Color::GREEN, "Step: %s", task->currentStep.c_str());
+			ImGui::TextColored(Color::GREEN, "%s", task->currentStep.c_str());
 			if (task->percentDone >= 0.f) {
 				ImGui::ProgressBar(task->percentDone);
 			}
@@ -77,7 +77,7 @@ public:
 			if (task->GetStatus() == ASYNC_FAILED) {
 				ImGui::Separator();
 				ImGui::TextColored(Color::PURPLE, operationName);
-				ImGui::TextColored(Color::RED, "Step `%s` failed: %s", task->currentStep.c_str(), task->error.c_str());
+				ImGui::TextColored(Color::RED, "%s failed: %s", task->currentStep.c_str(), task->error.c_str());
 			}
 		}
 
