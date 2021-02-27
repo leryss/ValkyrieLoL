@@ -462,19 +462,6 @@ LRESULT ImGuiWindowMessageHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_MBUTTONUP:
 		io.MouseDown[2] = false;
 		return true;
-	case WM_XBUTTONDOWN:
-	case WM_XBUTTONDBLCLK:
-		if ((GET_KEYSTATE_WPARAM(wParam) & MK_XBUTTON1) == MK_XBUTTON1)
-			io.MouseDown[3] = true;
-		else if ((GET_KEYSTATE_WPARAM(wParam) & MK_XBUTTON2) == MK_XBUTTON2)
-			io.MouseDown[4] = true;
-		return true;
-	case WM_XBUTTONUP:
-		if ((GET_KEYSTATE_WPARAM(wParam) & MK_XBUTTON1) == MK_XBUTTON1)
-			io.MouseDown[3] = false;
-		else if ((GET_KEYSTATE_WPARAM(wParam) & MK_XBUTTON2) == MK_XBUTTON2)
-			io.MouseDown[4] = false;
-		return true;
 	case WM_MOUSEWHEEL:
 		io.MouseWheel += GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? +1.0f : -1.0f;
 		return true;

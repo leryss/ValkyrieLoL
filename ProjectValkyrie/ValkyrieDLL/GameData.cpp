@@ -308,7 +308,7 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 	mz_zip_archive archive;
 	memset(&archive, 0, sizeof(archive));
 	if (!mz_zip_reader_init_file(&archive, zipPath, 0)) {
-		Logger::Error("Failed to load %s", zipName);
+		Logger::Error("Failed to open zip %s", zipName);
 		return;
 	}
 
@@ -334,7 +334,7 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 
 		PDIRECT3DTEXTURE9 image = NULL;
 		if (!LoadTextureFromHeap(imgBin, (size_t)fileStat.m_uncomp_size, &image))
-			Logger::Error("Failed to load %s", imgName);
+			Logger::Error("Failed to load img %s", imgName);
 		else 
 			Images[Strings::ToLower(imgName)] = image;
 

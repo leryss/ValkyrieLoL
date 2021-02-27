@@ -225,7 +225,6 @@ void ValkyrieLoader::DisplayUserPanel()
 
 void ValkyrieLoader::DisplayAdminPanel()
 {
-	ImGui::ShowDemoWindow();
 	if (ImGui::Begin("Admin Panel")) {
 		ImGui::PushItemWidth(140.f);
 
