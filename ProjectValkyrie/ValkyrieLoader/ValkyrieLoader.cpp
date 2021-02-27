@@ -13,12 +13,47 @@
 
 using namespace std::chrono;
 
-static ImVec4      COLOR_RED    = ImVec4(1.f, 0.f, 0.f, 1.f);
-static ImVec4      COLOR_PURPLE = ImVec4(0.5f, 0.3f, 0.8f, 1.f);
-static ImVec4      COLOR_GREEN  = ImVec4(0.f, 1.f, 0.f, 1.f);
-static ImVec4      COLOR_YELLOW = ImVec4(1.f, 1.f, 0.f, 1.f);
-
 static const float ONE_DAY_SECS = 60.f * 60.f * 24.f;
+
+enum UserColumnId {
+	UserColumnName,
+	UserColumnDiscord,
+	UserColumnStatus,
+	UserColumnPrivilege,
+	UserColumnSubscription,
+	UserColumnOther
+};
+
+static const ImGuiTableSortSpecs* s_current_sort_specs;
+static int __cdecl CompareWithSortSpecs(const void* lhs, const void* rhs)
+{
+	const UserInfo* a = (const UserInfo*)lhs;
+	const UserInfo* b = (const UserInfo*)rhs;
+	for (int n = 0; n < s_current_sort_specs->SpecsCount; n++)
+	{
+		// Here we identify columns using the ColumnUserID value that we ourselves passed to TableSetupColumn()
+		// We could also choose to identify columns based on their index (sort_spec->ColumnIndex), which is simpler!
+		const ImGuiTableColumnSortSpecs* sort_spec = &s_current_sort_specs->Specs[n];
+		int delta = 0;
+		switch (sort_spec->ColumnUserID)
+		{
+		case UserColumnName:            delta = (strcmp(a->name.c_str(), b->name.c_str()));       break;
+		case UserColumnDiscord:         delta = (strcmp(a->discord.c_str(), b->discord.c_str())); break;
+		case UserColumnStatus:          delta = a->locked || b->locked;                           break;
+		case UserColumnPrivilege:       delta = a->level - b->level;                              break;
+		case UserColumnSubscription:    delta = a->expiry - b->expiry;                            break;
+		default: IM_ASSERT(0); break;
+		}
+		if (delta > 0)
+			return (sort_spec->SortDirection == ImGuiSortDirection_Ascending) ? +1 : -1;
+		if (delta < 0)
+			return (sort_spec->SortDirection == ImGuiSortDirection_Ascending) ? -1 : +1;
+	}
+
+	// qsort() is instable so always return a way to differenciate items.
+	// Your own compare function may want to avoid fallback on implicit sort specs e.g. a Name compare if it wasn't already part of the sort specs.
+	return (strcmp(a->name.c_str(), b->name.c_str()));
+}
 
 ValkyrieLoader::ValkyrieLoader()
 {
@@ -46,7 +81,7 @@ void ValkyrieLoader::ImGuiShow()
 		break;
 	}
 
-	if (loggedUser.level > 0) {
+	if (loggedUser.level >= USER_LEVEL_ADMIN) {
 		DisplayAdminPanel();
 	}
 
@@ -124,7 +159,7 @@ void ValkyrieLoader::DisplayUserPanel()
 	if (performUpdate && !taskPool.IsExecuting(trackIdCheckVersion)) {
 		taskPool.DispatchTask(
 			trackIdCheckVersion,
-			api.GetCheatS3Object("valkyrie-releases-eu-north-1", "latest.zip"),
+			api.GetCheatS3Object("valkyrie-releases-eu-north-1", loggedUser.level == USER_LEVEL_TESTER ? "latest-beta.zip" : "latest.zip"),
 
 			[this](std::shared_ptr<AsyncTask> response) {
 				taskPool.DispatchTask(
@@ -147,12 +182,12 @@ void ValkyrieLoader::DisplayUserPanel()
 		float days = (loggedUser.expiry - duration_cast<seconds>(system_clock::now().time_since_epoch()).count()) / ONE_DAY_SECS;
 		float hours = (days - int(days)) * 24.f;
 
-		ImGui::TextColored((days < 5.f ? COLOR_YELLOW : COLOR_GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
+		ImGui::TextColored((days < 5.f ? Color::YELLOW : Color::GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
 
 		/// Change log
 		if (changeLog.size() > 0) {
 			ImGui::Separator();
-			ImGui::TextColored(COLOR_PURPLE, "** Change Log **");
+			ImGui::TextColored(Color::PURPLE, "** Change Log **");
 			ImGui::BeginChildFrame(10000, ImVec2(400.f, 200.f));
 			ImGui::Text(changeLog.c_str());
 			ImGui::EndChildFrame();
@@ -189,6 +224,7 @@ void ValkyrieLoader::DisplayUserPanel()
 
 void ValkyrieLoader::DisplayAdminPanel()
 {
+	ImGui::ShowDemoWindow();
 	if (ImGui::Begin("Admin Panel")) {
 		ImGui::PushItemWidth(140.f);
 
@@ -222,21 +258,31 @@ void ValkyrieLoader::DrawUserManager()
 	}
 
 	ImGui::Separator();
-	ImGui::TextColored(COLOR_PURPLE, "All users");
-	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders);
+	ImGui::TextColored(Color::PURPLE, "All users");
+	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable);
 
-	ImGui::TableSetupColumn("Name");
-	ImGui::TableSetupColumn("Discord");
-	ImGui::TableSetupColumn("Status");
-	ImGui::TableSetupColumn("Privilege");
-	ImGui::TableSetupColumn("Subscription");
-
-	ImGui::TableSetupColumn("CPU");
-	ImGui::TableSetupColumn("GPU");
-	ImGui::TableSetupColumn("RAM");
-	ImGui::TableSetupColumn("SYSTEM");
+	ImGui::TableSetupColumn("Name",         0,                                         0, UserColumnName);
+	ImGui::TableSetupColumn("Discord",      0,                                         0, UserColumnDiscord);
+	ImGui::TableSetupColumn("Status",       0,                                         0, UserColumnStatus);
+	ImGui::TableSetupColumn("Privilege",    ImGuiTableColumnFlags_PreferSortAscending, 0, UserColumnPrivilege);
+	ImGui::TableSetupColumn("Subscription", 0,                                         0, UserColumnSubscription);
+																		               
+	ImGui::TableSetupColumn("CPU",          ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
+	ImGui::TableSetupColumn("GPU",          ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
+	ImGui::TableSetupColumn("RAM",          ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
+	ImGui::TableSetupColumn("SYSTEM",       ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
 
 	ImGui::TableHeadersRow();
+
+	if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())
+		if (sorts_specs->SpecsDirty)
+		{
+			s_current_sort_specs = sorts_specs; // Store in variable accessible by the sort function.
+			if (allUsers.size() > 1)
+				qsort(&allUsers[0], allUsers.size(), sizeof(UserInfo), CompareWithSortSpecs);
+			s_current_sort_specs = NULL;
+			sorts_specs->SpecsDirty = false;
+		}
 
 	float timestampNow = (float)duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
 	for (size_t i = 0; i < allUsers.size(); ++i) {
@@ -260,22 +306,32 @@ void ValkyrieLoader::DrawUserManager()
 		/// Status
 		ImGui::TableSetColumnIndex(2);
 		if (user.locked)
-			ImGui::TextColored(COLOR_RED, "Banned");
+			ImGui::TextColored(Color::RED, "Banned");
 		else
-			ImGui::TextColored(COLOR_GREEN, "Not banned");
+			ImGui::TextColored(Color::GREEN, "Not banned");
 
 		/// Privilege
 		ImGui::TableSetColumnIndex(3);
-		if (user.level == 0)
+		switch ((int)user.level) {
+		case USER_LEVEL_NORMAL:
 			ImGui::Text("User");
-		else
-			ImGui::TextColored(COLOR_PURPLE, "Super User");
+			break;
+		case USER_LEVEL_TESTER:
+			ImGui::TextColored(Color::YELLOW, "Tester");
+			break;
+		case USER_LEVEL_ADMIN:
+			ImGui::TextColored(Color::BLUE, "Admin");
+			break;
+		case USER_LEVEL_SUPER_ADMIN:
+			ImGui::TextColored(Color::PURPLE, "Super Admin");
+			break;
+		}
 
 		/// Expiry
 		ImGui::TableSetColumnIndex(4);
 		float days = (user.expiry - timestampNow) / ONE_DAY_SECS;
 		float hours = (days - int(days)) * 24.f;
-		ImGui::TextColored((days < 0.f ? COLOR_RED : (days < 5.f ? COLOR_YELLOW : COLOR_GREEN)), "%d days %d hours", int(days), int(hours));
+		ImGui::TextColored((days < 0.f ? Color::RED : (days < 5.f ? Color::YELLOW : Color::GREEN)), "%d days %d hours", int(days), int(hours));
 
 		///Hardware
 		ImGui::TableSetColumnIndex(5);
@@ -307,8 +363,13 @@ void ValkyrieLoader::DrawUserManager()
 	bool  doUpdate = false;
 	auto& selected = allUsers[selectedUser];
 
-	ImGui::TextColored(COLOR_PURPLE, "User actions");
+	ImGui::TextColored(Color::PURPLE, "User actions");
 	ImGui::DragFloat("Subscription days to add", &deltaDays);
+	if (ImGui::Combo("Account role", &selectedRole, "User\0Tester\0Admin\0Super Admin")) {
+		doUpdate = true;
+		selected.level = (float)selectedRole;
+	}
+
 	if (ImGui::Button("Add days to selected")) {
 		doUpdate = true;
 		selected.expiry += ONE_DAY_SECS * deltaDays;
@@ -341,14 +402,16 @@ void ValkyrieLoader::DrawUserManager()
 void ValkyrieLoader::DrawInviteGenerator()
 {
 	ImGui::Separator();
-	ImGui::TextColored(COLOR_PURPLE, "Invite code generator");
+	ImGui::TextColored(Color::PURPLE, "Invite code generator");
+	
+	ImGui::Combo("Role", &inviteRole, "User\0Tester\0Admin\0Super Admin");
 	ImGui::DragFloat("Subscription Days", &inviteSubscriptionDays);
 	ImGui::InputText("Generated Code", generatedInviteCodeBuff, INPUT_TEXT_BUFF_SIZE, ImGuiInputTextFlags_ReadOnly);
 
 	if (ImGui::Button("Generate code") && !taskPool.IsExecuting(trackIdGenerateInvite)) {
 		taskPool.DispatchTask(
 			trackIdGenerateInvite,
-			api.GenerateInviteCode(IdentityInfo(nameBuff, passBuff, hardwareInfo), inviteSubscriptionDays),
+			api.GenerateInviteCode(IdentityInfo(nameBuff, passBuff, hardwareInfo), inviteSubscriptionDays, (UserLevel)inviteRole),
 			[this](std::shared_ptr<AsyncTask> response) {
 			auto resp = (GenerateInviteAsync*)response.get();
 			strcpy_s(generatedInviteCodeBuff, resp->inviteCode.c_str());

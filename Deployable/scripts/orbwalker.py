@@ -6,7 +6,6 @@ from helpers.spells import Buffs
 from time import time
 from enum import Enum
 
-
 script_info = {
 	'author': 'leryss',
 	'description': 'none',
@@ -22,6 +21,8 @@ key_kite		= KeyInput(0, True)
 key_last_hit	= KeyInput(0, True)
 key_lane_push   = KeyInput(0, True)
 move_interval   = 0.10
+
+delay_percent = 0.1
 
 class OrbwalkKite:
 	def get_target(self, ctx):
@@ -63,7 +64,7 @@ class OrbwalkLanePush:
 		
 		# No last hit, we try to push or wait for last hit
 		basic_atk_speed	 = player.static.basic_atk.speed
-		basic_atk_delay	 = player.static.basic_atk_windup / player.static.base_atk_speed
+		basic_atk_delay	 = player.static.basic_atk_windup*(1.0 + delay_percent)/ player.atk_speed
 	
 		for minion, predicted_hp, player_dmg in lasthits:
 			predicted_dmg = minion.health - predicted_hp
@@ -85,19 +86,20 @@ last_hit_mode   = OrbwalkLastHit()
 lane_push_mode  = OrbwalkLanePush()
 
 def valkyrie_menu(ctx):
-	global target_selector, max_atk_speed, move_interval
+	global target_selector, max_atk_speed, move_interval, delay_percent
 	global key_kite, key_last_hit, key_lane_push
 	ui = ctx.ui
 	
 	target_selector.ui("Champion targeting", ui)
 	target_selector_monster.ui('Monster targeting', ui)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
+	delay_percent  = ui.sliderfloat('Delay percent (%)', delay_percent, 0.0, 0.4)
 	key_kite.ui("Key kite champions", ui)
 	key_last_hit.ui("Key last hit minions (No Turret Farming Yet)", ui)
 	key_lane_push.ui("Key lane push", ui)
 
 def valkyrie_on_load(ctx):
-	global target_selector, max_atk_speed, move_interval, target_selector_monster
+	global target_selector, max_atk_speed, move_interval, target_selector_monster, delay_percent
 	global key_kite, key_last_hit, key_lane_push
 	cfg = ctx.cfg
 	
@@ -106,6 +108,7 @@ def valkyrie_on_load(ctx):
 	
 	max_atk_speed   = cfg.get_float("max_atk_speed", max_atk_speed)
 	move_interval   = cfg.get_float("move_interval", move_interval)
+	delay_percent   = cfg.get_float("delay_percent", delay_percent)
 	key_kite		= KeyInput.from_str(cfg.get_str("key_kite", str(key_kite)))
 	key_last_hit	= KeyInput.from_str(cfg.get_str("key_last_hit", str(key_last_hit)))
 	key_lane_push   = KeyInput.from_str(cfg.get_str("key_lane_push", str(key_lane_push)))
@@ -116,6 +119,7 @@ def valkyrie_on_save(ctx):
 	cfg.set_str("target", str(target_selector))
 	cfg.set_str("target_monster", str(target_selector_monster))
 	
+	cfg.set_float("delay_percent", delay_percent)
 	cfg.set_float("max_atk_speed", max_atk_speed)
 	cfg.set_float("move_interval", move_interval)
 	cfg.set_str("key_kite", str(key_kite))
@@ -144,7 +148,7 @@ def valkyrie_exec(ctx):
 	player		     = ctx.player   
 	has_lethal_tempo = Buffs.has_buff(player, 'LethalTempo') 
 	atk_speed	     = player.atk_speed if has_lethal_tempo else min(player.atk_speed, 2.5)
-	c_atk_time	     = 1.1/atk_speed
+	c_atk_time	     = (1.0 + delay_percent)/atk_speed
 	b_windup_time    = player.static.basic_atk_windup*c_atk_time						
 	
 	target = None

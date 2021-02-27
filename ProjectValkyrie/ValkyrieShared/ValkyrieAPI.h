@@ -139,7 +139,7 @@ public:
 
 	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
 	std::shared_ptr<UserOperationAsync>   GetUser(const IdentityInfo& identity, const char* target);
-	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days);
+	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days, UserLevel level);
 
 	std::shared_ptr<UserOperationAsync>   UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
 	

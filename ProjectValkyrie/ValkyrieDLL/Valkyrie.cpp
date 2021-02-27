@@ -201,14 +201,18 @@ void Valkyrie::InitializePython()
 void Valkyrie::LoginAndLoadData()
 {
 	TaskPool.AddWorkers(1);
-
+	
+	Logger::Info("Checking hardware");
+	auto hardwareInfo = HardwareInfo::Calculate();
+	
+	Logger::Info("Logging in");
 	char* name;
 	char* pass;
 	ValkyrieShared::LoadCredentials(&name, &pass);
 
 	TaskPool.DispatchTask(
 		"Logging In",
-		Api.GetUser(IdentityInfo(name, pass, HardwareInfo::Calculate()), name),
+		Api.GetUser(IdentityInfo(name, pass, hardwareInfo), name),
 
 		[](std::shared_ptr<AsyncTask> response) {
 		LoggedUser = ((UserOperationAsync*)response.get())->user;
@@ -359,32 +363,23 @@ void Valkyrie::HookDirectX()
 
 	Logger::Info("Hooking DirectX");
 
-	DWORD objBase = (DWORD)LoadLibraryA("d3d9.dll");
-	DWORD stopAt = objBase + SearchLength;
+	HWND window = FindWindowA("RiotWindowClass", NULL);
+	IDirect3D9 * pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
-	Logger::Info("Found base of d3d9.dll at: %#010x", objBase);
-	int skips = 0;
-	while (objBase++ < stopAt)
+	if (!pD3D)
+		throw std::runtime_error("Failed to get direct3d");
+
+	D3DPRESENT_PARAMETERS d3dpp{ 0 };
+	d3dpp.hDeviceWindow = window, d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD, d3dpp.Windowed = TRUE;
+
+	IDirect3DDevice9 *device = nullptr;
+	if (FAILED(pD3D->CreateDevice(0, D3DDEVTYPE_HAL, d3dpp.hDeviceWindow, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &device)))
 	{
-		if ((*(WORD*)(objBase + 0x00)) == 0x06C7
-			&& (*(WORD*)(objBase + 0x06)) == 0x8689
-			&& (*(WORD*)(objBase + 0x0C)) == 0x8689
-			) {
-			if (skips > 0) {
-				skips--;
-				continue;
-			}
-			objBase += 2;
-			break;
-		}
+		pD3D->Release();
+		throw std::runtime_error("Failed to create dx device");
 	}
 
-	if (objBase >= stopAt)
-		throw std::runtime_error("Did not find D3D device");
-	Logger::Info("Found D3D Device at: %#010x", objBase);
-
-	PDWORD VTable;
-	*(DWORD*)& VTable = *(DWORD*)objBase;
+	void ** VTable = *reinterpret_cast<void***>(device);
 
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
@@ -392,10 +387,14 @@ void Valkyrie::HookDirectX()
 	OriginalD3DPresent = (D3DPresentFunc)(VTable[PresentVTableIndex]);
 	LONG error = DetourAttach(&(PVOID&)OriginalD3DPresent, (PVOID)HookedD3DPresent);
 	if (error)
-		throw std::runtime_error(Strings::Format("Failed to hook DirectX Present. Detours error code: %d"));
+		throw std::runtime_error(Strings::Format("DetourAttach: Failed to hook DirectX Present. Detours error code: %d", error));
 	
-	DetourTransactionCommit();
-	
+	error = DetourTransactionCommit();
+	if (error)
+		throw std::runtime_error(Strings::Format("DetourCommitTransaction: Failed to hook DirectX Present. Detours error code: %d", error));
+
+	device->Release();
+	Logger::Info("Successfully hooked DirectX");
 }
 
 void Valkyrie::UnhookDirectX()

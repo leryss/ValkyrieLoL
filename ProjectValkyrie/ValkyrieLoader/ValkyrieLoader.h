@@ -81,10 +81,12 @@ private:
 	char             inviteCodeBuff[INPUT_TEXT_BUFF_SIZE]  = "your_invite_code";
 
 	/// Invite code generator stuff
+	int              inviteRole = 0;
 	float            inviteSubscriptionDays = 30.f;
 	char             generatedInviteCodeBuff[INPUT_TEXT_BUFF_SIZE] = "";
 
 	/// User Manager stuff
+	int              selectedRole = 0;
 	int              selectedUser = 0;
 	float            deltaDays = 2.f;
 

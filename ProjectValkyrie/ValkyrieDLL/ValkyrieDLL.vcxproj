@@ -135,9 +135,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;detours.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;d3d9.lib;detours.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Commons\Libs;$(SolutionDir)ValkyrieDLL\boost\stage\lib;$(SolutionDir)ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>$(OutDir)VOversix$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

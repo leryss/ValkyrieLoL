@@ -55,8 +55,8 @@ int Offsets::BuffEntryBuff                   = 0x8;
 int Offsets::BuffEntryBuffStartTime          = 0xC;
 int Offsets::BuffEntryBuffEndTime            = 0x10;
 int Offsets::BuffName                        = 0x8;
-//oObjDirection = 0x1B48;
-//oObjBuffMgr = 0x2160;
+//oObjIsMoving = 363B;
+//oObjDirection = 0x1B80;
 //oObjActionState = 0x1054;
 
 int Offsets::SpellBookActiveSpellCast        = 0x20;

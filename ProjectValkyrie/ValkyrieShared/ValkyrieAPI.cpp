@@ -82,7 +82,7 @@ std::shared_ptr<UserOperationAsync> ValkyrieAPI::GetUser(const IdentityInfo & id
 	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
-std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days)
+std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days, UserLevel level)
 {
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGenerateIdentity");
 
@@ -90,6 +90,7 @@ std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const Ident
 	jsonParams.WithString("name", identity.name.c_str());
 	jsonParams.WithString("pass", identity.pass.c_str());
 	jsonParams.WithDouble("days", days);
+	jsonParams.WithDouble("level", (float)level);
 	jsonParams.WithObject("hardware", identity.hardware.ToJsonValue());
 
 	Aws::Utils::Json::JsonValue json;
@@ -104,7 +105,7 @@ std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const Ident
 
 std::shared_ptr<UserOperationAsync> ValkyrieAPI::UpdateUser(const IdentityInfo & identity, const char * target, const UserInfo & targetInfo)
 {
-	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadGetUser");
+	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("PayloadUpdateUser");
 
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithString("name", identity.name.c_str());

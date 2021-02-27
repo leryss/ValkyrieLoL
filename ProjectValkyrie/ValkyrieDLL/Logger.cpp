@@ -94,6 +94,7 @@ void Logger::Error(const char * str, ...)
 	FileStream->write("[error] ", 8);
 	FileStream->write(entry.message, strlen(entry.message));
 	FileStream->write("\n", 1);
+	FileStream->flush(); // We flush when we get errors to make sure we got them on logs.txt
 
 	LoggerMutex.unlock();
 }
