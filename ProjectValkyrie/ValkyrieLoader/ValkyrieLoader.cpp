@@ -2,6 +2,7 @@
 #include "AsyncInjector.h"
 #include "AsyncUpdater.h"
 #include "ValkyrieShared.h"
+#include "Strings.h"
 
 #include "imgui/imgui.h"
 #include "miniz/miniz.h"
@@ -24,16 +25,16 @@ enum UserColumnId {
 	UserColumnOther
 };
 
-static const ImGuiTableSortSpecs* s_current_sort_specs;
+static const ImGuiTableSortSpecs* CurrentSortSpecs;
 static int __cdecl CompareWithSortSpecs(const void* lhs, const void* rhs)
 {
 	const UserInfo* a = (const UserInfo*)lhs;
 	const UserInfo* b = (const UserInfo*)rhs;
-	for (int n = 0; n < s_current_sort_specs->SpecsCount; n++)
+	for (int n = 0; n < CurrentSortSpecs->SpecsCount; n++)
 	{
 		// Here we identify columns using the ColumnUserID value that we ourselves passed to TableSetupColumn()
 		// We could also choose to identify columns based on their index (sort_spec->ColumnIndex), which is simpler!
-		const ImGuiTableColumnSortSpecs* sort_spec = &s_current_sort_specs->Specs[n];
+		const ImGuiTableColumnSortSpecs* sort_spec = &CurrentSortSpecs->Specs[n];
 		int delta = 0;
 		switch (sort_spec->ColumnUserID)
 		{
@@ -238,54 +239,32 @@ void ValkyrieLoader::DisplayAdminPanel()
 
 void ValkyrieLoader::DrawUserManager()
 {
-	if (taskPool.IsExecuting(trackIdGetUsers)) {
-		ImGui::TextColored(Color::YELLOW, "Refreshing...");
-		return;
-	}
-
-	if (retrieveUsers) {
-		taskPool.DispatchTask(
-			trackIdGetUsers,
-			api.GetUsers(IdentityInfo(nameBuff, passBuff, hardwareInfo)),
-
-			[this](std::shared_ptr<AsyncTask> response) {
-			auto resp = (GetUserListAsync*)response.get();
-			allUsers = resp->users;
-			selectedUser = 0;
-		}
-		);
-		retrieveUsers = false;
-	}
+	RetrieveUsersIfNecessarry();
 
 	ImGui::Separator();
 	ImGui::TextColored(Color::PURPLE, "All users");
+
+	DrawUserManagerFilter();
+
 	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable);
-
-	ImGui::TableSetupColumn("Name",         0,                                         0, UserColumnName);
-	ImGui::TableSetupColumn("Discord",      0,                                         0, UserColumnDiscord);
-	ImGui::TableSetupColumn("Status",       0,                                         0, UserColumnStatus);
-	ImGui::TableSetupColumn("Privilege",    ImGuiTableColumnFlags_PreferSortAscending, 0, UserColumnPrivilege);
-	ImGui::TableSetupColumn("Subscription", 0,                                         0, UserColumnSubscription);
-																		               
-	ImGui::TableSetupColumn("CPU",          ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
-	ImGui::TableSetupColumn("GPU",          ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
-	ImGui::TableSetupColumn("RAM",          ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
-	ImGui::TableSetupColumn("SYSTEM",       ImGuiTableColumnFlags_NoSort,              0, UserColumnOther);
-
+	ImGui::TableSetupColumn("Name",         0,                                                                       0, UserColumnName);
+	ImGui::TableSetupColumn("Discord",      0,                                                                       0, UserColumnDiscord);
+	ImGui::TableSetupColumn("Status",       0,                                                                       0, UserColumnStatus);
+	ImGui::TableSetupColumn("Privilege",    ImGuiTableColumnFlags_DefaultSort | ImGuiTableColumnFlags_IsSorted,      0, UserColumnPrivilege);
+	ImGui::TableSetupColumn("Subscription", 0,                                                                       0, UserColumnSubscription);													                                             
+	ImGui::TableSetupColumn("CPU",          ImGuiTableColumnFlags_NoSort,                                            0, UserColumnOther);
+	ImGui::TableSetupColumn("GPU",          ImGuiTableColumnFlags_NoSort,                                            0, UserColumnOther);
+	ImGui::TableSetupColumn("RAM",          ImGuiTableColumnFlags_NoSort,                                            0, UserColumnOther);
+	ImGui::TableSetupColumn("SYSTEM",       ImGuiTableColumnFlags_NoSort,                                            0, UserColumnOther);
 	ImGui::TableHeadersRow();
 
-	if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())
-		if (sorts_specs->SpecsDirty)
-		{
-			s_current_sort_specs = sorts_specs; // Store in variable accessible by the sort function.
-			if (allUsers.size() > 1)
-				qsort(&allUsers[0], allUsers.size(), sizeof(UserInfo), CompareWithSortSpecs);
-			s_current_sort_specs = NULL;
-			sorts_specs->SpecsDirty = false;
-		}
+	SortUsersIfNecessarry();
 
 	float timestampNow = (float)duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
 	for (size_t i = 0; i < allUsers.size(); ++i) {
+		if (!filterMask[i])
+			continue;
+
 		auto& user = allUsers[i];
 
 		ImGui::TableNextRow();
@@ -293,8 +272,10 @@ void ValkyrieLoader::DrawUserManager()
 
 		/// Name
 		ImGui::TableSetColumnIndex(0);
-		if (ImGui::Selectable("", selectedUser == i, ImGuiSelectableFlags_SpanAllColumns))
+		if (ImGui::Selectable("", selectedUser == i, ImGuiSelectableFlags_SpanAllColumns)) {
 			selectedUser = i;
+			selectedRole = allUsers[selectedUser].level;
+		}
 
 		ImGui::SameLine();
 		ImGui::Text(user.name.c_str());
@@ -350,6 +331,27 @@ void ValkyrieLoader::DrawUserManager()
 	}
 	ImGui::EndTable();
 
+	DrawUserManagerActions();
+}
+
+void ValkyrieLoader::DrawUserManagerFilter()
+{
+	if (ImGui::InputText("Filter", userFilter, INPUT_TEXT_BUFF_SIZE)) {
+		std::string filter(userFilter);
+		std::string filterLower = Strings::ToLower(filter);
+
+		for (size_t i = 0; i < allUsers.size(); ++i) {
+			auto& user = allUsers[i];
+			std::string nameLower = Strings::ToLower(user.name);
+			std::string discordLower = Strings::ToLower(user.discord);
+
+			filterMask[i] = (nameLower.find(filterLower) != nameLower.npos || discordLower.find(filterLower) != discordLower.npos);
+		}
+	}
+}
+
+void ValkyrieLoader::DrawUserManagerActions()
+{
 	if (ImGui::Button("Refresh")) {
 		selectedUser = 0;
 		retrieveUsers = true;
@@ -393,8 +395,8 @@ void ValkyrieLoader::DrawUserManager()
 			trackIdUpdateUser,
 			api.UpdateUser(IdentityInfo(nameBuff, passBuff, hardwareInfo), selected.name.c_str(), selected),
 			[this, toReplace](std::shared_ptr<AsyncTask> response) {
-				allUsers[toReplace] = ((UserOperationAsync*) response.get())->user;
-			}
+			allUsers[toReplace] = ((UserOperationAsync*)response.get())->user;
+		}
 		);
 	}
 }
@@ -464,4 +466,43 @@ void ValkyrieLoader::ReadVersion()
 		std::ifstream versionFile(versionFilePath);
 		std::getline(versionFile, versionHash);
 	}
+}
+
+void ValkyrieLoader::RetrieveUsersIfNecessarry()
+{
+	if (taskPool.IsExecuting(trackIdGetUsers)) {
+		ImGui::TextColored(Color::YELLOW, "Refreshing...");
+		return;
+	}
+
+	if (retrieveUsers) {
+		taskPool.DispatchTask(
+			trackIdGetUsers,
+			api.GetUsers(IdentityInfo(nameBuff, passBuff, hardwareInfo)),
+
+			[this](std::shared_ptr<AsyncTask> response) {
+				auto resp = (GetUserListAsync*)response.get();
+				allUsers = resp->users;
+				filterMask.clear();
+				for (size_t i = 0; i < allUsers.size(); ++i)
+					filterMask.push_back(true);
+
+				selectedUser = 0;
+		}
+		);
+		retrieveUsers = false;
+	}
+}
+
+void ValkyrieLoader::SortUsersIfNecessarry()
+{
+	if (ImGuiTableSortSpecs* sortSpecs = ImGui::TableGetSortSpecs())
+		if (sortSpecs->SpecsDirty)
+		{
+			CurrentSortSpecs = sortSpecs; // Store in variable accessible by the sort function.
+			if (allUsers.size() > 1)
+				qsort(&allUsers[0], allUsers.size(), sizeof(UserInfo), CompareWithSortSpecs);
+			CurrentSortSpecs = NULL;
+			sortSpecs->SpecsDirty = false;
+		}
 }

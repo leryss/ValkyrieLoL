@@ -202,7 +202,6 @@
     <ClInclude Include="UnitInfo.h" />
     <ClInclude Include="Valkyrie.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Strings.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +236,6 @@
     <ClCompile Include="SpellInfo.cpp" />
     <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Valkyrie.cpp" />
-    <ClCompile Include="Strings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ValkyrieShared\ValkyrieShared.vcxproj">

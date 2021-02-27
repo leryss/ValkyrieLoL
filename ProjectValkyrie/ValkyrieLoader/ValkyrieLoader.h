@@ -33,12 +33,17 @@ private:
 	void DisplayAdminPanel();
 
 	void DrawUserManager();
+	void DrawUserManagerFilter();
+	void DrawUserManagerActions();
 	void DrawInviteGenerator();
 
 	void LoadConfigs();
 	void SaveConfigs();
 	void SetupWorkingDir();
 	void ReadVersion();
+
+	void RetrieveUsersIfNecessarry();
+	void SortUsersIfNecessarry();
 
 	/// Flags for requests
 	bool                                performUpdate = true;
@@ -89,6 +94,8 @@ private:
 	int              selectedRole = 0;
 	int              selectedUser = 0;
 	float            deltaDays = 2.f;
+	char             userFilter[INPUT_TEXT_BUFF_SIZE];
+	std::vector<bool>filterMask;
 
 	AsyncTaskPool    taskPool;
 };

@@ -74,6 +74,9 @@
     <ClInclude Include="Color.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Strings.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HardwareInfo.cpp">
@@ -110,6 +113,9 @@
       <Filter>Source Files\miniz</Filter>
     </ClCompile>
     <ClCompile Include="ConfigSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Strings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -172,6 +172,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="miniz\miniz.h" />
     <ClInclude Include="Models.h" />
+    <ClInclude Include="Strings.h" />
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="ValkyrieAPI.h" />
     <ClInclude Include="ValkyrieShared.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="miniz\miniz.c" />
+    <ClCompile Include="Strings.cpp" />
     <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="ValkyrieAPI.cpp" />
   </ItemGroup>
