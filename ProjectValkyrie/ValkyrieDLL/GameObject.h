@@ -26,9 +26,16 @@ public:
 	               GameObject();
 	               GameObject(std::string name);
 	void           ReadFromBaseAddress(int baseAddr);
+
+	/// Checks if two game objects are allies
 	bool           IsAllyTo(const GameObject& other);
+
+	/// Checks if two game objects are enemies
 	bool           IsEnemyTo(const GameObject& other);
+
+	/// Checks if two game objects are equal by checking their network id
 	bool           EqualsTo(const GameObject& other);
+
 	virtual void   ImGuiDraw();
 
 public:

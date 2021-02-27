@@ -34,10 +34,19 @@ public:
 class GameData {
 
 public:
+	/// Gets static info about a game unit, returns nullptr if no info is found
 	static UnitInfo*               GetUnit(std::string& str);
+
+	/// Gets spell info about a spell, returns nullptr if no info is found
 	static SpellInfo*              GetSpell(std::string& str);
+
+	/// Gets item info about a item given by id, returns nullptr if no item info is found
 	static ItemInfo*               GetItem(int id);
+
+	/// Gets a image, returns nullptr if not found
 	static PDIRECT3DTEXTURE9       GetImage(std::string& str);
+
+	/// Gets a list of skins for a champion, returns an empty vector on failure
 	static std::vector<SkinInfo*>& GetSkins(std::string& name);
 
 	static void                    ImGuiDrawLoader();

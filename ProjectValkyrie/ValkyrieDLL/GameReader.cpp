@@ -35,6 +35,8 @@ GameState* GameReader::GetNextState()
 		SieveObjects();
 		ReadLocalChampion();
 		ReadHoveredObject();
+
+		state.player->ReadBuffs(state.player->address);
 	}
 	
 	return &state;

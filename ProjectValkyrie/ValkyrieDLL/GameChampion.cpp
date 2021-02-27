@@ -87,8 +87,6 @@ void GameChampion::ReadFromBaseAddress(int addr)
 
 	/// Check recalling
 	recalling = (ReadInt(addr + Offsets::ObjRecallState) == 6);
-
-	ReadBuffs(addr);
 }
 
 void GameChampion::ImGuiDraw()

@@ -61,16 +61,17 @@ def valkyrie_exec(ctx):
 				continue
 				
 			timestamp, was_recalling = recalls.get(champ.net_id, (0, False))
+			tleft = 8.0 - (time() - timestamp)
 			if champ.recalling:
 				if not was_recalling:
 					was_recalling = True
 					timestamp = time()
-					
-				tleft = 8.0 - (time() - timestamp)
+				
 				draw_bar(ui, champ.name, tleft)
 				
 			elif was_recalling:
-				set_champ_last_position(champ, team_base_pos[champ.team])
+				if tleft < 0.05:
+					set_champ_last_position(champ, team_base_pos[champ.team])
 				was_recalling = False
 				
 			recalls[champ.net_id] = (timestamp, was_recalling)

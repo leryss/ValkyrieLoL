@@ -70,7 +70,14 @@ def draw_turret_range(ctx):
 			circle = turret_circle_ally if turret.ally_to(ctx.player) else turret_circle_enemy
 			circle.radius = turret.static.base_atk_range + turret.static.gameplay_radius
 			circle.draw_at(ctx, turret.pos)
-			
+
+def draw_jungle_timers(ctx):
+	for obj in ctx.others:
+		if obj.name == 'sru_camprespawnmarker':
+			duration = int(obj.expiry + obj.last_seen - ctx.time)
+			if duration > 0:
+				ctx.text(ctx.w2m(obj.pos), f'{duration}', Col.Yellow)
+		
 def draw_player_range(ctx):
 	player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
 	player_circle.draw_at(ctx, ctx.player.pos)
@@ -82,4 +89,5 @@ def valkyrie_exec(ctx):
 	if show_minion_hit:
 		draw_minion_hit_indicators(ctx)
 	
+	#draw_jungle_timers(ctx)
 	

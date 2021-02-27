@@ -204,7 +204,7 @@ def extract_unit_info(folder):
 
 	for i, fname in enumerate(os.listdir(folder)):
 		print("Processing: "+ fname)
-		if fname.startswith(('brush_', 'nexusblitz_', 'slime_', 'tft4', 'tft_', 'sru_camprespawnmarker', 'preseason', 'test', 's5test')):
+		if fname.startswith(('brush_', 'nexusblitz_', 'slime_', 'tft4', 'tft_', 'preseason', 'test', 's5test', 'azirtowerclicker', 'sru_plantrespawnmarker')):
 			print('Object blacklisted. Skipping...')
 			continue
 			

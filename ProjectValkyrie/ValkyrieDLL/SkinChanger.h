@@ -11,6 +11,8 @@ class SkinChanger {
 public:
 
 	static void   ImGuiDraw();
+
+	/// Refreshe the skin. When a champion dies the skin is reset so this is necessarry
 	static void   Refresh();
 
 private:

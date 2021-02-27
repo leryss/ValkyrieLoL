@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Document Version="2">
+    <Protection InputFileName="F:\Github\ValkyrieLoL\ProjectValkyrie\Release\ValkyrieDLL.dll" Options="857032" LicenseDataFileName="F:\Github\ValkyrieLoL\ProjectValkyrie\Release\ValkyrieDLL.dll.vmp">
+        <Messages />
+        <Folders />
+        <Procedures />
+        <Objects />
+    </Protection>
+    <DLLBox>
+        <Folders />
+    </DLLBox>
+    <Script />
+</Document>

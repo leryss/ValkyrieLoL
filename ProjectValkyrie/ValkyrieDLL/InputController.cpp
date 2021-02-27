@@ -110,9 +110,8 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 		auto find = Valkyrie::CurrentGameState->objectCache.find(unitNetId);
 		if (find == Valkyrie::CurrentGameState->objectCache.end())
 			return false;
-		auto unit = (GameUnit*)(find->second.get());
-
-		return unit->targetable && !unit->isDead && unit->isVisible;
+		auto unit = std::static_pointer_cast<GameUnit>(find->second);
+		return unit != nullptr && unit->targetable && !unit->isDead && unit->isVisible;
 	};
 
 	ioQueue.push(new IoSpoofMouse(posGetter));

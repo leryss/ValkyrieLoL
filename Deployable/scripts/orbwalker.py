@@ -132,6 +132,10 @@ last_attacked = 0
 def valkyrie_exec(ctx):
 	global last_moved, last_attacked
 	
+	player = ctx.player   
+	if player.dead:
+		return
+	
 	mode = None
 	if key_kite.check(ctx):
 		ctx.pill('Kite', Col.Black, Col.White)
@@ -145,7 +149,6 @@ def valkyrie_exec(ctx):
 	else:
 		return
 	
-	player		     = ctx.player   
 	has_lethal_tempo = Buffs.has_buff(player, 'LethalTempo') 
 	atk_speed	     = player.atk_speed if has_lethal_tempo else min(player.atk_speed, 2.5)
 	c_atk_time	     = (1.0 + delay_percent)/atk_speed
