@@ -108,7 +108,7 @@ bool AsyncUpdater::CopyDependencies()
 	/// Copy all dlls from dependencies dir to windows dir so they can be automatically loaded when our dll injects
 	WIN32_FIND_DATAA findData;
 	HANDLE hFind;
-	std::string folderPath = loader.valkyrieFolder + PATH_DLL_DEPENDENCIES;
+	std::string folderPath = loader.GetDependenciesPath();
 	hFind = FindFirstFileA((folderPath + "\\*.dll").c_str(), &findData);
 	do {
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -124,6 +124,6 @@ bool AsyncUpdater::CopyDependencies()
 
 void AsyncUpdater::ReadChangeLog()
 {
-	std::ifstream changeLogFile(loader.valkyrieFolder + "\\changelog.txt");
-	loader.changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
+	std::ifstream changeLogFile(loader.GetChangeLogPath());
+	loader.userPanel.changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
 }

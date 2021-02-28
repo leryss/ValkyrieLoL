@@ -14,6 +14,7 @@
 #include "Models.h"
 #include "AsyncTask.h"
 
+
 using namespace Aws::Lambda;
 
 class GetS3ObjectAsync : public AsyncTask {
@@ -128,26 +129,53 @@ public:
 	}
 };
 
+class ScriptListAsync : public AsyncLambdaInvoke {
+
+public:
+	std::vector<ScriptInfo> scripts;
+
+	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+
+	virtual void Perform() {
+		AsyncLambdaInvoke::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED) {
+			auto jsonScripts = rawJson.View().GetArray("result");
+			int numScripts = jsonScripts.GetLength();
+
+			for (int i = 0; i < numScripts; ++i) {
+				auto jsonScript = jsonScripts.GetItem(i);
+				scripts.push_back(ScriptInfo::FromJsonView(jsonScript));
+			}
+		}
+	}
+};
+
 class ValkyrieAPI {
 
 public:
-	ValkyrieAPI();
+	
 
 	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
 
 	std::shared_ptr<UserOperationAsync>   CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
-
 	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
 	std::shared_ptr<UserOperationAsync>   GetUser(const IdentityInfo& identity, const char* target);
 	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days, UserLevel level);
-
 	std::shared_ptr<UserOperationAsync>   UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
+	std::shared_ptr<ScriptListAsync>      GetScriptList(const IdentityInfo& identity);
 	
+	static ValkyrieAPI*                   Get();
+
+private:
+	void                                  PutIdentity(JsonValue& json, const IdentityInfo& identity);
+	void                                  PutOperation(const char* operation, JsonValue& params);
 
 private:
 
-	Aws::String apiToken;
-
+	ValkyrieAPI();
+	static ValkyrieAPI*                        Instance;
+				                               
 	std::shared_ptr<Aws::Lambda::LambdaClient> lambdaClient;
 	std::shared_ptr<Aws::S3::S3Client>         s3Client;
 

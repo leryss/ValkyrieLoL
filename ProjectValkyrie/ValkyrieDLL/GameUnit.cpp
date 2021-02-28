@@ -106,10 +106,9 @@ bool GameUnit::HasTags(UnitTag tag)
 
 float GameUnit::GetAttackSpeed()
 {
-	float attackSpeed = 0.f;
 	if (staticData != nullptr)
-		attackSpeed = staticData->baseAttackSpeed * atkSpeedMulti;
-	return max(attackSpeed, 0.5f); /// We return 0.5f attack speed if somehow attackSpeed == 0 to avoid division by zero errors
+		return staticData->baseAttackSpeed * atkSpeedMulti;
+	return 0.f;
 }
 
 object GameUnit::GetStaticData()

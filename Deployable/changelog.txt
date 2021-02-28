@@ -1,8 +1,9 @@
 [Valkyrie v0.15 beta]
 	* Fixed a bug where the UI would not work after pressing mouse buttons 4/5
-	* Fixed crash related to orbwalker target selector
 	* Fixed a bug where orbwalker would crash if used while dead
 	* Fixed a bug where recall tracker would incorrectly update champion position
+	* Fixed a bug where orbwalker would crash because of missing minion info
+	* Fixed crash related to orbwalker target selector
 
 	+ Overall performance improvement
 

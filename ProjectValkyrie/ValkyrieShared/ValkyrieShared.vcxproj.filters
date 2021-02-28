@@ -15,29 +15,17 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{1b5756ec-a1b4-40ee-acb1-fe8168142070}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Async">
+      <UniqueIdentifier>{77bf0956-eca5-4a6e-b346-82d24fc7c8c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{bc1b92da-27ce-4f81-b6cf-62cf6187d8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\Model">
+      <UniqueIdentifier>{0e4070f0-f97c-430d-9510-6e6b38142b1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsyncTask.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AsyncTaskPool.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HardwareInfo.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IdentityInfo.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UserInfo.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ValkyrieAPI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="ValkyrieShared.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -77,17 +65,35 @@
     <ClInclude Include="Strings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AsyncTask.h">
+      <Filter>Source Files\Async</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncTaskPool.h">
+      <Filter>Source Files\Async</Filter>
+    </ClInclude>
+    <ClInclude Include="ValkyrieAPI.h">
+      <Filter>Source Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="HardwareInfo.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentityInfo.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Models.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptInfo.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptSubmission.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HardwareInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ValkyrieAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
@@ -116,6 +122,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Strings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncTaskPool.cpp">
+      <Filter>Source Files\Async</Filter>
+    </ClCompile>
+    <ClCompile Include="ValkyrieAPI.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="HardwareInfo.cpp">
+      <Filter>Source Files\API\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>Source Files\API\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptInfo.cpp">
+      <Filter>Source Files\API\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptSubmission.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,8 +14,6 @@ public:
 	virtual void Perform();
 
 private:
-	const std::string PATH_DLL_DEPENDENCIES = "\\dependencies";
-
 	char* Download(int& size);
 	bool Extract(char* downloaded, int sizeDownloaded);
 	void UpdateVersionHash();

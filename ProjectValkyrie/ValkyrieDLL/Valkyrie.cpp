@@ -26,9 +26,9 @@ LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL
 std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
 
-ValkyrieAPI                        Valkyrie::Api;
+ValkyrieAPI                        Valkyrie::Api = ValkyrieAPI::Get();
 UserInfo                           Valkyrie::LoggedUser;
-AsyncTaskPool                      Valkyrie::TaskPool;
+AsyncTaskPool*                     Valkyrie::TaskPool = AsyncTaskPool::Get();
 bool                               Valkyrie::EssentialsLoaded = false;
 
 GameReader                         Valkyrie::Reader;
@@ -200,7 +200,7 @@ void Valkyrie::InitializePython()
 
 void Valkyrie::LoginAndLoadData()
 {
-	TaskPool.AddWorkers(1);
+	TaskPool->AddWorkers(1);
 	
 	Logger::Info("Checking hardware");
 	auto hardwareInfo = HardwareInfo::Calculate();
@@ -210,19 +210,19 @@ void Valkyrie::LoginAndLoadData()
 	char* pass;
 	ValkyrieShared::LoadCredentials(&name, &pass);
 
-	TaskPool.DispatchTask(
+	TaskPool->DispatchTask(
 		"Logging In",
-		Api.GetUser(IdentityInfo(name, pass, hardwareInfo), name),
+		Api->GetUser(IdentityInfo(name, pass, hardwareInfo), name),
 
 		[](std::shared_ptr<AsyncTask> response) {
 		LoggedUser = ((UserOperationAsync*)response.get())->user;
-		TaskPool.DispatchTask(
+		TaskPool->DispatchTask(
 			"Load Essentials",
 			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
 
 			[](std::shared_ptr<AsyncTask> response) {
 			EssentialsLoaded = true;
-			TaskPool.DispatchTask(
+			TaskPool->DispatchTask(
 				"Load Extras", std::shared_ptr<GameDataImagesLoad>(new GameDataImagesLoad()), [](std::shared_ptr<AsyncTask> response) {}
 			);
 		}
@@ -329,7 +329,7 @@ void Valkyrie::Update()
 	ImGui::NewFrame();
 
 	__try {
-		TaskPool.ImGuiDraw();
+		TaskPool->ImGuiDraw();
 		if (EssentialsLoaded) {
 			
 			CurrentGameState = Reader.GetNextState();

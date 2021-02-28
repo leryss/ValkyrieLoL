@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Loader">
       <UniqueIdentifier>{1ca90330-5dad-476e-95d4-4243afb54835}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Loader\Panels">
+      <UniqueIdentifier>{78477bbe-4d72-4bf5-adf0-e9f447b7ba56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ValkyrieLoader.h">
@@ -26,6 +29,24 @@
     </ClInclude>
     <ClInclude Include="AsyncUpdater.h">
       <Filter>Source Files\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="UserPanel.h">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="AdminPanel.h">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="LoaderPanel.h">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Source Files\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginPanel.h">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateAccountPanel.h">
+      <Filter>Source Files\Loader\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +61,21 @@
     </ClCompile>
     <ClCompile Include="AsyncInjector.cpp">
       <Filter>Source Files\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="UserPanel.cpp">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="AdminPanel.cpp">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPanel.cpp">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Constants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateAccountPanel.cpp">
+      <Filter>Source Files\Loader\Panels</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -129,14 +129,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AdminPanel.h" />
     <ClInclude Include="AsyncInjector.h" />
     <ClInclude Include="AsyncUpdater.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="CreateAccountPanel.h" />
+    <ClInclude Include="LoaderPanel.h" />
+    <ClInclude Include="LoginPanel.h" />
+    <ClInclude Include="UserPanel.h" />
     <ClInclude Include="ValkyrieLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdminPanel.cpp" />
     <ClCompile Include="AsyncInjector.cpp" />
     <ClCompile Include="AsyncUpdater.cpp" />
+    <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="CreateAccountPanel.cpp" />
+    <ClCompile Include="LoginPanel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="UserPanel.cpp" />
     <ClCompile Include="ValkyrieLoader.cpp" />
   </ItemGroup>
   <ItemGroup>

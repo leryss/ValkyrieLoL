@@ -4,6 +4,7 @@
 class IdentityInfo {
 
 public:
+	IdentityInfo() {}
 	IdentityInfo(std::string name, std::string pass, HardwareInfo hardware) {
 		this->name = name;
 		this->pass = pass;

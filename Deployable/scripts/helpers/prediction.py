@@ -39,7 +39,7 @@ def predict_minion_health(ctx, enemy_minion, minions, t_future, delay_percent = 
 			continue
 		
 		casting = ally_minion.curr_casting
-		if casting and casting.dest_index == enemy_minion.index:
+		if casting and casting.dest_index == enemy_minion.index and casting.static:
 			t_until_ally_hits = (casting.cast_time - (ctx.time - casting.time_begin)) + ally_minion.pos.distance(enemy_minion.pos)/casting.static.speed
 			t_until_ally_hits *= (1.0 - delay_percent)
 			

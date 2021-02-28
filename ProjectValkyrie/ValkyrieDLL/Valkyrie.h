@@ -72,11 +72,11 @@ private:
 	static WNDPROC                     OriginalWindowMessageHandler;
 	
 	/// API
-	static ValkyrieAPI                 Api;
+	static ValkyrieAPI*                Api;
 	static UserInfo                    LoggedUser;
 
 	/// Background Tasks
-	static AsyncTaskPool               TaskPool;
+	static AsyncTaskPool*              TaskPool;
 	static bool                        EssentialsLoaded;
 
 	/// Menu stuff

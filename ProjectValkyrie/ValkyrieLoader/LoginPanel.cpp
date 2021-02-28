@@ -1,0 +1,39 @@
+#include "LoginPanel.h"
+#include "ValkyrieShared.h"
+#include "ValkyrieLoader.h"
+
+void LoginPanel::Draw(ValkyrieLoader & loader)
+{
+	if (ImGui::Begin("Login", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+		ImGui::InputText("Name", nameBuff, Constants::INPUT_TEXT_SIZE);
+		ImGui::InputText("Password", passBuff, Constants::INPUT_TEXT_SIZE, ImGuiInputTextFlags_Password);
+
+		ImGui::Separator();
+		if (loadCredentials) {
+			ValkyrieShared::LoadCredentials(nameBuff, passBuff, Constants::INPUT_TEXT_SIZE);
+			loadCredentials = false;
+		}
+
+		if ((ImGui::Button("Login")) && !taskPool->IsExecuting(trackIdLogin)) {
+
+			loader.identity = IdentityInfo(nameBuff, passBuff, loader.hardwareInfo);
+			taskPool->DispatchTask(
+				trackIdLogin,
+				api->GetUser(loader.identity, nameBuff),
+				[&loader, this](std::shared_ptr<AsyncTask> response) {
+				ValkyrieShared::SaveCredentials(nameBuff, passBuff);
+				loader.loggedUser = ((UserOperationAsync*)response.get())->user;
+				loader.currentPanel = &loader.userPanel;
+			}
+			);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Register"))
+			loader.currentPanel = &loader.createAccPanel;
+
+		ImGui::Checkbox("Remember credentials", &autoSaveCredentials);
+
+		ImGui::End();
+	}
+}

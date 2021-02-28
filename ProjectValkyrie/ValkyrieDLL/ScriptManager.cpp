@@ -66,6 +66,9 @@ void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
 		ImGui::SameLine();
 		if (ImGui::BeginMenu(scriptName)) {
 			if (errored) {
+				if (ImGui::Button("Reload"))
+					script->LoadFromFile(script->fileName);
+				ImGui::SameLine();
 				if (ImGui::Button("Clear cfg & reload")) {
 					script->config.Reset();
 					script->config.Save();
