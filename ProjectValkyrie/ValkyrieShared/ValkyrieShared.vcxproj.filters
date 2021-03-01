@@ -24,6 +24,12 @@
     <Filter Include="Source Files\API\Model">
       <UniqueIdentifier>{0e4070f0-f97c-430d-9510-6e6b38142b1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scripts">
+      <UniqueIdentifier>{22988dd2-dcaa-47fb-8651-9cf98f23d81b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{5988c464-df5a-4053-bea7-008763f534d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ValkyrieShared.h">
@@ -59,12 +65,6 @@
     <ClInclude Include="ConfigSet.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Strings.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="AsyncTask.h">
       <Filter>Source Files\Async</Filter>
     </ClInclude>
@@ -91,6 +91,24 @@
     </ClInclude>
     <ClInclude Include="ScriptSubmission.h">
       <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptIndex.h">
+      <Filter>Source Files\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalScriptIndex.h">
+      <Filter>Source Files\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteScriptIndex.h">
+      <Filter>Source Files\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Paths.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Strings.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +139,6 @@
     <ClCompile Include="ConfigSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Strings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AsyncTaskPool.cpp">
       <Filter>Source Files\Async</Filter>
     </ClCompile>
@@ -141,6 +156,21 @@
     </ClCompile>
     <ClCompile Include="ScriptSubmission.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptIndex.cpp">
+      <Filter>Source Files\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalScriptIndex.cpp">
+      <Filter>Source Files\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoteScriptIndex.cpp">
+      <Filter>Source Files\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Strings.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Paths.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

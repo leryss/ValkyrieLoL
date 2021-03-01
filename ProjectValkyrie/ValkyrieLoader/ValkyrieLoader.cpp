@@ -38,21 +38,6 @@ void ValkyrieLoader::ImGuiShow()
 		SaveConfigs();
 }
 
-std::string ValkyrieLoader::GetDllPath()
-{
-	return valkyrieFolder + "\\payload\\ValkyrieDLL.dll";
-}
-
-std::string ValkyrieLoader::GetDependenciesPath()
-{
-	return valkyrieFolder + "\\dependencies";
-}
-
-std::string ValkyrieLoader::GetChangeLogPath()
-{
-	return valkyrieFolder + "\\changelog.txt";
-}
-
 void ValkyrieLoader::LoadConfigs()
 {
 	configs.SetSaveInterval(5000);
@@ -73,17 +58,17 @@ void ValkyrieLoader::SaveConfigs()
 
 void ValkyrieLoader::SetupWorkingDir()
 {
-	valkyrieFolder = ValkyrieShared::GetWorkingDir();
-
 	/// Check if valkyrie dir exists
+	const char* path = Paths::Root.c_str();
+
 	bool directoryExists = false;
-	DWORD ftyp = GetFileAttributesA(valkyrieFolder.c_str());
+	DWORD ftyp = GetFileAttributesA(path);
 	if (ftyp != INVALID_FILE_ATTRIBUTES && ftyp & FILE_ATTRIBUTE_DIRECTORY)
 		directoryExists = true;
 
 	/// Create valkyrie dir if not exists
 	if (!directoryExists) {
-		if (!CreateDirectoryA(valkyrieFolder.c_str(), NULL)) {
+		if (!CreateDirectoryA(path, NULL)) {
 			throw std::exception("Fatal error. Couldn't create valkyrie folder");
 		}
 	}
@@ -91,7 +76,7 @@ void ValkyrieLoader::SetupWorkingDir()
 
 void ValkyrieLoader::ReadVersion()
 {
-	versionFilePath = valkyrieFolder + "\\version";
+	versionFilePath = Paths::Version;
 	DWORD ftyp = GetFileAttributesA(versionFilePath.c_str());
 	if (ftyp != INVALID_FILE_ATTRIBUTES) {
 		std::ifstream versionFile(versionFilePath);

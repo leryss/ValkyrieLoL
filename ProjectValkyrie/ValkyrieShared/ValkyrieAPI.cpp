@@ -24,7 +24,7 @@ ValkyrieAPI::ValkyrieAPI()
 	lambdaInvokeRequest.SetContentType("application/javascript");
 }
 
-std::shared_ptr<UserOperationAsync> ValkyrieAPI::CreateAccount(const char * name, const char * pass, const char * discord, const HardwareInfo & hardware, const char * inviteCode)
+std::shared_ptr<UserResultAsync> ValkyrieAPI::CreateAccount(const char * name, const char * pass, const char * discord, const HardwareInfo & hardware, const char * inviteCode)
 {
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithString("name", name);
@@ -35,7 +35,7 @@ std::shared_ptr<UserOperationAsync> ValkyrieAPI::CreateAccount(const char * name
 
 	PutOperation("create-account", jsonParams);
 
-	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<UserResultAsync>(new UserResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<GetUserListAsync> ValkyrieAPI::GetUsers(const IdentityInfo & identity)
@@ -47,17 +47,17 @@ std::shared_ptr<GetUserListAsync> ValkyrieAPI::GetUsers(const IdentityInfo & ide
 	return std::shared_ptr<GetUserListAsync>(new GetUserListAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
-std::shared_ptr<UserOperationAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity, const char* target)
+std::shared_ptr<UserResultAsync> ValkyrieAPI::GetUser(const IdentityInfo & identity, const char* target)
 {
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithString("target", target);
 	PutIdentity(jsonParams, identity);
 	PutOperation("get-user", jsonParams);
 
-	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<UserResultAsync>(new UserResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
-std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days, UserLevel level)
+std::shared_ptr<StringResultAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days, UserLevel level)
 {
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithDouble("days", days);
@@ -66,10 +66,10 @@ std::shared_ptr<GenerateInviteAsync> ValkyrieAPI::GenerateInviteCode(const Ident
 	PutIdentity(jsonParams, identity);
 	PutOperation("generate-invite", jsonParams);
 
-	return std::shared_ptr<GenerateInviteAsync>(new GenerateInviteAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
-std::shared_ptr<UserOperationAsync> ValkyrieAPI::UpdateUser(const IdentityInfo & identity, const char * target, const UserInfo & targetInfo)
+std::shared_ptr<UserResultAsync> ValkyrieAPI::UpdateUser(const IdentityInfo & identity, const char * target, const UserInfo & targetInfo)
 {
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithString("target", target);
@@ -77,7 +77,7 @@ std::shared_ptr<UserOperationAsync> ValkyrieAPI::UpdateUser(const IdentityInfo &
 	PutIdentity(jsonParams, identity);
 	PutOperation("update-user", jsonParams);
 
-	return std::shared_ptr<UserOperationAsync>(new UserOperationAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<UserResultAsync>(new UserResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<ScriptListAsync> ValkyrieAPI::GetScriptList(const IdentityInfo & identity)
@@ -87,6 +87,16 @@ std::shared_ptr<ScriptListAsync> ValkyrieAPI::GetScriptList(const IdentityInfo &
 	PutOperation("list-scripts", jsonParams);
 
 	return std::shared_ptr<ScriptListAsync>(new ScriptListAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
+std::shared_ptr<StringResultAsync> ValkyrieAPI::GetScriptCode(const IdentityInfo & identity, std::string& id)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithString("id", id.c_str());
+	PutIdentity(jsonParams, identity);
+	PutOperation("get-script-code", jsonParams);
+
+	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 ValkyrieAPI* ValkyrieAPI::Get()

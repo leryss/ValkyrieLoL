@@ -172,6 +172,10 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="miniz\miniz.h" />
     <ClInclude Include="Models.h" />
+    <ClInclude Include="Paths.h" />
+    <ClInclude Include="RemoteScriptIndex.h" />
+    <ClInclude Include="ScriptIndex.h" />
+    <ClInclude Include="LocalScriptIndex.h" />
     <ClInclude Include="ScriptInfo.h" />
     <ClInclude Include="ScriptSubmission.h" />
     <ClInclude Include="Strings.h" />
@@ -191,6 +195,10 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="miniz\miniz.c" />
+    <ClCompile Include="Paths.cpp" />
+    <ClCompile Include="RemoteScriptIndex.cpp" />
+    <ClCompile Include="ScriptIndex.cpp" />
+    <ClCompile Include="LocalScriptIndex.cpp" />
     <ClCompile Include="ScriptInfo.cpp" />
     <ClCompile Include="ScriptSubmission.cpp" />
     <ClCompile Include="Strings.cpp" />

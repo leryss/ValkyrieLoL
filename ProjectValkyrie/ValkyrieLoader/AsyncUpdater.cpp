@@ -70,7 +70,7 @@ bool AsyncUpdater::Extract(char* downloaded, int sizeDownloaded)
 			return false;
 		}
 
-		std::string path = loader.valkyrieFolder + "\\" + fileStat.m_filename;
+		std::string path = Paths::Root + "\\" + fileStat.m_filename;
 		if (fileStat.m_is_directory) {
 			CreateDirectoryA(path.c_str(), NULL);
 		}
@@ -89,7 +89,7 @@ bool AsyncUpdater::Extract(char* downloaded, int sizeDownloaded)
 void AsyncUpdater::UpdateVersionHash()
 {
 	loader.versionHash = updateFile->result.GetETag().c_str();
-	std::ofstream versionFile(loader.valkyrieFolder + "\\version");
+	std::ofstream versionFile(Paths::Version);
 	versionFile.write(loader.versionHash.c_str(), loader.versionHash.size());
 }
 
@@ -108,7 +108,7 @@ bool AsyncUpdater::CopyDependencies()
 	/// Copy all dlls from dependencies dir to windows dir so they can be automatically loaded when our dll injects
 	WIN32_FIND_DATAA findData;
 	HANDLE hFind;
-	std::string folderPath = loader.GetDependenciesPath();
+	std::string folderPath = Paths::Dependencies;
 	hFind = FindFirstFileA((folderPath + "\\*.dll").c_str(), &findData);
 	do {
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -124,6 +124,6 @@ bool AsyncUpdater::CopyDependencies()
 
 void AsyncUpdater::ReadChangeLog()
 {
-	std::ifstream changeLogFile(loader.GetChangeLogPath());
+	std::ifstream changeLogFile(Paths::ChangeLog);
 	loader.userPanel.changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
 }

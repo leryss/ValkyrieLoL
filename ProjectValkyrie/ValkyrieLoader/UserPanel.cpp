@@ -4,6 +4,12 @@
 
 #include <fstream>
 
+UserPanel::UserPanel()
+{
+	remoteScripts.local = &localScripts;
+	localScripts.remote = &remoteScripts;
+}
+
 void UserPanel::Draw(ValkyrieLoader& loader)
 {
 	if (performUpdate && !taskPool->IsExecuting(trackIdCheckVersion)) {
@@ -26,8 +32,13 @@ void UserPanel::Draw(ValkyrieLoader& loader)
 	}
 
 	/// Greeting
-	if (ImGui::Begin("Valkyrie", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		
+	if (ImGui::Begin("Valkyrie")) {
+
+		localScripts.PerformQueued();
+		remoteScripts.PerformQueued();
+		if (localScripts.dirty)
+			localScripts.SaveToFile(Paths::ScriptsIndex.c_str());
+
 		this->loader = &loader;
 		ImGui::BeginTabBar("UserPanelTabs");
 
@@ -37,9 +48,21 @@ void UserPanel::Draw(ValkyrieLoader& loader)
 			ImGui::EndTabItem();
 		}
 
-		if (ImGui::BeginTabItem("Script Market")) {
+		if (ImGui::BeginTabItem("Script Manager")) {
+			
+			DrawScriptManager();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Script Repository")) {
 
 			DrawScriptRepo();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Changes")) {
+			
+			ImGui::Text(changeLog.c_str());
 			ImGui::EndTabItem();
 		}
 
@@ -57,21 +80,12 @@ void UserPanel::DrawHome()
 
 	ImGui::TextColored((days < 5.f ? Color::YELLOW : Color::GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
 
-	/// Change log
-	if (changeLog.size() > 0) {
-		ImGui::Separator();
-		ImGui::TextColored(Color::PURPLE, "** Change Log **");
-		ImGui::BeginChildFrame(10000, ImVec2(400.f, 200.f), ImGuiWindowFlags_HorizontalScrollbar);
-		ImGui::Text(changeLog.c_str());
-		ImGui::EndChildFrame();
-	}
-
 	/// Inject stuff
 	ImGui::Separator();
 	ImGui::Checkbox("Auto inject", &autoInject);
 	if ((injectorTask == nullptr || injectorTask->GetStatus() != ASYNC_RUNNING) && updateComplete) {
 		if (autoInject) {
-			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(loader->GetDllPath(), false));
+			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(Paths::Payload, false));
 			taskPool->DispatchTask(
 				trackIdInjector,
 				injectorTask,
@@ -79,7 +93,7 @@ void UserPanel::DrawHome()
 			);
 		}
 		else if (ImGui::Button("Inject")) {
-			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(loader->GetDllPath(), true));
+			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(Paths::Payload, true));
 			taskPool->DispatchTask(
 				trackIdInjector,
 				injectorTask,
@@ -94,56 +108,25 @@ void UserPanel::DrawHome()
 
 void UserPanel::DrawScriptRepo()
 {
-	if (retrieveScripts) {
-		
-		taskPool->DispatchTask(
-			trackIdGetScripts,
-			api->GetScriptList(loader->identity),
-			[this](std::shared_ptr<AsyncTask> response) {
-				scripts = ((ScriptListAsync*)response.get())->scripts;
-			}
-		);
-		retrieveScripts = false;
+	LoadScriptIndicesIfNecessary();
+	remoteScripts.Draw();
+}
+
+void UserPanel::DrawScriptManager()
+{
+	LoadScriptIndicesIfNecessary();
+	localScripts.Draw();
+}
+
+void UserPanel::LoadScriptIndicesIfNecessary()
+{
+	if (loadRemoteScripts) {
+		remoteScripts.Load(loader->identity);
+		loadRemoteScripts = false;
 	}
 
-	if (taskPool->IsExecuting(trackIdGetScripts)) {
-		ImGui::TextColored(Color::YELLOW, "Retrieving scripts...");
-		return;
+	if (loadLocalScripts) {
+		localScripts.LoadFromFile(Paths::ScriptsIndex.c_str());
+		loadLocalScripts = false;
 	}
-
-	ImGui::BeginTable("Scripts", 6, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable);
-	ImGui::TableSetupColumn("id");
-	ImGui::TableSetupColumn("name");
-	ImGui::TableSetupColumn("author");
-	ImGui::TableSetupColumn("champion");
-	ImGui::TableSetupColumn("description");
-	ImGui::TableSetupColumn("actions");
-	ImGui::TableHeadersRow();
-
-	for (size_t i = 0; i < scripts.size(); ++i) {
-		
-		auto& script = scripts[i];
-
-		ImGui::PushStyleColor(ImGuiCol_TableRowBg, Color::DARK_GREEN);
-
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("%s.py", script.id.c_str());
-
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text(script.name.c_str());
-
-		ImGui::TableSetColumnIndex(2);
-		ImGui::TextColored((script.author == "TeamValkyrie" ? Color::PURPLE : Color::WHITE), script.author.c_str());
-
-		ImGui::TableSetColumnIndex(3);
-		ImGui::Text(script.champion.c_str());
-
-		ImGui::TableSetColumnIndex(4);
-		ImGui::Text(script.description.c_str());
-
-		ImGui::PopStyleColor();
-	}
-
-	ImGui::EndTable();
 }

@@ -44,11 +44,11 @@ public:
 	Aws::S3::Model::GetObjectRequest& request;
 };
 
-class AsyncLambdaInvoke: public AsyncTask {
+class LambdaInvokeResultAsync: public AsyncTask {
 
 public:
 
-	AsyncLambdaInvoke(LambdaClient& lambdaClient, Model::InvokeRequest& req)
+	LambdaInvokeResultAsync(LambdaClient& lambdaClient, Model::InvokeRequest& req)
       :lambda(lambdaClient),
        request(req)
 	{}
@@ -79,14 +79,14 @@ public:
 	Model::InvokeRequest&       request;
 };
 
-class GetUserListAsync : public AsyncLambdaInvoke {
+class GetUserListAsync : public LambdaInvokeResultAsync {
 public:
 	std::vector<UserInfo> users;
 
-	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
 
 	virtual void Perform() {
-		AsyncLambdaInvoke::Perform();
+		LambdaInvokeResultAsync::Perform();
 
 		if (GetStatus() == ASYNC_SUCCEEDED) {
 			auto jsonUsers = rawJson.View().GetArray("result");
@@ -100,14 +100,14 @@ public:
 	}
 };
 
-class UserOperationAsync : public AsyncLambdaInvoke {
+class UserResultAsync : public LambdaInvokeResultAsync {
 public:
 	UserInfo user;
 
-	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
 
 	virtual void Perform() {
-		AsyncLambdaInvoke::Perform();
+		LambdaInvokeResultAsync::Perform();
 
 		if (GetStatus() == ASYNC_SUCCEEDED) {
 			user = UserInfo::FromJsonView(rawJson.View().GetObject("result"));
@@ -115,29 +115,29 @@ public:
 	}
 };
 
-class GenerateInviteAsync : public AsyncLambdaInvoke {
+class StringResultAsync : public LambdaInvokeResultAsync {
 public:
-	Aws::String inviteCode;
+	Aws::String result;
 
-	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
 
 	virtual void Perform() {
-		AsyncLambdaInvoke::Perform();
+		LambdaInvokeResultAsync::Perform();
 
 		if (GetStatus() == ASYNC_SUCCEEDED)
-			inviteCode = rawJson.View().GetString("result");
+			result = rawJson.View().GetString("result");
 	}
 };
 
-class ScriptListAsync : public AsyncLambdaInvoke {
+class ScriptListAsync : public LambdaInvokeResultAsync {
 
 public:
 	std::vector<ScriptInfo> scripts;
 
-	using AsyncLambdaInvoke::AsyncLambdaInvoke;
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
 
 	virtual void Perform() {
-		AsyncLambdaInvoke::Perform();
+		LambdaInvokeResultAsync::Perform();
 
 		if (GetStatus() == ASYNC_SUCCEEDED) {
 			auto jsonScripts = rawJson.View().GetArray("result");
@@ -158,13 +158,15 @@ public:
 
 	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
 
-	std::shared_ptr<UserOperationAsync>   CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
+	std::shared_ptr<UserResultAsync>      CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
 	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
-	std::shared_ptr<UserOperationAsync>   GetUser(const IdentityInfo& identity, const char* target);
-	std::shared_ptr<GenerateInviteAsync>  GenerateInviteCode(const IdentityInfo& identity, float days, UserLevel level);
-	std::shared_ptr<UserOperationAsync>   UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
-	std::shared_ptr<ScriptListAsync>      GetScriptList(const IdentityInfo& identity);
+	std::shared_ptr<UserResultAsync>      GetUser(const IdentityInfo& identity, const char* target);
+	std::shared_ptr<StringResultAsync>    GenerateInviteCode(const IdentityInfo& identity, float days, UserLevel level);
+	std::shared_ptr<UserResultAsync>      UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
 	
+	std::shared_ptr<ScriptListAsync>      GetScriptList(const IdentityInfo& identity);
+	std::shared_ptr<StringResultAsync>    GetScriptCode(const IdentityInfo& identity, std::string& id);
+
 	static ValkyrieAPI*                   Get();
 
 private:

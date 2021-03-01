@@ -215,7 +215,7 @@ void Valkyrie::LoginAndLoadData()
 		Api->GetUser(IdentityInfo(name, pass, hardwareInfo), name),
 
 		[](std::shared_ptr<AsyncTask> response) {
-		LoggedUser = ((UserOperationAsync*)response.get())->user;
+		LoggedUser = ((UserResultAsync*)response.get())->user;
 		TaskPool->DispatchTask(
 			"Load Essentials",
 			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),

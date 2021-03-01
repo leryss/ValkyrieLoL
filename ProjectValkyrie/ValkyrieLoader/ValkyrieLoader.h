@@ -31,23 +31,16 @@ public:
 	AdminPanel         adminPanel;
 	LoginPanel         loginPanel;
 	CreateAccountPanel createAccPanel;
-
 	LoaderPanel*       currentPanel;
-				       
 				       
 	UserInfo           loggedUser;
 	IdentityInfo       identity;
 	HardwareInfo       hardwareInfo;
 				       
-	std::string        valkyrieFolder;
 	std::string        versionFilePath;
 	std::string        versionHash;
 				       
 	ConfigSet          configs;
-				       
-	std::string        GetDllPath();
-	std::string        GetDependenciesPath();
-	std::string        GetChangeLogPath();
 
 private:
 

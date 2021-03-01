@@ -213,7 +213,7 @@ void AdminPanel::DrawUserManagerActions()
 			trackIdUpdateUser,
 			api->UpdateUser(loader->identity, selected.name.c_str(), selected),
 			[this, toReplace](std::shared_ptr<AsyncTask> response) {
-			allUsers[toReplace] = ((UserOperationAsync*)response.get())->user;
+			allUsers[toReplace] = ((UserResultAsync*)response.get())->user;
 		}
 		);
 	}
@@ -233,8 +233,8 @@ void AdminPanel::DrawInviteGenerator()
 			trackIdGenerateInvite,
 			api->GenerateInviteCode(loader->identity, inviteSubscriptionDays, (UserLevel)inviteRole),
 			[this](std::shared_ptr<AsyncTask> response) {
-			auto resp = (GenerateInviteAsync*)response.get();
-			strcpy_s(generatedInviteCodeBuff, resp->inviteCode.c_str());
+			auto resp = (StringResultAsync*)response.get();
+			strcpy_s(generatedInviteCodeBuff, resp->result.c_str());
 		}
 		);
 	}

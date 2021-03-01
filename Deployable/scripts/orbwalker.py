@@ -151,6 +151,9 @@ def valkyrie_exec(ctx):
 	
 	has_lethal_tempo = Buffs.has_buff(player, 'LethalTempo') 
 	atk_speed	     = player.atk_speed if has_lethal_tempo else min(player.atk_speed, 2.5)
+	if atk_speed == 0.0:
+		return
+		
 	c_atk_time	     = (1.0 + delay_percent)/atk_speed
 	b_windup_time    = player.static.basic_atk_windup*c_atk_time						
 	

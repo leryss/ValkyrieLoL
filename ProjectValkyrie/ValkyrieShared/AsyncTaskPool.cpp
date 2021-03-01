@@ -24,7 +24,7 @@ void AsyncTaskPool::DispatchTask(std::string taskId, std::shared_ptr<AsyncTask> 
 
 	mtxTasks.lock();
 	doneTasks.erase(taskId);
-	;		waitingTasks[task->taskId] = task;
+	waitingTasks[task->taskId] = task;
 	mtxTasks.unlock();
 }
 
@@ -35,6 +35,15 @@ bool AsyncTaskPool::IsExecuting(std::string taskId)
 		return false;
 
 	return find->second->GetStatus() == ASYNC_RUNNING;
+}
+
+bool AsyncTaskPool::IsWaiting(std::string taskId)
+{
+	auto find = waitingTasks.find(taskId);
+	if (find == waitingTasks.end())
+		return false;
+	
+	return true;
 }
 
 void AsyncTaskPool::ImGuiDraw()

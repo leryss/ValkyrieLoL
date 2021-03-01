@@ -19,8 +19,11 @@ public:
 
 	                      ~AsyncTaskPool();
 	void                  AddWorkers(int numWorkers);
+
 	void                  DispatchTask(std::string taskId, std::shared_ptr<AsyncTask> task, std::function<void(std::shared_ptr<AsyncTask>)> onSuccess);
 	bool                  IsExecuting(std::string taskId);
+	bool                  IsWaiting(std::string taskId);
+
 	void                  ImGuiDraw();
 	static AsyncTaskPool* Get();
 

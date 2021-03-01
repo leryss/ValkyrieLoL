@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <shlobj_core.h>
 
 #include "miniz/miniz.h"
 #include "imgui/imgui.h"
@@ -8,14 +7,6 @@
 class ValkyrieShared {
 
 public:
-	static std::string GetWorkingDir() {
-		char path[1024];
-		if (!SHGetSpecialFolderPathA(0, path, CSIDL_APPDATA, TRUE))
-			throw std::exception("Fatal error. Couldn't get appdata folder.");
-
-		return std::string(path) + "\\" + "Valkyrie";
-	}
-
 	static void SaveCredentials(const char* name, const char* pass) {
 		
 		HKEY key;
