@@ -173,10 +173,8 @@
     <ClInclude Include="miniz\miniz.h" />
     <ClInclude Include="Models.h" />
     <ClInclude Include="Paths.h" />
-    <ClInclude Include="RemoteScriptIndex.h" />
-    <ClInclude Include="ScriptIndex.h" />
-    <ClInclude Include="LocalScriptIndex.h" />
     <ClInclude Include="ScriptInfo.h" />
+    <ClInclude Include="ScriptRepository.h" />
     <ClInclude Include="ScriptSubmission.h" />
     <ClInclude Include="Strings.h" />
     <ClInclude Include="UserInfo.h" />
@@ -196,10 +194,8 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="miniz\miniz.c" />
     <ClCompile Include="Paths.cpp" />
-    <ClCompile Include="RemoteScriptIndex.cpp" />
-    <ClCompile Include="ScriptIndex.cpp" />
-    <ClCompile Include="LocalScriptIndex.cpp" />
     <ClCompile Include="ScriptInfo.cpp" />
+    <ClCompile Include="ScriptRepository.cpp" />
     <ClCompile Include="ScriptSubmission.cpp" />
     <ClCompile Include="Strings.cpp" />
     <ClCompile Include="UserInfo.cpp" />

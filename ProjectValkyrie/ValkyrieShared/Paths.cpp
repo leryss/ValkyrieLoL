@@ -15,3 +15,22 @@ std::string Paths::ScriptsIndex = Root + "\\scripts.index";
 std::string Paths::ChangeLog    = Root + "\\changelog.txt";
 std::string Paths::Dependencies = Root + "\\dependencies";
 std::string Paths::Version      = Root + "\\version";
+
+bool Paths::FileExists(std::string & path)
+{
+	DWORD dwAttrib = GetFileAttributesA(path.c_str());
+
+	return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
+		!(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+
+std::string Paths::GetScriptPath(std::string & scriptName)
+{
+	std::string res;
+	res.append(Scripts);
+	res.append("\\");
+	res.append(scriptName);
+	res.append(".py");
+
+	return res;
+}

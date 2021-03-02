@@ -61,7 +61,7 @@ std::shared_ptr<StringResultAsync> ValkyrieAPI::GenerateInviteCode(const Identit
 {
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithDouble("days", days);
-	jsonParams.WithDouble("level", (float)level);
+	jsonParams.WithInteger("level", level);
 
 	PutIdentity(jsonParams, identity);
 	PutOperation("generate-invite", jsonParams);

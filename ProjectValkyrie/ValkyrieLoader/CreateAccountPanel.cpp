@@ -17,7 +17,8 @@ void CreateAccountPanel::Draw(ValkyrieLoader & loader)
 				trackIdCreateAccount,
 				api->CreateAccount(loader.loginPanel.nameBuff, loader.loginPanel.passBuff, discordBuff, loader.hardwareInfo, inviteCodeBuff),
 				[&loader, this](std::shared_ptr<AsyncTask> response) {
-					loader.loggedUser = ((UserResultAsync*)response.get())->user;
+					loader.loggedUser   = ((UserResultAsync*)response.get())->user;
+					loader.identity     = IdentityInfo(loader.loginPanel.nameBuff, loader.loginPanel.passBuff, loader.hardwareInfo);
 					loader.currentPanel = &loader.userPanel;
 			}
 			);

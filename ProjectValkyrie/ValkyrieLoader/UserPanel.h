@@ -1,8 +1,7 @@
 #pragma once
 #include "LoaderPanel.h"
 #include "ScriptInfo.h"
-#include "LocalScriptIndex.h"
-#include "RemoteScriptIndex.h"
+#include "ScriptRepository.h"
 
 class UserPanel: public LoaderPanel {
 
@@ -13,9 +12,6 @@ public:
 private:
 	void         DrawHome();
 	void         DrawScriptRepo();
-	void         DrawScriptManager();
-
-	void         LoadScriptIndicesIfNecessary();
 
 public:
 	std::string                 changeLog;
@@ -33,10 +29,8 @@ private:
 	bool                        updateComplete = false;
 
 	/// Script market related
-	bool                        loadLocalScripts = true;
-	bool                        loadRemoteScripts = true;
+	bool                        loadScriptRepo = true;
 
-	LocalScriptIndex            localScripts;
-	RemoteScriptIndex           remoteScripts;
+	ScriptRepository            scriptRepo;
 	ValkyrieLoader*             loader;
 };

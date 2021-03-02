@@ -1,4 +1,5 @@
 #include "ScriptInfo.h"
+#include "Paths.h"
 
 ScriptInfo ScriptInfo::FromJsonView(const JsonView & json)
 {

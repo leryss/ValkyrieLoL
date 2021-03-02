@@ -1,13 +1,12 @@
 #include "UserPanel.h"
 #include "AsyncInjector.h"
-#include "AsyncUpdater.h"
+#include "AsyncCheatUpdater.h"
+#include "Paths.h"
 
 #include <fstream>
 
 UserPanel::UserPanel()
 {
-	remoteScripts.local = &localScripts;
-	localScripts.remote = &remoteScripts;
 }
 
 void UserPanel::Draw(ValkyrieLoader& loader)
@@ -20,7 +19,7 @@ void UserPanel::Draw(ValkyrieLoader& loader)
 			[this, &loader](std::shared_ptr<AsyncTask> response) {
 			taskPool->DispatchTask(
 				trackIdUpdate,
-				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncUpdater(loader, std::static_pointer_cast<GetS3ObjectAsync>(response))),
+				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncCheatUpdater(loader, std::static_pointer_cast<GetS3ObjectAsync>(response))),
 				[this, &loader](std::shared_ptr<AsyncTask> response) {
 
 					updateComplete = true;
@@ -34,39 +33,30 @@ void UserPanel::Draw(ValkyrieLoader& loader)
 	/// Greeting
 	if (ImGui::Begin("Valkyrie")) {
 
-		localScripts.PerformQueued();
-		remoteScripts.PerformQueued();
-		if (localScripts.dirty)
-			localScripts.SaveToFile(Paths::ScriptsIndex.c_str());
-
 		this->loader = &loader;
-		ImGui::BeginTabBar("UserPanelTabs");
+		if (ImGui::BeginTabBar("UserPanelTabBar")) {
 
-		if (ImGui::BeginTabItem("Homepage")) {
+			if (ImGui::BeginTabItem("Homepage")) {
 
-			DrawHome();
-			ImGui::EndTabItem();
+				DrawHome();
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Scripts")) {
+
+				DrawScriptRepo();
+				ImGui::EndTabItem();
+
+			}
+
+			if (ImGui::BeginTabItem("Changes")) {
+
+				ImGui::Text(changeLog.c_str());
+				ImGui::EndTabItem();
+			}
+
+			ImGui::EndTabBar();
 		}
-
-		if (ImGui::BeginTabItem("Script Manager")) {
-			
-			DrawScriptManager();
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Script Repository")) {
-
-			DrawScriptRepo();
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Changes")) {
-			
-			ImGui::Text(changeLog.c_str());
-			ImGui::EndTabItem();
-		}
-
-		ImGui::EndTabBar();
 		ImGui::End();
 	}
 }
@@ -108,25 +98,14 @@ void UserPanel::DrawHome()
 
 void UserPanel::DrawScriptRepo()
 {
-	LoadScriptIndicesIfNecessary();
-	remoteScripts.Draw();
-}
-
-void UserPanel::DrawScriptManager()
-{
-	LoadScriptIndicesIfNecessary();
-	localScripts.Draw();
-}
-
-void UserPanel::LoadScriptIndicesIfNecessary()
-{
-	if (loadRemoteScripts) {
-		remoteScripts.Load(loader->identity);
-		loadRemoteScripts = false;
+	if (loadScriptRepo) {
+		scriptRepo.LoadRemoteEntries(loader->identity);
+		scriptRepo.LoadLocalEntries(Paths::ScriptsIndex);
+		loadScriptRepo = false;
 	}
 
-	if (loadLocalScripts) {
-		localScripts.LoadFromFile(Paths::ScriptsIndex.c_str());
-		loadLocalScripts = false;
-	}
+	if (scriptRepo.localsUnsaved)
+		scriptRepo.SaveLocalEntries(Paths::ScriptsIndex);
+
+	scriptRepo.Draw();
 }

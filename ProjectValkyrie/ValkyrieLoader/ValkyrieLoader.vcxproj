@@ -131,6 +131,8 @@
   <ItemGroup>
     <ClInclude Include="AdminPanel.h" />
     <ClInclude Include="AsyncInjector.h" />
+    <ClInclude Include="AsyncCheatUpdater.h" />
+    <ClInclude Include="AsyncLoaderUpdater.h" />
     <ClInclude Include="AsyncUpdater.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CreateAccountPanel.h" />
@@ -142,6 +144,8 @@
   <ItemGroup>
     <ClCompile Include="AdminPanel.cpp" />
     <ClCompile Include="AsyncInjector.cpp" />
+    <ClCompile Include="AsyncCheatUpdater.cpp" />
+    <ClCompile Include="AsyncLoaderUpdater.cpp" />
     <ClCompile Include="AsyncUpdater.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="CreateAccountPanel.cpp" />

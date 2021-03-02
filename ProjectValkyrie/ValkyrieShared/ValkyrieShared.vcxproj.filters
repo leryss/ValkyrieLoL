@@ -92,15 +92,6 @@
     <ClInclude Include="ScriptSubmission.h">
       <Filter>Source Files\API\Model</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptIndex.h">
-      <Filter>Source Files\Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="LocalScriptIndex.h">
-      <Filter>Source Files\Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoteScriptIndex.h">
-      <Filter>Source Files\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
@@ -109,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Strings.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptRepository.h">
+      <Filter>Source Files\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,23 +148,17 @@
     <ClCompile Include="ScriptInfo.cpp">
       <Filter>Source Files\API\Model</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptSubmission.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptIndex.cpp">
-      <Filter>Source Files\Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="LocalScriptIndex.cpp">
-      <Filter>Source Files\Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoteScriptIndex.cpp">
-      <Filter>Source Files\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Strings.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Paths.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptRepository.cpp">
+      <Filter>Source Files\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptSubmission.cpp">
+      <Filter>Source Files\API\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

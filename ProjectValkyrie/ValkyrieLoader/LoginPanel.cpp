@@ -22,9 +22,9 @@ void LoginPanel::Draw(ValkyrieLoader & loader)
 				trackIdLogin,
 				api->GetUser(loader.identity, nameBuff),
 				[&loader, this](std::shared_ptr<AsyncTask> response) {
-				ValkyrieShared::SaveCredentials(nameBuff, passBuff);
-				loader.loggedUser = ((UserResultAsync*)response.get())->user;
-				loader.currentPanel = &loader.userPanel;
+					ValkyrieShared::SaveCredentials(nameBuff, passBuff);
+					loader.loggedUser = ((UserResultAsync*)response.get())->user;
+					loader.currentPanel = &loader.userPanel;
 			}
 			);
 		}

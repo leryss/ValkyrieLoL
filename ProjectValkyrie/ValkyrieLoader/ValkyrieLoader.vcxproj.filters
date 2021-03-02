@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Loader\Panels">
       <UniqueIdentifier>{78477bbe-4d72-4bf5-adf0-e9f447b7ba56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Loader\Updaters">
+      <UniqueIdentifier>{a8783f70-94eb-48a3-9d21-f29a4542ebfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ValkyrieLoader.h">
@@ -26,12 +29,6 @@
     </ClInclude>
     <ClInclude Include="AsyncInjector.h">
       <Filter>Source Files\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="AsyncUpdater.h">
-      <Filter>Source Files\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="UserPanel.h">
-      <Filter>Source Files\Loader\Panels</Filter>
     </ClInclude>
     <ClInclude Include="AdminPanel.h">
       <Filter>Source Files\Loader\Panels</Filter>
@@ -48,15 +45,24 @@
     <ClInclude Include="CreateAccountPanel.h">
       <Filter>Source Files\Loader\Panels</Filter>
     </ClInclude>
+    <ClInclude Include="UserPanel.h">
+      <Filter>Source Files\Loader\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncCheatUpdater.h">
+      <Filter>Source Files\Loader\Updaters</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncLoaderUpdater.h">
+      <Filter>Source Files\Loader\Updaters</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncUpdater.h">
+      <Filter>Source Files\Loader\Updaters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ValkyrieLoader.cpp">
-      <Filter>Source Files\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="AsyncUpdater.cpp">
       <Filter>Source Files\Loader</Filter>
     </ClCompile>
     <ClCompile Include="AsyncInjector.cpp">
@@ -76,6 +82,15 @@
     </ClCompile>
     <ClCompile Include="CreateAccountPanel.cpp">
       <Filter>Source Files\Loader\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncCheatUpdater.cpp">
+      <Filter>Source Files\Loader\Updaters</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncLoaderUpdater.cpp">
+      <Filter>Source Files\Loader\Updaters</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncUpdater.cpp">
+      <Filter>Source Files\Loader\Updaters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

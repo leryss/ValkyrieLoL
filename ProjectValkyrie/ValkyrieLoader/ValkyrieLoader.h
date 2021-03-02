@@ -24,8 +24,9 @@ enum DisplayMode {
 class ValkyrieLoader {
 
 public:
-	ValkyrieLoader();
-	void ImGuiShow();
+	                   ValkyrieLoader();
+	void               ImGuiShow();
+	void               SaveConfigs();
 
 	UserPanel          userPanel;
 	AdminPanel         adminPanel;
@@ -37,17 +38,20 @@ public:
 	IdentityInfo       identity;
 	HardwareInfo       hardwareInfo;
 				       
-	std::string        versionFilePath;
-	std::string        versionHash;
+	std::string        cheatVersionHash;
+	std::string        loaderVersionHash;
 				       
 	ConfigSet          configs;
 
 private:
 
+	bool performLoaderUpdate = true;
+	bool loaderUpdated = false;
+
 	void LoadConfigs();
-	void SaveConfigs();
 	void SetupWorkingDir();
-	void ReadVersion();
+	void UpdateLoader();
 
 	AsyncTaskPool* taskPool = AsyncTaskPool::Get();
+	ValkyrieAPI* api        = ValkyrieAPI::Get();
 };
