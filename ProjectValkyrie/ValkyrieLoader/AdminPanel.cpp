@@ -47,11 +47,120 @@ void AdminPanel::Draw(ValkyrieLoader & loader)
 		this->loader = &loader;
 		ImGui::PushItemWidth(140.f);
 
-		DrawUserManager();
-		DrawInviteGenerator();
-
+		if (ImGui::BeginTabBar("AdminTabBar")) {
+			if (ImGui::BeginTabItem("Users")) {
+				DrawUserManager();
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Invite Generator")) {
+				DrawInviteGenerator();
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Submission Approver")) {
+				DrawSubmissionManager();
+				ImGui::EndTabItem();
+			}
+			ImGui::EndTabBar();
+		}
+		
 		ImGui::PopItemWidth();
 		ImGui::End();
+	}
+}
+
+void AdminPanel::DrawSubmissionManager()
+{
+	if (RetrieveSubmissionsIfNecessary())
+		return;
+
+	if (ImGui::Button("Refresh"))
+		retrieveSubmissions = true;
+
+	mtxSubmissions.lock();
+
+	ImGui::BeginTable("Users tbl", 5, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable);
+	ImGui::TableSetupColumn("Id");
+	ImGui::TableSetupColumn("Name");
+	ImGui::TableSetupColumn("Author");
+	ImGui::TableSetupColumn("Champion");
+	ImGui::TableSetupColumn("Description");
+	ImGui::TableHeadersRow();
+
+	for (size_t i = 0; i < submissions.size(); ++i) {
+		auto& submission = submissions[i];
+		auto& script = submission->script;
+		if (submission->status != SUBMISSION_PENDING)
+			continue;
+
+		ImGui::TableNextRow();
+		ImGui::PushID(i);
+
+		ImGui::TableSetColumnIndex(0);
+		if (ImGui::Selectable("", selectedSubmission == i, ImGuiSelectableFlags_SpanAllColumns)) {
+			retrieveCode = true;
+			selectedSubmission = i;
+		}
+
+		ImGui::SameLine();
+		ImGui::Text(script->id.c_str());
+
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text(script->name.c_str());
+
+		ImGui::TableSetColumnIndex(2);
+		ImGui::Text(script->author.c_str());
+
+		ImGui::TableSetColumnIndex(3);
+		ImGui::Text(script->champion.c_str());
+
+		ImGui::TableSetColumnIndex(4);
+		ImGui::Text(script->description.c_str());
+
+		ImGui::PopID();
+	}
+
+	ImGui::EndTable();
+
+	DrawSubmissionManagerActions();
+
+	mtxSubmissions.unlock();
+}
+
+void AdminPanel::DrawSubmissionManagerActions()
+{
+	if (selectedSubmission != -1 && !RetrieveScriptCodeIfNecessary()) {
+		auto submission = submissions[selectedSubmission];
+		bool update = false;
+
+		if (ImGui::Button("Approve")) {
+			submission->status = SUBMISSION_APPROVED;
+			UpdateSubmission(submission);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Deny")) {
+			ImGui::OpenPopup("DenyReason");
+		}
+
+		if (ImGui::BeginPopupModal("DenyReason")) {
+			ImGui::PushItemWidth(500);
+			ImGui::InputText("Deny reason", submissionDenyReason, Constants::INPUT_TEXT_SIZE);
+			ImGui::PopItemWidth();
+
+			if (ImGui::Button("Ok")) {
+				submission->denyReason = std::string(submissionDenyReason);
+				submission->status = SUBMISSION_DENIED;
+				UpdateSubmission(submission);
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel"))
+				ImGui::CloseCurrentPopup();
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::TextColored(Color::PURPLE, "Script Code");
+		ImGui::TextUnformatted(submissionCode.c_str());
 	}
 }
 
@@ -64,7 +173,7 @@ void AdminPanel::DrawUserManager()
 
 	DrawUserManagerFilter();
 
-	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable);
+	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable);
 	ImGui::TableSetupColumn("Name", 0, 0, UserColumnName);
 	ImGui::TableSetupColumn("Discord", 0, 0, UserColumnDiscord);
 	ImGui::TableSetupColumn("Status", 0, 0, UserColumnStatus);
@@ -170,6 +279,11 @@ void AdminPanel::DrawUserManagerFilter()
 
 void AdminPanel::DrawUserManagerActions()
 {
+	if (RetrieveUsersIfNecessarry())
+		return;
+
+	mtxUsers.lock();
+
 	if (ImGui::Button("Refresh")) {
 		selectedUser = 0;
 		retrieveUsers = true;
@@ -177,6 +291,7 @@ void AdminPanel::DrawUserManagerActions()
 
 	if (taskPool->IsExecuting(trackIdUpdateUser)) {
 		ImGui::TextColored(Color::YELLOW, "Performing action...");
+		mtxUsers.unlock();
 		return;
 	}
 
@@ -213,10 +328,14 @@ void AdminPanel::DrawUserManagerActions()
 			trackIdUpdateUser,
 			api->UpdateUser(loader->identity, selected.name.c_str(), selected),
 			[this, toReplace](std::shared_ptr<AsyncTask> response) {
-			allUsers[toReplace] = ((UserResultAsync*)response.get())->user;
-		}
+				mtxUsers.lock();
+				allUsers[toReplace] = ((UserResultAsync*)response.get())->user;
+				mtxUsers.unlock();
+			}
 		);
 	}
+
+	mtxUsers.unlock();
 }
 
 void AdminPanel::DrawInviteGenerator()
@@ -233,18 +352,78 @@ void AdminPanel::DrawInviteGenerator()
 			trackIdGenerateInvite,
 			api->GenerateInviteCode(loader->identity, inviteSubscriptionDays, (UserLevel)inviteRole),
 			[this](std::shared_ptr<AsyncTask> response) {
-			auto resp = (StringResultAsync*)response.get();
-			strcpy_s(generatedInviteCodeBuff, resp->result.c_str());
-		}
+				auto resp = (StringResultAsync*)response.get();
+				strcpy_s(generatedInviteCodeBuff, resp->result.c_str());
+			}
 		);
 	}
 }
 
-void AdminPanel::RetrieveUsersIfNecessarry()
+void AdminPanel::UpdateSubmission(std::shared_ptr<ScriptSubmission> submission)
+{
+	taskPool->DispatchTask(
+		trackIdUpdateSubmission,
+		api->UpdateSubmission(loader->identity, *submission),
+		[this, submission](std::shared_ptr<AsyncTask> response) {
+			mtxSubmissions.lock();
+			selectedSubmission = -1;
+			mtxSubmissions.unlock();
+		}
+	);
+}
+
+bool AdminPanel::RetrieveSubmissionsIfNecessary()
+{
+	if (taskPool->IsExecuting(trackIdGetSubmissions)) {
+		ImGui::TextColored(Color::YELLOW, "Refreshing...");
+		return true;
+	}
+
+	if (retrieveSubmissions) {
+
+		taskPool->DispatchTask(
+			trackIdGetSubmissions,
+			api->GetAllSubmissions(loader->identity),
+			[this](std::shared_ptr<AsyncTask> response) {
+				mtxSubmissions.lock();
+				submissions = ((ScriptSubmissionsResultAsync*)response.get())->submissions;
+				mtxSubmissions.unlock();
+			}
+		);
+		retrieveSubmissions = false;
+	}
+}
+
+bool AdminPanel::RetrieveScriptCodeIfNecessary()
+{
+	if (taskPool->IsExecuting(trackIdGetCode)) {
+		ImGui::TextColored(Color::YELLOW, "Getting code...");
+		return true;
+	}
+
+	if (retrieveCode) {
+
+		std::string codeId = submissions[selectedSubmission]->script->id;
+		codeId.append("_submission");
+
+		taskPool->DispatchTask(
+			trackIdGetCode,
+			api->GetScriptCode(loader->identity, codeId),
+			[this](std::shared_ptr<AsyncTask> response) {
+				mtxSubmissions.lock();
+				submissionCode = ((StringResultAsync*)response.get())->result.c_str();
+				mtxSubmissions.unlock();
+			}
+		);
+		retrieveCode = false;
+	}
+}
+
+bool AdminPanel::RetrieveUsersIfNecessarry()
 {
 	if (taskPool->IsExecuting(trackIdGetUsers)) {
 		ImGui::TextColored(Color::YELLOW, "Refreshing...");
-		return;
+		return true;
 	}
 
 	if (retrieveUsers) {
@@ -253,17 +432,21 @@ void AdminPanel::RetrieveUsersIfNecessarry()
 			api->GetUsers(loader->identity),
 
 			[this](std::shared_ptr<AsyncTask> response) {
-			auto resp = (GetUserListAsync*)response.get();
-			allUsers = resp->users;
-			filterMask.clear();
-			for (size_t i = 0; i < allUsers.size(); ++i)
-				filterMask.push_back(true);
+				mtxUsers.lock();
+				auto resp = (GetUserListAsync*)response.get();
+				allUsers = resp->users;
+				filterMask.clear();
+				for (size_t i = 0; i < allUsers.size(); ++i)
+					filterMask.push_back(true);
 
-			selectedUser = 0;
-		}
+				selectedUser = 0;
+				mtxUsers.unlock();
+			}
 		);
 		retrieveUsers = false;
 	}
+
+	return false;
 }
 
 void AdminPanel::SortUsersIfNecessarry()

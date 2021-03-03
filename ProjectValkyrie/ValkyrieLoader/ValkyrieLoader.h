@@ -27,6 +27,7 @@ public:
 	                   ValkyrieLoader();
 	void               ImGuiShow();
 	void               SaveConfigs();
+	void               UpdateData();
 
 	UserPanel          userPanel;
 	AdminPanel         adminPanel;

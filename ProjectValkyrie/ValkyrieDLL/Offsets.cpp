@@ -2,7 +2,7 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.4";
+std::string Offsets::GameVersion             = "11.5";
 
 int Offsets::ObjectManager                   = 0x016dc5f4;
 int Offsets::Renderer                        = 0x02f9e33c;

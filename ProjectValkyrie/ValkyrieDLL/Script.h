@@ -4,6 +4,7 @@
 #include "PyExecutionContext.h"
 #include "InputController.h"
 #include "Benchmark.h"
+#include "ScriptInfo.h"
 
 #include <string>
 #include <boost/python.hpp>
@@ -21,7 +22,7 @@ class Script {
 public:
 	                   Script();
 				       ~Script();
-	bool               LoadFromFile(std::string& filePath);
+	bool               Load(std::shared_ptr<ScriptInfo> info);
 	void               Execute(PyExecutionContext& ctx, ScriptFunction func);
 
 	static std::string GetPyError();
@@ -31,12 +32,7 @@ public:
 	bool               neverExecuted;
 				       
 	std::string        error;
-	std::string        fileName;
-	std::string        prettyName;
-	std::string        author;
-	std::string        description;
-	std::string        targetChamp;
-	std::string        icon;
+	std::shared_ptr<ScriptInfo> info;
 
 	ConfigSet          config;
 	InputController    input;
@@ -45,7 +41,6 @@ public:
 private:		 
 				 
 	bool         LoadFunc(PyObject** loadInto, const char* funcName);
-	bool         LoadInfo();
 
 	PyObject*    moduleObj;
 	PyObject*    functions[4];

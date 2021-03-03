@@ -64,12 +64,20 @@ public:
 		}
 		else {
 			rawJson = Aws::Utils::Json::JsonValue(outcome.GetResult().GetPayload());
-			int code = rawJson.View().GetInteger("code");
-			if(code == 200)
-				SetStatus(ASYNC_SUCCEEDED);
-			else {
+			auto jsonView = rawJson.View();
+
+			if (!jsonView.KeyExists("code")) {
 				SetStatus(ASYNC_FAILED);
-				error = rawJson.View().GetString("error").c_str();
+				error = "Server side error. Please report this error to the admins";
+			}
+			else {
+				int code = jsonView.GetInteger("code");
+				if (code == 200)
+					SetStatus(ASYNC_SUCCEEDED);
+				else {
+					SetStatus(ASYNC_FAILED);
+					error = rawJson.View().GetString("error").c_str();
+				}
 			}
 		}
 	}
@@ -132,7 +140,7 @@ public:
 class ScriptListAsync : public LambdaInvokeResultAsync {
 
 public:
-	std::vector<ScriptInfo> scripts;
+	std::vector<std::shared_ptr<ScriptInfo>> scripts;
 
 	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
 
@@ -146,6 +154,25 @@ public:
 			for (int i = 0; i < numScripts; ++i) {
 				auto jsonScript = jsonScripts.GetItem(i);
 				scripts.push_back(ScriptInfo::FromJsonView(jsonScript));
+			}
+		}
+	}
+};
+
+class ScriptSubmissionsResultAsync : public LambdaInvokeResultAsync {
+public:
+	std::vector<std::shared_ptr<ScriptSubmission>> submissions;
+
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
+
+	virtual void Perform() {
+		LambdaInvokeResultAsync::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED) {
+			auto jsonScripts = rawJson.View().GetArray("result");
+			for (size_t i = 0; i < jsonScripts.GetLength(); ++i) {
+				auto jsonSubmission = jsonScripts.GetItem(i);
+				submissions.push_back(ScriptSubmission::FromJsonView(jsonSubmission));
 			}
 		}
 	}
@@ -166,6 +193,12 @@ public:
 	
 	std::shared_ptr<ScriptListAsync>      GetScriptList(const IdentityInfo& identity);
 	std::shared_ptr<StringResultAsync>    GetScriptCode(const IdentityInfo& identity, std::string& id);
+
+	std::shared_ptr<ScriptSubmissionsResultAsync> SubmitScript(const IdentityInfo& identity, const ScriptInfo& script, const std::string& code);
+	std::shared_ptr<ScriptSubmissionsResultAsync> GetSubmissions(const IdentityInfo& identity, const std::string& name);
+	std::shared_ptr<ScriptSubmissionsResultAsync> GetAllSubmissions(const IdentityInfo& identity);
+
+	std::shared_ptr<LambdaInvokeResultAsync> UpdateSubmission(const IdentityInfo& identity, const ScriptSubmission& submission);
 
 	static ValkyrieAPI*                   Get();
 

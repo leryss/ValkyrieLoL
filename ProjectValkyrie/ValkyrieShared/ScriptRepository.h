@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInfo.h"
+#include "ScriptSubmission.h"
 #include "ValkyrieAPI.h"
 #include "AsyncTaskPool.h"
 #include <vector>
@@ -32,6 +33,9 @@ public:
 	/// Locally stored version of script
 	std::shared_ptr<ScriptInfo> local;
 
+	/// Submission of the script
+	std::shared_ptr<ScriptSubmission> submission;
+
 	/// Current state of the local version of the script
 	ScriptEntryState state;
 };
@@ -52,13 +56,16 @@ public:
 	void Draw();
 
 	/// Adds an entry to the script index
-	void AddEntry(ScriptInfo& script, bool isLocal);
+	void AddEntry(std::shared_ptr<ScriptInfo>& script, bool isLocal);
 
 	/// Removes and entry from the script index
 	void RemoveEntry(std::string id, bool isLocal, bool isBoth);
 
 	/// True when local entries were modified (added/removed)
 	bool localsUnsaved = false;
+
+	/// Map with all the script entries
+	std::map<std::string, std::shared_ptr<ScriptEntry>> entries;
 
 private:
 	void DrawTable(bool showLocal);
@@ -67,13 +74,18 @@ private:
 	void SelectEntry(int selected);
 
 	/// Sends a request to download the script code and installs the script locally on success
-	void DownloadScriptAndInstall(ScriptInfo& script);
+	void DownloadScriptAndInstall(std::shared_ptr<ScriptInfo> script);
+
+	/// Reads the code from disk and submits an script update
+	void SubmitScriptUpdate(std::shared_ptr<ScriptInfo> script);
+
+	void UpdateSubmissions(std::vector<std::shared_ptr<ScriptSubmission>>& submissions);
 
 	/// Writes the script file to disk and updates the entries index
-	void InstallScript(ScriptInfo& script, std::string& code);
+	void InstallScript(std::shared_ptr<ScriptInfo> script, std::string& code);
 
 	/// Removes the file from this and updates the entries index
-	void UninstallScript(ScriptInfo& script);
+	void UninstallScript(std::shared_ptr<ScriptInfo> script);
 
 	/// Creates a new script locally. Create a new file with the base script code
 	void CreateLocalEntry();
@@ -94,9 +106,6 @@ private:
 
 	/// Index in sorted array of selected script
 	int                                                 selectedScript = -1;
-
-	/// Map with all the script entries
-	std::map<std::string, std::shared_ptr<ScriptEntry>> entries;
 
 	IdentityInfo identity;
 	ValkyrieAPI* api        = ValkyrieAPI::Get();

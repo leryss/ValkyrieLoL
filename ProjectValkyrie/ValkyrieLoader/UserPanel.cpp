@@ -49,7 +49,7 @@ void UserPanel::Draw(ValkyrieLoader& loader)
 
 			}
 
-			if (ImGui::BeginTabItem("Changes")) {
+			if (ImGui::BeginTabItem("Changelog")) {
 
 				ImGui::Text(changeLog.c_str());
 				ImGui::EndTabItem();
@@ -69,6 +69,12 @@ void UserPanel::DrawHome()
 	float hours = (days - int(days)) * 24.f;
 
 	ImGui::TextColored((days < 5.f ? Color::YELLOW : Color::GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
+
+	if (ImGui::Button("Force Update")) {
+		loader->cheatVersionHash = "";
+		performUpdate = true;
+		updateComplete = false;
+	}
 
 	/// Inject stuff
 	ImGui::Separator();

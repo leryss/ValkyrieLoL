@@ -262,7 +262,7 @@ void Valkyrie::SaveConfigs()
 
 void Valkyrie::LoadScripts()
 {
-	ScriptManager.LoadScriptsFromFolder(Paths::Scripts);
+	ScriptManager.LoadAllScripts();
 }
 
 void Valkyrie::ExecuteScripts()
@@ -304,8 +304,8 @@ void Valkyrie::DrawDevMenu()
 	}
 
 	if (ImGui::BeginMenu("Scripts Benchmarks")) {
-		for (auto& script : ScriptManager.scripts) {
-			ImGui::DragFloat(script->fileName.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
+		for (auto& script : ScriptManager.coreScripts) {
+			ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
 		}
 		ImGui::EndMenu();
 	}

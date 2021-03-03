@@ -3,46 +3,72 @@
 #include <windows.h>
 #include "Color.h"
 #include "Logger.h"
+#include "Paths.h"
 #include "PyExecutionContext.h"
 
-void ScriptManager::LoadScriptsFromFolder(std::string & folderPath)
+void ScriptManager::LoadAllScripts()
 {
-	Logger::Info("Loading scripts from %s", folderPath.c_str());
-
-	object sys = import("sys");
-	sys.attr("path").attr("insert")(0, folderPath.c_str());
-
-	WIN32_FIND_DATAA findData;
-	HANDLE hFind;
-
-	hFind = FindFirstFileA((folderPath + "\\*.py").c_str(), &findData);
-	do {
-		if (hFind != INVALID_HANDLE_VALUE) {
-			
-			std::string fileName = findData.cFileName;
-			fileName.erase(fileName.find(".py"), 3);
-
-			auto it = std::find_if(scripts.begin(), scripts.end(), [&fileName](const auto& s) { return s->fileName.compare(fileName) == 0; });
-			if (it != scripts.end())
-				(*it)->LoadFromFile(fileName);
-			else {
-				std::shared_ptr<Script> script(new Script());
-				script->LoadFromFile(fileName);
-				scripts.push_back(script);
-			}
-		}
-	} while (FindNextFileA(hFind, &findData));
+	Logger::Info("Loading scripts");
+	repository.LoadLocalEntries(Paths::ScriptsIndex);
 	
-	std::sort(scripts.begin(), scripts.end(),
+	object sys = import("sys");
+	sys.attr("path").attr("insert")(0, Paths::Scripts.c_str());
+
+	for (auto& pair : repository.entries) {
+		auto scriptInfo = pair.second->local;
+		if (scriptInfo == nullptr)
+			continue;
+		
+		if (scriptInfo->author == "TeamValkyrie")
+			LoadScript(scriptInfo, coreScripts);
+		else
+			LoadScript(scriptInfo, communityScripts);
+	}
+
+	std::sort(coreScripts.begin(), coreScripts.end(),
 		[](const std::shared_ptr<Script>& s1, const std::shared_ptr<Script>& s2) {
-			return (s1->fileName.compare(s2->fileName) < 0 ? false : true);
+			return (s1->info->id.compare(s2->info->id) < 0 ? false : true);
+		}
+	);
+
+	std::sort(communityScripts.begin(), communityScripts.end(),
+		[](const std::shared_ptr<Script>& s1, const std::shared_ptr<Script>& s2) {
+			return (s1->info->id.compare(s2->info->id) < 0 ? false : true);
 		}
 	);
 }
 
 void ScriptManager::ExecuteScripts(PyExecutionContext & ctx)
 {
-	for (auto script : scripts) {
+	ExecuteScripts(ctx, coreScripts);
+	ExecuteScripts(ctx, communityScripts);
+}
+
+void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
+{
+	ImGui::TextColored(Color::PURPLE, "Official Scripts");
+	DrawScriptsMenus(ctx, coreScripts);
+	
+	ImGui::Separator();
+	ImGui::TextColored(Color::PURPLE, "Community Scripts");
+	DrawScriptsMenus(ctx, communityScripts);
+}
+
+void ScriptManager::LoadScript(std::shared_ptr<ScriptInfo> & info, std::deque<std::shared_ptr<Script>>& scriptList)
+{
+	auto it = std::find_if(scriptList.begin(), scriptList.end(), [&info](const auto& s) { return s->info->id.compare(info->id) == 0; });
+	if (it != scriptList.end())
+		(*it)->Load(info);
+	else {
+		std::shared_ptr<Script> script(new Script());
+		script->Load(info);
+		scriptList.push_back(script);
+	}
+}
+
+void ScriptManager::ExecuteScripts(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList)
+{
+	for (auto script : scriptList) {
 		if (script->error.empty()) {
 			ctx.SetScript(script.get());
 			if (script->neverExecuted)
@@ -53,26 +79,26 @@ void ScriptManager::ExecuteScripts(PyExecutionContext & ctx)
 	}
 }
 
-void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
+void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList)
 {
-	for (auto script : scripts) {
+	for (auto script : scriptList) {
 		bool errored = !script->error.empty();
 		if (errored)
 			ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
 
-		const char* scriptName = (script->prettyName.empty() ? script->fileName.c_str() : script->prettyName.c_str());
+		const char* scriptName = script->info->name.c_str();
 
-		ImGui::Image(GameData::GetImage(script->icon), ImVec2(15, 15));
+		ImGui::Text("  ");
 		ImGui::SameLine();
 		if (ImGui::BeginMenu(scriptName)) {
 			if (errored) {
 				if (ImGui::Button("Reload"))
-					script->LoadFromFile(script->fileName);
+					script->Load(script->info);
 				ImGui::SameLine();
 				if (ImGui::Button("Clear cfg & reload")) {
 					script->config.Reset();
 					script->config.Save();
-					script->LoadFromFile(script->fileName);
+					script->Load(script->info);
 				}
 				ImGui::TextColored(Color::RED, script->error.c_str());
 			}

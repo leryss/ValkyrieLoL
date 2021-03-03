@@ -12,9 +12,8 @@ public:
 	std::string description;
 	std::string author;
 	std::string champion;
-	int         downloads;
 	float       lastUpdate;
 
-	static ScriptInfo   FromJsonView(const JsonView& json);
+	static std::shared_ptr<ScriptInfo>   FromJsonView(const JsonView& json);
 	JsonValue           ToJsonValue() const;
 };

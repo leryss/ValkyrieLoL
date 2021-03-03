@@ -1,23 +1,22 @@
 #include "ScriptSubmission.h"
 
-ScriptSubmission ScriptSubmission::FromJsonView(const JsonView & json)
+std::shared_ptr<ScriptSubmission> ScriptSubmission::FromJsonView(const JsonView & json)
 {
-	ScriptSubmission submission;
+	std::shared_ptr<ScriptSubmission> s = std::shared_ptr<ScriptSubmission>(new ScriptSubmission());
+	s->script     = ScriptInfo::FromJsonView(json.GetObject("script"));
+	s->status     = (SubmissionStatus)json.GetInteger("status");
+	s->denyReason = json.GetString("deny_reason").c_str();
 
-	submission.scriptId   = json.GetString("script_id").c_str();
-	submission.scriptCode = json.GetString("script_code").c_str();
-	submission.scriptInfo = ScriptInfo::FromJsonView(json.GetObject("script_info"));
-
-	return submission;
+	return s;
 }
 
 JsonValue ScriptSubmission::ToJsonValue() const
 {
-	JsonValue json;
+	JsonValue j;
 
-	json.WithString("script_id", scriptId.c_str());
-	json.WithObject("script_info", scriptInfo.ToJsonValue());
-	json.WithString("script_code", scriptCode.c_str());
+	j.WithObject("script", script->ToJsonValue());
+	j.WithInteger("status", status);
+	j.WithString("deny_reason", denyReason.c_str());
 
-	return json;
+	return j;
 }

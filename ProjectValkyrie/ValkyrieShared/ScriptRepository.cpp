@@ -2,10 +2,10 @@
 #include "Strings.h"
 #include "Paths.h"
 
-#include <chrono>
+#include <ctime>
 #include <fstream>
+#include <sstream>
 
-using namespace std::chrono;
 
 std::string ScriptRepository::BaseCodeScript = ""
 "from valkyrie import *			 \n"
@@ -33,8 +33,10 @@ void ScriptRepository::LoadLocalEntries(std::string path)
 	std::ifstream stream;
 	stream.open(path);
 
-	if (!stream.is_open())
+	if (!stream.is_open()) {
+		mtxEntries.unlock();
 		return;
+	}
 
 	JsonValue json(stream);
 
@@ -89,12 +91,25 @@ void ScriptRepository::LoadRemoteEntries(const IdentityInfo & identity)
 		std::string("GetRemoteScripts"),
 		api->GetScriptList(identity),
 		[this](std::shared_ptr<AsyncTask> response) {
+
+			/// Update repository with remote entries
 			mtxEntries.lock();
 			auto scripts = ((ScriptListAsync*)response.get())->scripts;
 			for (auto& script : scripts)
 				AddEntry(script, false);
 			SortEntries();
 			mtxEntries.unlock();
+
+			/// Now get user submissions
+			taskPool->DispatchTask(
+				std::string("GetSubmissions"),
+				api->GetSubmissions(this->identity, this->identity.name),
+				[this](std::shared_ptr<AsyncTask> response) {
+					mtxEntries.lock();
+					UpdateSubmissions(((ScriptSubmissionsResultAsync*)response.get())->submissions);
+					mtxEntries.unlock();
+				}
+			);
 		}
 	);
 }
@@ -126,25 +141,25 @@ void ScriptRepository::Draw()
 	mtxEntries.unlock();
 }
 
-void ScriptRepository::AddEntry(ScriptInfo & script, bool isLocal)
+void ScriptRepository::AddEntry(std::shared_ptr<ScriptInfo> & script, bool isLocal)
 {
-	auto find = entries.find(script.id);
+	auto find = entries.find(script->id);
 	std::shared_ptr<ScriptEntry> entry;
 	if (find != entries.end()) {
 		entry = find->second;
 	}
 	else { 
-		sorted.push_back(script.id);
+		sorted.push_back(script->id);
 		entry = std::shared_ptr<ScriptEntry>(new ScriptEntry);
-		entries[script.id] = entry;
+		entries[script->id] = entry;
 	}
 
 	if (isLocal) {
-		entry->local = std::shared_ptr<ScriptInfo>(new ScriptInfo(script));
+		entry->local = script;
 		localsUnsaved = true;
 	}
 	else
-		entry->remote = std::shared_ptr<ScriptInfo>(new ScriptInfo(script));
+		entry->remote = script;
 }
 
 void ScriptRepository::RemoveEntry(std::string id, bool isLocal, bool isBoth)
@@ -182,7 +197,7 @@ void ScriptRepository::DrawTable(bool showLocal)
 
 	ImGui::TableHeadersRow();
 
-	duration<float, std::milli> nowTimestamp = high_resolution_clock::now().time_since_epoch();
+	float nowTimestamp = std::time(0);
 	for (size_t i = 0; i < sorted.size(); ++i) {
 
 		auto& id = sorted[i];
@@ -215,7 +230,7 @@ void ScriptRepository::DrawTable(bool showLocal)
 		ImGui::Text(script->description.c_str());
 
 		ImGui::TableSetColumnIndex(5);
-		ImGui::Text("%d days ago", (int)((nowTimestamp.count() - script->lastUpdate) / SECS_IN_DAY));
+		ImGui::Text("%d days ago", (int)((nowTimestamp - script->lastUpdate) / SECS_IN_DAY));
 
 		ImGui::TableSetColumnIndex(6);
 		switch (entry->state) {
@@ -250,27 +265,42 @@ void ScriptRepository::DrawActions()
 		
 	case SE_STATE_UNINSTALLED:
 		if (ImGui::Button("Install"))
-			DownloadScriptAndInstall(*remote);
+			DownloadScriptAndInstall(remote);
 		break;
 	case SE_STATE_OUTDATED:
 		if (ImGui::Button("Update"))
-			DownloadScriptAndInstall(*remote);
+			DownloadScriptAndInstall(remote);
 		ImGui::SameLine();
 	case SE_STATE_INSTALLED:
 		if (ImGui::Button("Uninstall"))
-			UninstallScript(*local);
+			UninstallScript(local);
 		break;
 	case SE_STATE_ONLY_LOCAL:
 	case SE_STATE_CORRUPTED:
 		if (ImGui::Button("Delete"))
-			UninstallScript(*local);
+			UninstallScript(local);
 		break;
 	}
 
 	if (local != nullptr && identity.name == local->author) {
 		ImGui::SameLine();
-		if (ImGui::Button("Submit")) {}
+		if (ImGui::Button("Submit"))
+			SubmitScriptUpdate(local);
 		DrawScriptEdit();
+
+		if (entry->submission != nullptr) {
+			switch (entry->submission->status) {
+			case SUBMISSION_PENDING:
+				ImGui::TextColored(Color::CYAN, "Your latest submission is pending approval.");
+				break;
+			case SUBMISSION_DENIED:
+				ImGui::TextColored(Color::RED, "Your latest submission was denied. Reason: %s", entry->submission->denyReason.c_str());
+				break;
+			case SUBMISSION_APPROVED:
+				ImGui::TextColored(Color::GREEN, "Your latest submission was approved");
+				break;
+			}
+		}
 	}
 }
 
@@ -304,12 +334,12 @@ void ScriptRepository::DrawScriptEdit()
 		/// Remove the entry with old values create a new one with new values and rename file if id changed
 		RemoveEntry(idPrevious, true, false);
 		
-		ScriptInfo info;
-		info.id = idNew;
-		info.name = nameBuff;
-		info.description = descBuff;
-		info.champion = champBuff;
-		info.author = identity.name;
+		std::shared_ptr<ScriptInfo> info = std::shared_ptr<ScriptInfo>(new ScriptInfo());
+		info->id = idNew;
+		info->name = nameBuff;
+		info->description = descBuff;
+		info->champion = champBuff;
+		info->author = identity.name;
 	
 		AddEntry(info, true);
 		if(nameChanged)
@@ -330,12 +360,12 @@ void ScriptRepository::SelectEntry(int selected)
 	strcpy_s(champBuff, local->champion.c_str());
 }
 
-void ScriptRepository::DownloadScriptAndInstall(ScriptInfo& remote)
+void ScriptRepository::DownloadScriptAndInstall(std::shared_ptr<ScriptInfo> remote)
 {
 	taskPool->DispatchTask(
-		remote.id,
-		api->GetScriptCode(identity, remote.id),
-		[&remote, this](std::shared_ptr<AsyncTask> response) {
+		remote->id,
+		api->GetScriptCode(identity, remote->id),
+		[remote, this](std::shared_ptr<AsyncTask> response) {
 			std::string code = ((StringResultAsync*)response.get())->result.c_str();
 			mtxEntries.lock();
 			InstallScript(remote, code);
@@ -344,19 +374,52 @@ void ScriptRepository::DownloadScriptAndInstall(ScriptInfo& remote)
 	);
 }
 
-void ScriptRepository::InstallScript(ScriptInfo & script, std::string & code)
+void ScriptRepository::SubmitScriptUpdate(std::shared_ptr<ScriptInfo> script)
 {
-	std::ofstream out(Paths::GetScriptPath(script.id));
+	/// Read code file
+	std::ifstream stream(Paths::GetScriptPath(script->id));
+	if (!stream.is_open())
+		return;
+	std::stringstream ss;
+	ss << stream.rdbuf();
+	std::string code = ss.str();
+
+	taskPool->DispatchTask(
+		std::string("SubmitScript"),
+		api->SubmitScript(identity, *script, code),
+		[this](std::shared_ptr<AsyncTask> response) {
+			mtxEntries.lock();
+			UpdateSubmissions(((ScriptSubmissionsResultAsync*)response.get())->submissions);
+			mtxEntries.unlock();
+		}
+	);
+}
+
+void ScriptRepository::UpdateSubmissions(std::vector<std::shared_ptr<ScriptSubmission>>& submissions)
+{
+	for (auto& submission : submissions) {
+		auto scriptId = submission->script->id;
+		auto find = entries.find(scriptId);
+		if (find == entries.end())
+			continue;
+
+		find->second->submission = submission;
+	}
+}
+
+void ScriptRepository::InstallScript(std::shared_ptr<ScriptInfo> script, std::string & code)
+{
+	std::ofstream out(Paths::GetScriptPath(script->id));
 	if (out.is_open())
 		out << code;
 
 	AddEntry(script, true);
 }
 
-void ScriptRepository::UninstallScript(ScriptInfo& script)
+void ScriptRepository::UninstallScript(std::shared_ptr<ScriptInfo> script)
 {
-	DeleteFileA(Paths::GetScriptPath(script.id).c_str());
-	RemoveEntry(script.id, true, false);
+	DeleteFileA(Paths::GetScriptPath(script->id).c_str());
+	RemoveEntry(script->id, true, false);
 	selectedScript = -1;
 }
 
@@ -373,12 +436,12 @@ void ScriptRepository::CreateLocalEntry()
 		i++;
 	}
 
-	ScriptInfo script;
-	script.id = newScriptId;
-	script.name = "New Script";
-	script.description = "Your description";
-	script.champion = "all";
-	script.author = identity.name;
+	std::shared_ptr<ScriptInfo> script = std::shared_ptr<ScriptInfo>(new ScriptInfo());
+	script->id = newScriptId;
+	script->name = "New Script";
+	script->description = "Your description";
+	script->champion = "all";
+	script->author = identity.name;
 
 	InstallScript(script, BaseCodeScript);
 
@@ -407,17 +470,17 @@ void ScriptRepository::UpdateState(std::shared_ptr<ScriptEntry>& entry)
 			entry->state = SE_STATE_ONLY_LOCAL;
 		else
 			entry->state = SE_STATE_CORRUPTED;
+		return;
 	}
-	else if (local != nullptr) {
 
-		if (local->lastUpdate != remote->lastUpdate)
-			entry->state = SE_STATE_OUTDATED;
+	if (local != nullptr) {
 
-		if (taskPool->IsExecuting(local->id)) {
+		if (taskPool->IsExecuting(local->id))
 			entry->state = SE_STATE_DOWNLOADING;
-		}
 		else if (taskPool->IsWaiting(local->id))
 			entry->state = SE_STATE_WAITING;
+		else if (std::abs(local->lastUpdate - remote->lastUpdate) > 1.0)
+			entry->state = SE_STATE_OUTDATED;
 		else {
 			auto path = Paths::GetScriptPath(entry->local->id);
 			if (Paths::FileExists(path))

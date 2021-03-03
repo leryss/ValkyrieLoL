@@ -1,5 +1,6 @@
 #include "AsyncInjector.h"
-
+#include "Paths.h"
+#include "Strings.h"
 
 AsyncInjector::AsyncInjector(std::string dllPath, bool oneTimeInjection)
 {
@@ -22,6 +23,11 @@ void AsyncInjector::Perform()
 		else if (hWindow != handleInjected) {
 			handleInjected = hWindow;
 			currentStep = "Injecting cheat";
+
+			if (!Paths::FileExists(dllPath)) {
+				SetError(Strings::Format("%s missing. Antivirus might have deleted it", dllPath).c_str());
+				return;
+			}
 
 			DWORD processId = 0;
 			GetWindowThreadProcessId(hWindow, &processId);

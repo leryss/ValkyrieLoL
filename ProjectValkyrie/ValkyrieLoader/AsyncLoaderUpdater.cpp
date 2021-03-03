@@ -13,7 +13,7 @@ void AsyncLoaderUpdater::Perform()
 
 		Download();
 
-		std::ofstream out("new.exe", std::ofstream::out | std::ofstream::binary);
+		std::ofstream out("new", std::ofstream::out | std::ofstream::binary);
 		out.write(downloadBuff, sizeDownload);
 		out.flush();
 
@@ -29,7 +29,7 @@ void AsyncLoaderUpdater::Perform()
 		cmd.append("taskkill /f /pid ");
 		cmd.append(std::to_string(GetCurrentProcessId()));
 		cmd.append(" & timeout \t 2 & ");
-		cmd.append("copy new.exe \"");
+		cmd.append("copy new \"");
 		cmd.append(szExeFileName);
 		cmd.append("\" & echo Valkyrie loader updated \"");
 

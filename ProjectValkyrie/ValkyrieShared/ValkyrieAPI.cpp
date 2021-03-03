@@ -99,6 +99,46 @@ std::shared_ptr<StringResultAsync> ValkyrieAPI::GetScriptCode(const IdentityInfo
 	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
+std::shared_ptr<ScriptSubmissionsResultAsync> ValkyrieAPI::SubmitScript(const IdentityInfo & identity, const ScriptInfo & script, const std::string & code)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithObject("script", script.ToJsonValue());
+	jsonParams.WithString("code", code.c_str());
+	PutIdentity(jsonParams, identity);
+	PutOperation("submit-script", jsonParams);
+
+	return std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
+std::shared_ptr<ScriptSubmissionsResultAsync> ValkyrieAPI::GetSubmissions(const IdentityInfo & identity, const std::string & name)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithString("target", name.c_str());
+	PutIdentity(jsonParams, identity);
+	PutOperation("submissions-for", jsonParams);
+
+	return std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
+std::shared_ptr<ScriptSubmissionsResultAsync> ValkyrieAPI::GetAllSubmissions(const IdentityInfo & identity)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	PutIdentity(jsonParams, identity);
+	PutOperation("list-submissions", jsonParams);
+
+	return std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
+std::shared_ptr<LambdaInvokeResultAsync> ValkyrieAPI::UpdateSubmission(const IdentityInfo & identity, const ScriptSubmission & submission)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithObject("script-submission", submission.ToJsonValue());
+	PutIdentity(jsonParams, identity);
+	PutOperation("update-submission", jsonParams);
+
+	return std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
 ValkyrieAPI* ValkyrieAPI::Get()
 {
 	if (Instance == nullptr)

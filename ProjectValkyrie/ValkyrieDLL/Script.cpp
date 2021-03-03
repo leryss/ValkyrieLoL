@@ -61,57 +61,24 @@ bool Script::LoadFunc(PyObject** loadInto, const char* funcName) {
 	return true;
 }
 
-bool Script::LoadInfo() {
-	PyObject* dictName = PyUnicode_FromString("script_info");
-	PyObject* dictAttr = PyObject_GetAttr(moduleObj, dictName);
-	Py_DECREF(dictName);
-
-	if (dictAttr == NULL) {
-		error = std::string("No `script_info` dictionary found in script");
-		return false;
-	}
-
-	dict d;
-	try {
-		d = dict(handle<>(dictAttr));
-
-		author      = extract<std::string>(d.get("author"));
-		description = extract<std::string>(d.get("description"));
-		prettyName  = extract<std::string>(d.get("name"));
-		icon        = extract<std::string>(d.get("icon"));
-	}
-	catch (error_already_set) {
-
-		error = std::string("`script_info` dict must have the following strings `author`, `description`, `name`, `icon`");
-		return false;
-	}
-
-	try {
-		targetChamp = extract<std::string>(d.get("target_champ"));
-	}
-	catch (error_already_set) {}
-
-	return true;
-}
-
-bool Script::LoadFromFile(std::string & file)
+bool Script::Load(std::shared_ptr<ScriptInfo> info)
 {
 	neverExecuted = false;
 	loaded        = false;
-	fileName      = file;
+	this->info    = info;
 	error.clear();
 	
 	if (NULL != moduleObj) {
-		Logger::Info("Reloading script %s", file.c_str());
+		Logger::Info("Reloading script %s", info->id.c_str());
 		moduleObj = PyImport_ReloadModule(moduleObj);
 	}
 	else {
-		Logger::Info("Loading script %s", file.c_str());
-		moduleObj = PyImport_ImportModule(file.c_str());
+		Logger::Info("Loading script %s", info->id.c_str());
+		moduleObj = PyImport_ImportModule(info->id.c_str());
 	}
 
 	if (NULL == moduleObj) {
-		Logger::Error("Error loading %s", file.c_str());
+		Logger::Error("Error loading %s", info->id.c_str());
 
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
@@ -120,15 +87,14 @@ bool Script::LoadFromFile(std::string & file)
 		error.append(extract<std::string>(PyObject_Str(pvalue)));
 	}
 	else {
-		if (LoadInfo() &&
-			LoadFunc(&functions[ScriptFunction::ON_LOOP], "valkyrie_exec") &&
+		if (LoadFunc(&functions[ScriptFunction::ON_LOOP], "valkyrie_exec") &&
 			LoadFunc(&functions[ScriptFunction::ON_MENU], "valkyrie_menu") &&
 			LoadFunc(&functions[ScriptFunction::ON_LOAD], "valkyrie_on_load") &&
 			LoadFunc(&functions[ScriptFunction::ON_SAVE], "valkyrie_on_save")) {
 
 			auto configPath = Paths::Configs;
 			configPath.append("\\");
-			configPath.append(fileName.c_str());
+			configPath.append(info->id.c_str());
 			config.SetSaveInterval(100);
 			config.SetConfigFile(configPath);
 			config.Load();

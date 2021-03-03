@@ -68,17 +68,17 @@ void PyExecutionContext::AttackUnit(const GameUnit & unit)
 
 void PyExecutionContext::LogInfo(const char * msg)
 {
-	Logger::Info("[%s] %s", currentScript->fileName.c_str(), (msg != NULL ? msg : "NULL"));
+	Logger::Info("[%s] %s", currentScript->info->id.c_str(), (msg != NULL ? msg : "NULL"));
 }
 
 void PyExecutionContext::LogWarning(const char * msg)
 {
-	Logger::Warn("[%s] %s", currentScript->fileName.c_str(), (msg != NULL ? msg : "NULL"));
+	Logger::Warn("[%s] %s", currentScript->info->id.c_str(), (msg != NULL ? msg : "NULL"));
 }
 
 void PyExecutionContext::LogError(const char * msg)
 {
-	Logger::Error("[%s] %s", currentScript->fileName.c_str(), (msg != NULL ? msg : "NULL"));
+	Logger::Error("[%s] %s", currentScript->info->id.c_str(), (msg != NULL ? msg : "NULL"));
 }
 
 Vector2 PyExecutionContext::World2Screen(const Vector3 & world)

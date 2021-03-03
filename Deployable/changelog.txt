@@ -6,6 +6,9 @@
 	* Fixed crash related to orbwalker target selector
 
 	+ Overall performance improvement
+	+ Added auto updating to loader
+	+ Added force updating option in loader + some minor UI changes
+	+ Added script repository
 
 [Valkyrie v0.14]
 	* Fixed some minor bugs
