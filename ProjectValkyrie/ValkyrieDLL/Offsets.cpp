@@ -4,17 +4,16 @@ Offsets::Offsets() {};
 
 std::string Offsets::GameVersion             = "11.4";
 
-int Offsets::ObjectManager                   = 0x016e43f4;
-int Offsets::Renderer                        = 0x02fa5d48;
-int Offsets::ViewMatrix                      = 0x02fa2f68;
-int Offsets::MinimapObject                   = 0x02f80978;
-int Offsets::LocalPlayer                     = 0x02f80974;
-int Offsets::GameTime                        = 0x02f78f1c;
-int Offsets::Chat                            = 0x02f811a0;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f3310;
+int Offsets::ObjectManager                   = 0x016dc5f4;
+int Offsets::Renderer                        = 0x02f9e33c;
+int Offsets::ViewMatrix                      = 0x02f9b4e0;
+int Offsets::MinimapObject                   = 0x02f78b48;
+int Offsets::LocalPlayer                     = 0x02f792b8;
+int Offsets::GameTime                        = 0x02f71134;
+int Offsets::Chat                            = 0x02f79384;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f3850;
 
-
-int Offsets::UnderMouseObject                = 0x23325B0;
+int Offsets::UnderMouseObject                = 0x232A7C0;
 int Offsets::ProjectionMatrix                = ViewMatrix + 16*sizeof(float);
 
 int Offsets::ChatIsOpen                      = 0x650;
@@ -70,7 +69,7 @@ int Offsets::SpellCastEnd                    = 0x8C;
 int Offsets::SpellCastSrcIdx                 = 0x68;
 int Offsets::SpellCastDestIdx                = 0xC0;
 
-int Offsets::ObjItemList                     = 0x3708;
+int Offsets::ObjItemList                     = 0x3720;
 int Offsets::ItemListItem                    = 0xC;
 int Offsets::ItemInfo                        = 0x20;
 int Offsets::ItemInfoId                      = 0x68;

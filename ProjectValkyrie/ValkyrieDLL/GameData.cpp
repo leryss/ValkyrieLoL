@@ -1,10 +1,10 @@
 #include "GameReader.h"
 #include "GameData.h"
-#include "Globals.h"
 #include "Logger.h"
 #include "Strings.h"
 #include "Valkyrie.h"
 #include "json/json.h"
+#include "Paths.h"
 
 #include "d3dx9tex.h"
 #include <filesystem>
@@ -111,7 +111,7 @@ void GameData::ImGuiDrawObjects()
 
 void GameData::LoadSpells(const char* fileName, float& percentValue, float percentEnd)
 {
-	fs::path path = Globals::WorkingDir;
+	fs::path path = Paths::Root;
 	path.append(FolderData).append(fileName);
 	std::ifstream file(path.generic_string().c_str());
 
@@ -149,7 +149,7 @@ void GameData::LoadSpells(const char* fileName, float& percentValue, float perce
 
 void GameData::LoadItems(const char* fileName, float& percentValue, float percentEnd)
 {
-	fs::path path = Globals::WorkingDir;
+	fs::path path = Paths::Root;
 	path.append(FolderData).append(fileName);
 	std::ifstream file(path.generic_string().c_str());
 
@@ -187,7 +187,7 @@ void GameData::LoadItems(const char* fileName, float& percentValue, float percen
 
 void GameData::LoadUnits(const char* fileName, float& percentValue, float percentEnd)
 {
-	fs::path path = Globals::WorkingDir;
+	fs::path path = Paths::Root;
 	path.append(FolderData).append(fileName);
 	std::ifstream file(path.generic_string().c_str());
 
@@ -252,7 +252,7 @@ std::vector<SkinChroma> GetChromas(json& jchromas) {
 
 void GameData::LoadSkins(const char * fileName, float & percentValue, float percentEnd)
 {
-	fs::path path = Globals::WorkingDir;
+	fs::path path = Paths::Root;
 	path.append(FolderData).append(fileName);
 	std::ifstream file(path.generic_string().c_str());
 
@@ -299,7 +299,7 @@ bool LoadTextureFromHeap(void* heap, size_t heapSize, PDIRECT3DTEXTURE9* outText
 
 
 void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float percentEnd) {
-	fs::path path = Globals::WorkingDir;
+	fs::path path = Paths::Root;
 	path.append(FolderData).append(zipName);
 	const char* zipPath = path.u8string().c_str();
 

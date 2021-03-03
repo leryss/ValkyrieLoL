@@ -15,6 +15,8 @@ std::string Paths::ScriptsIndex = Root + "\\scripts.index";
 std::string Paths::ChangeLog    = Root + "\\changelog.txt";
 std::string Paths::Dependencies = Root + "\\dependencies";
 std::string Paths::Version      = Root + "\\version";
+std::string Paths::Configs      = Root + "\\configs";
+std::string Paths::ImguiConfig  = Root + "\\imgui.ini";
 
 bool Paths::FileExists(std::string & path)
 {

@@ -295,5 +295,4 @@ void BenchmarkGameReader::ImGuiDraw()
 	ImGui::DragInt(numObjPointers.name, &numObjPointers.value);
 	ImGui::DragInt(cacheHits.name,      &cacheHits.value);
 	ImGui::DragInt(blacklistHits.name,  &blacklistHits.value);
-	
 }

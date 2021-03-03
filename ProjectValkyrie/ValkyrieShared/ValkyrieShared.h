@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+#include <windows.h>
 #include "miniz/miniz.h"
 #include "imgui/imgui.h"
 

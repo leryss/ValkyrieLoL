@@ -174,7 +174,6 @@
     <ClInclude Include="GameSpell.h" />
     <ClInclude Include="GameTurret.h" />
     <ClInclude Include="GameUnit.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="HKey.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="ItemInfo.h" />
@@ -220,7 +219,6 @@
     <ClCompile Include="GameSpell.cpp" />
     <ClCompile Include="GameTurret.cpp" />
     <ClCompile Include="GameUnit.cpp" />
-    <ClCompile Include="Globals.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="GameReader.cpp" />

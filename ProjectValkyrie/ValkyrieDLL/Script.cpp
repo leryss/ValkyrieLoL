@@ -1,7 +1,7 @@
 #include "Script.h"
 #include "Logger.h"
 #include "Strings.h"
-#include "Globals.h"
+#include "Paths.h";
 #include <boost/python/detail/convertible.hpp>
 
 std::string Script::GetPyError()
@@ -126,10 +126,11 @@ bool Script::LoadFromFile(std::string & file)
 			LoadFunc(&functions[ScriptFunction::ON_LOAD], "valkyrie_on_load") &&
 			LoadFunc(&functions[ScriptFunction::ON_SAVE], "valkyrie_on_save")) {
 
-			auto configPath = Globals::ConfigsDir;
+			auto configPath = Paths::Configs;
+			configPath.append("\\");
 			configPath.append(fileName.c_str());
 			config.SetSaveInterval(100);
-			config.SetConfigFile(configPath.u8string());
+			config.SetConfigFile(configPath);
 			config.Load();
 
 			neverExecuted = true;

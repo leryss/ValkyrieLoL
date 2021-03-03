@@ -3,15 +3,16 @@
 #include <codecvt>
 #include <windows.h>
 #include "Valkyrie.h"
-#include "Globals.h"
 #include "Strings.h"
+#include "Paths.h"
 
 
 DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
 
-	fs::path pathFileLogger = Globals::WorkingDir;
+	auto pathFileLogger = Paths::Root;
+	pathFileLogger.append("\\");
 	pathFileLogger.append("logs.txt");
-	Logger::InitLoggers(pathFileLogger.u8string().c_str());
+	Logger::InitLoggers(pathFileLogger.c_str());
 
 	Logger::Info("Starting up Valkyrie");
 	Valkyrie::Run();

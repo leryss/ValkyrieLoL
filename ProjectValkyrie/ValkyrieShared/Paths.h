@@ -17,4 +17,6 @@ public:
 	static std::string ChangeLog;
 	static std::string Dependencies;
 	static std::string Version;
+	static std::string Configs;
+	static std::string ImguiConfig;
 };

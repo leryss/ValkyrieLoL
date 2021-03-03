@@ -5,7 +5,7 @@
 #include "ObjectExplorer.h"
 #include "Offsets.h"
 #include "Memory.h"
-#include "Globals.h"
+#include "Paths.h"
 #include "PyStructs.h"
 #include "OffsetScanner.h"
 #include "SkinChanger.h"
@@ -26,7 +26,7 @@ LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL
 std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
 
-ValkyrieAPI                        Valkyrie::Api = ValkyrieAPI::Get();
+ValkyrieAPI*                       Valkyrie::Api = ValkyrieAPI::Get();
 UserInfo                           Valkyrie::LoggedUser;
 AsyncTaskPool*                     Valkyrie::TaskPool = AsyncTaskPool::Get();
 bool                               Valkyrie::EssentialsLoaded = false;
@@ -185,7 +185,7 @@ void Valkyrie::InitializeOverlay()
 	if (!ImGui_ImplDX9_Init(DxDevice))
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 
-	ImGui::GetIO().IniFilename = Globals::ImGuiIniPath.c_str();
+	ImGui::GetIO().IniFilename = Paths::ImguiConfig.c_str();
 
 	LoadConfigs();
 }
@@ -233,10 +233,11 @@ void Valkyrie::LoginAndLoadData()
 
 void Valkyrie::LoadConfigs()
 {
-	auto configPath = Globals::ConfigsDir;
+	auto configPath = Paths::Configs;
+	configPath.append("\\");
 	configPath.append("valkyrie.cfg");
 
-	Configs.SetConfigFile(configPath.u8string());
+	Configs.SetConfigFile(configPath);
 	Configs.Load();
 
 	ShowConsoleWindow        = Configs.GetBool("show_console", false);
@@ -261,11 +262,7 @@ void Valkyrie::SaveConfigs()
 
 void Valkyrie::LoadScripts()
 {
-	fs::path pathScripts = Globals::WorkingDir;
-	pathScripts.append("scripts");
-	std::string pathStr = pathScripts.u8string();
-
-	ScriptManager.LoadScriptsFromFolder(pathStr);
+	ScriptManager.LoadScriptsFromFolder(Paths::Scripts);
 }
 
 void Valkyrie::ExecuteScripts()
@@ -297,7 +294,6 @@ void Valkyrie::DrawDevMenu()
 	if (ImGui::Button("Reload Scripts"))
 		LoadScripts();
 
-	ImGui::LabelText("VPath", Globals::WorkingDir.u8string().c_str());
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
 	ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
 	ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
@@ -332,7 +328,9 @@ void Valkyrie::Update()
 		TaskPool->ImGuiDraw();
 		if (EssentialsLoaded) {
 			
+			
 			CurrentGameState = Reader.GetNextState();
+			//ShowMenu();
 			if (CurrentGameState->gameStarted) {
 				SkinChanger::Refresh();
 				SetupScriptExecutionContext();
