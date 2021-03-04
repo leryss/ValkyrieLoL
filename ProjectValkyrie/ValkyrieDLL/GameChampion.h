@@ -2,6 +2,7 @@
 #include "GameUnit.h"
 #include "GameSpell.h"
 #include "GameBuff.h"
+#include "GameItemSlot.h"
 #include "ItemInfo.h"
 
 #include <set>
@@ -15,7 +16,9 @@ public:
 	          GameChampion();
 	          GameChampion(std::string name);
 		      
-	void      ReadBuffs(int addr);
+	void      ReadSpells(int numToRead);
+	void      ReadBuffs();
+	void      ReadItems();
 	void      ReadFromBaseAddress(int addr);
 	void      ImGuiDraw();
 			  
@@ -31,8 +34,8 @@ public:
 
 	const static int NUM_SPELLS = 12;
 	const static int NUM_ITEMS = 6;
-	GameSpell spells[NUM_SPELLS];
-	ItemInfo* items[NUM_ITEMS];
+	GameSpell    spells[NUM_SPELLS];
+	GameItemSlot items[NUM_ITEMS];
 
 	std::map<std::string, std::shared_ptr<GameBuff>> buffs;
 };

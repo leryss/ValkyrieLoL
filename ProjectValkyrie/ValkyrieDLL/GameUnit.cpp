@@ -37,11 +37,11 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	/// Read spell being cast
 	int activeSpellPtr = ReadInt(addr + Offsets::ObjSpellBook + Offsets::SpellBookActiveSpellCast);
 	if (activeSpellPtr != 0) {
-		hasCastingSpell = true;
+		isCasting = true;
 		castingSpell.ReadFromBaseAddress(activeSpellPtr);
 	}
 	else
-		hasCastingSpell = false;
+		isCasting = false;
 
 	/// Check if transformed (ex nidalee cougar form) and update static data
 	int transformAddr = ReadInt(addr + Offsets::ObjTransformation);
@@ -90,7 +90,7 @@ void GameUnit::ImGuiDraw()
 
 	ImGui::Separator();
 	if (ImGui::TreeNode("Currently casting")) {
-		if (hasCastingSpell)
+		if (isCasting)
 			castingSpell.ImGuiDraw();
 		ImGui::TreePop();
 	}
@@ -111,6 +111,13 @@ float GameUnit::GetAttackSpeed()
 	return 0.f;
 }
 
+bool GameUnit::IsRanged()
+{
+	if (staticData == nullptr)
+		return false;
+	return staticData->baseAttackRange >= 300.f;
+}
+
 object GameUnit::GetStaticData()
 {
 	return object(ptr(staticData));
@@ -118,7 +125,7 @@ object GameUnit::GetStaticData()
 
 object GameUnit::GetCastingSpell()
 {
-	if (hasCastingSpell)
+	if (isCasting)
 		return object(boost::ref(castingSpell));
 	else
 		return object();

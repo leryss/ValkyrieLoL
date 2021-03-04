@@ -1,12 +1,5 @@
 from valkyrie import *
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Spell Tracker',
-	'icon': 'menu-spellbook'
-}
-
 size_img_skill = 24
 
 show_enemies = None

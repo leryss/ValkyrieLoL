@@ -1,13 +1,6 @@
 from valkyrie import *
 from time import time
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Gank Awareness',
-	'icon': 'menu-bell'
-}
-
 size_portrait_minimap = 24
 size_portrait_world   = 48
 

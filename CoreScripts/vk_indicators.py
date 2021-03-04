@@ -4,13 +4,6 @@ from helpers.prediction import *
 from helpers.items import *
 from time import time
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Indicators',
-	'icon': 'menu-pencil'
-}
-
 player_circle	     = Circle(0.0, 30, 1.0, Col.Green, False, True)
 turret_circle_enemy  = Circle(0.0, 50, 1.0, Col.Red,   False, True)
 turret_circle_ally   = Circle(0.0, 50, 1.0, Col.Blue, False, True)

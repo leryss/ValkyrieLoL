@@ -5,13 +5,6 @@ from helpers.spells    import Buffs, BuffType, CCType
 import time
 import json
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Activator',
-	'icon': 'menu-dev'
-}
-
 SummonerSpells = [
 	"s5_summonersmiteduel", 
 	"s5_summonersmiteplayerganker",
@@ -28,6 +21,41 @@ SummonerSpells = [
 	"summonerhaste"
 ]
 
+rechargable_actives = {
+	2033, # Corruption pot
+	2031  # Reffilable pot
+}
+
+class Enabler:
+
+	enable_type = ['Always On', 'Key Input']
+
+	def __init__(self, always_on, keyinput):
+		self.keyinput  = keyinput
+		self.selected  = 0 if always_on else 1
+		
+	def ui(self, ui):
+		self.selected = ui.sliderenum('Activation Type', self.enable_type[self.selected], self.selected, 1)
+		if self.selected == 1:
+			self.keyinput.ui('Activation key', ui)
+		ui.separator()
+
+	def check(self, ctx):
+		if self.selected == 0:
+			return True
+			
+		return self.keyinput.check(ctx)
+		
+	def __str__(self):
+		return json.dumps([self.selected == 0, str(self.keyinput)])
+		
+	@classmethod
+	def from_str(self, s):
+		j = json.loads(s)
+		
+		return Enabler(j[0], KeyInput.from_str(j[1]))
+
+
 class ActivatorQSS:
 	
 	all_cleanses         = { 'summonerboost', 'quicksilversash', '6035_spell', 'itemmercurial' }
@@ -35,21 +63,31 @@ class ActivatorQSS:
 	
 	default_enable = { str(type): True for type in CCType.Names.keys() }
 	
-	def __init__(self, delay = 0.1, min_cc_duration = 1.0, buff_settings = default_enable):
-		self.delay = delay
-		self.min_cc_duration = min_cc_duration
-		self.buff_settings = buff_settings
+	def __init__(self, enabler = Enabler(True, KeyInput(0, False)), delay = 0.1, min_cc_duration = 1.0, min_slow_duration = 2.0, ms_breakpoint = 200.0, buff_settings = default_enable):
+		self.enabler           = enabler 
+		self.delay             = delay
+		self.min_cc_duration   = min_cc_duration
+		self.min_slow_duration = min_slow_duration
+		self.ms_breakpoint     = ms_breakpoint
+		self.buff_settings     = buff_settings
 		
 	def ui(self, ui):
-		
+		self.enabler.ui(ui)
 		for buff, enabled in self.buff_settings.items():
 			self.buff_settings[buff] = ui.checkbox(f'Cleanse on {CCType.Names[int(buff)]}', enabled)
-			
-		self.delay           = ui.sliderfloat('Cast delay (secs)', self.delay, 0.0, 1.0)
-		self.min_cc_duration = ui.sliderfloat('Minimum CC duration (secs)', self.min_cc_duration, 0.0, 3.0)
+		
+		ui.separator()
+		self.delay             = ui.sliderfloat('Cast delay (secs)', self.delay, 0.0, 1.0)
+		self.min_cc_duration   = ui.sliderfloat('Minimum CC duration (secs)', self.min_cc_duration, 0.0, 3.0)
+		self.min_slow_duration = ui.sliderfloat("Minimum slow duration (secs)", self.min_slow_duration, 0.0, 5.0)
+		self.ms_breakpoint     = ui.sliderfloat('Movement speed less than (when slowed)', self.ms_breakpoint, 50.0, 300.0)
 		
 	def check(self, ctx, spell):
 		
+		if not self.enabler.check(ctx):
+			return None
+		
+		#ctx.pill('QSS', Col.Black, Col.Cyan)
 		for buff in ctx.player.buffs:
 			buff_info = Buffs.get(buff.name)
 			if buff_info.is_type(BuffType.CC):
@@ -57,8 +95,14 @@ class ActivatorQSS:
 				if self.buff_settings[str(buff_info.type_info)]:
 					if ctx.time - buff.time_begin < self.delay:
 						return None
-					if buff.time_end - buff.time_begin < self.min_cc_duration:
-						return None
+						
+					remaining_duration = buff.time_end - buff.time_begin
+					if buff_info.type_info == CCType.Slow:
+						if remaining_duration < self.min_slow_duration and ctx.player.move_speed > self.ms_breakpoint:
+							return None
+					else:
+						if min_cc_duration < self.min_cc_duration:
+							return None
 					
 					return ctx.player
 					
@@ -71,29 +115,29 @@ class ActivatorQSS:
 		return 'QSS/Cleanse'
 		
 	def __str__(self):
-		return json.dumps([self.delay, self.min_cc_duration, self.buff_settings])
+		return json.dumps([str(self.enabler), self.delay, self.min_cc_duration, self.min_slow_duration, self.ms_breakpoint, self.buff_settings])
 		
 	@classmethod
 	def from_str(self, s):
 		j = json.loads(s)
 		
-		return ActivatorQSS(delay = j[0], min_cc_duration = j[1], buff_settings = j[2])
+		return ActivatorQSS(enabler = Enabler.from_str(j[0]), delay = j[1], min_cc_duration = j[2], min_slow_duration = j[3], ms_breakpoint = j[4], buff_settings = j[5])
 		
 class ActivatorSmite:
 	
 	smite_dmg       = [390, 410, 430, 450, 480, 510, 540, 570, 600, 640, 680, 720, 760, 800, 850, 900, 950, 1000]
 	
-	def __init__(self, key = KeyInput(0, False), selector_monster = TargetSelector(0, TargetSet.Monster)):
-		self.key = key
+	def __init__(self, enabler = Enabler(False, KeyInput(0, False)), selector_monster = TargetSelector(0, TargetSet.Monster)):
+		self.enabler = enabler
 		self.sel_monster = selector_monster
 		
 	def ui(self, ui):
-		self.key.ui('Activation key', ui)
+		self.enabler.ui(ui)
 		self.sel_monster.ui('Targeting Monsters', ui)
 		
 	def check(self, ctx, spell):
-		if self.key.check(ctx):
-			ctx.pill('AutoSmite', Col.Black, Col.Yellow)
+		if self.enabler.check(ctx):
+			ctx.pill('Smite', Col.Black, Col.Yellow)
 			
 			target = self.sel_monster.get_target(ctx, ctx.jungle, 500.0)
 			if target and target.health - self.smite_dmg[ctx.player.lvl - 1] <= 0.0 and (target.has_tags(Unit.MonsterLarge) or target.has_tags(Unit.MonsterEpic)):
@@ -108,18 +152,66 @@ class ActivatorSmite:
 		return 'Smite'
 		
 	def __str__(self):
-		return json.dumps([str(self.key), str(self.sel_monster)])
+		return json.dumps([str(self.enabler), str(self.sel_monster)])
 		
 	@classmethod
 	def from_str(self, s):
 		j = json.loads(s)
 		
-		return ActivatorSmite(KeyInput.from_str(j[0]), TargetSelector.from_str(j[1]))
+		return ActivatorSmite(Enabler.from_str(j[0]), TargetSelector.from_str(j[1]))
 		
+class ActivatorPotion:
+
+	pot_buffs = {
+		'item2003'             : 'Item2003',
+		'itemcrystalflask'     : 'ItemCrystalFlask',
+		'itemdarkcrystalflask' : 'ItemDarkCrystalFlask'
+	}
+
+	def __init__(self, enabler = Enabler(True, KeyInput(0, False)), hp_breakpoint = 80.0):
+		self.enabler = enabler
+		self.hp_breakpoint = hp_breakpoint
+		
+	def ui(self, ui):
+		self.enabler.ui(ui)
+		self.hp_breakpoint = ui.sliderfloat('When below % HP', self.hp_breakpoint, 0.0, 99.0)
+		
+	def check(self, ctx, spell):
+		if self.enabler.check(ctx):
+			buff = self.pot_buffs.get(spell.name, None)
+			if not buff:
+				return None
+			
+			# Check if pot already in effect
+			player = ctx.player
+			if Buffs.has_buff(player, buff):
+				return None
+			
+			#ctx.pill('Potion', Col.White, Col.Red)
+			if player.health/player.max_health <= self.hp_breakpoint/100.0:
+				return ctx.player
+			
+		return None
+		
+	def get_icon(self):
+		return 'darkpotion'
+		
+	def get_name(self):
+		return 'Potion'
+		
+	def __str__(self):
+		return json.dumps([str(self.enabler), self.hp_breakpoint])
+		
+	@classmethod
+	def from_str(self, s):
+		j = json.loads(s)
+		
+		return ActivatorPotion(enabler = Enabler.from_str(j[0]), hp_breakpoint = j[1])
 
 activators = {
 	'Smite': ActivatorSmite(),
-	'QSS'  : ActivatorQSS()
+	'QSS'  : ActivatorQSS(),
+	'Potion' : ActivatorPotion()
 }
 
 spell_to_activator = {
@@ -130,7 +222,11 @@ spell_to_activator = {
 	'summonerboost'                : 'QSS',
 	'quicksilversash'              : 'QSS', # Quicksilver active
 	'6035_spell'                   : 'QSS', # Silvermere Dawn active
-	'itemmercurial'                : 'QSS'  # Mercurial active
+	'itemmercurial'                : 'QSS', # Mercurial active
+	
+	'item2003'                     : 'Potion', # Red potion
+	'itemcrystalflask'             : 'Potion', # Refillable potion
+	'itemdarkcrystalflask'         : 'Potion'  # Corruption potion
 }
 
 def valkyrie_menu(ctx):
@@ -158,26 +254,39 @@ def valkyrie_on_save(ctx):
 		cfg.set_str(name, str(activator))
 
 cast_timestamps = [0.0] * 12 # Used to make sure we dont cast a spell 100 times a second
+used_activators = set([])
 
+def try_activate(ctx, player, spell, item_slot = None):
+	global used_activators
+	
+	activator_name = spell_to_activator.get(spell.name, None)
+	if activator_name and activator_name not in used_activators:
+		used_activators.add(activator_name)
+		activator = activators[activator_name]
+		target    = activator.check(ctx, spell)
+		if target and ctx.cast_spell(spell, target.pos):
+			ctx.info(f"Casted spell {spell.name}")
+			return True
+			
+	return False
+	
 def valkyrie_exec(ctx):
-	global cast_timestamps
+	global used_activators
 	player = ctx.player
 	
-	for i, spell in enumerate(player.spells):
-		if spell.lvl == 0 or spell.cd > 0.0:
+	used_activators = set({})
+	spells = player.spells
+	if try_activate(ctx, player, spells[4]): #D slot
+		return
+	if try_activate(ctx, player, spells[5]): #F slot
+		return
+	
+	for slot in player.item_slots:
+		if not slot.active:
+			continue
+		if slot.item.id in rechargable_actives and (slot.charges == 0 or ctx.is_at_spawn(player)):
 			continue
 			
-		now = time.time()
-		if now - cast_timestamps[i] < 0.1:
-			continue
-			
-		activator_name = spell_to_activator.get(spell.name, None)
-		if activator_name:
-			activator = activators[activator_name]
-			target    = activator.check(ctx, spell)
-			if target:
-				ctx.cast_spell(spell, target.pos)
-				cast_timestamps[i] = now
-				break
-	
-	
+		if try_activate(ctx, player, slot.active):
+			return
+		

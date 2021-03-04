@@ -27,6 +27,7 @@ class CCType:
 class BuffType:
 	Mastery = 1
 	CC      = 2
+	Potion  = 4
 
 class Buff:
 	
@@ -43,23 +44,29 @@ class Buffs:
 
 	UnknownBuff = Buff('UnknownBuff', '?', 0)
 	AllBuffs = [
-		Buff('Charm',           'Charm',                      BuffType.CC,      CCType.Charm),
-		Buff('Stun',            'Stun',                       BuffType.CC,      CCType.Stun),
-		Buff('Flee',            'Flee',                       BuffType.CC,      CCType.Fear),
-		Buff('Suppress',        'suppression',                BuffType.CC,      CCType.Suppress),
-		Buff('Taunt',           'puncturingtauntattackspeed', BuffType.CC,      CCType.Taunt),
-		
-		# Slows                                         
-		Buff('Slow',            'slow',                       BuffType.CC,      CCType.Slow),
-		Buff('WaterDrakeSlow',  'waterdragonslow',            BuffType.CC,      CCType.Slow),
-		Buff('AshePassiveSlow', 'ashepassiveslow',            BuffType.CC,      CCType.Slow),
-														      
-		# Roots                                               
-		Buff('JhinWRoot',       'JhinW',                      BuffType.CC,      CCType.Root),
-		Buff('LuxQRoot',        'LuxLightBindingMis',         BuffType.CC,      CCType.Root),
-							    
-		# Masteries             
-		Buff('LethalTempo',     'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempoEmpowered.lua', BuffType.Mastery),
+		#    Pretty nam               In game name                 Type              More type info
+		Buff('Charm',                'Charm',                      BuffType.CC,      CCType.Charm),
+		Buff('Stun',                 'Stun',                       BuffType.CC,      CCType.Stun),
+		Buff('Flee',                 'Flee',                       BuffType.CC,      CCType.Fear),
+		Buff('Suppress',             'suppression',                BuffType.CC,      CCType.Suppress),
+		Buff('Taunt',                'puncturingtauntattackspeed', BuffType.CC,      CCType.Taunt),
+								     
+		# Slows                                              
+		Buff('Slow',                 'slow',                       BuffType.CC,      CCType.Slow),
+		Buff('WaterDrakeSlow',       'waterdragonslow',            BuffType.CC,      CCType.Slow),
+		Buff('AshePassiveSlow',      'ashepassiveslow',            BuffType.CC,      CCType.Slow),
+								     						      
+		# Roots                                                    
+		Buff('JhinWRoot',            'JhinW',                      BuffType.CC,      CCType.Root),
+		Buff('LuxQRoot',             'LuxLightBindingMis',         BuffType.CC,      CCType.Root),
+							         
+		# Masteries                  
+		Buff('LethalTempo',          'ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempoEmpowered.lua', BuffType.Mastery),
+		 
+		# Potions
+		Buff('DarkCrystalFlask',     'ItemDarkCrystalFlask',        BuffType.Potion),
+		Buff('CrystalFlask',         'ItemCrystalFlask',            BuffType.Potion),
+		Buff('RedPot',               'Item2003',                    BuffType.Potion)
 	]
 	
 	AllBuffsDict = { buff.pretty_name : buff for buff in AllBuffs } | { buff.name : buff for buff in AllBuffs }

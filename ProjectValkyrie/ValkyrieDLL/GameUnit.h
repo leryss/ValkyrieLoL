@@ -16,11 +16,13 @@ public:
 	void      ImGuiDraw();
 	bool      HasTags(UnitTag tag);
 	float     GetAttackSpeed();
+	bool      IsRanged();
 	object    GetStaticData();
 	object    GetCastingSpell();
 
 public:
 
+	bool        isCasting = false;
 	bool        targetable;
 	bool        invulnerable;
 	bool        isDead;
@@ -39,12 +41,9 @@ public:
 	float       abilityPower;
 	float       atkSpeedMulti;
 	float       attackRange;
-			    
+	
 	SpellCast   castingSpell;
 	UnitInfo*   staticData;
 
 	std::string nameTransformed;
-
-private:
-	bool      hasCastingSpell = false;
 };

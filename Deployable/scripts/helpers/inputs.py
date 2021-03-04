@@ -10,11 +10,11 @@ class KeyInput:
 	
 	def ui(self, label, ui):
 		ui.pushid(id(self))
-		
-		ui.separator()
+
 		ui.text(label)
 		self.key = ui.keyselect('Key', self.key)
-		self.is_held = ui.checkbox("Hold mode", self.is_held)
+		ui.sameline()
+		self.is_held = ui.checkbox("Must hold key", self.is_held)
 		
 		ui.popid()
 		

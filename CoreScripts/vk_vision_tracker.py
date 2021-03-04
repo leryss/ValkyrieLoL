@@ -2,13 +2,6 @@ from valkyrie import *
 from helpers.drawings import Circle
 import json
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Vision Tracker',
-	'icon': 'menu-eye'
-}
-
 show_clones, show_wards, show_traps = None, None, None
 circle_mm	= Circle(0.0, 15, 1.0, Col.Red, False, True)
 circle_world = Circle(0.0, 50, 3.0, Col.Red, False, True)

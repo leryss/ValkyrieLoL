@@ -1,17 +1,17 @@
 from valkyrie import *
 
-def crit_from_items(items):
+def crit_from_items(item_slots):
 	crit = 0.0
-	for item in items:
-		if item:
-			crit += item.crit
+	for slot in item_slots:
+		if slot.item:
+			crit += slot.item.crit
 	return crit
 
 def onhit_guinsoo(src, target):
-	return crit_from_items(src.items) * 100.0 * 2.0
+	return min(200.0, min(crit_from_items(src.item_slots), 1.0) * 100.0 * 2.0)
 	
 def onhit_rageknife(src, target):
-	return crit_from_items(src.items) * 100.0 * 1.75
+	return min(175.0, min(crit_from_items(src.item_slots), 1.0) * 100.0 * 1.75)
 
 def onhit_noonquiver(src, target):
 	return 0.0 if target.has_tags(Unit.Champion) else 20.0
@@ -32,7 +32,7 @@ def onhit_nashors(src, target):
 	return 15.0 + 0.2 * src.ap
 	
 def onhit_wits_end(src, target):
-	return 11.7 + 3.82 * src.lvl
+	return 15.0 + 3.82 * (src.lvl - 1)
 
 OnHit_Physical = {
 	3124: onhit_guinsoo,
@@ -52,7 +52,8 @@ def get_onhit_physical(source, target):
 	global OnHit_Physical
 	
 	phys = source.base_atk + source.bonus_atk
-	for item in source.items:
+	for slot in source.item_slots:
+		item = slot.item
 		if item and item.id in OnHit_Physical:
 			phys += OnHit_Physical[item.id](source, target)
 			
@@ -62,7 +63,8 @@ def get_onhit_magical(source, target):
 	global OnHit_Magical
 	
 	magical = 0.0
-	for item in source.items:
+	for slot in source.item_slots:
+		item = slot.item
 		if item and item.id in OnHit_Magical:
 			magical += OnHit_Magical[item.id](source, target)
 			

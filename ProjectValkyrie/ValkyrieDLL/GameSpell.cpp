@@ -8,6 +8,8 @@ void GameSpell::ReadFromBaseAddress(int addr)
 	lvl = ReadInt(addr + Offsets::SpellSlotLevel);
 	readyAt = ReadFloat(addr + Offsets::SpellSlotTime);
 	value = ReadFloat(addr + Offsets::SpellSlotValue);
+	charges = ReadShort(addr + Offsets::SpellSlotCharges);
+	readyAtCharge = ReadFloat(addr + Offsets::SpellSlotTimeCharge);
 
 	int spellInfo = ReadInt(addr + Offsets::SpellSlotSpellInfo);
 	if (CantRead(spellInfo))
@@ -22,15 +24,22 @@ void GameSpell::ReadFromBaseAddress(int addr)
 
 void GameSpell::ImGuiDraw()
 {
-	ImGui::Text("Name: %s",      name.c_str());
-	ImGui::DragInt("Level",      &lvl);
-	ImGui::DragFloat("Ready At", &readyAt);
-	ImGui::DragFloat("Value",    &value);
+	ImGui::Text("Name: %s",             name.c_str());
+	ImGui::DragInt("Level",             &lvl);
+	ImGui::DragFloat("Ready At",        &readyAt);
+	ImGui::DragFloat("Charge Ready At", &readyAtCharge);
+	ImGui::DragInt("Charges",           &charges);
+	ImGui::DragFloat("Value",           &value);
 }
 
 float GameSpell::GetRemainingCooldown()
 {
-	float cd = readyAt - Valkyrie::CurrentGameState->time;
+	float time = Valkyrie::CurrentGameState->time;
+	float cd = 0.0f;
+	if (readyAtCharge == 0 || charges > 0)
+		cd = readyAt - time;
+	else
+		cd = readyAtCharge - time;
 	return (cd >= 0.f ? cd : 0.0f);
 }
 

@@ -18,4 +18,7 @@ public:
 	float lifeSteal;
 	float hpRegen;
 	float movementSpeedPercent;
+
+	/// Not a static field, but we arent going to make a whole new class just for one field are we ?
+	int charges;
 };

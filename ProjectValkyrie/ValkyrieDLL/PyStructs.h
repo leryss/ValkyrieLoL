@@ -8,6 +8,7 @@
 #include "GameMissile.h"
 #include "GameSpell.h"
 #include "GameBuff.h"
+#include "GameItemSlot.h"
 
 #include "SpellInfo.h"
 #include "ItemInfo.h"
@@ -44,6 +45,12 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("basic_atk",           &UnitInfo::GetBasicAttack,      "Default basic attack on the unit")
 		.def_readonly("basic_atk_windup",    &UnitInfo::basicAttackWindup,   "Basic attack windup. See league wiki for more info")
 		.def_readonly("basic_atk_cast_time", &UnitInfo::basicAttackCastTime, "Basic attack cast time. See league wiki for more info")
+		;
+
+	class_<GameItemSlot>("ItemSlot", "Represents an item slot")
+		.def_readonly("charges",             &GameItemSlot::charges,          "Charges of item (example: corruption potion charges, number of red potions etc)")
+		.def_readonly("item",                &GameItemSlot::GetItemPy,        "Static data of the item. If there is no item on the slot then this is None otherwise it is an ItemStatic instance")
+		.def_readonly("active",              &GameItemSlot::GetActivePy,      "Spell active of the item. None if item doesnt have active")
 		;
 
 	class_<ItemInfo>("ItemStatic",        "Static data loaded at runtime for an item")
@@ -96,7 +103,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("value",             &GameSpell::value,                "Value of spells. Holds the value of the spell for summoner spells like ignite/smite it holds the damage. For champion spells this value is usually 0")
 		.def_readonly("cd",                &GameSpell::GetRemainingCooldown, "The remaining cooldown of the spell. Internally it is calculated using ready_at")
 
-		.def_readonly("static",            &GameSpell::GetStaticData,        "Gets static information loaded at runtime about the spell")
+		.def_readonly("static",            &GameSpell::GetStaticData,        "Gets static information loaded at runtime about the spell. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		;
 
 	class_<SpellCast>("SpellCast",         "Has data about a spell cast.")
@@ -106,7 +113,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("dest_index",        &SpellCast::destIndex,            "If casting a targeted spell this holds the index of the target object")
 		.def_readonly("time_begin",        &SpellCast::timeBegin,            "Start timestamp in game time of the casting")
 		.def_readonly("cast_time",         &SpellCast::castTime,             "Total cast time")
-		.def_readonly("static",            &SpellCast::GetStaticData,        "Static data of the spell being cast")
+		.def_readonly("static",            &SpellCast::GetStaticData,        "Static data of the spell being cast. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		;
 
 	class_<GameMissile, bases<GameObject>>("MissileObj")
@@ -135,7 +142,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("atk_speed",         &GameUnit::GetAttackSpeed,        "Calculates the attack speed of the unit")
 
 		.def_readonly("curr_casting",      &GameUnit::GetCastingSpell,       "Currently casting spell by the unit")
-		.def_readonly("static",            &GameUnit::GetStaticData,         "Static data loaded at runtime of the unit")
+		.def_readonly("static",            &GameUnit::GetStaticData,         "Static data loaded at runtime of the unit. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
+		.def_readonly("is_ranged",         &GameUnit::IsRanged,              "True if unit is ranged")
 
 		.def("has_tags",                   &GameUnit::HasTags,               "Checks if the unit has unit tags (see Unit class)")
 
@@ -143,18 +151,18 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
 		.def("has_buff",                   &GameChampion::HasBuff,           "Check if champion has buff. The buff name is case sensitive")
-		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "Gets a list of all the buffs on the champion. Currently buffs are only read for the player champion due to performance reasons.")
-		.def_readonly("spells",            &GameChampion::SpellsToPy,        "Gets a list of all the champion spells.First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them")
-		.def_readonly("items",             &GameChampion::ItemsToPy,         "Gets a list of item ids that the champion owns")
-		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "Gets the HP bar position of the champion")
-		.def_readonly("recalling",         &GameChampion::recalling,         "Returns True if champion is recalling")
+		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "List of all the buffs on the champion. Currently buffs are only read for the player champion due to performance reasons.")
+		.def_readonly("spells",            &GameChampion::SpellsToPy,        "List of all the champion spells. Remarks: First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them. Only enemies and local player have item actives read for performance reasons")
+		.def_readonly("item_slots",        &GameChampion::ItemsToPy,         "List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons")
+		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "Height position of the HP bar of the champion")
+		.def_readonly("recalling",         &GameChampion::recalling,         "True if champion is recalling")
 		;
 
 	class_<GameTurret, bases<GameUnit>>("TurretObj", "Represents a turret object")
 		;
 
 	class_<GameMinion, bases<GameUnit>>("MinionObj", "Represents a minion object")
-		.def_readonly("hpbar_pos",         &GameMinion::GetHpBarPosition,    "Gets Minion HP bar position")
+		.def_readonly("hpbar_pos",         &GameMinion::GetHpBarPosition,    "Height position of the HP bar of the minion")
 		;
 	
 	class_<GameJungle, bases<GameUnit>>("JungleMobObj", "Represents a jungle mob object")
@@ -179,6 +187,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("keyselect",                &PyImGui::KeySelect)
 		.def("sliderfloat",              &PyImGui::SliderFloat)
 		.def("sliderint",                &PyImGui::SliderInt)
+		.def("sliderenum",               &PyImGui::SliderEnum)
 		.def("progressbar",              &PyImGui::ProgressBar)
 		.def("image",                    &PyImGui::Image,     PyImGui::ImageOverloads())
 
@@ -238,9 +247,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("is_held",                  &PyExecutionContext::IsKeyDown,         "Checks if key is held down")
 		.def("was_pressed",              &PyExecutionContext::WasKeyPressed,     "Checks if key was pressed")
 
-		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on an enemy")
+		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
 		.def("get_spell",                &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
 
+		.def("is_at_spawn",              &PyExecutionContext::IsInFountain,      "Checks if the object is in the fountain of his team")
 		.def("is_on_screen",             &PyExecutionContext::IsScreenPointOnScreen, PyExecutionContext::IsScreenPointOnScreenOverloads())
 		.def("is_on_screen",             &PyExecutionContext::IsWorldPointOnScreen,  PyExecutionContext::IsWorldPointOnScreenOverloads())
 		.def("w2s",                      &PyExecutionContext::World2Screen,      "Converts a world space point to screen space")
@@ -369,7 +379,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
 		;
 	
-	enum_<UnitTag>("Unit", "Represents unit tags. These are not compatible with bitwise operations so writing things like Unit.Monster | Unit.Plant will not yield a tag that has both of those.")
+	enum_<UnitTag>("Unit", "Riot unit tags extracted from the game files. These are not compatible with bitwise operations so writing things like Unit.Monster | Unit.Plant will not yield a tag that has both of those.")
 		.value("Champion",                    UnitTag::Unit_Champion)
 		.value("ChampionClone",               UnitTag::Unit_Champion_Clone)
 		.value("IsolationNonImpacting",       UnitTag::Unit_IsolationNonImpacting)

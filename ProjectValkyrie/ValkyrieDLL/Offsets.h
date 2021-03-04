@@ -50,6 +50,8 @@ public:
 	static int BuffName;
 
 	static int ItemListItem;
+	static int ItemCharges;
+	static int ItemActiveName;
 	static int ItemInfo;
 	static int ItemInfoId;
 
@@ -61,6 +63,8 @@ public:
 
 	static int SpellSlotLevel;
 	static int SpellSlotTime;
+	static int SpellSlotCharges;
+	static int SpellSlotTimeCharge;
 	static int SpellSlotValue;
 	static int SpellSlotSpellInfo;
 	static int SpellInfoSpellData;

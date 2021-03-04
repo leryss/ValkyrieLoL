@@ -9,6 +9,8 @@
 	+ Added auto updating to loader
 	+ Added force updating option in loader + some minor UI changes
 	+ Added script repository
+	+ Added auto potion to activator + improved overall the activator settings
+	+ Slight performance improvements
 
 [Valkyrie v0.14]
 	* Fixed some minor bugs

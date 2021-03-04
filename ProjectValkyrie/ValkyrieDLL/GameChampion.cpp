@@ -26,11 +26,20 @@ GameChampion::GameChampion(std::string name)
 	spells[11].castKey = HKey::N_6;
 }
 
-void GameChampion::ReadBuffs(int addr)
+void GameChampion::ReadSpells(int numToRead)
+{
+	int spellBook = address + Offsets::ObjSpellBook;
+	int spellSlots = spellBook + Offsets::SpellBookSpellSlots;
+	for (int i = 0; i < numToRead; ++i) {
+		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
+	}
+}
+
+void GameChampion::ReadBuffs()
 {
 	buffs.clear();
 
-	int buffManager = addr + Offsets::ObjBuffManager;
+	int buffManager = address + Offsets::ObjBuffManager;
 	int buffArray = ReadInt(buffManager + Offsets::BuffManagerEntriesArray);
 
 	if (CantRead(buffArray))
@@ -54,24 +63,15 @@ void GameChampion::ReadBuffs(int addr)
 	}
 }
 
-void GameChampion::ReadFromBaseAddress(int addr)
+void GameChampion::ReadItems()
 {
-	GameUnit::ReadFromBaseAddress(addr);
-
-	/// Read spells
-	int spellBook  = addr + Offsets::ObjSpellBook;
-	int spellSlots = spellBook + Offsets::SpellBookSpellSlots;
-	for (int i = 0; i < NUM_SPELLS; ++i) {
-		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
-	}
-
-	/// Read items
-	int itemList = ReadInt(addr + Offsets::ObjItemList);
+	int itemList = ReadInt(address + Offsets::ObjItemList);
 	if (CantRead(itemList))
 		return;
 
 	for (int i = 0; i < NUM_ITEMS; ++i) {
-		items[i] = nullptr;
+		items[i].item = nullptr;
+		items[i].active = nullptr;
 
 		int item = ReadInt(itemList + i * 0x10 + Offsets::ItemListItem);
 		if (CantRead(item))
@@ -80,10 +80,32 @@ void GameChampion::ReadFromBaseAddress(int addr)
 		int itemInfo = ReadInt(item + Offsets::ItemInfo);
 		if (CantRead(itemInfo))
 			continue;
-		
+
 		int id = ReadInt(itemInfo + Offsets::ItemInfoId);
-		items[i] = GameData::GetItem(id);
+		auto info = GameData::GetItem(id);
+		if (info != nullptr) {
+			items[i].item = info;
+			items[i].charges = ReadShort(item + Offsets::ItemCharges);
+			
+			/// Read active spell name
+			int activeNameAddr = ReadInt(item + Offsets::ItemActiveName);
+			std::string activeName = Memory::ReadString(activeNameAddr);
+			activeName = Strings::ToLower(activeName);
+
+			/// Find active spell in spell book
+			for (size_t j = 6; j < 12; ++j) {
+				if (spells[j].lvl > 0 && spells[j].name == activeName) {
+					items[i].active = &spells[j];
+					break;
+				}
+			}
+		}
 	}
+}
+
+void GameChampion::ReadFromBaseAddress(int addr)
+{
+	GameUnit::ReadFromBaseAddress(addr);
 
 	/// Check recalling
 	recalling = (ReadInt(addr + Offsets::ObjRecallState) == 6);
@@ -106,10 +128,10 @@ void GameChampion::ImGuiDraw()
 
 	if (ImGui::TreeNode("Items")) {
 		for (int i = 0; i < NUM_ITEMS; ++i) {
-			if (items[i] == nullptr)
+			if (items[i].item == nullptr)
 				continue;
 
-			if (ImGui::TreeNode(Strings::Format("%d", items[i]->id).c_str())) {
+			if (ImGui::TreeNode(Strings::Format("%d", items[i].item->id).c_str())) {
 				ImGui::TreePop();
 			}
 		}
@@ -163,7 +185,7 @@ object GameChampion::ItemsToPy()
 {
 	list l;
 	for (int i = 0; i < NUM_ITEMS; ++i)
-		l.append(ptr(items[i]));
+		l.append(boost::ref(items[i]));
 	
 	return l;
 }

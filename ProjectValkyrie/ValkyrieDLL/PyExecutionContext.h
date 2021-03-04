@@ -55,7 +55,7 @@ public:
 	void    AttackUnit(const GameUnit& unit);
 
 	object  GetSpellInfo(const char* label);
-	void    CastSpell(GameSpell* spell, const Vector3& targetLocation);
+	bool    CastSpell(GameSpell* spell, const Vector3& targetLocation);
 
 	void    LogInfo(const char* msg);
 	void    LogWarning(const char* msg);
@@ -67,6 +67,7 @@ public:
 	bool    IsScreenPointOnScreen(const Vector2& point, float offsetX = 0.f, float offsetY = 0.f);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsWorldPointOnScreenOverloads, IsWorldPointOnScreen, 1, 3);
 	bool    IsWorldPointOnScreen(const Vector3& point, float offsetX = 0.f, float offsetY = 0.f);
+	bool    IsInFountain(const GameObject& obj);
 
 	void    DrawRectWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, const Vector3& p4, float thickness, const ImVec4& color);
 	void    DrawTriangleWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, float thickness, const ImVec4& color);

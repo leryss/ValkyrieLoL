@@ -34,11 +34,26 @@ object PyExecutionContext::GetSpellInfo(const char* label) {
 	return object(ptr(GameData::GetSpell(labelStr)));
 }
 
-void PyExecutionContext::CastSpell(GameSpell* spell, const Vector3& targetLocation) {
+bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3& targetLocation) {
 	
-	//
+	auto now = steady_clock::now();
+	duration<float, std::milli> diff = now - spell->lastCastTimestamp;
+	if (diff.count() < 100.f)
+		return false;
+
+	/// Check if castable
+	if (spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
+		return false;
+
+	/// Check if something already casting
+	if (state->player->isCasting)
+		return false;
+
 	Vector2 screenPos = state->renderer.WorldToScreen(targetLocation);
 	currentScript->input.IssuePressKeyAt(spell->castKey, [screenPos] { return screenPos; });
+	spell->lastCastTimestamp = steady_clock::now();
+
+	return true;
 }
 
 void PyExecutionContext::MoveToMouse() {
@@ -104,6 +119,15 @@ bool PyExecutionContext::IsScreenPointOnScreen(const Vector2 & point, float offs
 bool PyExecutionContext::IsWorldPointOnScreen(const Vector3 & point, float offsetX, float offsetY)
 {
 	return state->renderer.IsWorldPointOnScreen(point, offsetX, offsetY);
+}
+
+bool PyExecutionContext::IsInFountain(const GameObject & obj)
+{
+	for (auto& turret : state->turrets) {
+		if (turret->IsAllyTo(obj) && turret->health > 9000.f && turret->pos.distance(obj.pos) < turret->staticData->baseAttackRange)
+			return true;
+	}
+	return false;
 }
 
 object PyExecutionContext::GetImGuiInterface()

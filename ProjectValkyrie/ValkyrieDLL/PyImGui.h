@@ -116,6 +116,11 @@ public:
 		return col;
 	}
 
+	int SliderEnum(const char* label, const char* selectedName, int selected, int maxSelect) {
+		ImGui::SliderInt(label, &selected, 0, maxSelect, selectedName);
+		return selected;
+	}
+
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(ImageOverloads, Image, 2, 3);
 	void Image(const char* image, const Vector2& size, ImVec4 color = Color::WHITE) {
 		std::string imgStr(image);

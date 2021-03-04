@@ -6,13 +6,6 @@ from helpers.spells import Buffs
 from time import time
 from enum import Enum
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Orbwalker',
-	'icon': 'menu-bow'
-}
-
 target_selector         = TargetSelector(0, TargetSet.Champion)
 target_selector_monster = TargetSelector(0, TargetSet.Monster)
 

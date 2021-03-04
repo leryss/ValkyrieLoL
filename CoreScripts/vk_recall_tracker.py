@@ -2,13 +2,6 @@ from valkyrie import *
 from time import time
 from vk_gank_awareness import set_champ_last_position
 
-script_info = {
-	'author': 'leryss',
-	'description': 'none',
-	'name': 'Recall Tracker',
-	'icon': 'menu-dev'
-}
-
 recalls = {}
 bar_width   = 300
 bar_height  = 30

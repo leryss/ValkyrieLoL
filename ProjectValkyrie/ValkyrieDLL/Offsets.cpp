@@ -35,7 +35,6 @@ int Offsets::ObjMagicRes                     = 0x12A4;
 int Offsets::ObjBaseAtk                      = 0x1274;
 int Offsets::ObjBonusAtk                     = 0x11F0;
 int Offsets::ObjMoveSpeed                    = 0x12B4;
-int Offsets::ObjSpellBook                    = 0x2720;
 int Offsets::ObjTransformation               = 0x2f78;
 int Offsets::ObjName                         = 0x2F84;
 int Offsets::ObjLvl                          = 0x36D4;
@@ -58,6 +57,7 @@ int Offsets::BuffName                        = 0x8;
 //oObjDirection = 0x1B80;
 //oObjActionState = 0x1054;
 
+int Offsets::ObjSpellBook                    = 0x2720;
 int Offsets::SpellBookActiveSpellCast        = 0x20;
 int Offsets::SpellBookSpellSlots             = 0x478;
 
@@ -71,6 +71,8 @@ int Offsets::SpellCastDestIdx                = 0xC0;
 
 int Offsets::ObjItemList                     = 0x3720;
 int Offsets::ItemListItem                    = 0xC;
+int Offsets::ItemActiveName                  = 0x10;
+int Offsets::ItemCharges                     = 0x24;
 int Offsets::ItemInfo                        = 0x20;
 int Offsets::ItemInfoId                      = 0x68;
 										    
@@ -79,6 +81,8 @@ int Offsets::RendererHeight                  = 0x14;
 										    
 int Offsets::SpellSlotLevel                  = 0x20;
 int Offsets::SpellSlotTime                   = 0x28;
+int Offsets::SpellSlotCharges                = 0x58;
+int Offsets::SpellSlotTimeCharge             = 0x64;
 int Offsets::SpellSlotValue                  = 0x94;
 int Offsets::SpellSlotSpellInfo              = 0x13C;
 int Offsets::SpellInfoSpellData              = 0x44;

@@ -211,6 +211,8 @@
     <ClCompile Include="GameChampion.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameHud.cpp" />
+    <ClCompile Include="GameItemSlot.cpp" />
+    <ClCompile Include="GameItemSlot.h" />
     <ClCompile Include="GameJungle.cpp" />
     <ClCompile Include="GameMinion.cpp" />
     <ClCompile Include="GameMissile.cpp" />

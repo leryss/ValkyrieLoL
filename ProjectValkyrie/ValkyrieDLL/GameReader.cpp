@@ -36,7 +36,21 @@ GameState* GameReader::GetNextState()
 		ReadLocalChampion();
 		ReadHoveredObject();
 
-		state.player->ReadBuffs(state.player->address);
+		/// Read everything for local player, dont read buffs for enemies, dont read buffs, items & item actives for allies (performance reasons)
+		for (auto& champ : state.champions) {
+			if (champ == state.player) {
+				champ->ReadSpells(GameChampion::NUM_SPELLS);
+				champ->ReadItems();
+				champ->ReadBuffs();
+			}
+			else if (champ->IsEnemyTo(*state.player)) {
+				champ->ReadSpells(GameChampion::NUM_SPELLS);
+				champ->ReadItems();
+			}
+			else {
+				champ->ReadSpells(GameChampion::NUM_SPELLS - 6);
+			}
+		}
 	}
 	
 	return &state;
