@@ -83,6 +83,7 @@ class Buffs:
 	def get(self, buff_name):
 		return Buffs.AllBuffsDict.get(buff_name, Buffs.UnknownBuff)
 
+
 '''
 Spells = {}
 

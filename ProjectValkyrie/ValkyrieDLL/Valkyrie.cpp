@@ -294,6 +294,20 @@ void Valkyrie::DrawDevMenu()
 	if (ImGui::Button("Reload Scripts"))
 		LoadScripts();
 
+	ImGui::SameLine();
+	if (ImGui::Button("Reload Essentials")) {
+		EssentialsLoaded = false;
+		TaskPool->DispatchTask(
+			"Load Essentials",
+			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
+
+			[](std::shared_ptr<AsyncTask> response) {
+				EssentialsLoaded = true;
+			}
+		);
+	}
+
+
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
 	ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
 	ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);

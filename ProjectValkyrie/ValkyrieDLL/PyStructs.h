@@ -71,15 +71,20 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	class_<SpellInfo>("SpellStatic",      "Static data loaded at runtime for a spell")
+		.def_readonly("name",              &SpellInfo::name,                 "Name of the spell in lower case")
+		.def_readonly("parent",            &SpellInfo::parent,               "Name of the parent spell in lower case. This field is non empty for missile spells, the parent is the spell that created the missile")
 		.def_readonly("icon",              &SpellInfo::icon,                 "Icon name of the spell in lowercase")
 		.def_readonly("cast_time",         &SpellInfo::castTime,             "Cast time of spell")
 		.def_readonly("cast_range",        &SpellInfo::castRange,            "Cast range of the spell (e.g Ezreal Q length)")
 		.def_readonly("cast_radius",       &SpellInfo::castRadius,           "Cast radius of the spell (e.g Ziggs R area of effect)")
+		.def_readonly("cast_cone_angle",   &SpellInfo::castConeAngle,        "If spell is conic this is the cone angle")
+		.def_readonly("cast_cone_distance",&SpellInfo::castConeDistance,     "If the spell is conic this is the cone length")
+		.def_readonly("delay",             &SpellInfo::delay,                "Additional delay besides the cast_time")
 		.def_readonly("width",             &SpellInfo::width,                "Width of the spell")
-		.def_readonly("height",            &SpellInfo::height,               "The height at which the spell starts. Use this for drawing purposes")
+		.def_readonly("height_augment",    &SpellInfo::height,               "For drawing purposes. Height of the missile/spell must be augmented by this value")
 		.def_readonly("speed",             &SpellInfo::speed,                "Speed of the spell. Used mostly by missile spells")
 		.def_readonly("travel_time",       &SpellInfo::travelTime,           "Flat travel time in seconds. Use this if not 0 instead of calculating travel time using speed")
-		.def_readonly("name",              &SpellInfo::name,                 "Name of the spell in lower case")
+		.def("has_flag",                   &SpellInfo::HasFlag,              "Checks if the spell has the specified Spell flag")
 		;
 
 	class_<GameObject>("Obj",             "Represents the base of a ingame object. Most ingame objects derive from this.")
@@ -96,7 +101,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("__eq__",                     &GameObject::EqualsTo,            "Checks if two object are identical by checking their network id")
 		;
 
-	class_<GameSpell>("Spell",            "Represents a spell in game. In case of spells from items make sure level > 0 before casting it.")
+	class_<GameSpell>("SpellObj",            "Represents a spell in game. In case of spells from items make sure level > 0 before casting it.")
 		.def_readonly("name",              &GameSpell::name,                 "Name of the spell in lower case")
 		.def_readonly("lvl",               &GameSpell::lvl,                  "Level of the spell. Has value 0 when spell is not learned")
 		.def_readonly("ready_at",          &GameSpell::readyAt,              "Timestamp in game time for when the cooldown of the spell ends")
@@ -106,14 +111,15 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("static",            &GameSpell::GetStaticData,        "Gets static information loaded at runtime about the spell. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		;
 
-	class_<SpellCast>("SpellCast",         "Has data about a spell cast.")
+	class_<SpellCast>("SpellCast",         "Has data about a spell being cast.")
 		.def_readonly("start_pos",         &SpellCast::start,                "Start position of the spell. Usually the position of the caster")
-		.def_readonly("end_pos",           &SpellCast::end,                  "End position of the spell. Use this to get the direction of the spell.")
+		.def_readonly("end_pos",           &SpellCast::end,                  "End position of the spell. Use this to get the direction of the spell. Remarks: this might not always be the real endpoint check SpellStatic project_endpoint field for more information.")
 		.def_readonly("src_index",         &SpellCast::srcIndex,             "Index of the object who is casting")
 		.def_readonly("dest_index",        &SpellCast::destIndex,            "If casting a targeted spell this holds the index of the target object")
 		.def_readonly("time_begin",        &SpellCast::timeBegin,            "Start timestamp in game time of the casting")
 		.def_readonly("cast_time",         &SpellCast::castTime,             "Total cast time")
 		.def_readonly("static",            &SpellCast::GetStaticData,        "Static data of the spell being cast. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
+		.def_readonly("name",              &SpellCast::name,                 "Name of the spell being cast")
 		;
 
 	class_<GameMissile, bases<GameObject>>("MissileObj")
@@ -248,7 +254,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("was_pressed",              &PyExecutionContext::WasKeyPressed,     "Checks if key was pressed")
 
 		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
-		.def("get_spell",                &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
+		.def("get_spell_static",         &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
 
 		.def("is_at_spawn",              &PyExecutionContext::IsInFountain,      "Checks if the object is in the fountain of his team")
 		.def("is_on_screen",             &PyExecutionContext::IsScreenPointOnScreen, PyExecutionContext::IsScreenPointOnScreenOverloads())
@@ -377,6 +383,30 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("NoNav",                     ImGuiWindowFlags_NoNav)
 		.value("NoDecoration",              ImGuiWindowFlags_NoDecoration)
 		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
+		;
+
+	enum_<SpellFlags>("Spell")
+		.value("CastPoint",       CastPoint)
+		.value("CastAnywhere",    CastAnywhere)
+		.value("CastTarget",      CastTarget)
+		.value("CastDirection",   CastDirection)
+								  
+		.value("TypeLine",        TypeLine)
+		.value("TypeArea",        TypeArea)
+		.value("TypeCone",        TypeCone)
+		.value("TypeTargeted",    TypeTargeted)
+
+		.value("CollideWindwall", CollideWindwall)
+		.value("CollideMinion",   CollideMinion)
+		.value("CollideChampion", CollideChampion)
+		.value("CollideMonster",  CollideMonster)
+
+		.value("AffectMinion",    AffectMinion)
+		.value("AffectChampion",  AffectChampion)
+		.value("AffectMonster",   AffectMonster)
+
+		.value("CollideCommon",   CollideCommon)
+		.value("AffectAllUnits",  AffectAllUnits)
 		;
 	
 	enum_<UnitTag>("Unit", "Riot unit tags extracted from the game files. These are not compatible with bitwise operations so writing things like Unit.Monster | Unit.Plant will not yield a tag that has both of those.")

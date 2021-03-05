@@ -2,54 +2,60 @@
 #include <string>
 #include <map>
 
-/// Flags of a spell/missile (they are the same thing anyway)
 enum SpellFlags {
+	
+	CastPoint        = (1 << 0),
+	CastAnywhere     = (1 << 1),
+	CastTarget       = (1 << 2),
+	CastDirection    = (1 << 3),
 
-	// Flags from the game data files
-	AffectAllyChampion        = 1,
-	AffectEnemyChampion       = 1 << 1,
-	AffectAllyLaneMinion      = 1 << 2,
-	AffectEnemyLaneMinion     = 1 << 3,
-	AffectAllyWard            = 1 << 4,
-	AffectEnemyWard           = 1 << 5,
-	AffectAllyTurret          = 1 << 6,
-	AffectEnemyTurret         = 1 << 7,
-	AffectAllyInhibs          = 1 << 8,
-	AffectEnemyInhibs         = 1 << 9,
-	AffectAllyNonLaneMinion   = 1 << 10,
-	AffectJungleMonster       = 1 << 11,
-	AffectEnemyNonLaneMinion  = 1 << 12,
-	AffectAlwaysSelf          = 1 << 13,
-	AffectNeverSelf           = 1 << 14,
+	TypeLine         = (1 << 4),
+	TypeArea         = (1 << 5),
+	TypeCone         = (1 << 6),
+	TypeTargeted     = (1 << 7),
 
-	// Custom flags set by us. These flags cant be unpacked from the game files (exception Targeted flag).					      
-	ProjectedDestination      = 1 << 22,
+	CollideWindwall  = (1 << 8),
+	CollideMinion    = (1 << 9),
+	CollideChampion  = (1 << 10),
+	CollideMonster   = (1 << 11),
 
-	AffectAllyMob             = AffectAllyLaneMinion  | AffectAllyNonLaneMinion,
-	AffectEnemyMob            = AffectEnemyLaneMinion | AffectEnemyNonLaneMinion | AffectJungleMonster,
-	AffectAllyGeneric         = AffectAllyMob         | AffectAllyChampion,
-	AffectEnemyGeneric        = AffectEnemyMob        | AffectEnemyChampion,
+	AffectMinion     = (1 << 12),
+	AffectChampion   = (1 << 13),
+	AffectMonster    = (1 << 14),
+
+	CollideCommon   = CollideWindwall | CollideMinion | CollideChampion | CollideMonster,
+	AffectAllUnits  = AffectMinion | AffectChampion | AffectMonster
 };
 
 /// Static data of a spell that we load from disk
 class SpellInfo {
 
 public:
-	SpellInfo* AddFlags(SpellFlags flags);
-public:
+
+	void AddFlag(std::string& flag);
+	bool HasFlag(SpellFlags flag);
+
 	// Values from game's data files
 	std::string name;
+	std::string parent;
 	std::string icon;
 
-	SpellFlags flags;
 	float castTime;
 	float castRange;
 	float castRadius;
+	float castConeAngle;
+	float castConeDistance;
+	float delay;
 	float width;
 	float height;
 	float speed;
 	float travelTime;
 
+	SpellFlags flags;
+
 	void ImGuiDraw();
+
+private:
+	static std::map<std::string, SpellFlags> FlagMap;
 };
 

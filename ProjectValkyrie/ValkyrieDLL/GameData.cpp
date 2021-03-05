@@ -130,18 +130,25 @@ void GameData::LoadSpells(const char* fileName, float& percentValue, float perce
 		std::string strIcon = spell["icon"].get<std::string>();
 		std::string strName = spell["name"].get<std::string>();
 
-		info->flags        = (SpellFlags)spell["flags"].get<int>();
-		info->castTime     = spell["castTime"].get<float>();
-		info->height       = spell["height"].get<float>();
-		info->icon         = Strings::ToLower(strIcon);
-		info->name         = Strings::ToLower(strName);
-		info->width        = spell["width"].get<float>();
-		info->castRange    = spell["castRange"].get<float>();
-		info->castRadius   = spell["castRadius"].get<float>();
-		info->speed        = spell["speed"].get<float>();
-		info->travelTime   = spell["travelTime"].get<float>();
-		info->flags        = (SpellFlags)(info->flags | (spell["projectDestination"] ? ProjectedDestination : 0));
+		info->castTime         = spell["castTime"].get<float>();
+		info->height           = spell["height"].get<float>();
+		info->icon             = Strings::ToLower(strIcon);
+		info->name             = Strings::ToLower(strName);
+		info->width            = spell["width"].get<float>();
+		info->castRange        = spell["castRange"].get<float>();
+		info->castRadius       = spell["castRadius"].get<float>();
+		info->castConeAngle    = spell["castConeAngle"].get<float>();
+		info->castConeDistance = spell["castConeDistance"].get<float>();
+		info->speed            = spell["speed"].get<float>();
+		info->travelTime       = spell["travelTime"].get<float>();
+		info->delay            = spell["delay"].get<float>();
+		info->parent           = spell["parent"].get<std::string>();
 
+		auto flags = spell["flags"];
+		for (auto& flag : flags) {
+			auto strFlag = flag.get<std::string>();
+			info->AddFlag(strFlag);
+		}
 		percentValue += step;
 		Spells[info->name] = info;
 	}
@@ -346,21 +353,25 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 
 void GameDataEssentialsLoad::Perform()
 {
-	percentDone = 0.f;
-	currentStep = "Load static game data";
-	GameData::LoadSpells("SpellData.json", percentDone, 0.2f);
-	GameData::LoadSpells("SpellDataCustom.json", percentDone, 0.25f);
-	Logger::Info("Loaded spells");
+	try {
+		percentDone = 0.f;
+		currentStep = "Load static game data";
+		GameData::LoadSpells("SpellData.json", percentDone, 0.25f);
+		Logger::Info("Loaded spells");
 
-	GameData::LoadUnits("UnitData.json", percentDone, 0.5f);
-	Logger::Info("Loaded units");
+		GameData::LoadUnits("UnitData.json", percentDone, 0.5f);
+		Logger::Info("Loaded units");
 
-	GameData::LoadItems("ItemData.json", percentDone, 0.8f);
-	Logger::Info("Loaded items");
+		GameData::LoadItems("ItemData.json", percentDone, 0.8f);
+		Logger::Info("Loaded items");
 
-	GameData::LoadSkins("SkinInfo.json", percentDone, 1.f);
-	Logger::Info("Loaded skins");
-
+		GameData::LoadSkins("SkinInfo.json", percentDone, 1.f);
+		Logger::Info("Loaded skins");
+	}
+	catch (std::exception& exc) {
+		SetError(exc.what());
+		return;
+	}
 	SetStatus(ASYNC_SUCCEEDED);
 }
 

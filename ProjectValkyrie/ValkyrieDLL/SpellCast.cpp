@@ -8,6 +8,7 @@ void SpellCast::ReadFromBaseAddress(int address)
 	int spellInfo = ReadInt(address + Offsets::SpellCastSpellInfo);
 	int spellData = ReadInt(spellInfo + Offsets::SpellInfoSpellData);
 	int nameAddr  = ReadInt(spellData + Offsets::SpellDataSpellName);
+
 	name = Memory::ReadString(nameAddr);
 	name = Strings::ToLower(name);
 	staticData = GameData::GetSpell(name);

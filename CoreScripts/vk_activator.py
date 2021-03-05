@@ -253,7 +253,6 @@ def valkyrie_on_save(ctx):
 	for name, activator in activators.items():
 		cfg.set_str(name, str(activator))
 
-cast_timestamps = [0.0] * 12 # Used to make sure we dont cast a spell 100 times a second
 used_activators = set([])
 
 def try_activate(ctx, player, spell, item_slot = None):
@@ -282,9 +281,9 @@ def valkyrie_exec(ctx):
 		return
 	
 	for slot in player.item_slots:
-		if not slot.active:
+		if not slot.active or ctx.is_at_spawn(player):
 			continue
-		if slot.item.id in rechargable_actives and (slot.charges == 0 or ctx.is_at_spawn(player)):
+		if slot.item.id in rechargable_actives and slot.charges == 0:
 			continue
 			
 		if try_activate(ctx, player, slot.active):

@@ -1,11 +1,41 @@
 #include "SpellInfo.h"
 #include "imgui/imgui.h"
 
+std::map<std::string, SpellFlags> SpellInfo::FlagMap = {
+	{ "CastPoint", CastPoint },
+	{ "CastAnywhere", CastAnywhere },
+	{ "CastTarget", CastTarget },
+	{ "CastDirection", CastDirection },
 
-SpellInfo * SpellInfo::AddFlags(SpellFlags flags)
+	{ "TypeLine", TypeLine },
+	{ "TypeArea", TypeArea },
+	{ "TypeCone", TypeCone },
+	{ "TypeTargeted", TypeTargeted },
+
+	{ "CollideWindwall", CollideWindwall },
+	{ "CollideMinion", CollideMinion },
+	{ "CollideChampion", CollideChampion },
+	{ "CollideMonster", CollideMonster },
+
+	{ "AffectMinion", AffectMinion },
+	{ "AffectChampion", AffectChampion },
+	{ "AffectMonster", AffectMonster },
+
+	{ "CollideCommon", CollideCommon },
+	{ "AffectAllUnits", AffectAllUnits }
+};
+
+void SpellInfo::AddFlag(std::string & flag)
 {
-	this->flags = (SpellFlags)(this->flags | flags);
-	return this;
+	auto find = FlagMap.find(flag);
+	if (find != FlagMap.end()) {
+		flags = (SpellFlags)(flags | find->second);
+	}
+}
+
+bool SpellInfo::HasFlag(SpellFlags flag)
+{
+	return (flags & flag) == flag;
 }
 
 void SpellInfo::ImGuiDraw()

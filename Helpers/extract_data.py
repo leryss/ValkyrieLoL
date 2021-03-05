@@ -266,24 +266,28 @@ def extract_unit_info(folder):
 				continue
 			
 			s = val["mSpell"]
-			calcs = perform_spell_calculations(s)
-			if len(calcs['data_vals']) > 0 or len(calcs['calcs']) > 0:
-				spell_calculations[val['mScriptName']] = calcs
+			#calcs = perform_spell_calculations(s)
+			#if len(calcs['data_vals']) > 0 or len(calcs['calcs']) > 0:
+			#	spell_calculations[val['mScriptName']] = calcs
 			
 			if s:
 				icon_name = os.path.basename(s.get("mImgIconName", [""])[0]).lower().replace(".dds", "")
 				spell = {
 					"name":	    	      os.path.basename(key).lower(),
+					"parent":             '',
 					"icon":			      icon_name,
-					"flags":			  s.get("mAffectsTypeFlags", 0),
-					"castTime":		      s.get("mCastTime", 0.0),
+					"castTime":		      s.get("mCastTime", 0),
 					"castRange":		  s.get("castRangeDisplayOverride", s.get("castRange", [s.get("castConeDistance", 0.0)]))[0],
 					"castRadius":		  s.get("castRadiusSecondary", s.get("castRadius", [0.0]))[0],
+					"castConeAngle":      s.get("castConeAngle", 0.0),
+					"castConeDistance":   s.get("castConeDistance", 0.0),
 					"width":			  s.get("mLineWidth", 0.0),
 					"height":			  0.0,
 					"speed":			  s.get("missileSpeed", 0.0),
 					"travelTime":		  0.0,
-					"projectDestination": False
+					
+					"delay":              0.0,
+					"flags":              []
 				}
 				
 				if spell["castTime"] == 0:
@@ -291,7 +295,7 @@ def extract_unit_info(folder):
 						spell["castTime"] = 0.5 + 0.5 * s.get("delayCastOffsetPercent", 0.5)
 					
 				if spell['speed'] == 0.0:
-					spell['speed'] = 10000.0
+					spell['speed'] = 100000.0
 				
 				if 'mCastRangeGrowthMax' in s:
 					spell['castRange'] = s['mCastRangeGrowthMax'][4]
@@ -302,7 +306,6 @@ def extract_unit_info(folder):
 					if movcomp:
 						spell["speed"]	     	    = movcomp.get("mSpeed", spell["speed"])
 						spell["height"]	     	    = movcomp.get("mOffsetInitialTargetHeight", 100.0)
-						spell["projectDestination"] = movcomp.get("mProjectTargetToCastRange", False)
 						spell["travelTime"]	        = movcomp.get("mTravelTime", 0.0)
 						
 				spells[spell["name"]] = spell
