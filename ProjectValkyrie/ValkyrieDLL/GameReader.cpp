@@ -48,7 +48,7 @@ GameState* GameReader::GetNextState()
 				champ->ReadItems();
 			}
 			else {
-				champ->ReadSpells(GameChampion::NUM_SPELLS - 6);
+				champ->ReadSpells(GameChampion::NUM_SPELLS - GameChampion::NUM_ITEMS);
 			}
 		}
 	}

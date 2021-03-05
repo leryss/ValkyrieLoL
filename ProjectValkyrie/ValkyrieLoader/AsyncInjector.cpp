@@ -2,10 +2,11 @@
 #include "Paths.h"
 #include "Strings.h"
 
-AsyncInjector::AsyncInjector(std::string dllPath, bool oneTimeInjection)
+AsyncInjector::AsyncInjector(std::string dllPath, bool oneTimeInjection, int delayMs)
 {
 	this->dllPath = dllPath;
 	this->oneTimeInjection = oneTimeInjection;
+	this->delay = delayMs;
 }
 
 void AsyncInjector::Perform()
@@ -32,7 +33,7 @@ void AsyncInjector::Perform()
 			DWORD processId = 0;
 			GetWindowThreadProcessId(hWindow, &processId);
 
-			Sleep(10000);
+			Sleep(delay);
 			InjectIntoPID(dllPath, processId);
 			currentStep = "Injected. Enjoy your game";
 			if (oneTimeInjection)

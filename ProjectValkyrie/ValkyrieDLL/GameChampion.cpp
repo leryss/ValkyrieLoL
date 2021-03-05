@@ -21,9 +21,10 @@ GameChampion::GameChampion(std::string name)
 	spells[6].castKey  = HKey::N_1;
 	spells[7].castKey  = HKey::N_2;
 	spells[8].castKey  = HKey::N_3;
-	spells[9].castKey  = HKey::N_4;
-	spells[10].castKey = HKey::N_5;
-	spells[11].castKey = HKey::N_6;
+	spells[9].castKey  = HKey::N_5;
+	spells[10].castKey = HKey::N_6;
+	spells[11].castKey = HKey::N_7;
+	spells[12].castKey = HKey::N_4;
 }
 
 void GameChampion::ReadSpells(int numToRead)
@@ -65,15 +66,14 @@ void GameChampion::ReadBuffs()
 
 void GameChampion::ReadItems()
 {
-	int itemList = ReadInt(address + Offsets::ObjItemList);
-	if (CantRead(itemList))
-		return;
+	int itemList = address + Offsets::ObjItemList;
 
 	for (int i = 0; i < NUM_ITEMS; ++i) {
 		items[i].item = nullptr;
 		items[i].active = nullptr;
 
-		int item = ReadInt(itemList + i * 0x10 + Offsets::ItemListItem);
+		int itemSlot = ReadInt(itemList + sizeof(int)*i);
+		int item = ReadInt(itemSlot + Offsets::ItemListItem);
 		if (CantRead(item))
 			continue;
 
@@ -93,7 +93,7 @@ void GameChampion::ReadItems()
 			activeName = Strings::ToLower(activeName);
 
 			/// Find active spell in spell book
-			for (size_t j = 6; j < 12; ++j) {
+			for (size_t j = 6; j < NUM_SPELLS; ++j) {
 				if (spells[j].lvl > 0 && spells[j].name == activeName) {
 					items[i].active = &spells[j];
 					break;
@@ -128,8 +128,10 @@ void GameChampion::ImGuiDraw()
 
 	if (ImGui::TreeNode("Items")) {
 		for (int i = 0; i < NUM_ITEMS; ++i) {
-			if (items[i].item == nullptr)
+			if (items[i].item == nullptr) {
+				ImGui::Text("Empty");
 				continue;
+			}
 
 			if (ImGui::TreeNode(Strings::Format("%d", items[i].item->id).c_str())) {
 				ImGui::TreePop();

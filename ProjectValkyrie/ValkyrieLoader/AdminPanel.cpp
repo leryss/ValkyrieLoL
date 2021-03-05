@@ -172,17 +172,16 @@ void AdminPanel::DrawUserManager()
 	ImGui::TextColored(Color::PURPLE, "All users");
 
 	DrawUserManagerFilter();
-
-	ImGui::BeginTable("Users tbl", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable);
-	ImGui::TableSetupColumn("Name", 0, 0, UserColumnName);
-	ImGui::TableSetupColumn("Discord", 0, 0, UserColumnDiscord);
-	ImGui::TableSetupColumn("Status", 0, 0, UserColumnStatus);
-	ImGui::TableSetupColumn("Privilege", ImGuiTableColumnFlags_DefaultSort | ImGuiTableColumnFlags_IsSorted, 0, UserColumnPrivilege);
-	ImGui::TableSetupColumn("Subscription", 0, 0, UserColumnSubscription);
-	ImGui::TableSetupColumn("CPU", ImGuiTableColumnFlags_NoSort, 0, UserColumnOther);
-	ImGui::TableSetupColumn("GPU", ImGuiTableColumnFlags_NoSort, 0, UserColumnOther);
-	ImGui::TableSetupColumn("RAM", ImGuiTableColumnFlags_NoSort, 0, UserColumnOther);
-	ImGui::TableSetupColumn("SYSTEM", ImGuiTableColumnFlags_NoSort, 0, UserColumnOther);
+	ImGui::BeginTable("UsersTable", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2(0.f, 250.f));
+	ImGui::TableSetupColumn("Name",         ImGuiTableColumnFlags_None,                                         0, UserColumnName);
+	ImGui::TableSetupColumn("Discord",      ImGuiTableColumnFlags_None,                                         0, UserColumnDiscord);
+	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None,                                         0, UserColumnStatus);
+	ImGui::TableSetupColumn("Privilege",    ImGuiTableColumnFlags_DefaultSort | ImGuiTableColumnFlags_IsSorted, 0, UserColumnPrivilege);
+	ImGui::TableSetupColumn("Subscription", ImGuiTableColumnFlags_None,                                         0, UserColumnSubscription);
+	ImGui::TableSetupColumn("CPU",          ImGuiTableColumnFlags_NoSort,                                       0, UserColumnOther);
+	ImGui::TableSetupColumn("GPU",          ImGuiTableColumnFlags_NoSort,                                       0, UserColumnOther);
+	ImGui::TableSetupColumn("RAM",          ImGuiTableColumnFlags_NoSort,                                       0, UserColumnOther);
+	ImGui::TableSetupColumn("SYSTEM",       ImGuiTableColumnFlags_NoSort,                                       0, UserColumnOther);
 	ImGui::TableHeadersRow();
 
 	SortUsersIfNecessarry();

@@ -81,7 +81,7 @@ void UserPanel::DrawHome()
 	ImGui::Checkbox("Auto inject", &autoInject);
 	if ((injectorTask == nullptr || injectorTask->GetStatus() != ASYNC_RUNNING) && updateComplete) {
 		if (autoInject) {
-			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(Paths::Payload, false));
+			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(Paths::Payload, false, 10000));
 			taskPool->DispatchTask(
 				trackIdInjector,
 				injectorTask,
@@ -89,7 +89,7 @@ void UserPanel::DrawHome()
 			);
 		}
 		else if (ImGui::Button("Inject")) {
-			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(Paths::Payload, true));
+			injectorTask = std::shared_ptr<AsyncInjector>(new AsyncInjector(Paths::Payload, true, 1000));
 			taskPool->DispatchTask(
 				trackIdInjector,
 				injectorTask,

@@ -32,8 +32,8 @@ public:
 public:
 	bool      recalling;
 
-	const static int NUM_SPELLS = 12;
-	const static int NUM_ITEMS = 6;
+	const static int NUM_SPELLS = 13;
+	const static int NUM_ITEMS = 7;
 	GameSpell    spells[NUM_SPELLS];
 	GameItemSlot items[NUM_ITEMS];
 
