@@ -45,7 +45,9 @@ int Offsets::ObjAbilityPower                 = 0x1200;
 int Offsets::ObjAtkSpeedMulti                = 0x1270;
 int Offsets::ObjAtkRange                     = 0x12BC;
 int Offsets::ObjTargetable                   = 0xD00;
-int Offsets::ObjInvulnerable                 = 0x3D0; 
+int Offsets::ObjInvulnerable                 = 0x3D0;
+int Offsets::ObjIsMoving                     = 0x3638;  /// Not a bool, but its 0 when not moving and some point when its moving
+int Offsets::ObjDirection                    = 0x1B80;
 
 int Offsets::ObjBuffManager                  = 0x2178;
 int Offsets::BuffManagerEntriesArray         = 0x10;

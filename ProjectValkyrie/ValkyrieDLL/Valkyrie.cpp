@@ -314,6 +314,7 @@ void Valkyrie::DrawDevMenu()
 	ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
 	if (ImGui::BeginMenu("Core Benchmarks")) {
 		Reader.GetBenchmarks().ImGuiDraw();
+		ImGui::DragFloat("Collision Engine", &ScriptContext.collisionEngine.updateTimeMs.avgMs);
 		ImGui::EndMenu();
 	}
 

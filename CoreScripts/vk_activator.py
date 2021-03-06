@@ -273,6 +273,9 @@ def valkyrie_exec(ctx):
 	global used_activators
 	player = ctx.player
 	
+	if player.dead:
+		return
+	
 	used_activators = set({})
 	spells = player.spells
 	if try_activate(ctx, player, spells[4]): #D slot

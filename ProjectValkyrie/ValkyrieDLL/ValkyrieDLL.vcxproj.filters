@@ -64,6 +64,9 @@
     <Filter Include="Source Files\Core\Offsets">
       <UniqueIdentifier>{0108ada6-81a5-4d57-95e2-a9241392272e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Physics">
+      <UniqueIdentifier>{546f2799-55ce-47ad-85f4-7d9f5478d1e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -189,6 +192,12 @@
     <ClInclude Include="GameBuff.h">
       <Filter>Source Files\Game\GameObjects\Spells</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionEngine.h">
+      <Filter>Source Files\Game\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Collidable.h">
+      <Filter>Source Files\Game\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -286,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="GameItemSlot.cpp">
       <Filter>Source Files\Game\GameObjects\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionEngine.cpp">
+      <Filter>Source Files\Game\Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

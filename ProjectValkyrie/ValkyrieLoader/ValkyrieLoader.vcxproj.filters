@@ -77,9 +77,6 @@
     <ClCompile Include="LoginPanel.cpp">
       <Filter>Source Files\Loader\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="Constants.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CreateAccountPanel.cpp">
       <Filter>Source Files\Loader\Panels</Filter>
     </ClCompile>
@@ -91,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="AsyncUpdater.cpp">
       <Filter>Source Files\Loader\Updaters</Filter>
+    </ClCompile>
+    <ClCompile Include="Constants.cpp">
+      <Filter>Source Files\Loader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

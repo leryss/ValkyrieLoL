@@ -166,6 +166,13 @@ void ValkyrieAPI::PutOperation(const char* operation, JsonValue& params)
 	lambdaInvokeRequest.SetBody(payload);
 }
 
+std::shared_ptr<GetS3ObjectHeadResultAsync> ValkyrieAPI::GetS3ObjectHead(const char * bucket, const char * key)
+{
+	s3HeadObjectRequest.SetBucket(bucket);
+	s3HeadObjectRequest.SetKey(key);
+	return std::shared_ptr<GetS3ObjectHeadResultAsync>(new GetS3ObjectHeadResultAsync(*s3Client, s3HeadObjectRequest));
+}
+
 std::shared_ptr<GetS3ObjectAsync> ValkyrieAPI::GetCheatS3Object(const char* bucket, const char* key)
 {
 	s3GetObjectRequest.SetBucket(bucket);

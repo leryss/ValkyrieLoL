@@ -18,40 +18,40 @@ struct Vector2 {
 		ImGui::Button(Strings::Format("x: %.2f y: %.2f", x, y).c_str());
 	}
 
-	float length() {
+	float length() const {
 		return sqrt(x*x + y * y);
 	}
 
-	float distance(const Vector2& o) {
+	float distance(const Vector2& o) const {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2));
 	}
 
-	float l1(const Vector2& o) {
+	float l1(const Vector2& o) const {
 		return abs(x - o.x) + abs(y - o.y);
 	}
 
-	Vector2 vscale(const Vector2& s) {
+	Vector2 vscale(const Vector2& s) const {
 		return Vector2(x*s.x, y*s.y);
 	}
 
-	Vector2 scale(float s) {
+	Vector2 scale(float s) const {
 		return Vector2(x*s, y*s);
 	}
 
-	Vector2 normalize() {
+	Vector2 normalize() const {
 		float l = length();
 		return Vector2(x / l, y / l);
 	}
 
-	Vector2 add(const Vector2& o) {
+	Vector2 add(const Vector2& o) const {
 		return Vector2(x + o.x, y + o.y);
 	}
 
-	Vector2 sub(const Vector2& o) {
+	Vector2 sub(const Vector2& o) const {
 		return Vector2(x - o.x, y - o.y);
 	}
 
-	Vector2 clone() {
+	Vector2 clone() const {
 		return Vector2(x, y);
 	}
 };
@@ -74,19 +74,19 @@ struct Vector3 {
 		ImGui::Button(Strings::Format("x: %.2f y: %.2f z: %.2f", x, y, z).c_str());
 	}
 
-	float length() {
+	float length() const {
 		return sqrt(x*x + y*y + z*z);
 	}
 
-	float distance(const Vector3& o) {
+	float distance(const Vector3& o) const {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2));
 	}
 
-	float l1(const Vector3& o) {
+	float l1(const Vector3& o) const {
 		return abs(x - o.x) + abs(y - o.y) + abs(z - o.z);
 	}
 
-	Vector3 rotate_x(float angle) {
+	Vector3 rotate_x(float angle) const {
 		return Vector3(
 			x,
 			y * cos(angle) - z * sin(angle),
@@ -94,7 +94,7 @@ struct Vector3 {
 		);
 	}
 
-	Vector3 rotate_y(float angle) {
+	Vector3 rotate_y(float angle) const {
 		return Vector3(
 			x * cos(angle) + z * sin(angle),
 			y,
@@ -102,7 +102,7 @@ struct Vector3 {
 		);
 	}
 
-	Vector3 rotate_z(float angle) {
+	Vector3 rotate_z(float angle) const {
 		return Vector3(
 			x * cos(angle) - y * sin(angle),
 			x * sin(angle) + y * cos(angle),
@@ -110,28 +110,28 @@ struct Vector3 {
 		);
 	}	
 
-	Vector3 vscale(const Vector3& s) {
+	Vector3 vscale(const Vector3& s) const {
 		return Vector3(x*s.x, y*s.y, z*s.z);
 	}
 	
-	Vector3 scale(float s) {
+	Vector3 scale(float s) const {
 		return Vector3(x*s, y*s, z*s);
 	}
 
-	Vector3 normalize() {
+	Vector3 normalize() const {
 		float l = length();
 		return Vector3(x / l, y / l, z / l);
 	}
 
-	Vector3 add(const Vector3& o) {
+	Vector3 add(const Vector3& o) const {
 		return Vector3(x + o.x, y + o.y, z + o.z);
 	}
 
-	Vector3 sub(const Vector3& o) {
+	Vector3 sub(const Vector3& o) const {
 		return Vector3(x - o.x, y - o.y, z - o.z);
 	}
 
-	Vector3 clone() {
+	Vector3 clone() const {
 		return Vector3(x, y, z);
 	}
 };
@@ -155,40 +155,40 @@ struct Vector4 {
 		ImGui::Button(Strings::Format("x: %.2f y: %.2f z: %.2f w: %2.f", x, y, z, w).c_str());
 	}
 
-	float length() {
+	float length() const {
 		return sqrt(x*x + y*y + z*z + w*w);
 	}
 
-	float distance(const Vector4& o) {
+	float distance(const Vector4& o) const {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2) + pow(w - o.w, 2));
 	}
 
-	float l1(const Vector4& o) {
+	float l1(const Vector4& o) const {
 		return abs(x - o.x) + abs(y - o.y) + abs(z - o.z) + abs(w - o.w);
 	}
 
-	Vector4 vscale(const Vector4& s) {
+	Vector4 vscale(const Vector4& s) const {
 		return Vector4(x*s.x, y*s.y, z*s.z, w*s.w);
 	}
 
-	Vector4 scale(float s) {
+	Vector4 scale(float s) const {
 		return Vector4(x*s, y*s, z*s, w*s);
 	}
 
-	Vector4 normalize() {
+	Vector4 normalize() const {
 		float l = length();
 		return Vector4(x / l, y / l, z / l, w / l);
 	}
 
-	Vector4 add(const Vector4& o) {
+	Vector4 add(const Vector4& o) const {
 		return Vector4(x + o.x, y + o.y, z + o.z, w + o.w);
 	}
 
-	Vector4 sub(const Vector4& o) {
+	Vector4 sub(const Vector4& o) const {
 		return Vector4(x - o.x, y - o.y, z - o.z, w - o.w);
 	}
 
-	Vector4 clone() {
+	Vector4 clone() const {
 		return Vector4(x, y, z, w);
 	}
 };

@@ -162,6 +162,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
+    <ClInclude Include="Collidable.h" />
+    <ClInclude Include="CollisionEngine.h" />
     <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameBuff.h" />
     <ClInclude Include="GameChampion.h" />
@@ -205,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Benchmark.cpp" />
+    <ClCompile Include="CollisionEngine.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FakeMouse.cpp" />
     <ClCompile Include="GameBuff.cpp" />

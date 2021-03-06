@@ -3,7 +3,7 @@
 
 class AsyncLoaderUpdater: public AsyncUpdater {
 public:
-	AsyncLoaderUpdater(ValkyrieLoader& vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile);
+	AsyncLoaderUpdater(std::shared_ptr<GetS3ObjectAsync> s3UpdateFile);
 
 	virtual void Perform();
 };

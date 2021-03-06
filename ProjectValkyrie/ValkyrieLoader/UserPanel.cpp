@@ -12,21 +12,39 @@ UserPanel::UserPanel()
 void UserPanel::Draw(ValkyrieLoader& loader)
 {
 	if (performUpdate && !taskPool->IsExecuting(trackIdCheckVersion)) {
-		taskPool->DispatchTask(
-			trackIdCheckVersion,
-			api->GetCheatS3Object("valkyrie-releases-eu-north-1", loader.loggedUser.level == USER_LEVEL_TESTER ? "latest-beta.zip" : "latest.zip"),
 
-			[this, &loader](std::shared_ptr<AsyncTask> response) {
+		auto onGetObj = [this, &loader](std::shared_ptr<AsyncTask> response) {
 			taskPool->DispatchTask(
 				trackIdUpdate,
-				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncCheatUpdater(loader, std::static_pointer_cast<GetS3ObjectAsync>(response))),
+				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncCheatUpdater(std::static_pointer_cast<GetS3ObjectAsync>(response))),
 				[this, &loader](std::shared_ptr<AsyncTask> response) {
-
+					ReadChangeLog();
 					updateComplete = true;
+				}
+			); 
+		};
+
+		auto onGetHead = [this, onGetObj, &loader](std::shared_ptr<AsyncTask> response) {
+			auto s3Head = std::static_pointer_cast<GetS3ObjectHeadResultAsync>(response);
+			if (s3Head->result.GetETag() == loader.cheatVersionHash.c_str()) {
+				ReadChangeLog();
+				updateComplete = true;
 			}
-			);
-		}
+			else {
+				taskPool->DispatchTask(
+					trackIdCheckVersion,
+					api->GetCheatS3Object(Constants::S3_BUCKET, loader.loggedUser.level == USER_LEVEL_TESTER ? Constants::S3_DATA_BETA_KEY : Constants::S3_DATA_KEY),
+					onGetObj
+				);
+			}
+		};
+
+		taskPool->DispatchTask(
+			trackIdCheckVersion,
+			api->GetS3ObjectHead(Constants::S3_BUCKET, loader.loggedUser.level == USER_LEVEL_TESTER ? Constants::S3_DATA_BETA_KEY : Constants::S3_DATA_KEY),
+			onGetHead
 		);
+
 		performUpdate = false;
 	}
 
@@ -114,4 +132,10 @@ void UserPanel::DrawScriptRepo()
 		scriptRepo.SaveLocalEntries(Paths::ScriptsIndex);
 
 	scriptRepo.Draw();
+}
+
+void UserPanel::ReadChangeLog()
+{
+	std::ifstream changeLogFile(Paths::ChangeLog);
+	changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
 }

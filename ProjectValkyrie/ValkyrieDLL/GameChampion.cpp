@@ -84,11 +84,10 @@ void GameChampion::ReadItems()
 		int id = ReadInt(itemInfo + Offsets::ItemInfoId);
 		auto info = GameData::GetItem(id);
 		if (info != nullptr) {
-			items[i].item = info;
-			items[i].charges = ReadShort(item + Offsets::ItemCharges);
-			
 			/// Read active spell name
 			int activeNameAddr = ReadInt(item + Offsets::ItemActiveName);
+			if (CantRead(activeNameAddr))
+				continue;
 			std::string activeName = Memory::ReadString(activeNameAddr);
 			activeName = Strings::ToLower(activeName);
 
@@ -99,6 +98,9 @@ void GameChampion::ReadItems()
 					break;
 				}
 			}
+
+			items[i].item = info;
+			items[i].charges = ReadShort(item + Offsets::ItemCharges);
 		}
 	}
 }
@@ -195,4 +197,9 @@ object GameChampion::ItemsToPy()
 bool GameChampion::HasBuff(const char * buff)
 {
 	return buffs.find(std::string(buff)) != buffs.end();
+}
+
+bool GameChampion::IsClone()
+{
+	return spells[4].name == spells[5].name;
 }

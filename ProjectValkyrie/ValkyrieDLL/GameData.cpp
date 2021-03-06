@@ -142,7 +142,7 @@ void GameData::LoadSpells(const char* fileName, float& percentValue, float perce
 		info->speed            = spell["speed"].get<float>();
 		info->travelTime       = spell["travelTime"].get<float>();
 		info->delay            = spell["delay"].get<float>();
-		info->parent           = spell["parent"].get<std::string>();
+		info->parentName       = spell["parent"].get<std::string>();
 
 		auto flags = spell["flags"];
 		for (auto& flag : flags) {
@@ -151,6 +151,16 @@ void GameData::LoadSpells(const char* fileName, float& percentValue, float perce
 		}
 		percentValue += step;
 		Spells[info->name] = info;
+	}
+
+	/// Fill parent spells
+	for (auto& pair : Spells) {
+		auto s1 = pair.second;
+		if (!s1->parentName.empty()) {
+			auto find = Spells.find(s1->parentName);
+			if (find != Spells.end())
+				s1->parent = find->second;
+		}
 	}
 }
 

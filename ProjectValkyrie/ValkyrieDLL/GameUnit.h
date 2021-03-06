@@ -6,7 +6,7 @@
 #include <boost/python.hpp>
 using namespace boost::python;
 
-class GameUnit : public GameObject {
+class GameUnit : public GameObject, public Collidable {
 
 public:
 	          GameUnit();

@@ -4,9 +4,8 @@
 class AsyncUpdater : public AsyncTask {
 
 public:
-	AsyncUpdater(ValkyrieLoader& vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile);
+	AsyncUpdater(std::shared_ptr<GetS3ObjectAsync> s3UpdateFile);
 
-	ValkyrieLoader&                   loader;
 	std::shared_ptr<GetS3ObjectAsync> updateFile;
 
 	virtual void Perform() = 0;

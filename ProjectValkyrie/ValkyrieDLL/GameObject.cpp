@@ -19,20 +19,22 @@ void GameObject::ReadFromBaseAddress(int baseAddr)
 	index     = ReadShort(baseAddr + Offsets::ObjIndex);
 	team      = ReadShort(baseAddr + Offsets::ObjTeam);
 	isVisible = ReadBool(baseAddr + Offsets::ObjVisibility);
+	isMoving  = ReadInt(baseAddr + Offsets::ObjIsMoving);
 	memcpy(&pos, AsPtr(baseAddr + Offsets::ObjPos), sizeof(Vector3));
+	memcpy(&dir, AsPtr(baseAddr + Offsets::ObjDirection), sizeof(Vector3));
 }
 
-bool GameObject::IsAllyTo(const GameObject & other)
+bool GameObject::IsAllyTo(const GameObject& other)
 {
 	return other.team == this->team;
 }
 
-bool GameObject::IsEnemyTo(const GameObject & other)
+bool GameObject::IsEnemyTo(const GameObject& other)
 {
 	return other.team != this->team;
 }
 
-bool GameObject::EqualsTo(const GameObject & other)
+bool GameObject::EqualsTo(const GameObject& other)
 {
 	return this->networkId == other.networkId;
 }
@@ -44,10 +46,12 @@ void GameObject::ImGuiDraw()
 
 	ImGui::TextColored(ImVec4(0.3f, 0.2f, 0.4f, 1.f), name.c_str());
 	pos.ImGuiDraw("Position");
+	dir.ImGuiDraw("Direction");
 	ImGui::DragInt("Address",    &address, 1.f, 0, 0, "%#010x");
 	ImGui::DragInt("NetworkId",  &networkId, 1.f, 0, 0, "%#010x");
 	ImGui::DragInt("Index",      &idx);
 	ImGui::DragInt("Team",       &tm);
 	ImGui::DragFloat("LastSeen", &lastSeen);
 	ImGui::Checkbox("Visible",   &isVisible);
+	ImGui::Checkbox("Moving",    &isMoving);
 }

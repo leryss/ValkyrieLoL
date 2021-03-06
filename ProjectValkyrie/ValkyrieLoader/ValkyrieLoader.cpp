@@ -87,19 +87,37 @@ void ValkyrieLoader::SetupWorkingDir()
 
 void ValkyrieLoader::UpdateLoader()
 {
-	taskPool->DispatchTask(
-		std::string("LoaderCheckUpdate"),
-		api->GetCheatS3Object("valkyrie-releases-eu-north-1", "loader.exe"),
+	auto onGetObj = [this](std::shared_ptr<AsyncTask> response) {
+		auto s3Result = std::static_pointer_cast<GetS3ObjectAsync>(response);
+		
+		taskPool->DispatchTask(
+			std::string("LoaderUpdate"),
+			std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncLoaderUpdater(s3Result)),
+			[s3Result, this](std::shared_ptr<AsyncTask> response) {
+				loaderVersionHash = s3Result->result.GetETag().c_str();
+				loaderUpdated = true;
+				SaveConfigs();
+			}
+		);
+	};
 
-		[this](std::shared_ptr<AsyncTask> response) {
+	auto onCheckVersion = [onGetObj, this](std::shared_ptr<AsyncTask> response) {
+		auto tag = ((GetS3ObjectHeadResultAsync*)response.get())->result.GetETag();
+		if (tag == loaderVersionHash.c_str()) {
+			loaderUpdated = true;
+		}
+		else {
 			taskPool->DispatchTask(
-				std::string("LoaderUpdate"),
-				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncLoaderUpdater(*this, std::static_pointer_cast<GetS3ObjectAsync>(response))),
-				[this](std::shared_ptr<AsyncTask> response) {
-
-					loaderUpdated = true;
-				}
+				std::string("GetLoaderExecutable"),
+				api->GetCheatS3Object(Constants::S3_BUCKET, Constants::S3_LOADER_KEY),
+				onGetObj
 			);
 		}
+	};
+
+	taskPool->DispatchTask(
+		std::string("Check Loader Version"),
+		api->GetS3ObjectHead(Constants::S3_BUCKET, Constants::S3_LOADER_KEY),
+		onCheckVersion
 	);
 }

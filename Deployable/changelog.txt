@@ -1,4 +1,9 @@
-[Valkyrie v0.15 beta]
+[Valkyrie v0.16 beta]
+	* Fixed a bug where the cheat would crash temporarly (1-2secs) because of spells being cast
+	
+	+ Improved performance in loader
+
+[Valkyrie v0.15]
 	* Fixed a bug where the UI would not work after pressing mouse buttons 4/5
 	* Fixed a bug where orbwalker would crash if used while dead
 	* Fixed a bug where recall tracker would incorrectly update champion position

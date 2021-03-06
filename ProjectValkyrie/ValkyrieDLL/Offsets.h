@@ -42,6 +42,8 @@ public:
 	static int ObjBuffManager;
 	static int ObjInvulnerable;
 	static int ObjTargetable;
+	static int ObjIsMoving;
+	static int ObjDirection;
 
 	static int BuffManagerEntriesArray;
 	static int BuffEntryBuff;

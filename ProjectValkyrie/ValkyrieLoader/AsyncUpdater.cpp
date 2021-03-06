@@ -1,7 +1,7 @@
 #include "AsyncUpdater.h"
 
-AsyncUpdater::AsyncUpdater(ValkyrieLoader & vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile)
-	:loader(vloader), updateFile(s3UpdateFile)
+AsyncUpdater::AsyncUpdater(std::shared_ptr<GetS3ObjectAsync> s3UpdateFile)
+	:updateFile(s3UpdateFile)
 {
 }
 

@@ -1,5 +1,6 @@
 #include "CreateAccountPanel.h"
 #include "ValkyrieLoader.h"
+#include "ValkyrieShared.h"
 
 void CreateAccountPanel::Draw(ValkyrieLoader & loader)
 {
@@ -17,6 +18,7 @@ void CreateAccountPanel::Draw(ValkyrieLoader & loader)
 				trackIdCreateAccount,
 				api->CreateAccount(loader.loginPanel.nameBuff, loader.loginPanel.passBuff, discordBuff, loader.hardwareInfo, inviteCodeBuff),
 				[&loader, this](std::shared_ptr<AsyncTask> response) {
+					ValkyrieShared::SaveCredentials(loader.loginPanel.nameBuff, loader.loginPanel.passBuff);
 					loader.loggedUser   = ((UserResultAsync*)response.get())->user;
 					loader.identity     = IdentityInfo(loader.loginPanel.nameBuff, loader.loginPanel.passBuff, loader.hardwareInfo);
 					loader.currentPanel = &loader.userPanel;

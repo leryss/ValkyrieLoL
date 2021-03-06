@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "PyImGui.h"
 #include "ConfigSet.h"
+#include "CollisionEngine.h"
 
 #include "imgui/imgui.h"
 #include <boost/python.hpp>
@@ -13,10 +14,11 @@ class Script;
 class PyExecutionContext {
 
 public:
-	PyImGui     imgui;
-	GameState*  state;
-	ImDrawList* overlay;
-	Script*     currentScript;
+	CollisionEngine collisionEngine;
+	PyImGui         imgui;
+	GameState*      state;
+	ImDrawList*     overlay;
+	Script*         currentScript;
 
 public:
 	Vector2 pillPosition;
@@ -54,6 +56,8 @@ public:
 	void    MoveToLocation(const Vector3& location);
 	void    AttackUnit(const GameUnit& unit);
 
+	list    GetCollisionsForUnit(const GameUnit& unit);
+	list    GetCollisionsForCast(const SpellCast& cast);
 	object  GetSpellInfo(const char* label);
 	bool    CastSpell(GameSpell* spell, const Vector3& targetLocation);
 

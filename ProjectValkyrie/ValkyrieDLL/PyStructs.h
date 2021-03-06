@@ -72,7 +72,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<SpellInfo>("SpellStatic",      "Static data loaded at runtime for a spell")
 		.def_readonly("name",              &SpellInfo::name,                 "Name of the spell in lower case")
-		.def_readonly("parent",            &SpellInfo::parent,               "Name of the parent spell in lower case. This field is non empty for missile spells, the parent is the spell that created the missile")
+		.def_readonly("parent",            &SpellInfo::GetParentPy,          "SpellStatic of parent spell. This field is non empty for missile spells, the parent is the spell that created the missile")
 		.def_readonly("icon",              &SpellInfo::icon,                 "Icon name of the spell in lowercase")
 		.def_readonly("cast_time",         &SpellInfo::castTime,             "Cast time of spell")
 		.def_readonly("cast_range",        &SpellInfo::castRange,            "Cast range of the spell (e.g Ezreal Q length)")
@@ -93,8 +93,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("net_id",            &GameObject::networkId,           "Network id. This is a unique id of the object")
 		.def_readonly("team",              &GameObject::team,                "Team of the object: possible values 100, 200 and 300 for jungle side. Use ally_to/enemy_to functions instead of this")
 		.def_readonly("pos",               &GameObject::pos,                 "Position of the object")
-		.def_readonly("visible",           &GameObject::isVisible,           "Object visibility")
+		.def_readonly("visible",           &GameObject::isVisible,           "True if object is visible")
 		.def_readonly("last_seen",         &GameObject::lastSeen,            "Timestamp in game time for when the object was last visible")
+		.def_readonly("dir",               &GameObject::dir,                 "Direction the object is facing as a normalized Vec3")
+		.def_readonly("moving",            &GameObject::isMoving,            "True if object is moving")
 																             
 		.def("ally_to",                    &GameObject::IsAllyTo,            "Checks if two objects are allied")
 		.def("enemy_to",                   &GameObject::IsEnemyTo,           "Checks if two objects are enemies")
@@ -114,6 +116,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	class_<SpellCast>("SpellCast",         "Has data about a spell being cast.")
 		.def_readonly("start_pos",         &SpellCast::start,                "Start position of the spell. Usually the position of the caster")
 		.def_readonly("end_pos",           &SpellCast::end,                  "End position of the spell. Use this to get the direction of the spell. Remarks: this might not always be the real endpoint check SpellStatic project_endpoint field for more information.")
+		.def_readonly("dir",               &SpellCast::dir,                  "Direction the spell is facing (in case of missiles)")
 		.def_readonly("src_index",         &SpellCast::srcIndex,             "Index of the object who is casting")
 		.def_readonly("dest_index",        &SpellCast::destIndex,            "If casting a targeted spell this holds the index of the target object")
 		.def_readonly("time_begin",        &SpellCast::timeBegin,            "Start timestamp in game time of the casting")
@@ -162,6 +165,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("item_slots",        &GameChampion::ItemsToPy,         "List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons")
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "Height position of the HP bar of the champion")
 		.def_readonly("recalling",         &GameChampion::recalling,         "True if champion is recalling")
+		.def_readonly("is_clone",          &GameChampion::IsClone,           "Checks if the champion is a clone")
 		;
 
 	class_<GameTurret, bases<GameUnit>>("TurretObj", "Represents a turret object")
@@ -246,6 +250,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Get jungle monsters from game")
 		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Get other uncategorized objects")
 
+		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit,     "")
+		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,     "")
 		.def("attack",                   &PyExecutionContext::AttackUnit,        "Makes the player attack the given unit")
 		.def("move",                     &PyExecutionContext::MoveToLocation,    "Moves the player to the given location")
 		.def("move",                     &PyExecutionContext::MoveToMouse,       "Moves the player to where the mouse cursor is")
@@ -337,6 +343,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("distance",                 &Vector3::distance)
 		.def("__mul__",                  &Vector3::scale)
 		.def("__mul__",                  &Vector3::vscale)
+		.def("l1",                       &Vector3::l1,       "L1 Distance")
 		.def("rotate_x",                 &Vector3::rotate_x, "Rotates the vector along the x axis")
 		.def("rotate_y",                 &Vector3::rotate_y, "Rotates the vector along the y axis")
 		.def("rotate_z",                 &Vector3::rotate_z, "Rotates the vector along the z axis")

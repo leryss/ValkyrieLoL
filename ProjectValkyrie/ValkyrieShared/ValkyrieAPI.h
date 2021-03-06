@@ -6,6 +6,8 @@
 
 #include <aws/s3/model/GetObjectRequest.h>
 #include <aws/s3/model/GetObjectResult.h>
+#include <aws/s3/model/HeadObjectRequest.h>
+#include <aws/s3/model/HeadObjectResult.h>
 #include <aws/s3/S3Client.h>
 
 #include <aws/core/auth/AWSCredentials.h>
@@ -42,6 +44,33 @@ public:
 	Aws::S3::Model::GetObjectResult   result;
 	Aws::S3::S3Client&                s3Client;
 	Aws::S3::Model::GetObjectRequest& request;
+};
+
+class GetS3ObjectHeadResultAsync : public AsyncTask {
+
+public:
+	GetS3ObjectHeadResultAsync(Aws::S3::S3Client& s3Client, Aws::S3::Model::HeadObjectRequest& request)
+		:s3Client(s3Client), request(request)
+	{}
+
+	virtual void Perform() {
+
+		currentStep = "Requesting object head";
+		auto outcome = s3Client.HeadObject(request);
+
+		if (!outcome.IsSuccess()) {
+			SetStatus(ASYNC_FAILED);
+			error = "Failed to get object heading";
+		}
+		else {
+			SetStatus(ASYNC_SUCCEEDED);
+			result = (Aws::S3::Model::HeadObjectResult&&)outcome.GetResult();
+		}
+	}
+
+	Aws::S3::Model::HeadObjectResult   result;
+	Aws::S3::S3Client&                 s3Client;
+	Aws::S3::Model::HeadObjectRequest& request;
 };
 
 class LambdaInvokeResultAsync: public AsyncTask {
@@ -182,7 +211,7 @@ class ValkyrieAPI {
 
 public:
 	
-
+	std::shared_ptr<GetS3ObjectHeadResultAsync> GetS3ObjectHead(const char* bucket, const char* key);
 	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
 
 	std::shared_ptr<UserResultAsync>      CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
@@ -215,5 +244,6 @@ private:
 	std::shared_ptr<Aws::S3::S3Client>         s3Client;
 
 	Model::InvokeRequest                       lambdaInvokeRequest;
+	Aws::S3::Model::HeadObjectRequest          s3HeadObjectRequest;
 	Aws::S3::Model::GetObjectRequest           s3GetObjectRequest;
 };

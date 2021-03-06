@@ -12,6 +12,7 @@ public:
 private:
 	void         DrawHome();
 	void         DrawScriptRepo();
+	void         ReadChangeLog();
 
 public:
 	std::string                 changeLog;

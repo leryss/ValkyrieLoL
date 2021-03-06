@@ -2,11 +2,12 @@
 #include "MemoryReadable.h"
 #include "Vector.h"
 #include "SpellInfo.h"
+#include "Collidable.h"
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-class SpellCast : public MemoryReadable {
+class SpellCast : public MemoryReadable, public Collidable {
 
 public:
 	virtual void ReadFromBaseAddress(int address) override;
@@ -18,6 +19,7 @@ public:
 	float       castTime;
 	Vector3     start;
 	Vector3     end;
+	Vector3     dir;
 	short       srcIndex;
 	short       destIndex;
 

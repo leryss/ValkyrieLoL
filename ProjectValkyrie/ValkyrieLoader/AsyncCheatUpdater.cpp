@@ -3,27 +3,21 @@
 #include "Paths.h"
 #include <fstream>
 
-AsyncCheatUpdater::AsyncCheatUpdater(ValkyrieLoader & vloader, std::shared_ptr<GetS3ObjectAsync> s3UpdateFile)
-	:AsyncUpdater(vloader, s3UpdateFile)
+AsyncCheatUpdater::AsyncCheatUpdater(std::shared_ptr<GetS3ObjectAsync> s3UpdateFile)
+	:AsyncUpdater(s3UpdateFile)
 {
 }
 
 void AsyncCheatUpdater::Perform()
 {
-	auto& etag = updateFile->result.GetETag();
-	if (etag.compare(loader.cheatVersionHash.c_str()) != 0) {
-		Download();
+	Download();
 
-		if (!Extract(downloadBuff, sizeDownload))
-			return;
-		if (!CopyDependencies())
-			return;
+	if (!Extract(downloadBuff, sizeDownload))
+		return;
+	if (!CopyDependencies())
+		return;
 
-		delete[] downloadBuff;
-	}
-
-	UpdateVersionHash();
-	ReadChangeLog();
+	delete[] downloadBuff;
 
 	SetStatus(ASYNC_SUCCEEDED);
 }
@@ -64,12 +58,6 @@ bool AsyncCheatUpdater::Extract(char* downloaded, int sizeDownloaded)
 	return true;
 }
 
-void AsyncCheatUpdater::UpdateVersionHash()
-{
-	loader.cheatVersionHash = updateFile->result.GetETag().c_str();
-	loader.SaveConfigs();
-}
-
 bool AsyncCheatUpdater::CopyDependencies()
 {
 	currentStep = "Copying dependencies";
@@ -97,10 +85,4 @@ bool AsyncCheatUpdater::CopyDependencies()
 	} while (FindNextFileA(hFind, &findData));
 
 	return true;
-}
-
-void AsyncCheatUpdater::ReadChangeLog()
-{
-	std::ifstream changeLogFile(Paths::ChangeLog);
-	loader.userPanel.changeLog = std::string((std::istreambuf_iterator<char>(changeLogFile)), std::istreambuf_iterator<char>());
 }

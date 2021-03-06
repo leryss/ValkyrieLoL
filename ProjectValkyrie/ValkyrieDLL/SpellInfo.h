@@ -2,6 +2,9 @@
 #include <string>
 #include <map>
 
+#include <boost/python.hpp>
+using namespace boost::python;
+
 enum SpellFlags {
 	
 	CastPoint        = (1 << 0),
@@ -33,11 +36,12 @@ class SpellInfo {
 public:
 
 	void AddFlag(std::string& flag);
-	bool HasFlag(SpellFlags flag);
+	bool HasFlag(SpellFlags flag) const;
+	object GetParentPy();
 
 	// Values from game's data files
 	std::string name;
-	std::string parent;
+	std::string parentName;
 	std::string icon;
 
 	float castTime;
@@ -52,6 +56,7 @@ public:
 	float travelTime;
 
 	SpellFlags flags;
+	SpellInfo* parent;
 
 	void ImGuiDraw();
 

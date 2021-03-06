@@ -141,11 +141,19 @@ public:
 
 	float SliderFloat(const char* label, float val, float valMin, float valMax) {
 		ImGui::SliderFloat(label, &val, valMin, valMax);
+		if (val < valMin)
+			return valMin;
+		if (val > valMax)
+			return valMax;
 		return val;
 	}
 
 	int SliderInt(const char* label, int val, int valMin, int valMax) {
 		ImGui::SliderInt(label, &val, valMin, valMax);
+		if (val < valMin)
+			return valMin;
+		if (val > valMax)
+			return valMax;
 		return val;
 	}
 

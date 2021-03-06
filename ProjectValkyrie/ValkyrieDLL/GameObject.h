@@ -9,6 +9,7 @@
 
 #include <string>
 #include <windows.h>
+#include "Collidable.h"
 
 enum GameObjectType {
 
@@ -20,7 +21,7 @@ enum GameObjectType {
 	OBJ_MISSILE
 };
 
-class GameObject : MemoryReadable {
+class GameObject : public MemoryReadable {
 
 public:
 	               GameObject();
@@ -47,6 +48,8 @@ public:
 	short          index;
 	short          team;
 	Vector3        pos;
+	Vector3        dir;
+	bool           isMoving;
 	bool           isVisible;
 	float          lastSeen;
 };

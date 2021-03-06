@@ -127,5 +127,5 @@ def valkyrie_exec(ctx):
 				continue
 				
 			# Clones have the same name for summoner spells
-			if champ.name in clones and champ.spells[4].name == champ.spells[5].name:
+			if champ.name in clones and champ.is_clone:
 				draw(ctx, champ, *(clones[champ.name]))

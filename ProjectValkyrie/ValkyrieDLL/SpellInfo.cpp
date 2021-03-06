@@ -33,9 +33,14 @@ void SpellInfo::AddFlag(std::string & flag)
 	}
 }
 
-bool SpellInfo::HasFlag(SpellFlags flag)
+bool SpellInfo::HasFlag(SpellFlags flag) const
 {
 	return (flags & flag) == flag;
+}
+
+object SpellInfo::GetParentPy()
+{
+	return object(ptr(parent));
 }
 
 void SpellInfo::ImGuiDraw()

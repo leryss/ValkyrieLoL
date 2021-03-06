@@ -1,5 +1,5 @@
 from valkyrie import *			 
-
+from time import perf_counter
 
 def valkyrie_menu(ctx) :		 
 	ui = ctx.ui					 
@@ -27,29 +27,8 @@ def draw_rect(ctx, start_pos, end_pos, radius, color):
 	
 	ctx.rect(p1, p2, p3, p4, 3, color)
 	
-	
-def missile_draw_line(ctx, missile, static):
-	cast_info = missile.spell
-	
-	start  = missile.pos.clone()
-	end    = cast_info.end_pos.clone()
-	start.y = cast_info.start_pos.y
-	end.y   = start.y
-	if static.has_flag(Spell.CastDirection):
-		end = start + (end - cast_info.start_pos).normalize() * (static.cast_range - start.distance(cast_info.start_pos))
-		
-	draw_rect(ctx, start, end, static.width, Col.Yellow)
-	
 def cast_draw_line(ctx, cast_info, static):
-	
-	start = cast_info.start_pos.clone()
-	end = cast_info.end_pos.clone()
-	end.y = start.y
-	
-	if static.has_flag(Spell.CastDirection):
-		end = start + (end - start).normalize() * static.cast_range
-	
-	draw_rect(ctx, start, end, static.width, Col.Gray)
+	draw_rect(ctx, cast_info.start_pos, cast_info.end_pos, static.width, Col.Gray)
 	
 def cast_draw_area(ctx, cast_info, static):
 	
@@ -74,12 +53,25 @@ def cast_draw_cone(ctx, cast_info, static):
 	
 
 def draw_missile(ctx, missile):
-	static = ctx.get_spell_static(missile.spell.static.parent)
+	static = missile.spell.static.parent
 	if static == None:
 		return
 		
 	if static.has_flag(Spell.TypeLine):
-		missile_draw_line(ctx, missile, static)
+		collisions = ctx.collisions_for(missile.spell)
+		ctx.info(str(collisions))
+		
+		cast_info = missile.spell
+		start = missile.pos.clone()
+		start.y = cast_info.start_pos.y
+		
+		end = cast_info.end_pos
+		if len(collisions) > 0:
+			last_collision, final = collisions[-1]
+			if final:
+				end = start + (cast_info.dir * last_collision.pos.distance(start))
+				
+		draw_rect(ctx, start, end, static.width, Col.Yellow)
 
 def draw_cast(ctx, champ):
 	cast_info = champ.curr_casting
@@ -106,4 +98,5 @@ def draw_spells(ctx):
 def valkyrie_exec(ctx) :	     
 	
 	draw_spells(ctx)
-
+	
+	

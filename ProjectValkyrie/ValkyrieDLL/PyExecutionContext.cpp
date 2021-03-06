@@ -7,7 +7,7 @@ std::shared_ptr<list> MakePyList(std::vector<std::shared_ptr<T>>& cList) {
 	std::shared_ptr<list> pyList = std::shared_ptr<list>(new list());
 
 	for (auto& v : cList) {
-		pyList->append(v.get());
+		pyList->append(ptr(v.get()));
 	}
 
 	return pyList;
@@ -27,6 +27,16 @@ bool PyExecutionContext::WasKeyPressed(int key)
 		return false;
 
 	return currentScript->input.WasPressed((HKey)key);
+}
+
+list PyExecutionContext::GetCollisionsForUnit(const GameUnit & unit)
+{
+	return collisionEngine.GetCollisionsForUnit(&unit);
+}
+
+list PyExecutionContext::GetCollisionsForCast(const SpellCast & cast)
+{
+	return collisionEngine.GetCollisionsForCast(&cast);
 }
 
 object PyExecutionContext::GetSpellInfo(const char* label) {
@@ -192,6 +202,8 @@ void PyExecutionContext::SetGameState(GameState * state)
 	jungle   = MakePyList(state->jungle);
 	missiles = MakePyList(state->missiles);
 	others   = MakePyList(state->others);
+
+	collisionEngine.Update(*state);
 }
 
 void PyExecutionContext::SetImGuiOverlay(ImDrawList * overlay)
@@ -303,3 +315,4 @@ void PyExecutionContext::Pill(const char * text, const ImVec4 & colText, const I
 	overlay->AddRectFilled((ImVec2&)pillPosition, ImVec2(pillPosition.x + size.x, pillPosition.y + size.y), ImColor(colRect), 10.f);
 	DrawTxt(Vector2(pillPosition.x + size.x / 2.f, pillPosition.y + size.y / 2.f), text, colText);
 }
+
