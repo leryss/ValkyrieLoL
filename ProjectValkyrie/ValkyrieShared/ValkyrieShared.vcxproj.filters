@@ -160,5 +160,8 @@
     <ClCompile Include="ScriptSubmission.cpp">
       <Filter>Source Files\API\Model</Filter>
     </ClCompile>
+    <ClCompile Include="ValkyrieShared.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

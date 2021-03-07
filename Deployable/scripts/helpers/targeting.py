@@ -70,18 +70,16 @@ class TargetSelector:
 		self.selected_targeter = ui.combo(label, self.targeters, self.selected_targeter)
 		ui.popid()
 
-	def get_target(self, ctx, targets, radius):
+	def get_target(self, ctx, targets):
 		
 		best_target = None
 		min_score   = 10000000
 		for target in targets:
-			if target.dead or not target.visible or not target.targetable:
-				continue
-				
-			if target.pos.distance(ctx.player.pos) > radius:
-				continue
-				
+			
 			score = self.targeters[self.selected_targeter].get_score(ctx, target)
+			if hasattr(target, 'is_clone') and target.is_clone:
+				score += 1000
+				
 			if(score < min_score):
 				min_score = score
 				best_target = target

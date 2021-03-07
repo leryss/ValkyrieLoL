@@ -19,12 +19,12 @@ delay_percent = 0.1
 
 class OrbwalkKite:
 	def get_target(self, ctx):
-		return target_selector.get_target(ctx, [champ for champ in ctx.champs if champ.enemy_to(ctx.player)], ctx.player.atk_range + ctx.player.static.gameplay_radius)
+		possible_targets = ctx.champs.targetable().enemy_to(ctx.player).near(ctx.player, ctx.player.atk_range + ctx.player.static.gameplay_radius).get()
+		return target_selector.get_target(ctx, possible_targets)
 
 class OrbwalkLastHit:
 	def get_target(self, ctx):
-		minions  = [m for m in ctx.minions if ctx.is_on_screen(m.pos)]
-		lasthits = predict_minions_lasthit(ctx, minions)
+		lasthits = predict_minions_lasthit(ctx, ctx.minions.alive().enemy_to(ctx.player).on_screen().get(), ctx.minions.alive().ally_to(ctx.player).on_screen().get())
 		if len(lasthits) == 0:
 			return None
 			
@@ -40,39 +40,39 @@ class OrbwalkLanePush:
 		player			  = ctx.player
 		
 		# Try getting jungle mob
-		jungle_target = target_selector_monster.get_target(ctx, ctx.jungle, player.atk_range + player.static.gameplay_radius)
+		jungle_target = target_selector_monster.get_target(ctx, ctx.jungle.targetable().near(player, player.atk_range + player.static.gameplay_radius).get())
 		if jungle_target:
 			return jungle_target
 			
-		# Try getting the last minion
-		minions  = [m for m in ctx.minions if ctx.is_on_screen(m.pos)]
-		lasthits = predict_minions_lasthit(ctx, minions)
-		if len(lasthits) == 0:
-			return None
+		# Try getting the last hit minion
+		lasthits = predict_minions_lasthit(ctx, ctx.minions.alive().enemy_to(ctx.player).on_screen().get(), ctx.minions.alive().ally_to(ctx.player).on_screen().get())
+		if len(lasthits) > 0:
 			
-		lasthits = sorted(lasthits, key = lambda p: p[0].health - p[1], reverse = True)
-		for minion, predicted_hp, player_dmg in lasthits:
-			if predicted_hp - player_dmg <= 0.0:
-				return minion
+			lasthits = sorted(lasthits, key = lambda p: p[0].health - p[1], reverse = True)
+			for minion, predicted_hp, player_dmg in lasthits:
+				if predicted_hp - player_dmg <= 0.0:
+					return minion
+			
+			# No last hit, we try to push or wait for last hit
+			basic_atk_speed	 = player.static.basic_atk.speed
+			basic_atk_delay	 = player.static.basic_atk_windup*(1.0 + delay_percent)/ player.atk_speed
 		
-		# No last hit, we try to push or wait for last hit
-		basic_atk_speed	 = player.static.basic_atk.speed
-		basic_atk_delay	 = player.static.basic_atk_windup*(1.0 + delay_percent)/ player.atk_speed
-	
-		for minion, predicted_hp, player_dmg in lasthits:
-			predicted_dmg = minion.health - predicted_hp
-			
-			if predicted_dmg == 0.0:
-				return minion
-			
-			# Wait for last hit, this method is heuristic definitely not perfect
-			if predicted_hp - player_dmg < player_dmg + predicted_dmg:
-				return None
-			
-			if predicted_hp - player_dmg > predicted_dmg:
-				return minion
-			
-		return None
+			for minion, predicted_hp, player_dmg in lasthits:
+				predicted_dmg = minion.health - predicted_hp
+				
+				if predicted_dmg == 0.0:
+					return minion
+				
+				# Wait for last hit, this method is heuristic definitely not perfect
+				if predicted_hp - player_dmg < player_dmg + predicted_dmg:
+					break
+				
+				if predicted_hp - player_dmg > predicted_dmg:
+					return minion
+		
+		# Get turret / other entities
+		possible_targets = ctx.turrets.targetable().enemy_to(player).near(player, player.atk_range + player.static.gameplay_radius).get() + ctx.others.targetable().enemy_to(player).near(player, player.atk_range + player.static.gameplay_radius).get()
+		return target_selector.get_target(ctx, possible_targets)
 		
 kite_mode	    = OrbwalkKite()
 last_hit_mode   = OrbwalkLastHit()

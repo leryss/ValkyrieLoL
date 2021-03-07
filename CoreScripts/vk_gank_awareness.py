@@ -100,9 +100,7 @@ def set_champ_last_position(champ, new_pos):
 	last_positions[champ.net_id] = [champ.pos, time(), new_pos]
 	
 def valkyrie_exec(ctx):
-	for champ in ctx.champs:
-		if champ.ally_to(ctx.player) or champ.dead:
-			continue
+	for champ in ctx.champs.alive().enemy_to(ctx.player).get():
 		
 		if show_gank_alerts:
 			draw_gank_alert(ctx, champ)

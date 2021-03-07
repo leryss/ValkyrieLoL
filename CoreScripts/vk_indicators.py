@@ -35,17 +35,15 @@ def valkyrie_on_save(ctx):
 	cfg.set_str("turret_circle_ally", str(turret_circle_ally))
 	cfg.set_str("player_circle", str(player_circle))
 	cfg.set_bool("show_minion_hit", show_minion_hit)
-	
+
 def draw_minion_hit_indicators(ctx):
-	minions = [m for m in ctx.minions if ctx.is_on_screen(m.pos)]
 	player  = ctx.player
+	minions = ctx.minions.enemy_to(player).targetable().on_screen().get()
+	
 	
 	for minion in minions:
-		if minion.dead or not minion.targetable or minion.ally_to(player) or not minion.visible:
-			continue
-			
 		hit_dmg = get_onhit_physical(player, minion) + items.get_onhit_magical(player, minion)
-
+		
 		percent_curr = minion.health/minion.max_health
 		percent_after_hit = (minion.health - hit_dmg)/minion.max_health
 		percent_after_hit = percent_after_hit if percent_after_hit > 0.0 else 0.0
@@ -58,18 +56,10 @@ def draw_minion_hit_indicators(ctx):
 		ctx.line(hp_bar_pos + Vec2(0, -6), hp_bar_pos + Vec2(0, 10), 1, Col.Black)
 
 def draw_turret_range(ctx):
-	for turret in ctx.turrets:
-		if not turret.dead and ctx.is_on_screen(turret.pos):
-			circle = turret_circle_ally if turret.ally_to(ctx.player) else turret_circle_enemy
-			circle.radius = turret.static.base_atk_range + turret.static.gameplay_radius
-			circle.draw_at(ctx, turret.pos)
-
-def draw_jungle_timers(ctx):
-	for obj in ctx.others:
-		if obj.name == 'sru_camprespawnmarker':
-			duration = int(obj.expiry + obj.last_seen - ctx.time)
-			if duration > 0:
-				ctx.text(ctx.w2m(obj.pos), f'{duration}', Col.Yellow)
+	for turret in ctx.turrets.alive().on_screen().get():
+		circle = turret_circle_ally if turret.ally_to(ctx.player) else turret_circle_enemy
+		circle.radius = turret.static.base_atk_range + turret.static.gameplay_radius
+		circle.draw_at(ctx, turret.pos)
 		
 def draw_player_range(ctx):
 	player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
@@ -81,6 +71,3 @@ def valkyrie_exec(ctx):
 	
 	if show_minion_hit:
 		draw_minion_hit_indicators(ctx)
-	
-	#draw_jungle_timers(ctx)
-	

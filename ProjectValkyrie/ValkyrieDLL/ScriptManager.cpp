@@ -88,7 +88,7 @@ void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::s
 
 		const char* scriptName = script->info->name.c_str();
 
-		ImGui::Text("  ");
+		ImGui::Text(" ");
 		ImGui::SameLine();
 		if (ImGui::BeginMenu(scriptName)) {
 			if (errored) {

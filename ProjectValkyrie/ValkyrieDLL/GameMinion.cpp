@@ -1,5 +1,6 @@
 #include "GameMinion.h"
 #include "Valkyrie.h"
+#include "Logger.h"
 
 GameMinion::GameMinion()
 {

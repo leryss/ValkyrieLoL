@@ -169,6 +169,7 @@
     <ClInclude Include="GameChampion.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameHud.h" />
+    <ClInclude Include="GameItemSlot.h" />
     <ClInclude Include="GameJungle.h" />
     <ClInclude Include="GameMinion.h" />
     <ClInclude Include="GameMissile.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryReadable.h" />
     <ClInclude Include="ObjectExplorer.h" />
+    <ClInclude Include="ObjectQuery.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="OffsetScanner.h" />
@@ -215,7 +217,6 @@
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameHud.cpp" />
     <ClCompile Include="GameItemSlot.cpp" />
-    <ClCompile Include="GameItemSlot.h" />
     <ClCompile Include="GameJungle.cpp" />
     <ClCompile Include="GameMinion.cpp" />
     <ClCompile Include="GameMissile.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="GameReader.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="ObjectExplorer.cpp" />
+    <ClCompile Include="ObjectQuery.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="OffsetScanner.cpp" />
     <ClCompile Include="PyExecutionContext.cpp" />

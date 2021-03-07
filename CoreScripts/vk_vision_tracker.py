@@ -111,10 +111,7 @@ def draw(ctx, obj, radius, show_circle_world, show_circle_map, icon):
 
 def valkyrie_exec(ctx):
 	
-	for obj in ctx.others:
-		if obj.ally_to(ctx.player) or obj.dead:
-			continue
-		
+	for obj in ctx.others.alive().enemy_to(ctx.player).get():
 		if show_wards and obj.has_tags(Unit.Ward) and obj.name in wards:
 			draw(ctx, obj, *(wards[obj.name]))
 		elif show_traps and obj.has_tags(Unit.SpecialTrap) and obj.name in traps:
@@ -122,10 +119,6 @@ def valkyrie_exec(ctx):
 	
 	
 	if show_clones:
-		for champ in ctx.champs:
-			if champ.ally_to(ctx.player) or champ.dead:
-				continue
-				
-			# Clones have the same name for summoner spells
-			if champ.name in clones and champ.is_clone:
+		for champ in ctx.champs.clone().alive().enemy_to(ctx.player).get():
+			if champ.name in clones:
 				draw(ctx, champ, *(clones[champ.name]))

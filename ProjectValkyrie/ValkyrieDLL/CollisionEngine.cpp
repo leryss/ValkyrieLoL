@@ -34,7 +34,7 @@ list CollisionEngine::GetCollisionsForUnit(const Collidable* collidable)
 	auto find = collisions.find(collidable);
 	if (find != collisions.end()) {
 		for (auto& spec : find->second) {
-			l.append(make_tuple(ptr((const SpellCast*)spec.other), spec.isFinal));
+			l.append(ptr(spec.get()));
 		}
 	}
 
@@ -47,7 +47,7 @@ list CollisionEngine::GetCollisionsForCast(const Collidable* collidable)
 	auto find = collisions.find(collidable);
 	if (find != collisions.end()) {
 		for (auto& spec : find->second) {
-			l.append(make_tuple(ptr((const GameUnit*)spec.other), spec.isFinal));
+			l.append(ptr(spec.get()));
 		}
 	}
 
@@ -76,8 +76,7 @@ void CollisionEngine::FindCollisions(const Vector3 & spell_start, const SpellCas
 
 		Vector2 T = LinearCollision(sstart, sspeed, tstart, tspeed, sstatic->width + target->staticData->gameplayRadius);
 		if (T.x > 0.f && T.y > 0.f) {
-			AddCollisionEntry(cast, target, pair.second);
-			AddCollisionEntry(target, cast, pair.second);
+			AddCollisionEntry(new FutureCollision(target, cast, T, pair.second));
 
 			if (pair.second) /// Check if collision is strict/final, then we stop the checking here since the projectile wont go further
 				break;
@@ -110,14 +109,24 @@ void CollisionEngine::GetObjectsNearbyEnemies(const GameState& state, const Game
 	}
 }
 
-void CollisionEngine::AddCollisionEntry(const Collidable * left, const Collidable * right, bool isFinal)
+void CollisionEngine::AddCollisionEntry(FutureCollision* collision)
 {
-	auto find = collisions.find(left);
+	/// Add collision for unit
+	auto find = collisions.find(collision->unit);
 	if (find == collisions.end()) {
-		collisions[left] = { CollisionSpec(right, isFinal) };
+		collisions[collision->unit] = { std::shared_ptr<FutureCollision>(collision) };
 	}
 	else {
-		find->second.push_back(CollisionSpec(right, isFinal));
+		find->second.push_back(std::shared_ptr<FutureCollision>(collision));
+	}
+
+	/// Add collision for spell
+	find = collisions.find(collision->cast);
+	if (find == collisions.end()) {
+		collisions[collision->cast] = { std::shared_ptr<FutureCollision>(collision) };
+	}
+	else {
+		find->second.push_back(std::shared_ptr<FutureCollision>(collision));
 	}
 }
 
@@ -150,7 +159,25 @@ Vector2 CollisionEngine::LinearCollision(const Vector2& p1, const Vector2& d1, c
 	return Vector2(t1, t2);
 }
 
-CollisionSpec::CollisionSpec(const Collidable * other, bool isFinal)
-	:other(other), isFinal(isFinal)
+FutureCollision::FutureCollision()
 {
+}
+
+FutureCollision::FutureCollision(const GameUnit* unit, const SpellCast* cast, const Vector2& time, bool isFinal)
+	:
+	unit(unit),
+	cast(cast),
+	time(Vector3(time.x, 0.f, time.y)),
+	isFinal(isFinal)
+{
+}
+
+object FutureCollision::GetUnitPy()
+{
+	return object(ptr(unit));
+}
+
+object FutureCollision::GetCastPy()
+{
+	return object(ptr(cast));
 }

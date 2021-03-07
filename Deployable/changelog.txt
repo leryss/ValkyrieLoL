@@ -1,7 +1,22 @@
-[Valkyrie v0.16 beta]
-	* Fixed a bug where the cheat would crash temporarly (1-2secs) because of spells being cast
+[Valkyrie v0.17 beta]
+	* Fixed bug where senna icon was missing
+
+	+ Added auto login & update all scripts button in loader
+	+ Some performance improvements
+	+ New UI style in both loader/cheat
+	+ Now orbwalker lane push targets turrets/wards and other entities
+	+ Now orbwalker will prioritize champions that are not clones
 	
+[Valkyrie v0.16]
+	* Fixed a bug where the cheat would crash temporarly (1-2secs) because of spells being cast
+	* Fixed a bug where cheat would crash when enemy clones were alive
+	* Fixed a bug where activator would trigger when player was dead
+	* Fixed a bug where you could enter out of bounds values on UI slider
+
 	+ Improved performance in loader
+	+ Added icon for practice tool dummy
+	+ Removed spell tracker icons for clones/practice tool dummy
+	+ Started working on skillshot collision engine
 
 [Valkyrie v0.15]
 	* Fixed a bug where the UI would not work after pressing mouse buttons 4/5

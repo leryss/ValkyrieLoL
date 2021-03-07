@@ -1,6 +1,7 @@
 #define DIRECTINPUT_VERSION 0x0800
 
 #include "ValkyrieLoader.h"
+#include "ValkyrieShared.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
@@ -46,7 +47,11 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 		// Setup Dear ImGui style
-		ImGui::StyleColorsDark();
+		
+		ValkyrieShared::ImGuiSetupSizesAndFont();
+		ValkyrieShared::ImGuiStyleValkyrie();
+		///ImGui::StyleColorsDark();
+		///ImGui::GetStyle().ScaleAllSizes(1.5f);
 
 		// Setup Platform/Renderer backends
 		ImGui_ImplWin32_Init(hwnd);

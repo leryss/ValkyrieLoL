@@ -42,7 +42,7 @@ def draw_spell(ctx, spell, pos):
 	if cd > 0.0:
 		color = Col.Red
 		
-	ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size_img_skill, size_img_skill), color, 10)
+	ctx.image(spell.static.icon, pos, Vec2(size_img_skill, size_img_skill), color, 10)
 	if cd > 0.0:
 		ctx.text(pos, str(int(cd)), Col.White)
 
@@ -63,15 +63,16 @@ def draw_tracker_for(ctx, champ):
 		draw_spell(ctx, champ.spells[i], pos)
 	
 def valkyrie_exec(ctx):
-	for champ in ctx.champs:
-		if not champ.visible or champ.dead or not ctx.is_on_screen(champ.pos):
-			continue
+	
+	player = ctx.player
+	if show_self and ctx.is_on_screen(player.pos):
+		draw_tracker_for(ctx, player)
+				
+	if show_enemies:
+		for champ in ctx.champs.alive().visible().enemy_to(player).not_clone().on_screen().get():
+			draw_tracker_for(ctx, champ)
 			
-		if champ == ctx.player:
-			if show_self:
+	if show_allies:
+		for champ in ctx.champs.alive().visible().ally_to(player).not_clone().on_screen().get():
+			if champ != player:
 				draw_tracker_for(ctx, champ)
-		elif show_enemies and champ.enemy_to(ctx.player):
-			draw_tracker_for(ctx, champ)
-		elif show_allies and champ.ally_to(ctx.player):
-			draw_tracker_for(ctx, champ)
-		

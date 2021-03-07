@@ -47,7 +47,7 @@ float                              Valkyrie::AveragePing;
 
 bool ChooseMenuStyle(const char* label, int& currentStyle)
 {
-	return ImGui::Combo(label, &currentStyle, "Dark\0Light\0Classic\0");
+	return ImGui::Combo(label, &currentStyle, "Dark\0Light\0Classic\0Valkyrie\0");
 }
 
 int SetStyle(int style) {
@@ -56,6 +56,7 @@ int SetStyle(int style) {
 	case 0: ImGui::StyleColorsDark(); break;
 	case 1: ImGui::StyleColorsLight(); break;
 	case 2: ImGui::StyleColorsClassic(); break;
+	case 3: ValkyrieShared::ImGuiStyleValkyrie(); break;
 	}
 	return style;
 }
@@ -186,7 +187,7 @@ void Valkyrie::InitializeOverlay()
 		throw std::runtime_error("Failed to initialize ImGui_ImplDX9_Init");
 
 	ImGui::GetIO().IniFilename = Paths::ImguiConfig.c_str();
-
+	ValkyrieShared::ImGuiSetupSizesAndFont();
 	LoadConfigs();
 }
 
@@ -245,7 +246,7 @@ void Valkyrie::LoadConfigs()
 	ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
 
 	ShowMenuKey              = (HKey)Configs.GetInt("show_key", HKey::Tab);
-	MenuStyle                = SetStyle(Configs.GetInt("menu_style", 0));
+	MenuStyle                = SetStyle(Configs.GetInt("menu_style", 3));
 	AveragePing              = Configs.GetFloat("ping", 60.0f);
 }
 

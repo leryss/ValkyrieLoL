@@ -28,7 +28,7 @@ public:
 	object    SpellsToPy();
 	object    ItemsToPy();
 	bool      HasBuff(const char* buff);
-	bool      IsClone();
+	bool      IsClone() const;
 
 public:
 	bool      recalling;

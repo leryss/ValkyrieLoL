@@ -1,5 +1,21 @@
 [
 	{
+        "name": "basespell",
+        "parent": "",
+        "icon": "basespell",
+        "castTime": 0.0,
+        "castRange": 0.0,
+        "castRadius": 0.0,
+        "castConeAngle": 0.0,
+        "castConeDistance": 0.0,
+        "width": 0.0,
+        "height": 0.0,
+        "speed": 0.0,
+        "travelTime": 0.0,
+        "delay": 0.0,
+        "flags": []
+    },
+	{
         "name": "s5_summonersmiteduel",
         "parent": "",
         "icon": "smite_red",
@@ -607,7 +623,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon"]
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "ahriorbmissile",

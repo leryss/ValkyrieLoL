@@ -140,6 +140,20 @@ bool PyExecutionContext::IsInFountain(const GameObject & obj)
 	return false;
 }
 
+list PyExecutionContext::OnScreenMinions()
+{
+	list l = list();
+	for (auto& m : state->minions) {
+		if (state->renderer.IsWorldPointOnScreen(m->pos))
+			l.append(ptr(m.get()));
+	}
+	return l;
+}
+
+PyExecutionContext::PyExecutionContext()
+{
+}
+
 object PyExecutionContext::GetImGuiInterface()
 {
 	return object(boost::ref(imgui));
@@ -147,32 +161,38 @@ object PyExecutionContext::GetImGuiInterface()
 
 object PyExecutionContext::GetChampions()
 {
-	return object(boost::ref(*champs));
+	queryEngine.NewQuery(QKEY_CHAMP);
+	return object(boost::ref(queryEngine));
 }
 
 object PyExecutionContext::GetMissiles()
 {
-	return object(boost::ref(*missiles));
+	queryEngine.NewQuery(QKEY_MISSILE);
+	return object(boost::ref(queryEngine));
 }
 
 object PyExecutionContext::GetJungle()
 {
-	return object(boost::ref(*jungle));
+	queryEngine.NewQuery(QKEY_JUNGLE);
+	return object(boost::ref(queryEngine));
 }
 
 object PyExecutionContext::GetMinions()
 {
-	return object(boost::ref(*minions));
+	queryEngine.NewQuery(QKEY_MINION);
+	return object(boost::ref(queryEngine));
 }
 
 object PyExecutionContext::GetTurrets()
 {
-	return object(boost::ref(*turrets));
+	queryEngine.NewQuery(QKEY_TURRET);
+	return object(boost::ref(queryEngine));
 }
 
 object PyExecutionContext::GetOthers()
 {
-	return object(boost::ref(*others));
+	queryEngine.NewQuery(QKEY_OTHERS);
+	return object(boost::ref(queryEngine));
 }
 
 object PyExecutionContext::GetConfig()
@@ -196,13 +216,7 @@ void PyExecutionContext::SetGameState(GameState * state)
 	hovered  = object(ptr(state->hovered.get()));
 	player   = object(ptr(state->player.get()));
 
-	champs   = MakePyList(state->champions);
-	minions  = MakePyList(state->minions);
-	turrets  = MakePyList(state->turrets);
-	jungle   = MakePyList(state->jungle);
-	missiles = MakePyList(state->missiles);
-	others   = MakePyList(state->others);
-
+	queryEngine.Update(state);
 	collisionEngine.Update(*state);
 }
 

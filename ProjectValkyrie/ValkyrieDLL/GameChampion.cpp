@@ -199,7 +199,7 @@ bool GameChampion::HasBuff(const char * buff)
 	return buffs.find(std::string(buff)) != buffs.end();
 }
 
-bool GameChampion::IsClone()
+bool GameChampion::IsClone() const
 {
 	return spells[4].name == spells[5].name;
 }

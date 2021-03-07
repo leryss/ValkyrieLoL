@@ -4,6 +4,7 @@
 #include "PyImGui.h"
 #include "ConfigSet.h"
 #include "CollisionEngine.h"
+#include "ObjectQuery.h"
 
 #include "imgui/imgui.h"
 #include <boost/python.hpp>
@@ -14,6 +15,8 @@ class Script;
 class PyExecutionContext {
 
 public:
+	ObjectQuery     queryEngine;
+
 	CollisionEngine collisionEngine;
 	PyImGui         imgui;
 	GameState*      state;
@@ -28,14 +31,9 @@ public:
 	object  hovered;
 	object  player;
 
-	std::shared_ptr<list>   champs;
-	std::shared_ptr<list>   missiles;
-	std::shared_ptr<list>   jungle;
-	std::shared_ptr<list>   minions;
-	std::shared_ptr<list>   turrets;
-	std::shared_ptr<list>   others;
-
 public:
+	PyExecutionContext();
+
 	object  GetImGuiInterface();
 	object  GetChampions();
 	object  GetMissiles();
@@ -72,6 +70,8 @@ public:
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsWorldPointOnScreenOverloads, IsWorldPointOnScreen, 1, 3);
 	bool    IsWorldPointOnScreen(const Vector3& point, float offsetX = 0.f, float offsetY = 0.f);
 	bool    IsInFountain(const GameObject& obj);
+
+	list    OnScreenMinions();
 
 	void    DrawRectWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, const Vector3& p4, float thickness, const ImVec4& color);
 	void    DrawTriangleWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, float thickness, const ImVec4& color);

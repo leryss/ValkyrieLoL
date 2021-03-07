@@ -194,7 +194,7 @@ class ActivatorPotion:
 		return None
 		
 	def get_icon(self):
-		return 'darkpotion'
+		return 'potion'
 		
 	def get_name(self):
 		return 'Potion'

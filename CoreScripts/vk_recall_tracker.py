@@ -49,9 +49,7 @@ def valkyrie_exec(ctx):
 	ui.begin("Recalls", flags_draggable if show_mock else flags_not_draggable)
 	
 	if not show_mock:
-		for champ in ctx.champs:
-			if champ.ally_to(ctx.player):
-				continue
+		for champ in ctx.champs.enemy_to(ctx.player).get():
 				
 			timestamp, was_recalling = recalls.get(champ.net_id, (0, False))
 			tleft = 8.0 - (time() - timestamp)

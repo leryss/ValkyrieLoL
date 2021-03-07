@@ -200,6 +200,7 @@
     <ClCompile Include="Strings.cpp" />
     <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="ValkyrieAPI.cpp" />
+    <ClCompile Include="ValkyrieShared.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

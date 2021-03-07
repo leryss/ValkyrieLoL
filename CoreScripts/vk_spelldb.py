@@ -59,7 +59,6 @@ def draw_missile(ctx, missile):
 		
 	if static.has_flag(Spell.TypeLine):
 		collisions = ctx.collisions_for(missile.spell)
-		ctx.info(str(collisions))
 		
 		cast_info = missile.spell
 		start = missile.pos.clone()
@@ -67,9 +66,10 @@ def draw_missile(ctx, missile):
 		
 		end = cast_info.end_pos
 		if len(collisions) > 0:
-			last_collision, final = collisions[-1]
-			if final:
-				end = start + (cast_info.dir * last_collision.pos.distance(start))
+			ctx.info(str(collisions))
+			last_collision = collisions[-1]
+			if last_collision.final:
+				end = start + (cast_info.dir * last_collision.unit.pos.distance(start))
 				
 		draw_rect(ctx, start, end, static.width, Col.Yellow)
 
@@ -97,6 +97,7 @@ def draw_spells(ctx):
 	
 def valkyrie_exec(ctx) :	     
 	
-	draw_spells(ctx)
-	
-	
+	#m = [m for m in ctx.minions]
+	m = ctx.minions.ally_to(ctx.player).get()
+	pass
+	#draw_spells(ctx)

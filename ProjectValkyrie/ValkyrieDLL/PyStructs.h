@@ -24,6 +24,13 @@ using namespace boost::python;
 
 BOOST_PYTHON_MODULE(valkyrie) {
 	
+	class_<FutureCollision>("FutureCollision", "Information about a future collision between a spell and a unit")
+		.def_readonly("spell",               &FutureCollision::GetCastPy, "The spell in the collision")
+		.def_readonly("unit",                &FutureCollision::GetUnitPy, "The unit in the collision")
+		.def_readonly("time",                &FutureCollision::time,      "The time vector. A vector that contains the times for each axis at which the objects will collide. Can be used to get unit/spell position at moment of impact: unit.pos + unit.dir*unit.move_speed*time")
+		.def_readonly("final",               &FutureCollision::isFinal,   "True if the projectile will not go further after this collision. Useful for drawing indicators")
+		;
+
 	class_<GameBuff>("Buff", "Contains data related to a buff on a champion")
 		.def_readonly("name",                &GameBuff::name,        "Name of the buff")
 		.def_readonly("time_begin",          &GameBuff::startTime,   "When the buff was received in game time")
@@ -232,6 +239,25 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("popid",                    &PyImGui::PopId)
 		;
 
+	class_<ObjectQuery>("ObjectQuery", "Used to query game objects by avoiding python to C++ call overhead.")
+		.def("get",                      &ObjectQuery::GetResultsPy)
+
+		.def("ally_to",                  &ObjectQuery::AllyTo,         return_value_policy<reference_existing_object>())
+		.def("enemy_to",                 &ObjectQuery::EnemyTo,        return_value_policy<reference_existing_object>())
+		.def("near",                     &ObjectQuery::NearObj,        return_value_policy<reference_existing_object>())
+		.def("near",                     &ObjectQuery::NearPoint,      return_value_policy<reference_existing_object>())
+		.def("targetable",               &ObjectQuery::Targetable,     return_value_policy<reference_existing_object>())
+		.def("untargetable",             &ObjectQuery::Untargetable,   return_value_policy<reference_existing_object>())
+		.def("visible",                  &ObjectQuery::Visible,        return_value_policy<reference_existing_object>())
+		.def("invisible",                &ObjectQuery::Invisible,      return_value_policy<reference_existing_object>())
+		.def("alive",                    &ObjectQuery::Alive,          return_value_policy<reference_existing_object>())
+		.def("dead",                     &ObjectQuery::Dead,           return_value_policy<reference_existing_object>())
+		.def("clone",                    &ObjectQuery::IsClone,        return_value_policy<reference_existing_object>())
+		.def("not_clone",                &ObjectQuery::IsNotClone,     return_value_policy<reference_existing_object>())
+		.def("on_screen",                &ObjectQuery::OnScreen,       return_value_policy<reference_existing_object>())
+		;
+
+
 	class_<PyExecutionContext>("Context", "Contains everything necessarry to create scripts. From utility functions to game data")
 		.def("info",                     &PyExecutionContext::LogInfo,           "Logs an info message to the console & file log")
 		.def("warn",                     &PyExecutionContext::LogWarning,        "Logs a warning message to the console & file log")
@@ -243,12 +269,14 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Gets the game object under the mouse")
 		.def_readonly("player",          &PyExecutionContext::player,            "The champion used by the local player. In replays this will be a random champion")
-		.def_readonly("champs",          &PyExecutionContext::GetChampions,      "Get champions from game")
-		.def_readonly("turrets",         &PyExecutionContext::GetTurrets,        "Get turrets from game")
-		.def_readonly("missiles",        &PyExecutionContext::GetMissiles,       "Get missile spells from game")
-		.def_readonly("minions",         &PyExecutionContext::GetMinions,        "Get minions from game")
-		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Get jungle monsters from game")
-		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Get other uncategorized objects")
+		.def_readonly("champs",          &PyExecutionContext::GetChampions,      "Returns champion query builder")
+		.def_readonly("turrets",         &PyExecutionContext::GetTurrets,        "Returns turrets query builder")
+		.def_readonly("missiles",        &PyExecutionContext::GetMissiles,       "Returns missiles query builder")
+		.def_readonly("minions",         &PyExecutionContext::GetMinions,        "Returns minions query builder")
+		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Returns jungle monster query builder")
+		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Returns other uncategorized objects query builder")
+
+		.def_readonly("onscreen_minions", &PyExecutionContext::OnScreenMinions, "")
 
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit,     "")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,     "")
