@@ -255,7 +255,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "aatroxq",
@@ -598,13 +598,13 @@
         "parent": "",
         "icon": "ahri_orbofdeception",
         "castTime": 0.25,
-        "castRange": 970.0,
+        "castRange": 1000.0,
         "castRadius": 275.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 100.0,
         "height": 0.0,
-        "speed": 1100.0,
+        "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
@@ -614,13 +614,13 @@
         "parent": "",
         "icon": "ahri_charm",
         "castTime": 0.25,
-        "castRange": 975.0,
+        "castRange": 1000.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 60.0,
         "height": 0.0,
-        "speed": 1200.0,
+        "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
@@ -636,17 +636,17 @@
         "castConeDistance": 100.0,
         "width": 100.0,
         "height": 100.0,
-        "speed": 2500.0,
+        "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "ahriseducemissile",
         "parent": "ahriseduce",
         "icon": "fallenangel_darkbinding",
         "castTime": 0.25,
-        "castRange": 1175.0,
+        "castRange": 1000.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -655,7 +655,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "ahricritattack",
@@ -1503,7 +1503,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "auraofdespair",
@@ -1638,16 +1638,16 @@
         "parent": "",
         "icon": "amumu_q",
         "castTime": 0.25,
-        "castRange": 25000.0,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 80.0,
-        "height": 100.0,
+        "height": 0.0,
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "glacialstormspell",
@@ -1711,7 +1711,7 @@
         "speed": 950.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
     },
     {
         "name": "flashfrost",
@@ -1864,14 +1864,14 @@
         "castTime": 0.25,
         "castRange": 600.0,
         "castRadius": 210.0,
-        "castConeAngle": 24.760000228881836,
+        "castConeAngle": 49.0,
         "castConeDistance": 600.0,
         "width": 0.0,
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "AffectAllUnits" ]
     },
     {
         "name": "annieq",
@@ -1959,7 +1959,7 @@
         "icon": "annie_r1",
         "castTime": 0.25,
         "castRange": 600.0,
-        "castRadius": 1000.0,
+        "castRadius": 350.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 0.0,
@@ -1967,7 +1967,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "anniercontroller",
@@ -2815,7 +2815,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectChampion" ]
     },
     {
         "name": "ashespiritofthehawkcast",
@@ -2872,14 +2872,14 @@
         "castTime": 0.25,
         "castRange": 1200.0,
         "castRadius": 100.0,
-        "castConeAngle": 20.0,
+        "castConeAngle": 27.0,
         "castConeDistance": 1200.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 902.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "asheq",
@@ -2920,14 +2920,14 @@
         "castTime": 0.25,
         "castRange": 1200.0,
         "castRadius": 100.0,
-        "castConeAngle": 20.0,
+        "castConeAngle": 46.0,
         "castConeDistance": 1200.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 902.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "volleyrank4",
@@ -2936,14 +2936,14 @@
         "castTime": 0.25,
         "castRange": 1200.0,
         "castRadius": 100.0,
-        "castConeAngle": 20.0,
+        "castConeAngle": 46.0,
         "castConeDistance": 1200.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 902.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "ashebasicattack",
@@ -2968,14 +2968,14 @@
         "castTime": 0.25,
         "castRange": 1200.0,
         "castRadius": 100.0,
-        "castConeAngle": 20.0,
+        "castConeAngle": 46.0,
         "castConeDistance": 1200.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 902.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "volleyrank2",
@@ -2984,14 +2984,14 @@
         "castTime": 0.25,
         "castRange": 1200.0,
         "castRadius": 100.0,
-        "castConeAngle": 20.0,
+        "castConeAngle": 37.0,
         "castConeDistance": 1200.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 902.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "ashepassive",
@@ -3068,10 +3068,10 @@
         "castConeDistance": 100.0,
         "width": 20.0,
         "height": 100.0,
-        "speed": 1500.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "ashecritattack",
@@ -3098,12 +3098,12 @@
         "castRadius": 299.29998779296875,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 1.0,
+        "width": 20.0,
         "height": 100.0,
-        "speed": 1500.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "ashespiritofthehawk",
@@ -6280,7 +6280,7 @@
         "castTime": 0.5,
         "castRange": 300.0,
         "castRadius": 210.0,
-        "castConeAngle": 28.0,
+        "castConeAngle": 60.0,
         "castConeDistance": 585.0,
         "width": 0.0,
         "height": 0.0,
@@ -6728,14 +6728,14 @@
         "castTime": 0.25,
         "castRange": 535.0,
         "castRadius": 225.0,
-        "castConeAngle": 25.0,
+        "castConeAngle": 50.0,
         "castConeDistance": 550.0,
         "width": 0.0,
         "height": 0.0,
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeCone", "AffectAllUnits" ]
     },
     {
         "name": "dariusnoxiantacticsonhattack",
@@ -7862,7 +7862,7 @@
         "parent": "",
         "icon": "drmundo_q",
         "castTime": 0.25,
-        "castRange": 920.0,
+        "castRange": 1075.0,
         "castRadius": 299.29998779296875,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -7871,7 +7871,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "drmundocritattack",
@@ -9046,7 +9046,7 @@
         "parent": "",
         "icon": "ezreal_w",
         "castTime": 0.25,
-        "castRange": 1150.0,
+        "castRange": 1200.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -9055,14 +9055,14 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectChampion"]
     },
     {
         "name": "ezrealq",
         "parent": "",
         "icon": "ezreal_q",
         "castTime": 0.25,
-        "castRange": 1150.0,
+        "castRange": 1200.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -9071,7 +9071,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "ezrealr",
@@ -9087,7 +9087,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWall", "AffectAllUnits"]
     },
     {
         "name": "ezreale",
@@ -10662,7 +10662,7 @@
         "parent": "",
         "icon": "gnarbig_q",
         "castTime": 0.5,
-        "castRange": 1125.0,
+        "castRange": 1200.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -10671,23 +10671,23 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine",  "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "gnarqmissilereturn",
         "parent": "",
         "icon": "ahri_orbofdeception",
         "castTime": 0.25,
-        "castRange": 25000.0,
+        "castRange": 3000.0,
         "castRadius": 275.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 75.0,
         "height": 100.0,
-        "speed": 60.0,
+        "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine",  "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
     },
     {
         "name": "gnarcritattack2",
@@ -10822,7 +10822,7 @@
         "parent": "",
         "icon": "fallenangel_darkbinding",
         "castTime": 0.25,
-        "castRange": 1125.0,
+        "castRange": 1175.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -10831,7 +10831,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
     },
     {
         "name": "gnarbigcritattack",
@@ -10919,23 +10919,23 @@
         "icon": "gragasbarrelroll",
         "castTime": 0.25,
         "castRange": 25000.0,
-        "castRadius": 210.0,
+        "castRadius": 250.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 110.0,
+        "width": 50.0,
         "height": 100.0,
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "gragasrboom",
         "parent": "",
         "icon": "gragasexplosivecask",
         "castTime": 0.25,
-        "castRange": 1300.0,
-        "castRadius": 210.0,
+        "castRange": 1000.0,
+        "castRadius": 400.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 120.0,
@@ -10943,7 +10943,7 @@
         "speed": 1800.0,
         "travelTime": 0.550000011920929,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "gragaswattack",
@@ -10975,7 +10975,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "gragasr",
@@ -10983,15 +10983,15 @@
         "icon": "gragasexplosivecask",
         "castTime": 0.25,
         "castRange": 1000.0,
-        "castRadius": 350.0,
+        "castRadius": 400.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 120.0,
-        "height": 0.0,
-        "speed": 200.0,
-        "travelTime": 0.0,
+        "height": 30.0,
+        "speed": 1800.0,
+        "travelTime": 0.550000011920929,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "gragasw",
@@ -11158,16 +11158,16 @@
         "parent": "",
         "icon": "",
         "castTime": 0.25,
-        "castRange": 1500.0,
-        "castRadius": 210.0,
+        "castRange": 950.0,
+        "castRadius": 225.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 120.0,
-        "height": 75.0,
-        "speed": 1500.0,
+        "width": 0.0,
+        "height": 0.0,
+        "speed": 1650.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "gravesclustershotsoundmissile",
@@ -11190,7 +11190,7 @@
         "parent": "",
         "icon": "graveshighnoon",
         "castTime": 0.25,
-        "castRange": 950.0,
+        "castRange": 1100.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -11199,7 +11199,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "gravesclustershotricochet",
@@ -11226,12 +11226,12 @@
         "castRadius": 100.0,
         "castConeAngle": 15.319999694824219,
         "castConeDistance": 900.0,
-        "width": 0.0,
+        "width": 80.0,
         "height": 0.0,
-        "speed": 902.0,
+        "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "gravesautoattackrecoil",
@@ -11397,17 +11397,17 @@
         "name": "gravesqlinemis",
         "parent": "",
         "icon": "",
-        "castTime": 0,
-        "castRange": 1200.0,
-        "castRadius": 299.29998779296875,
-        "castConeAngle": 0.0,
-        "castConeDistance": 100.0,
-        "width": 40.0,
-        "height": 100.0,
+        "castTime": 0.25,
+        "castRange": 925.0,
+        "castRadius": 100.0,
+        "castConeAngle": 15.319999694824219,
+        "castConeDistance": 900.0,
+        "width": 80.0,
+        "height": 0.0,
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "gravesbasicattackclone",
@@ -11471,7 +11471,7 @@
         "speed": 1650.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "gravespassive",
@@ -11494,16 +11494,16 @@
         "parent": "",
         "icon": "graveshighnoon",
         "castTime": 0.25,
-        "castRange": 1000.0,
-        "castRadius": 210.0,
+        "castRange": 1100.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 100.0,
-        "height": 0.0,
-        "speed": 1400.0,
+        "height": 100.0,
+        "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "gravesmove",
@@ -11526,7 +11526,7 @@
         "parent": "",
         "icon": "",
         "castTime": 0.25,
-        "castRange": 1175.0,
+        "castRange": 925.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -11535,7 +11535,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
     },
     {
         "name": "gravesqchargeup2",
@@ -12367,7 +12367,7 @@
         "speed": 1100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "heimerdingerultwdummyspell",
@@ -12442,12 +12442,12 @@
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 200.0,
+        "width": 180.0,
         "height": 0.0,
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "heimerdingerpassivespeed",
@@ -12519,7 +12519,7 @@
         "icon": "cryophoenix_frigidorb",
         "castTime": 0.25,
         "castRange": 1000.0,
-        "castRadius": 210.0,
+        "castRadius": 250.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 120.0,
@@ -12527,7 +12527,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "heimerdingerqvo",
@@ -12598,16 +12598,16 @@
         "parent": "",
         "icon": "heimerdinger_e2",
         "castTime": 0.25,
-        "castRange": 925.0,
-        "castRadius": 300.0,
+        "castRange": 1000.0,
+        "castRadius": 250.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 120.0,
-        "height": 0.0,
-        "speed": 2500.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "heimerdingerr",
@@ -12693,17 +12693,17 @@
         "name": "heimerdingerwattack2ult",
         "parent": "",
         "icon": "",
-        "castTime": 0,
-        "castRange": 1350.0,
-        "castRadius": 299.29998779296875,
+        "castTime": 0.25,
+        "castRange": 1325.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 60.0,
-        "height": 100.0,
-        "speed": 750.0,
+        "width": 40.0,
+        "height": 0.0,
+        "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "heimerdingerqspell3",
@@ -12863,7 +12863,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "heimerdingerespell_ult2",
@@ -12871,7 +12871,7 @@
         "icon": "cryophoenix_frigidorb",
         "castTime": 0.25,
         "castRange": 1000.0,
-        "castRadius": 210.0,
+        "castRadius": 250.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 120.0,
@@ -12879,7 +12879,7 @@
         "speed": 1400.0,
         "travelTime": 0.4000000059604645,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "heimerdingerespell_ult3",
@@ -12887,7 +12887,7 @@
         "icon": "cryophoenix_frigidorb",
         "castTime": 0.25,
         "castRange": 1000.0,
-        "castRadius": 210.0,
+        "castRadius": 250.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 120.0,
@@ -12895,7 +12895,7 @@
         "speed": 1400.0,
         "travelTime": 0.4000000059604645,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "heimerdingere_ult",
@@ -12972,10 +12972,10 @@
         "castConeDistance": 100.0,
         "width": 120.0,
         "height": 0.0,
-        "speed": 2500.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "heimerdingerultedummyspell",
@@ -13013,17 +13013,17 @@
         "name": "heimerdingerwattack2",
         "parent": "",
         "icon": "",
-        "castTime": 0,
-        "castRange": 1350.0,
-        "castRadius": 299.29998779296875,
+        "castTime": 0.25,
+        "castRange": 1325.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 40.0,
-        "height": 100.0,
-        "speed": 750.0,
+        "height": 0.0,
+        "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "heimerdingerw",
@@ -13034,12 +13034,12 @@
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 200.0,
+        "width": 180.0,
         "height": 0.0,
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "heimerdingerturretbigenergyblast",
@@ -15078,7 +15078,7 @@
         "parent": "",
         "icon": "",
         "castTime": 0.25,
-        "castRange": 1175.0,
+        "castRange": 3500.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -15086,8 +15086,8 @@
         "height": 100.0,
         "speed": 5000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.25,
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
     },
     {
         "name": "jhinr",
@@ -15110,7 +15110,7 @@
         "parent": "",
         "icon": "",
         "castTime": 0.25,
-        "castRange": 1175.0,
+        "castRange": 3500.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -15118,8 +15118,8 @@
         "height": 100.0,
         "speed": 5000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.25,
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
     },
     {
         "name": "jhinrshot",
@@ -15151,7 +15151,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "jhinpassiveattack",
@@ -15199,7 +15199,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "jhinbasicattack3",
@@ -15254,7 +15254,7 @@
         "parent": "",
         "icon": "jhin_w",
         "castTime": 0.75,
-        "castRange": 3000.0,
+        "castRange": 2570.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -15263,7 +15263,7 @@
         "speed": 10000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
     },
     {
         "name": "jhinpassive",
@@ -16175,7 +16175,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "kaisaq",
@@ -17535,7 +17535,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "karthusdefilesounddummy2",
@@ -17710,8 +17710,8 @@
         "height": 0.0,
         "speed": 20.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.6,
+        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
     },
     {
         "name": "karthusdefile2",
@@ -18309,17 +18309,17 @@
         "name": "kayleqmis",
         "parent": "",
         "icon": "kayle_q",
-        "castTime": 0,
+        "castTime": 0.25,
         "castRange": 900.0,
-        "castRadius": 299.29998779296875,
+        "castRadius": 0.0,
         "castConeAngle": 0.0,
-        "castConeDistance": 100.0,
+        "castConeDistance": 0.0,
         "width": 60.0,
-        "height": 100.0,
+        "height": 0.0,
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "kayleeattackmelee",
@@ -18591,7 +18591,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ ]
     },
     {
         "name": "kayleq",
@@ -18604,10 +18604,10 @@
         "castConeDistance": 0.0,
         "width": 60.0,
         "height": 0.0,
-        "speed": 100000.0,
+        "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
     },
     {
         "name": "kaylew",

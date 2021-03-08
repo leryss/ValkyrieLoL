@@ -42,7 +42,7 @@ def draw_spell(ctx, spell, pos):
 	if cd > 0.0:
 		color = Col.Red
 		
-	ctx.image(spell.static.icon, pos, Vec2(size_img_skill, size_img_skill), color, 10)
+	ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size_img_skill, size_img_skill), color, 10)
 	if cd > 0.0:
 		ctx.text(pos, str(int(cd)), Col.White)
 

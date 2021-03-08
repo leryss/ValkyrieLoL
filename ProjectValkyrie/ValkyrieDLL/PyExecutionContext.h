@@ -30,6 +30,8 @@ public:
 	float   time;
 	object  hovered;
 	object  player;
+	object  queryEnginePy;
+	object  selfPy;
 
 public:
 	PyExecutionContext();
@@ -91,4 +93,6 @@ public:
 	void    DrawRectFilled(const Vector2& start, const Vector2& size, const ImVec4& color, float rounding = 0);
 	void    Pill(const char* text, const ImVec4& colText, const ImVec4& colRect);
 
+private:
+	object  Query(QueryKey key);
 };

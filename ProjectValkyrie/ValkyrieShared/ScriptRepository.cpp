@@ -127,6 +127,9 @@ void ScriptRepository::Draw()
 			ImGui::SameLine();
 			if (ImGui::Button("Open Scripts Folder"))
 				ShellExecuteA(NULL, "open", Paths::Scripts.c_str(), NULL, NULL, SW_SHOWDEFAULT);
+			ImGui::SameLine();
+			if (ImGui::Button("Update Installed"))
+				UpdateInstalledScripts();
 			DrawTable(true);
 			ImGui::EndTabItem();
 		}
@@ -491,4 +494,13 @@ void ScriptRepository::UpdateState(std::shared_ptr<ScriptEntry>& entry)
 	}
 	else
 		entry->state = SE_STATE_UNINSTALLED;
+}
+
+void ScriptRepository::UpdateInstalledScripts()
+{
+	for (auto pair : entries) {
+		auto& entry = pair.second;
+		if (entry->local != nullptr && entry->remote != nullptr && std::abs(entry->local->lastUpdate - entry->remote->lastUpdate) > 1.f)
+			DownloadScriptAndInstall(entry->remote);
+	}
 }

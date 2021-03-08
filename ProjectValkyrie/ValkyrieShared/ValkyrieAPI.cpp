@@ -2,6 +2,7 @@
 #include <thread>
 
 ValkyrieAPI* ValkyrieAPI::Instance = nullptr;
+std::mutex   LambdaInvokeResultAsync::RequestMutex;
 
 ValkyrieAPI::ValkyrieAPI()
 {

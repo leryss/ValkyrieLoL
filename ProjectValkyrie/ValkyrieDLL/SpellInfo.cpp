@@ -11,6 +11,7 @@ std::map<std::string, SpellFlags> SpellInfo::FlagMap = {
 	{ "TypeArea", TypeArea },
 	{ "TypeCone", TypeCone },
 	{ "TypeTargeted", TypeTargeted },
+	{ "TypeRect", TypeRect },
 
 	{ "CollideWindwall", CollideWindwall },
 	{ "CollideMinion", CollideMinion },
@@ -36,6 +37,11 @@ void SpellInfo::AddFlag(std::string & flag)
 bool SpellInfo::HasFlag(SpellFlags flag) const
 {
 	return (flags & flag) == flag;
+}
+
+SpellFlags SpellInfo::GetSpellType() const
+{
+	return (SpellFlags)(flags & SpellAllTypes);
 }
 
 object SpellInfo::GetParentPy()

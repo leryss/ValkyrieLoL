@@ -14,6 +14,7 @@
 #include "ItemInfo.h"
 #include "UnitInfo.h"
 #include "SpellCast.h"
+#include "ObjectQuery.h"
 
 #include "Color.h"
 
@@ -23,11 +24,16 @@
 using namespace boost::python;
 
 BOOST_PYTHON_MODULE(valkyrie) {
-	
+
+	register_exception_translator<QueryException>([](QueryException const& exc) { 
+		PyErr_SetString(PyExc_RuntimeError, Strings::Format("Object Query Exception: %s", exc.what()).c_str());
+	});
+
 	class_<FutureCollision>("FutureCollision", "Information about a future collision between a spell and a unit")
 		.def_readonly("spell",               &FutureCollision::GetCastPy, "The spell in the collision")
 		.def_readonly("unit",                &FutureCollision::GetUnitPy, "The unit in the collision")
-		.def_readonly("time",                &FutureCollision::time,      "The time vector. A vector that contains the times for each axis at which the objects will collide. Can be used to get unit/spell position at moment of impact: unit.pos + unit.dir*unit.move_speed*time")
+		.def_readonly("unit_pos",            &FutureCollision::unitCollisionPoint, "The unit position at the moment of collision")
+		.def_readonly("spell_pos",           &FutureCollision::castCollisionPoint, "The spell position at the moment of collision")
 		.def_readonly("final",               &FutureCollision::isFinal,   "True if the projectile will not go further after this collision. Useful for drawing indicators")
 		;
 
@@ -128,6 +134,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("dest_index",        &SpellCast::destIndex,            "If casting a targeted spell this holds the index of the target object")
 		.def_readonly("time_begin",        &SpellCast::timeBegin,            "Start timestamp in game time of the casting")
 		.def_readonly("cast_time",         &SpellCast::castTime,             "Total cast time")
+		.def_readonly("remaining",         &SpellCast::RemainingCastTime,    "Remaining cast time. This can go into negatives since casts arent removed from memory always")
 		.def_readonly("static",            &SpellCast::GetStaticData,        "Static data of the spell being cast. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		.def_readonly("name",              &SpellCast::name,                 "Name of the spell being cast")
 		;
@@ -242,19 +249,20 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	class_<ObjectQuery>("ObjectQuery", "Used to query game objects by avoiding python to C++ call overhead.")
 		.def("get",                      &ObjectQuery::GetResultsPy)
 
-		.def("ally_to",                  &ObjectQuery::AllyTo,         return_value_policy<reference_existing_object>())
-		.def("enemy_to",                 &ObjectQuery::EnemyTo,        return_value_policy<reference_existing_object>())
-		.def("near",                     &ObjectQuery::NearObj,        return_value_policy<reference_existing_object>())
-		.def("near",                     &ObjectQuery::NearPoint,      return_value_policy<reference_existing_object>())
-		.def("targetable",               &ObjectQuery::Targetable,     return_value_policy<reference_existing_object>())
-		.def("untargetable",             &ObjectQuery::Untargetable,   return_value_policy<reference_existing_object>())
-		.def("visible",                  &ObjectQuery::Visible,        return_value_policy<reference_existing_object>())
-		.def("invisible",                &ObjectQuery::Invisible,      return_value_policy<reference_existing_object>())
-		.def("alive",                    &ObjectQuery::Alive,          return_value_policy<reference_existing_object>())
-		.def("dead",                     &ObjectQuery::Dead,           return_value_policy<reference_existing_object>())
-		.def("clone",                    &ObjectQuery::IsClone,        return_value_policy<reference_existing_object>())
-		.def("not_clone",                &ObjectQuery::IsNotClone,     return_value_policy<reference_existing_object>())
-		.def("on_screen",                &ObjectQuery::OnScreen,       return_value_policy<reference_existing_object>())
+		.def("ally_to",                  &ObjectQuery::AllyTo,         return_value_policy<reference_existing_object>(),     "Query allies")
+		.def("enemy_to",                 &ObjectQuery::EnemyTo,        return_value_policy<reference_existing_object>(),     "Query enemies")
+		.def("near",                     &ObjectQuery::NearObj,        return_value_policy<reference_existing_object>(),     "Query objects within distance of another object")
+		.def("near",                     &ObjectQuery::NearPoint,      return_value_policy<reference_existing_object>(),     "Query objects within distance of a point")
+		.def("targetable",               &ObjectQuery::Targetable,     return_value_policy<reference_existing_object>(),     "Query targetable. Not equivalent to UnitObj.targetable. This checks if obj is alive, targetable and not invulnerable")
+		.def("untargetable",             &ObjectQuery::Untargetable,   return_value_policy<reference_existing_object>(),     "Query untargetable")
+		.def("visible",                  &ObjectQuery::Visible,        return_value_policy<reference_existing_object>(),     "Query objects in vision")
+		.def("invisible",                &ObjectQuery::Invisible,      return_value_policy<reference_existing_object>(),     "Query objects out of vision")
+		.def("alive",                    &ObjectQuery::Alive,          return_value_policy<reference_existing_object>(),     "Query alive objects")
+		.def("dead",                     &ObjectQuery::Dead,           return_value_policy<reference_existing_object>(),     "Query dead objects")
+		.def("clone",                    &ObjectQuery::IsClone,        return_value_policy<reference_existing_object>(),     "Query clone objects")
+		.def("not_clone",                &ObjectQuery::IsNotClone,     return_value_policy<reference_existing_object>(),     "Query non clone objects")
+		.def("on_screen",                &ObjectQuery::OnScreen,       return_value_policy<reference_existing_object>(),     "Query objects on screen")
+		.def("casting",                  &ObjectQuery::IsCasting,      return_value_policy<reference_existing_object>(),     "Query units casting a spell")
 		;
 
 

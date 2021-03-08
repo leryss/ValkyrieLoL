@@ -1,7 +1,7 @@
 #include "Script.h"
 #include "Logger.h"
 #include "Strings.h"
-#include "Paths.h";
+#include "Paths.h"
 #include <boost/python/detail/convertible.hpp>
 
 std::string Script::GetPyError()
@@ -118,7 +118,7 @@ void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 		neverExecuted = false;
 
 		executionTimes[func].Start();
-		call<void>(functions[func], object(boost::ref(ctx)));
+		call<void>(functions[func], ctx.selfPy);
 		executionTimes[func].End();
 	}
 	catch (error_already_set) {

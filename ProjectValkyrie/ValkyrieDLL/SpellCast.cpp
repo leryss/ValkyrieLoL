@@ -2,6 +2,7 @@
 #include "Offsets.h"
 #include "Memory.h"
 #include "GameData.h"
+#include "Valkyrie.h"
 
 void SpellCast::ReadFromBaseAddress(int address)
 {
@@ -19,13 +20,9 @@ void SpellCast::ReadFromBaseAddress(int address)
 	dir = Vector3(end.x - start.x, 0.f, end.z - start.z).normalize();
 
 	if (staticData != nullptr) {
-		if (staticData->parent != nullptr && staticData->parent->HasFlag(SpellFlags::CastDirection)) {
+		if (staticData->HasFlag(SpellFlags::CastDirection)) {
+			end = dir.scale(staticData->castRange).add(start);
 			end.y = start.y;
-			end = end.sub(start).normalize().scale(staticData->parent->castRange).add(start);
-		}
-		else if (staticData->HasFlag(SpellFlags::CastDirection)) {
-			end.y = start.y;
-			end = end.sub(start).normalize().scale(staticData->castRange).add(start);
 		}
 	}
 
@@ -57,4 +54,10 @@ void SpellCast::ImGuiDraw()
 object SpellCast::GetStaticData()
 {
 	return object(ptr(staticData));
+}
+
+float SpellCast::RemainingCastTime() const
+{
+	float remaining = timeBegin + castTime - Valkyrie::CurrentGameState->time;
+	return (remaining < 0.f ? 0.f : remaining);
 }

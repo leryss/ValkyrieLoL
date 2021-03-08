@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 #include <aws/core/Aws.h>
 #include <aws/lambda/LambdaClient.h>
 #include <aws/lambda/model/InvokeRequest.h>
@@ -56,6 +58,7 @@ public:
 	virtual void Perform() {
 
 		currentStep = "Requesting object head";
+		
 		auto outcome = s3Client.HeadObject(request);
 
 		if (!outcome.IsSuccess()) {
@@ -71,13 +74,15 @@ public:
 	Aws::S3::Model::HeadObjectResult   result;
 	Aws::S3::S3Client&                 s3Client;
 	Aws::S3::Model::HeadObjectRequest& request;
+
+	
 };
 
 class LambdaInvokeResultAsync: public AsyncTask {
 
 public:
 
-	LambdaInvokeResultAsync(LambdaClient& lambdaClient, Model::InvokeRequest& req)
+	LambdaInvokeResultAsync(LambdaClient& lambdaClient, Model::InvokeRequest req)
       :lambda(lambdaClient),
        request(req)
 	{}
@@ -85,8 +90,11 @@ public:
 	virtual void Perform() {
 		
 		currentStep = "Invoking AWS Lambda";
-
+		
+		RequestMutex.lock();
 		Model::InvokeOutcome outcome = lambda.Invoke(request);
+		RequestMutex.unlock();
+
 		if (!outcome.IsSuccess()) {
 			SetStatus(ASYNC_FAILED);
 			error = "Failed to invoke lambda";
@@ -113,7 +121,9 @@ public:
 
 	Aws::Utils::Json::JsonValue rawJson;
 	LambdaClient&               lambda;
-	Model::InvokeRequest&       request;
+	Model::InvokeRequest        request;
+
+	static std::mutex RequestMutex;
 };
 
 class GetUserListAsync : public LambdaInvokeResultAsync {

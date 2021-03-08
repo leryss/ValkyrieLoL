@@ -355,7 +355,7 @@ void Valkyrie::Update()
 			}
 		}
 	}
-	__except (1) {
+	__except (EXCEPTION_EXECUTE_HANDLER) {
 		Logger::Error("SEH exception occured in main loop. This shouldn't happen.");
 	}
 

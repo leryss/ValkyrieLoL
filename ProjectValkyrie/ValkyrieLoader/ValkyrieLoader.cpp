@@ -55,7 +55,9 @@ void ValkyrieLoader::LoadConfigs()
 	loaderVersionHash = configs.GetStr("loader_version", "");
 	cheatVersionHash = configs.GetStr("cheat_version", "");
 	loginPanel.autoSaveCredentials  = loginPanel.loadCredentials = configs.GetBool("save_credentials", false);
+	loginPanel.autoLogin = configs.GetBool("auto_login", false);
 	userPanel.autoInject = configs.GetBool("auto_inject", false);
+	
 }
 
 void ValkyrieLoader::SaveConfigs()
@@ -64,6 +66,7 @@ void ValkyrieLoader::SaveConfigs()
 	configs.SetBool("auto_inject", userPanel.autoInject);
 	configs.SetStr("loader_version", loaderVersionHash.c_str());
 	configs.SetStr("cheat_version", cheatVersionHash.c_str());
+	configs.SetBool("auto_login", loginPanel.autoLogin);
 	configs.Save();
 }
 

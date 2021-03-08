@@ -161,38 +161,32 @@ object PyExecutionContext::GetImGuiInterface()
 
 object PyExecutionContext::GetChampions()
 {
-	queryEngine.NewQuery(QKEY_CHAMP);
-	return object(boost::ref(queryEngine));
+	return Query(QKEY_CHAMP);
 }
 
 object PyExecutionContext::GetMissiles()
 {
-	queryEngine.NewQuery(QKEY_MISSILE);
-	return object(boost::ref(queryEngine));
+	return Query(QKEY_MISSILE);
 }
 
 object PyExecutionContext::GetJungle()
 {
-	queryEngine.NewQuery(QKEY_JUNGLE);
-	return object(boost::ref(queryEngine));
+	return Query(QKEY_JUNGLE);
 }
 
 object PyExecutionContext::GetMinions()
 {
-	queryEngine.NewQuery(QKEY_MINION);
-	return object(boost::ref(queryEngine));
+	return Query(QKEY_MINION);
 }
 
 object PyExecutionContext::GetTurrets()
 {
-	queryEngine.NewQuery(QKEY_TURRET);
-	return object(boost::ref(queryEngine));
+	return Query(QKEY_TURRET);
 }
 
 object PyExecutionContext::GetOthers()
 {
-	queryEngine.NewQuery(QKEY_OTHERS);
-	return object(boost::ref(queryEngine));
+	return Query(QKEY_OTHERS);
 }
 
 object PyExecutionContext::GetConfig()
@@ -211,11 +205,12 @@ void PyExecutionContext::SetGameState(GameState * state)
 
 	pillPosition = state->renderer.WorldToScreen(state->player->pos);
 
-	ping     = state->ping;
-	time     = state->time;
-	hovered  = object(ptr(state->hovered.get()));
-	player   = object(ptr(state->player.get()));
-
+	ping          = state->ping;
+	time          = state->time;
+	hovered       = object(ptr(state->hovered.get()));
+	player        = object(ptr(state->player.get()));
+	queryEnginePy = object(ptr(&queryEngine));
+	selfPy        = object(ptr(this));
 	queryEngine.Update(state);
 	collisionEngine.Update(*state);
 }
@@ -328,5 +323,11 @@ void PyExecutionContext::Pill(const char * text, const ImVec4 & colText, const I
 
 	overlay->AddRectFilled((ImVec2&)pillPosition, ImVec2(pillPosition.x + size.x, pillPosition.y + size.y), ImColor(colRect), 10.f);
 	DrawTxt(Vector2(pillPosition.x + size.x / 2.f, pillPosition.y + size.y / 2.f), text, colText);
+}
+
+object PyExecutionContext::Query(QueryKey key)
+{
+	queryEngine.NewQuery(key);
+	return queryEnginePy;
 }
 

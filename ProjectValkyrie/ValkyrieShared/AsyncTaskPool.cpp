@@ -99,25 +99,27 @@ void AsyncTaskPool::TaskWorkerLoop()
 
 	while (!stopThreads) {
 
-		/// Find first task that is not started
+		
 		std::shared_ptr<AsyncTask> task = nullptr;
 
 		mtxTasks.lock();
+		/// Find first task that is not started
 		for (auto& pair : waitingTasks) {
 			if (pair.second->GetStatus() == ASYNC_NOT_STARTED) {
 				task = pair.second;
-				task->SetStatus(ASYNC_RUNNING);
 				break;
 			}
+		}
+
+		/// Start waiting task
+		if (task != nullptr) {
+			waitingTasks.erase(task->taskId);
+			runningTasks[task->taskId] = task;
+			task->SetStatus(ASYNC_RUNNING);
 		}
 		mtxTasks.unlock();
 
 		if (task != nullptr) {
-			mtxTasks.lock();
-			waitingTasks.erase(task->taskId);
-			runningTasks[task->taskId] = task;
-			mtxTasks.unlock();
-
 			try {
 				task->Perform();
 			}

@@ -173,11 +173,11 @@ void AdminPanel::DrawUserManager()
 	ImGui::TextColored(Color::PURPLE, "All users");
 
 	DrawUserManagerFilter();
-	ImGui::BeginTable("UsersTable", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable, ImVec2(0.f, 250.f));
+	ImGui::BeginTable("UsersTable", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable , ImVec2(0.f, 250.f));
 	ImGui::TableSetupColumn("Name",         ImGuiTableColumnFlags_None,                                         0, UserColumnName);
 	ImGui::TableSetupColumn("Discord",      ImGuiTableColumnFlags_None,                                         0, UserColumnDiscord);
 	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None,                                         0, UserColumnStatus);
-	ImGui::TableSetupColumn("Privilege",    ImGuiTableColumnFlags_DefaultSort | ImGuiTableColumnFlags_IsSorted, 0, UserColumnPrivilege);
+	ImGui::TableSetupColumn("Privilege",    ImGuiTableColumnFlags_None,                                         0, UserColumnPrivilege);
 	ImGui::TableSetupColumn("Subscription", ImGuiTableColumnFlags_None,                                         0, UserColumnSubscription);
 	ImGui::TableSetupColumn("CPU",          ImGuiTableColumnFlags_NoSort,                                       0, UserColumnOther);
 	ImGui::TableSetupColumn("GPU",          ImGuiTableColumnFlags_NoSort,                                       0, UserColumnOther);

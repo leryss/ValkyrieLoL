@@ -64,6 +64,18 @@ public:
 	bool visible;
 };
 
+class QConditionCasting : public QCondition {
+public:
+	virtual bool Check(const GameObject* obj);
+
+	bool casting;
+};
+
+class QueryException : public std::exception {
+public:
+	using std::exception::exception;
+};
+
 enum QueryKey {
 	QKEY_MINION   = 0,
 	QKEY_TURRET   = 1,
@@ -97,6 +109,7 @@ public:
 	ObjectQuery*                 Dead();
 	ObjectQuery*                 IsClone();
 	ObjectQuery*                 IsNotClone();
+	ObjectQuery*                 IsCasting();
 						         
 	ObjectQuery*                 OnScreen();
 
@@ -119,6 +132,7 @@ private:
 	QConditionDeath          deathCondition;
 	QConditionClone          cloneCondition;
 	QConditionVisibility     visibilityCondition;
+	QConditionCasting        castingCondition;
 
 	const GameState*         state;
 };

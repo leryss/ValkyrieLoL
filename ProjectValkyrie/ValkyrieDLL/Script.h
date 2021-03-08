@@ -39,7 +39,6 @@ public:
 	BenchmarkTiming    executionTimes[4];
 
 private:		 
-				 
 	bool         LoadFunc(PyObject** loadInto, const char* funcName);
 
 	PyObject*    moduleObj;

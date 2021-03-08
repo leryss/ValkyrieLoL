@@ -14,11 +14,14 @@ void UserPanel::Draw(ValkyrieLoader& loader)
 	if (performUpdate && !taskPool->IsExecuting(trackIdCheckVersion)) {
 
 		auto onGetObj = [this, &loader](std::shared_ptr<AsyncTask> response) {
+			auto s3Obj = std::static_pointer_cast<GetS3ObjectAsync>(response);
+
 			taskPool->DispatchTask(
 				trackIdUpdate,
-				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncCheatUpdater(std::static_pointer_cast<GetS3ObjectAsync>(response))),
-				[this, &loader](std::shared_ptr<AsyncTask> response) {
+				std::shared_ptr<AsyncTask>((AsyncTask*)new AsyncCheatUpdater(s3Obj)),
+				[this, &loader, s3Obj](std::shared_ptr<AsyncTask> response) {
 					ReadChangeLog();
+					loader.cheatVersionHash = s3Obj->result.GetETag().c_str();
 					updateComplete = true;
 				}
 			); 
@@ -96,6 +99,7 @@ void UserPanel::DrawHome()
 
 	/// Inject stuff
 	ImGui::Separator();
+	ImGui::Checkbox("Auto Login", &loader->loginPanel.autoLogin);
 	ImGui::Checkbox("Auto inject", &autoInject);
 	if ((injectorTask == nullptr || injectorTask->GetStatus() != ASYNC_RUNNING) && updateComplete) {
 		if (autoInject) {

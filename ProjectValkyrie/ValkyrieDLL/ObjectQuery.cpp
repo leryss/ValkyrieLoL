@@ -79,6 +79,8 @@ ObjectQuery * ObjectQuery::NearPoint(const Vector3 & pt, float distance)
 
 ObjectQuery * ObjectQuery::Targetable()
 {
+	if (qkey == QKEY_MISSILE)
+		throw new QueryException("Can't query Targetable for missiles");
 	targetableCondition.targetable = true;
 	conditions.push_back(&targetableCondition);
 	return this;
@@ -86,6 +88,8 @@ ObjectQuery * ObjectQuery::Targetable()
 
 ObjectQuery * ObjectQuery::Untargetable()
 {
+	if (qkey == QKEY_MISSILE)
+		throw new QueryException("Can't query Untargetable for missiles");
 	targetableCondition.targetable = false;
 	conditions.push_back(&targetableCondition);
 	return this;
@@ -107,6 +111,8 @@ ObjectQuery * ObjectQuery::Invisible()
 
 ObjectQuery * ObjectQuery::Alive()
 {
+	if (qkey == QKEY_MISSILE)
+		throw new QueryException("Can't query IsNotDead for missiles");
 	deathCondition.death = false;
 	conditions.push_back(&deathCondition);
 	return this;
@@ -114,6 +120,8 @@ ObjectQuery * ObjectQuery::Alive()
 
 ObjectQuery * ObjectQuery::Dead()
 {
+	if (qkey == QKEY_MISSILE)
+		throw new QueryException("Can't query IsDead for missiles");
 	deathCondition.death = true;
 	conditions.push_back(&deathCondition);
 	return this;
@@ -121,6 +129,8 @@ ObjectQuery * ObjectQuery::Dead()
 
 ObjectQuery * ObjectQuery::IsClone()
 {
+	if (qkey != QKEY_CHAMP)
+		throw new QueryException("Can't query IsClone for non champions");
 	cloneCondition.clone = true;
 	conditions.push_back(&cloneCondition);
 	return this;
@@ -128,8 +138,20 @@ ObjectQuery * ObjectQuery::IsClone()
 
 ObjectQuery * ObjectQuery::IsNotClone()
 {
+	if(qkey != QKEY_CHAMP)
+		throw new QueryException("Can't query IsNotClone for non champions");
 	cloneCondition.clone = false;
 	conditions.push_back(&cloneCondition);
+	return this;
+}
+
+ObjectQuery * ObjectQuery::IsCasting()
+{
+	if (qkey == QKEY_MISSILE)
+		throw new QueryException("Can't query IsCasting for missiles");
+
+	castingCondition.casting = true;
+	conditions.push_back(&castingCondition);
 	return this;
 }
 
@@ -160,29 +182,29 @@ bool QConditionNearbyPoint::Check(const GameObject * obj)
 
 bool QConditionTargetable::Check(const GameObject * obj)
 {
-	const GameUnit* unit = dynamic_cast<const GameUnit*>(obj);
-	if (unit == nullptr)
-		return false;
+	const GameUnit* unit = (const GameUnit*)obj;
 	return targetable == (unit->isVisible && !unit->isDead && unit->targetable && !unit->invulnerable);
 }
 
 bool QConditionDeath::Check(const GameObject * obj)
 {
-	const GameUnit* unit = dynamic_cast<const GameUnit*>(obj);
-	if (unit == nullptr)
-		return false;
+	const GameUnit* unit = (const GameUnit*)obj;
 	return unit->isDead == death;
 }
 
 bool QConditionClone::Check(const GameObject * obj)
 {
-	const GameChampion* unit = dynamic_cast<const GameChampion*>(obj);
-	if (unit == nullptr)
-		return false;
+	const GameChampion* unit = (const GameChampion*)(obj);
 	return unit->IsClone() == clone;
 }
 
 bool QConditionVisibility::Check(const GameObject * obj)
 {
 	return obj->isVisible == visible;
+}
+
+bool QConditionCasting::Check(const GameObject * obj)
+{
+	const GameUnit* unit = (const GameUnit*)obj;
+	return (unit->isCasting && unit->castingSpell.RemainingCastTime() > 0.f) == casting;
 }

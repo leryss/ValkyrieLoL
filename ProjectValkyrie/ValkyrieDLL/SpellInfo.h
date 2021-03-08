@@ -16,16 +16,18 @@ enum SpellFlags {
 	TypeArea         = (1 << 5),
 	TypeCone         = (1 << 6),
 	TypeTargeted     = (1 << 7),
+	TypeRect         = (1 << 8),
 
-	CollideWindwall  = (1 << 8),
-	CollideMinion    = (1 << 9),
-	CollideChampion  = (1 << 10),
-	CollideMonster   = (1 << 11),
+	CollideWindwall  = (1 << 12),
+	CollideMinion    = (1 << 13),
+	CollideChampion  = (1 << 14),
+	CollideMonster   = (1 << 15),
 
-	AffectMinion     = (1 << 12),
-	AffectChampion   = (1 << 13),
-	AffectMonster    = (1 << 14),
+	AffectMinion     = (1 << 16),
+	AffectChampion   = (1 << 17),
+	AffectMonster    = (1 << 18),
 
+	SpellAllTypes   = TypeLine | TypeArea | TypeCone | TypeTargeted | TypeRect,
 	CollideCommon   = CollideWindwall | CollideMinion | CollideChampion | CollideMonster,
 	AffectAllUnits  = AffectMinion | AffectChampion | AffectMonster
 };
@@ -35,8 +37,9 @@ class SpellInfo {
 
 public:
 
-	void AddFlag(std::string& flag);
-	bool HasFlag(SpellFlags flag) const;
+	void       AddFlag(std::string& flag);
+	bool       HasFlag(SpellFlags flag) const;
+	SpellFlags GetSpellType() const;
 	object GetParentPy();
 
 	// Values from game's data files

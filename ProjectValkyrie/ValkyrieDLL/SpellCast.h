@@ -13,6 +13,8 @@ public:
 	virtual void ReadFromBaseAddress(int address) override;
 	void         ImGuiDraw();
 	object       GetStaticData();
+	float        RemainingCastTime() const;
+
 public:
 
 	float       timeBegin;

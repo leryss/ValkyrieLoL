@@ -96,6 +96,8 @@ private:
 	/// Updates the state of an entry
 	void UpdateState(std::shared_ptr<ScriptEntry>& entry);
 
+	void UpdateInstalledScripts();
+
 private:
 
 	/// Mutex for entries map. It is necessary because we retrieve some script entries asynchronously
