@@ -65,11 +65,13 @@ def cast_draw_cone(ctx, cast_info, static):
 	ctx.triangle_fill(start, left + start, right + start, Col(0.5, 0.5, 0.5, 0.5))
 	
 def draw_collisions(ctx, collisions):
+	if len(collisions) > 0:
+		ctx.info(str(len(collisions)))
 	for col in collisions:
-		ctx.circle(col.unit.pos, 100, 30, 1.0, Col.Red)
+		ctx.circle(col.unit.pos, col.unit.static.gameplay_radius, 30, 1.0, Col.Red)
 		
 		ctx.circle(Vec3(col.unit_pos.x, col.unit.pos.y, col.unit_pos.y), 55, 10, 5, Col.Blue)
-		ctx.circle(Vec3(col.spell_pos.x, col.spell.end_pos.y, col.spell_pos.y), 55, 10, 5, Col.Purple)
+		#ctx.circle(Vec3(col.spell_pos.x, col.unit.pos.y, col.spell_pos.y), 55, 10, 5, Col.Purple)
 
 def draw_missile(ctx, missile):
 	static = missile.spell.static

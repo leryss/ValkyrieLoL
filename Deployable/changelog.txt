@@ -1,4 +1,9 @@
-[Valkyrie v0.17 beta]
+[Valkyrie v0.18]
+	+ Updated skin list for the latest patches
+	+ Added more customization to spell tracker
+	+ Added skillshot drawing
+
+[Valkyrie v0.17]
 	* Fixed bug where senna icon was missing
 
 	+ Added auto login & update all scripts button in loader

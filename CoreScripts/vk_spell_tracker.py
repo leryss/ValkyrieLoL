@@ -1,26 +1,52 @@
 from valkyrie import *
-
-size_img_skill = 24
+import json
 
 show_enemies = None
 show_allies  = None
 show_self	= None
 
+settings = [
+	["Q", [35, 10],   10, 25, True], 
+	["W", [60, 10],   10, 25, True], 
+	["E", [85, 10],   10, 25, True], 
+	["R", [109, 10],  10, 25, True], 
+	["D", [149, -15], 10, 25, True], 
+	["F", [176, -15], 10, 25, True]
+]
+	
 def valkyrie_menu(ctx):
-	global show_enemies, show_allies, show_self
+	global show_enemies, show_allies, show_self, settings
 	
 	ui = ctx.ui
 	show_enemies = ui.checkbox("Show for enemies", show_enemies)
 	show_allies  = ui.checkbox("Show for allies", show_allies)
 	show_self	= ui.checkbox("Show for self", show_self)
+	
+	ui.separator()
+	ui.text('Customization')
+	for i, (name, offset, rounding, size, show) in enumerate(settings):
+		
+		spell = ctx.player.spells[i]
+		ui.image(spell.static.icon if spell.static else 'none', Vec2(16, 16), Col.White)
+		ui.sameline()
+		if ui.beginmenu(f'Customize {name}'):
+			settings[i][4] = ui.checkbox("Show", show)
+			settings[i][2] = ui.sliderint("Rounding", int(rounding), 0, 15)
+			settings[i][3] = ui.sliderint("Size", int(size), 8, 30)
+			offset[0] = ui.sliderint("X coord", int(offset[0]), -50, 200)
+			offset[1] = ui.sliderint("Y coord", int(offset[1]), -60, 50)
+			ui.endmenu()
+	
 
 def valkyrie_on_load(ctx):
-	global show_enemies, show_allies, show_self
+	global show_enemies, show_allies, show_self, settings
 	cfg = ctx.cfg
 	
 	show_enemies = cfg.get_bool("show_enemies", True)
 	show_allies  = cfg.get_bool("show_allies", True)
 	show_self	= cfg.get_bool("show_self", True)
+	
+	settings = json.loads(cfg.get_str("settings", json.dumps(settings)))
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
@@ -29,12 +55,10 @@ def valkyrie_on_save(ctx):
 	cfg.set_bool("show_allies",  show_allies)
 	cfg.set_bool("show_self",	show_self)
 	
-def draw_spell(ctx, spell, pos):
-	global size_img_skill
+	cfg.set_str("settings", json.dumps(settings))
 	
-	if len(spell.name) == 0:
-		return
-	
+def draw_spell(ctx, spell, pos, size, rounding):
+
 	cd = spell.cd
 	color = Col.White
 	if spell.lvl == 0:
@@ -42,25 +66,17 @@ def draw_spell(ctx, spell, pos):
 	if cd > 0.0:
 		color = Col.Red
 		
-	ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size_img_skill, size_img_skill), color, 10)
-	if cd > 0.0:
+	ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size, size), color, rounding)
+	if cd > 0.0 and size > 20:
 		ctx.text(pos, str(int(cd)), Col.White)
 
 def draw_tracker_for(ctx, champ):
-	global size_img_skill
-	
 	pos = champ.hpbar_pos
-	pos.y += size_img_skill/2.0
-	pos.x += 15.0
-	for i in range(0, 4):
-		pos.x += size_img_skill
-		draw_spell(ctx, champ.spells[i], pos)
-		
-	pos.y -= 27.0
-	pos.x += size_img_skill/2.0
-	for i in range(4, 6):
-		pos.x += size_img_skill
-		draw_spell(ctx, champ.spells[i], pos)
+	spells = champ.spells
+	for i in range(0, 6):
+		name, offset, rounding, size, show = settings[i]
+		if show:
+			draw_spell(ctx, spells[i], Vec2(pos.x + offset[0], pos.y + offset[1]), size, rounding)
 	
 def valkyrie_exec(ctx):
 	

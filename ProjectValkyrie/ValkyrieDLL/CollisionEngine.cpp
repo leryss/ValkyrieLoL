@@ -64,14 +64,17 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 		return;
 
 	std::vector<std::pair<const GameUnit*, bool>> targets;
+	Vector3 currentPos = spawner.pos;
+	currentPos.y = 0.f;
+
 	switch (castStatic->GetSpellType()) {
 		case TypeLine:
 			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end), targets);
-			FindCollisionsLine(spawner.pos, cast, castStatic, targets);
+			FindCollisionsLine(currentPos, cast, castStatic, targets);
 			break;
 		case TypeArea:
 			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end)*1.5, targets);
-			FindCollisionsArea(spawner.pos, cast, castStatic, targets);
+			FindCollisionsArea(currentPos, cast, castStatic, targets);
 			break;
 		default:
 			break;
@@ -118,21 +121,30 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 	}
 }
 
-void CollisionEngine::FindCollisionsArea(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
+void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
 {
+	Vector3 spellEnd = cast->end;
+	Vector3 spellStart = cast->start;
+	spellEnd.y = 0.f;
+	spellStart.y = 0.f;
+
 	for (auto& pair : objects) {
 		auto target = pair.first;
+		Vector3 targetPos = target->pos;
+		targetPos.y = 0.f;
 
 		float secsUntilSpellHits = 0.f;
-		if(castStatic->delay > 0) 
-			/// This is the case when there is no missile
-			secsUntilSpellHits += castStatic->delay;
+		if (castStatic->delay > 0) {
+			float distanceLeft = spellCurrentPos.distance(spellEnd);
+			float distanceTotal = spellEnd.distance(spellStart);
+
+			secsUntilSpellHits = (castStatic->delay * (distanceLeft / distanceTotal));
+		}
 		else 
-			/// This is the case when the Area is created when a missile collides
-			secsUntilSpellHits = spell_start.distance(target->pos) / castStatic->speed;
+			secsUntilSpellHits = spellCurrentPos.distance(spellEnd) / castStatic->speed;
 		secsUntilSpellHits += cast->RemainingCastTime();
 		
-		Vector3 targetFuturePos = target->pos;
+		Vector3 targetFuturePos = targetPos;
 		targetFuturePos.y = 0.f;
 
 		if (target->isMoving) {
