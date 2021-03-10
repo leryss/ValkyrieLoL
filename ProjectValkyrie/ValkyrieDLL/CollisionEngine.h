@@ -37,6 +37,7 @@ private:
 	Vector2 LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius);
 
 	void    FindCollisions(const GameState* state, const GameObject& spawner, const SpellCast* cast, const SpellInfo* castStatic);
+	void    FindCollisionsRaytraced(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects);
 	void    FindCollisionsLine(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects);
 	void    FindCollisionsArea(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects);
 	void    GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<const GameUnit*, bool>>& result);

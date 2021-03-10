@@ -69,15 +69,71 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 
 	switch (castStatic->GetSpellType()) {
 		case TypeLine:
-			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end), targets);
-			FindCollisionsLine(currentPos, cast, castStatic, targets);
+			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end) + 700.f, targets);
+			FindCollisionsRaytraced(currentPos, cast, castStatic, targets);
 			break;
 		case TypeArea:
-			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end)*1.5, targets);
+			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end) + castStatic->castRadius + 700.f, targets);
 			FindCollisionsArea(currentPos, cast, castStatic, targets);
 			break;
 		default:
 			break;
+	}
+}
+
+void CollisionEngine::FindCollisionsRaytraced(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
+{
+	float UnitDelta = 1.0 + castStatic->width/3.f;
+
+	Vector2 spellStart = Vector2(spell_start.x, spell_start.z);
+	Vector2 spellEnd = Vector2(cast->end.x, cast->end.z);
+
+	float distanceLeft = spellStart.distance(spellEnd);
+	int   iterations   = max(0, distanceLeft - UnitDelta) / UnitDelta;
+	float timePerIter  = UnitDelta / castStatic->speed;
+	
+	float deltaXSpell = cast->dir.x * timePerIter * castStatic->speed;
+	float deltaYSpell = cast->dir.z * timePerIter * castStatic->speed;
+
+	for(auto& pair : objects) {
+		auto& target = pair.first;
+		if (target->staticData == nullptr) {
+			Logger::Warn("Obj %s doesn't have staticData", target->name.c_str());
+			continue;
+		}
+
+		Vector2 targetPos = Vector2(target->pos.x, target->pos.z);
+		float deltaX = 0.f;
+		float deltaY = 0.f;
+
+		if (target->isMoving) {
+			float castTime = cast->RemainingCastTime() + castStatic->delay;
+			if (castTime > 0.f) {
+				targetPos.x += target->dir.x*target->moveSpeed*castTime;
+				targetPos.y += target->dir.z*target->moveSpeed*castTime;
+			}
+
+			deltaX += target->dir.x*target->moveSpeed*timePerIter;
+			deltaY += target->dir.z*target->moveSpeed*timePerIter;
+		}
+
+		
+		Vector2 spellPos = spellStart;
+
+		for (int i = 0; i < iterations; ++i) {
+			if (targetPos.distance(spellPos) < target->staticData->gameplayRadius + castStatic->width) {
+				AddCollisionEntry(new FutureCollision(target, cast, targetPos, spellPos, pair.second));
+				if (pair.second)
+					return;
+				break;
+			}
+
+			spellPos.x += deltaXSpell;
+			spellPos.y += deltaYSpell;
+
+			targetPos.x += deltaX;
+			targetPos.y += deltaY;
+		}
 	}
 }
 
@@ -109,9 +165,14 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 		}
 
 		Vector2 T = LinearCollision(sstart, sspeed, tstart, tspeed, sstatic->width + target->staticData->gameplayRadius);
+		
+
 		if (T.x > 0.f && T.y > 0.f) {
-			Vector2 unitColPt = tstart.add(tspeed.vscale(T));
+			
 			Vector2 spellColPt = sstart.add(sspeed.vscale(T));
+			Vector2 unitColPt = tstart.add(tspeed.vscale(T));
+			if (sstart.distance(unitColPt) > (sstart.distance(Vector2(cast->end.x, cast->end.z))) )
+				continue;
 
 			AddCollisionEntry(new FutureCollision(target, cast, unitColPt, spellColPt, pair.second));
 

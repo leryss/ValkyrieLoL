@@ -27,9 +27,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 
 		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Valkyrie"), NULL };
 		::RegisterClassEx(&wc);
-		HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Loader"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
+		HWND hwnd = CreateWindowA(wc.lpszClassName, _T("Loader"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
-		// Initialize Direct3D
 		if (!CreateDeviceD3D(hwnd))
 		{
 			CleanupDeviceD3D();
@@ -37,21 +36,15 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 			return 1;
 		}
 
-		// Show the window
-		::ShowWindow(hwnd, SW_SHOWDEFAULT);
-		::UpdateWindow(hwnd);
+		ShowWindow(hwnd, SW_SHOWDEFAULT);
+		UpdateWindow(hwnd);
 
-		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-		// Setup Dear ImGui style
 		
 		ValkyrieShared::ImGuiSetupSizesAndFont();
 		ValkyrieShared::ImGuiStyleValkyrie();
-		///ImGui::StyleColorsDark();
-		///ImGui::GetStyle().ScaleAllSizes(1.5f);
 
 		// Setup Platform/Renderer backends
 		ImGui_ImplWin32_Init(hwnd);

@@ -40,6 +40,7 @@ private:
 
 	static void                        DrawDevMenu();
 	static void                        DrawUIMenu();
+	static void                        DrawBenchmarkWindow();
 
 	static void                        Update();
 	static void                        InitializeOverlay();
@@ -80,6 +81,7 @@ private:
 	static bool                        EssentialsLoaded;
 
 	/// Menu stuff
+	static bool                        ShowBenchmarkWindow;
 	static bool                        ShowConsoleWindow;
 	static bool                        ShowObjectExplorerWindow;
 	static bool                        ShowOffsetScanner;

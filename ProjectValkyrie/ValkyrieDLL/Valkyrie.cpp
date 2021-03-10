@@ -41,6 +41,7 @@ ConfigSet                          Valkyrie::Configs;
 bool                               Valkyrie::ShowConsoleWindow;
 bool                               Valkyrie::ShowObjectExplorerWindow;
 bool                               Valkyrie::ShowOffsetScanner;
+bool                               Valkyrie::ShowBenchmarkWindow;
 HKey                               Valkyrie::ShowMenuKey;
 int                                Valkyrie::MenuStyle;
 float                              Valkyrie::AveragePing;
@@ -130,6 +131,9 @@ void Valkyrie::ShowMenu()
 
 	if (ShowOffsetScanner)
 		OffsetScanner::ImGuiDraw();
+
+	if (ShowBenchmarkWindow)
+		DrawBenchmarkWindow();
 }
 
 void Valkyrie::ShowConsole()
@@ -244,6 +248,7 @@ void Valkyrie::LoadConfigs()
 	ShowConsoleWindow        = Configs.GetBool("show_console", false);
 	ShowObjectExplorerWindow = Configs.GetBool("show_obj_explorer", false);
 	ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
+	ShowBenchmarkWindow      = Configs.GetBool("show_benchmarks", false);
 
 	ShowMenuKey              = (HKey)Configs.GetInt("show_key", HKey::Tab);
 	MenuStyle                = SetStyle(Configs.GetInt("menu_style", 3));
@@ -252,6 +257,7 @@ void Valkyrie::LoadConfigs()
 
 void Valkyrie::SaveConfigs()
 {
+	Configs.SetBool("show_benchmarks", ShowBenchmarkWindow);
 	Configs.SetBool("show_console", ShowConsoleWindow);
 	Configs.SetBool("show_obj_explorer", ShowConsoleWindow);
 	Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
@@ -313,18 +319,7 @@ void Valkyrie::DrawDevMenu()
 	ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
 	ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
 	ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
-	if (ImGui::BeginMenu("Core Benchmarks")) {
-		Reader.GetBenchmarks().ImGuiDraw();
-		ImGui::DragFloat("Collision Engine", &ScriptContext.collisionEngine.updateTimeMs.avgMs);
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("Scripts Benchmarks")) {
-		for (auto& script : ScriptManager.coreScripts) {
-			ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
-		}
-		ImGui::EndMenu();
-	}
+	ImGui::Checkbox("Show Benchmarks",      &ShowBenchmarkWindow);
 }
 
 void Valkyrie::DrawUIMenu()
@@ -332,6 +327,35 @@ void Valkyrie::DrawUIMenu()
 	if (ChooseMenuStyle("Menu Style", MenuStyle))
 		SetStyle(MenuStyle);
 	ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
+}
+
+void Valkyrie::DrawBenchmarkWindow()
+{
+	ImGui::Begin("Benchmarks");
+	ImGui::BeginTabBar("BenchmarkTabs");
+
+	if (ImGui::BeginTabItem("Core Benchmarks")) {
+		Reader.GetBenchmarks().ImGuiDraw();
+		ImGui::DragFloat("Collision Engine", &ScriptContext.collisionEngine.updateTimeMs.avgMs);
+		ImGui::EndTabItem();
+	}
+
+	if (ImGui::BeginTabItem("Core Scripts")) {
+		for (auto& script : ScriptManager.coreScripts) {
+			ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
+		}
+		ImGui::EndTabItem();
+	}
+
+	if (ImGui::BeginTabItem("Community Scripts")) {
+		for (auto& script : ScriptManager.communityScripts) {
+			ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
+		}
+		ImGui::EndTabItem();
+	}
+
+	ImGui::EndTabBar();
+	ImGui::End();
 }
 
 void Valkyrie::Update()

@@ -598,7 +598,7 @@
         "parent": "",
         "icon": "ahri_orbofdeception",
         "castTime": 0.25,
-        "castRange": 1000.0,
+        "castRange": 900.0,
         "castRadius": 275.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -630,7 +630,7 @@
         "parent": "ahriorbofdeception",
         "icon": "luxlightstrikekugel",
         "castTime": 0.25,
-        "castRange": 1000.0,
+        "castRange": 900.0,
         "castRadius": 275.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -2575,7 +2575,7 @@
         "speed": 2050.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
     },
     {
         "name": "aphelioscrescendumattackmisout",
@@ -2655,7 +2655,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "apheliosw",
@@ -2714,12 +2714,12 @@
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 110.0,
-        "height": 0.0,
-        "speed": 1000.0,
+        "width": 125.0,
+        "height": 100.0,
+        "speed": 2050.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
     },
     {
         "name": "aphelioscrescendumattackmisoutmini",
@@ -26410,12 +26410,12 @@
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 0.0,
+        "width": 70.0,
         "height": 100.0,
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "neekordummyspell",
@@ -26463,7 +26463,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "takedown",
@@ -26918,7 +26918,7 @@
         "parent": "",
         "icon": "nocturne_duskbringer",
         "castTime": 0.25,
-        "castRange": 1125.0,
+        "castRange": 1200.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -26927,7 +26927,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "nocturneparanoia2",
@@ -27679,7 +27679,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "oriannabasicattack3",
@@ -28183,15 +28183,15 @@
         "icon": "pantheon_r",
         "castTime": 0.10000000149011612,
         "castRange": 5500.0,
-        "castRadius": 750.0,
+        "castRadius": 450.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
         "speed": 20.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 4.45,
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "pantheonpassiveready",
@@ -28223,7 +28223,7 @@
         "speed": 2700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "pantheonw",
@@ -28839,7 +28839,7 @@
         "icon": "pyker",
         "castTime": 0,
         "castRange": 750.0,
-        "castRadius": 0.0,
+        "castRadius": 300.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
@@ -28847,7 +28847,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "pykecritattack",
@@ -28885,7 +28885,7 @@
         "name": "pykeqrange",
         "parent": "",
         "icon": "pykeq",
-        "castTime": 0.19999998807907104,
+        "castTime": 0.2,
         "castRange": 1100.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
@@ -28895,7 +28895,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "pykeqmelee",
@@ -28982,16 +28982,16 @@
         "parent": "",
         "icon": "qiyana_r",
         "castTime": 0.25,
-        "castRange": 950.0,
-        "castRadius": 220.0,
+        "castRange": 875.0,
+        "castRadius": 310.0,
         "castConeAngle": 0.0,
-        "castConeDistance": 0.0,
-        "width": 0.0,
-        "height": 0.0,
-        "speed": 1000.0,
+        "castConeDistance": 100.0,
+        "width": 140.0,
+        "height": 100.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "qiyanarwallhitmis",
@@ -29046,16 +29046,16 @@
         "parent": "",
         "icon": "",
         "castTime": 0.25,
-        "castRange": 1550.0,
+        "castRange": 875.0,
         "castRadius": 310.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 120.0,
+        "width": 140.0,
         "height": 100.0,
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "qiyanarwallfollowmisshadow",
@@ -29094,7 +29094,7 @@
         "parent": "",
         "icon": "qiyana_q2_red",
         "castTime": 0.25,
-        "castRange": 500.0,
+        "castRange": 850.0,
         "castRadius": 180.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -29103,14 +29103,14 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "qiyanaq_water",
         "parent": "",
         "icon": "qiyana_q2_red",
         "castTime": 0.25,
-        "castRange": 500.0,
+        "castRange": 850.0,
         "castRadius": 180.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -29119,7 +29119,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags":["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "qiyanaq",
@@ -29158,7 +29158,7 @@
         "parent": "",
         "icon": "qiyana_q2_red",
         "castTime": 0.25,
-        "castRange": 500.0,
+        "castRange": 850.0,
         "castRadius": 180.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -29167,7 +29167,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "qiyanabasicattack3",
@@ -29414,7 +29414,7 @@
         "parent": "",
         "icon": "quinn_q",
         "castTime": 0.25,
-        "castRange": 1025.0,
+        "castRange": 1050.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -29423,7 +29423,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "quinne",
@@ -29606,16 +29606,16 @@
         "parent": "",
         "icon": "rakan_q",
         "castTime": 0.25,
-        "castRange": 850.0,
-        "castRadius": 300.0,
+        "castRange": 900.0,
+        "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 65.0,
-        "height": 0.0,
+        "height": 100.0,
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "rakanw",
@@ -29630,8 +29630,8 @@
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.35,
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "rakanqreturnmis",
@@ -29711,7 +29711,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "rakanpassive",
@@ -29775,7 +29775,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "rakanbasicattack",
@@ -30634,12 +30634,12 @@
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 0.0,
+        "width": 80.0,
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "rellp",
@@ -30663,7 +30663,7 @@
         "icon": "rellr.darksupport",
         "castTime": 0.25,
         "castRange": 200.0,
-        "castRadius": 0.0,
+        "castRadius": 400.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
@@ -30671,7 +30671,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "relle",
@@ -31023,7 +31023,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "rengarbasicattack",
@@ -31207,15 +31207,15 @@
         "icon": "rengar_e",
         "castTime": 0.25,
         "castRange": 1000.0,
-        "castRadius": 0.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 70.0,
-        "height": 0.0,
+        "height": 100.0,
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "rengarqattack",
@@ -31327,7 +31327,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "rengarrleap",
@@ -31399,15 +31399,15 @@
         "icon": "rengar_e_emp",
         "castTime": 0.25,
         "castRange": 1000.0,
-        "castRadius": 0.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 70.0,
-        "height": 0.0,
+        "height": 100.0,
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "rivenbasicattack3",
@@ -31487,7 +31487,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "rivenpassive",
@@ -31551,7 +31551,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "rivenwindslashmissilecenter",
@@ -31567,7 +31567,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "riventricleave",
@@ -31624,14 +31624,14 @@
         "castTime": 0.25,
         "castRange": 25000.0,
         "castRadius": 25000.0,
-        "castConeAngle": 22.0,
+        "castConeAngle": 44.0,
         "castConeDistance": 1025.0,
         "width": 200.0,
         "height": 0.0,
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "rivenfengshuiengine",
@@ -32373,17 +32373,17 @@
         "name": "samiraqsword",
         "parent": "",
         "icon": "",
-        "castTime": 0.25,
+        "castTime": 0.175,
         "castRange": 325.0,
         "castRadius": 0.0,
-        "castConeAngle": 0.0,
-        "castConeDistance": 0.0,
+        "castConeAngle": 120.0,
+        "castConeDistance": 325.0,
         "width": 65.0,
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
     },
     {
         "name": "samiraqgun",
@@ -32399,7 +32399,7 @@
         "speed": 2600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "samiraqbufferedsword",
@@ -32711,15 +32711,15 @@
         "icon": "sejuani_r",
         "castTime": 0.25,
         "castRange": 1300.0,
-        "castRadius": 550.0,
+        "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 120.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "height": 100.0,
+        "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
     },
     {
         "name": "sejuaniw",
@@ -32815,7 +32815,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
     },
     {
         "name": "sejuanipassive",
@@ -32991,7 +32991,7 @@
         "speed": 20000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "sennarwarningmis",
@@ -33158,7 +33158,7 @@
         "parent": "",
         "icon": "senna_w.senna",
         "castTime": 0.25,
-        "castRange": 1250.0,
+        "castRange": 1300.0,
         "castRadius": 280.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -33167,7 +33167,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits", "CollideCommon"]
     },
     {
         "name": "sennaq",
@@ -33247,7 +33247,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "seraphinewshield",
@@ -33302,16 +33302,16 @@
         "parent": "",
         "icon": "seraphine_r.ellipsismage",
         "castTime": 0.5,
-        "castRange": 25000.0,
+        "castRange": 1300.0,
         "castRadius": 500.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 0.0,
+        "width": 160.0,
         "height": 100.0,
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "seraphinecritattack",
@@ -33351,15 +33351,15 @@
         "icon": "",
         "castTime": 0.25,
         "castRange": 25000.0,
-        "castRadius": 0.0,
+        "castRadius": 350.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "seraphinee",
@@ -33386,12 +33386,12 @@
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 0.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "width": 80.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "seraphinew2warning",
@@ -33477,9 +33477,9 @@
         "name": "seraphineqinitialmissile",
         "parent": "",
         "icon": "",
-        "castTime": 0.0,
+        "castTime": 0.25,
         "castRange": 25000.0,
-        "castRadius": 0.0,
+        "castRadius": 350.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
@@ -33487,7 +33487,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "seraphinebasicattack",
@@ -33546,12 +33546,12 @@
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 0.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "width": 80.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "seraphinepassive",
@@ -33687,15 +33687,15 @@
         "icon": "",
         "castTime": 0.25,
         "castRange": 25000.0,
-        "castRadius": 0.0,
+        "castRadius": 350.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "seraphinerpostcast",
@@ -33766,16 +33766,16 @@
         "parent": "",
         "icon": "sett_w.sett",
         "castTime": 0.75,
-        "castRange": 25000.0,
+        "castRange": 790.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 0.0,
+        "width": 400.0,
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "settq",
@@ -36230,7 +36230,7 @@
         "parent": "",
         "icon": "sona_r",
         "castTime": 0.25,
-        "castRange": 900.0,
+        "castRange": 950.0,
         "castRadius": 600.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -36239,7 +36239,7 @@
         "speed": 2400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "sonaqmissile",
@@ -38599,7 +38599,7 @@
         "icon": "swain_w",
         "castTime": 0.25,
         "castRange": 5500.0,
-        "castRadius": 210.0,
+        "castRadius": 300.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 85.0,
@@ -38607,7 +38607,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "swainq",
@@ -38616,14 +38616,14 @@
         "castTime": 0.25,
         "castRange": 750.0,
         "castRadius": 0.0,
-        "castConeAngle": 20.0,
-        "castConeDistance": 100.0,
+        "castConeAngle": 40.0,
+        "castConeDistance": 750.0,
         "width": 0.0,
         "height": 0.0,
         "speed": 1000000000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
     },
     {
         "name": "swainpassivereturnbirdmissile",
@@ -38687,7 +38687,7 @@
         "speed": 935.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "swainpassive",
@@ -38983,7 +38983,7 @@
         "icon": "sylasq",
         "castTime": 0.4000000059604645,
         "castRange": 775.0,
-        "castRadius": 775.0,
+        "castRadius": 150.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 70.0,
@@ -38991,7 +38991,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "sylascritattack",
@@ -39087,7 +39087,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "sylasrbuff",
@@ -39183,7 +39183,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "syndraespheremissile",
@@ -39303,15 +39303,15 @@
         "icon": "cryophoenix_frigidorb",
         "castTime": 0.25,
         "castRange": 1100.0,
-        "castRadius": 225.0,
+        "castRadius": 180.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 10.0,
         "height": 60.0,
         "speed": 1600.0,
         "travelTime": 0.6000000238418579,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.6,
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "syndraesound",
@@ -39496,14 +39496,14 @@
         "castTime": 0.25,
         "castRange": 650.0,
         "castRadius": 100.0,
-        "castConeAngle": 20.0,
+        "castConeAngle": 40.0,
         "castConeDistance": 675.0,
         "width": 0.0,
         "height": 0.0,
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "syndrawdebuff",
@@ -39995,18 +39995,18 @@
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 120.0,
-        "height": 0.0,
-        "speed": 2000.0,
+        "height": 100.0,
+        "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "taliyahqmis",
         "parent": "",
         "icon": "taliyah_q",
         "castTime": 0.25,
-        "castRange": 4000.0,
+        "castRange": 1000.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -40015,7 +40015,7 @@
         "speed": 3600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "taliyahrterrainproto",
@@ -40119,7 +40119,7 @@
         "icon": "taliyah_w",
         "castTime": 0.25,
         "castRange": 900.0,
-        "castRadius": 200.0,
+        "castRadius": 170.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 50.0,
@@ -40127,7 +40127,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "taliyahq",
@@ -40138,12 +40138,12 @@
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 80.0,
-        "height": 0.0,
+        "width": 100.0,
+        "height": 100.0,
         "speed": 3600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "taliyahrblowupsoundmis",
@@ -40223,7 +40223,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "taliyahwnoclick",
@@ -41189,8 +41189,8 @@
         "name": "threshqmissile",
         "parent": "",
         "icon": "",
-        "castTime": 0.25,
-        "castRange": 1050.0,
+        "castTime": 0.5,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -41199,7 +41199,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "threshqselfroot",
@@ -41462,13 +41462,13 @@
         "parent": "",
         "icon": "thresh_q",
         "castTime": 0.5,
-        "castRange": 1075.0,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 60.0,
-        "height": 0.0,
-        "speed": 1200.0,
+        "width": 70.0,
+        "height": 100.0,
+        "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -41478,16 +41478,16 @@
         "parent": "",
         "icon": "thresh_q",
         "castTime": 0.5,
-        "castRange": 1075.0,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 60.0,
-        "height": 0.0,
-        "speed": 1200.0,
+        "width": 70.0,
+        "height": 100.0,
+        "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "threshq_darkstar",
@@ -44422,7 +44422,7 @@
         "parent": "",
         "icon": "",
         "castTime": 0.25099998712539673,
-        "castRange": 1100.0,
+        "castRange": 1150.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -44431,7 +44431,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "velkozpassive",
@@ -44463,7 +44463,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "velkozbasicattack3",
@@ -44518,32 +44518,32 @@
         "parent": "",
         "icon": "velkoz_e",
         "castTime": 0.25,
-        "castRange": 810.0,
-        "castRadius": 225.0,
+        "castRange": 1100.0,
+        "castRadius": 190.0,
         "castConeAngle": 0.0,
-        "castConeDistance": 100.0,
-        "width": 0.0,
-        "height": 0.0,
-        "speed": 100000.0,
-        "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "castConeDistance": 0.0,
+        "width": 120.0,
+        "height": 60.0,
+        "speed": 1000000.0,
+        "travelTime": 0.550000011920929,
+        "delay": 0.55,
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "velkozq",
         "parent": "",
         "icon": "velkoz_q1",
         "castTime": 0.25099998712539673,
-        "castRange": 1050.0,
-        "castRadius": 210.0,
+        "castRange": 1150.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
-        "castConeDistance": 100.0,
-        "width": 60.0,
-        "height": 0.0,
-        "speed": 1200.0,
+        "castConeDistance": 0.0,
+        "width": 50.0,
+        "height": 100.0,
+        "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "velkozr",
@@ -44554,28 +44554,28 @@
         "castRadius": 500.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 0.0,
+        "width": 100.0,
         "height": 0.0,
-        "speed": 1500.0,
+        "speed": 1000000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "velkozw",
         "parent": "",
         "icon": "velkoz_w",
         "castTime": 0.25,
-        "castRange": 1050.0,
-        "castRadius": 210.0,
+        "castRange": 1200.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
-        "castConeDistance": 100.0,
+        "castConeDistance": 0.0,
         "width": 87.5,
-        "height": 0.0,
-        "speed": 1200.0,
+        "height": 100.0,
+        "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "velkozbasicattack",
@@ -44639,7 +44639,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "velkozemissile",
@@ -44647,15 +44647,15 @@
         "icon": "",
         "castTime": 0,
         "castRange": 1100.0,
-        "castRadius": 0.0,
+        "castRadius": 190.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 120.0,
         "height": 60.0,
         "speed": 1500.0,
         "travelTime": 0.550000011920929,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.55,
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "vipassive",
@@ -45471,7 +45471,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "vladimirq",
@@ -45734,7 +45734,7 @@
         "parent": "",
         "icon": "",
         "castTime": 0,
-        "castRange": 1200.0,
+        "castRange": 600.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -45743,7 +45743,7 @@
         "speed": 4000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "voidspawnbasicattack2",
@@ -46559,39 +46559,39 @@
         "speed": 4000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "xayahqmissile1",
         "parent": "",
         "icon": "xayahq",
         "castTime": 0.25,
-        "castRange": 400.0,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 100.0,
-        "speed": 400.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "xayahqmissile2",
         "parent": "",
         "icon": "xayahq",
         "castTime": 0.25,
-        "castRange": 400.0,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 100.0,
-        "speed": 400.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "xayahbasicattack",
@@ -46680,14 +46680,14 @@
         "castTime": 0,
         "castRange": 450.0,
         "castRadius": 300.0,
-        "castConeAngle": 0.0,
-        "castConeDistance": 100.0,
+        "castConeAngle": 60.0,
+        "castConeDistance": 1100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 2200.0,
+        "speed": 4000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "xayahe",
@@ -46742,16 +46742,16 @@
         "parent": "",
         "icon": "xayahq",
         "castTime": 0.25,
-        "castRange": 400.0,
+        "castRange": 1100.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 50.0,
-        "height": 0.0,
-        "speed": 700.0,
+        "height": 100.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "xayahwhaste",
@@ -47375,7 +47375,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "yasuobasicattack",
@@ -47626,12 +47626,12 @@
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 15.0,
+        "width": 30.0,
         "height": 0.0,
         "speed": 8700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "yasuoq2",
@@ -47647,23 +47647,23 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
     },
     {
         "name": "yasuoq3",
         "parent": "",
         "icon": "",
-        "castTime": 0.3499999940395355,
-        "castRange": 520.0,
-        "castRadius": 100.0,
+        "castTime": 0.25,
+        "castRange": 1100.0,
+        "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 15.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "width": 90.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "odysseyaugments_yasuopassiveshield",
@@ -49839,7 +49839,7 @@
         "speed": 2800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "zacqrecast",
@@ -49878,16 +49878,16 @@
         "parent": "",
         "icon": "zacq",
         "castTime": 0.33000001311302185,
-        "castRange": 800.0,
+        "castRange": 951.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 120.0,
-        "height": 0.0,
-        "speed": 100000.0,
+        "width": 80.0,
+        "height": 100.0,
+        "speed": 2800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "zacbasicattack2",
@@ -49919,7 +49919,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "zacbasicattack",
@@ -50038,16 +50038,16 @@
         "parent": "",
         "icon": "shadowninja_q",
         "castTime": 0.25,
-        "castRange": 900.0,
-        "castRadius": 100.0,
+        "castRange": 925.0,
+        "castRadius": 299.29998779296875,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 45.0,
-        "height": 0.0,
-        "speed": 902.0,
+        "width": 50.0,
+        "height": 100.0,
+        "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "zedult",
@@ -50367,7 +50367,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "zedrdasheffectshadow",
@@ -51751,15 +51751,15 @@
         "icon": "zoe_q",
         "castTime": 0.25,
         "castRange": 800.0,
-        "castRadius": 175.0,
+        "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 70.0,
-        "height": 0.0,
+        "width": 50.0,
+        "height": 100.0,
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "zoew",
@@ -51807,7 +51807,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "zoeqinterstitial",
@@ -52214,7 +52214,7 @@
         "parent": "",
         "icon": "fallenangel_darkbinding",
         "castTime": 0.25,
-        "castRange": 875.0,
+        "castRange": 800.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -52223,7 +52223,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "zoeedistancesolver2",
@@ -52453,17 +52453,17 @@
         "name": "zoeqmis2",
         "parent": "",
         "icon": "fallenangel_darkbinding",
-        "castTime": 0.0,
-        "castRange": 1175.0,
+        "castTime": 0.25,
+        "castRange": 800.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
-        "width": 70.0,
+        "width": 50.0,
         "height": 100.0,
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeLine", "CollideCommon", "AffectAllUnits"]
     },
     {
         "name": "zoepassiveyoyoattack",
@@ -52700,10 +52700,10 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 1000000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 2.0,
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "zyrarsplash",
@@ -52742,7 +52742,7 @@
         "parent": "",
         "icon": "zyrae",
         "castTime": 0.25,
-        "castRange": 1100.0,
+        "castRange": 1150.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -52751,7 +52751,7 @@
         "speed": 1150.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
     },
     {
         "name": "zyraqplantmissileonspawn",
