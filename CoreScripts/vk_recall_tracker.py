@@ -19,6 +19,7 @@ def valkyrie_menu(ctx):
 	global bar_width, bar_height, show_mock
 	ui = ctx.ui
 	
+	ui.text('Settings', Col.Purple)
 	bar_width = ui.sliderfloat("Bar width", bar_width, 100, 500)
 	bar_height = ui.sliderfloat("Bar height", bar_height, 10, 50)
 	

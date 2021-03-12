@@ -30,6 +30,7 @@ public:
 	bool    IsDown(HKey key);
 	bool    WasPressed(HKey key, float lastMillis = 250.f);
 	Vector2 GetMouseCursor();
+	void    SetMouseCursor(const Vector2& position);
 
 	void UpdateIssuedOperations();
 	void IssuePressKey(HKey key);

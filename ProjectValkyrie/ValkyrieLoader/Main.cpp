@@ -27,7 +27,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 
 		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Valkyrie"), NULL };
 		::RegisterClassEx(&wc);
-		HWND hwnd = CreateWindowA(wc.lpszClassName, _T("Loader"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
+		HWND hwnd = CreateWindowA(wc.lpszClassName, _T("Loader"), WS_OVERLAPPEDWINDOW, 1, 1, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, wc.hInstance, NULL);
 
 		if (!CreateDeviceD3D(hwnd))
 		{

@@ -1,7 +1,15 @@
 [Valkyrie v0.18]
+	* Fixed auto qss/cleanse activator crash
+	* Added missing icons for certain champs
+	* Fixed orbwalker crash for udyr
+
 	+ Updated skin list for the latest patches
 	+ Added more customization to spell tracker
-	+ Added skillshot drawing
+	+ Added summoner spells to gank awareness portrait
+	+ Added ability to change icon size in vision tracker
+	+ Added auto saving of selected skin 
+	+ Added skillshot drawing in indicators
+	+ Added simple evade script
 
 [Valkyrie v0.17]
 	* Fixed bug where senna icon was missing

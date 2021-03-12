@@ -51087,7 +51087,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
     },
     {
         "name": "ziggseslow",

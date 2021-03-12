@@ -1,5 +1,6 @@
 from valkyrie import *
 from time import time
+from helpers.drawings import draw_spell_track
 
 size_portrait_minimap = 24
 size_portrait_world   = 48
@@ -14,6 +15,7 @@ def valkyrie_menu(ctx):
 	global size_portrait_world
 	ui = ctx.ui
 	
+	ui.text('Settings', Col.Purple)
 	size_portrait_world   = ui.sliderfloat("Size champion portrait", size_portrait_world, 20, 80)
 	max_gank_distance	 = ui.sliderfloat("Trigger distance", max_gank_distance, 1000, 10000)
 	show_last_seen_mm	 = ui.checkbox("Show enemy last position on minimap", show_last_seen_mm)
@@ -44,7 +46,11 @@ def valkyrie_on_save(ctx):
 	cfg.set_bool("show_gank_alerts",	 show_gank_alerts)
 
 def draw_portrait_world(ctx, champ, start, color = Col.Gray, distance = None):
+
 	ctx.image(champ.name + '_square', start, Vec2(size_portrait_world, size_portrait_world), Col.White if champ.visible else color)
+	draw_spell_track(ctx, champ.spells[4], start + Vec2(size_portrait_world/2, -20), 21, 15)
+	draw_spell_track(ctx, champ.spells[5], start + Vec2(size_portrait_world/2, 3), 21, 15)
+	
 	if not champ.visible:
 		ctx.text(start, f'{int(ctx.time - champ.last_seen)}', Col.Red)
 		

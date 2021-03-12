@@ -48,3 +48,16 @@ class Circle:
 	
 	def __str__(self):
 		return json.dumps([self.radius, self.num_pts, self.width, [self.color.r, self.color.g, self.color.b, self.color.a], self.filled, self.enabled])
+		
+def draw_spell_track(ctx, spell, pos, size, rounding):
+
+	cd = spell.cd
+	color = Col.White
+	if spell.lvl == 0:
+		color = Col.Gray
+	if cd > 0.0:
+		color = Col.Red
+		
+	ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size, size), color, rounding)
+	if cd > 0.0 and size > 20:
+		ctx.text(pos, str(int(cd)), Col.White)

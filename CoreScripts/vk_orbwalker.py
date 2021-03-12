@@ -5,6 +5,7 @@ from helpers.inputs import KeyInput
 from helpers.spells import Buffs
 from time import time
 from enum import Enum
+from helpers.flags import EvadeFlags
 
 target_selector         = TargetSelector(0, TargetSet.Champion)
 target_selector_monster = TargetSelector(0, TargetSet.Monster)
@@ -83,6 +84,7 @@ def valkyrie_menu(ctx):
 	global key_kite, key_last_hit, key_lane_push
 	ui = ctx.ui
 	
+	ui.text('Settings', Col.Purple)
 	target_selector.ui("Champion targeting", ui)
 	target_selector_monster.ui('Monster targeting', ui)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
@@ -125,6 +127,10 @@ last_attacked = 0
 def valkyrie_exec(ctx):
 	global last_moved, last_attacked
 	
+	now = time()
+	if now < EvadeFlags.EvadeEndTime:
+		return
+	
 	player = ctx.player   
 	if player.dead:
 		return
@@ -151,7 +157,6 @@ def valkyrie_exec(ctx):
 	b_windup_time    = player.static.basic_atk_windup*c_atk_time						
 	
 	target = None
-	now = time()
 	dt = now - last_attacked
 	
 	if dt > c_atk_time:

@@ -58,6 +58,6 @@ object SpellCast::GetStaticData()
 
 float SpellCast::RemainingCastTime() const
 {
-	float remaining = timeBegin + castTime - Valkyrie::CurrentGameState->time;
+	float remaining = castTime - (Valkyrie::CurrentGameState->time - timeBegin);
 	return (remaining < 0.f ? 0.f : remaining);
 }

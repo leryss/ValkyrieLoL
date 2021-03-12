@@ -30,11 +30,12 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	});
 
 	class_<FutureCollision>("FutureCollision", "Information about a future collision between a spell and a unit")
-		.def_readonly("spell",               &FutureCollision::GetCastPy, "The spell in the collision")
-		.def_readonly("unit",                &FutureCollision::GetUnitPy, "The unit in the collision")
+		.def_readonly("spell",               &FutureCollision::GetCastPy,          "The spell in the collision")
+		.def_readonly("unit",                &FutureCollision::GetUnitPy,          "The unit in the collision")
 		.def_readonly("unit_pos",            &FutureCollision::unitCollisionPoint, "The unit position at the moment of collision")
 		.def_readonly("spell_pos",           &FutureCollision::castCollisionPoint, "The spell position at the moment of collision")
-		.def_readonly("final",               &FutureCollision::isFinal,   "True if the projectile will not go further after this collision. Useful for drawing indicators")
+		.def_readonly("final",               &FutureCollision::isFinal,            "True if the projectile will not go further after this collision. Useful for drawing indicators")
+		.def_readonly("time_until_impact",   &FutureCollision::timeUntilImpact,    "Time in seconds until the collision occurs")
 		;
 
 	class_<GameBuff>("Buff", "Contains data related to a buff on a champion")
@@ -284,13 +285,12 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Returns jungle monster query builder")
 		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Returns other uncategorized objects query builder")
 
-		.def_readonly("onscreen_minions", &PyExecutionContext::OnScreenMinions, "")
-
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit,     "")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,     "")
 		.def("attack",                   &PyExecutionContext::AttackUnit,        "Makes the player attack the given unit")
 		.def("move",                     &PyExecutionContext::MoveToLocation,    "Moves the player to the given location")
 		.def("move",                     &PyExecutionContext::MoveToMouse,       "Moves the player to where the mouse cursor is")
+		.def("move_mouse",               &PyExecutionContext::MoveMouse,         "Moves the mouse location to the specified game world coordinate")
 
 		.def("is_held",                  &PyExecutionContext::IsKeyDown,         "Checks if key is held down")
 		.def("was_pressed",              &PyExecutionContext::WasKeyPressed,     "Checks if key was pressed")

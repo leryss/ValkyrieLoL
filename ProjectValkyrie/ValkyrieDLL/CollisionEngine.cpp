@@ -94,6 +94,7 @@ void CollisionEngine::FindCollisionsRaytraced(const Vector3 & spell_start, const
 	
 	float deltaXSpell = cast->dir.x * timePerIter * castStatic->speed;
 	float deltaYSpell = cast->dir.z * timePerIter * castStatic->speed;
+	float castTime    = cast->RemainingCastTime() + castStatic->delay;
 
 	for(auto& pair : objects) {
 		auto& target = pair.first;
@@ -107,7 +108,6 @@ void CollisionEngine::FindCollisionsRaytraced(const Vector3 & spell_start, const
 		float deltaY = 0.f;
 
 		if (target->isMoving) {
-			float castTime = cast->RemainingCastTime() + castStatic->delay;
 			if (castTime > 0.f) {
 				targetPos.x += target->dir.x*target->moveSpeed*castTime;
 				targetPos.y += target->dir.z*target->moveSpeed*castTime;
@@ -122,7 +122,8 @@ void CollisionEngine::FindCollisionsRaytraced(const Vector3 & spell_start, const
 
 		for (int i = 0; i < iterations; ++i) {
 			if (targetPos.distance(spellPos) < target->staticData->gameplayRadius + castStatic->width) {
-				AddCollisionEntry(new FutureCollision(target, cast, targetPos, spellPos, pair.second));
+				
+				AddCollisionEntry(new FutureCollision(target, cast, targetPos, spellPos, pair.second, castTime + timePerIter*i));
 				if (pair.second)
 					return;
 				break;
@@ -133,51 +134,6 @@ void CollisionEngine::FindCollisionsRaytraced(const Vector3 & spell_start, const
 
 			targetPos.x += deltaX;
 			targetPos.y += deltaY;
-		}
-	}
-}
-
-void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo* sstatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
-{
-	auto sstart = Vector2(spell_start.x, spell_start.z);
-	auto sspeed = Vector2(cast->dir.x * sstatic->speed, cast->dir.z * sstatic->speed);
-
-	for (auto& pair : objects) {
-		
-		auto target = pair.first;
-		if (target->staticData == nullptr) {
-			Logger::Warn("Obj %s doesn't have staticData", target->name.c_str());
-			continue;
-		}
-
-		auto tstart = Vector2(target->pos.x, target->pos.z);
-		Vector2 tspeed(0.f, 0.f);
-		if (target->isMoving) {
-			
-			/// If cast time is still we predict the target position in the future after casting is done
-			float castTime = cast->RemainingCastTime() + sstatic->delay;
-			if (castTime > 0.f) {
-				tstart = tstart.add(Vector2(target->dir.x, target->dir.z).scale(target->moveSpeed*castTime));
-			}
-
-			tspeed.x = target->dir.x * target->moveSpeed;
-			tspeed.y = target->dir.z * target->moveSpeed;
-		}
-
-		Vector2 T = LinearCollision(sstart, sspeed, tstart, tspeed, sstatic->width + target->staticData->gameplayRadius);
-		
-
-		if (T.x > 0.f && T.y > 0.f) {
-			
-			Vector2 spellColPt = sstart.add(sspeed.vscale(T));
-			Vector2 unitColPt = tstart.add(tspeed.vscale(T));
-			if (sstart.distance(unitColPt) > (sstart.distance(Vector2(cast->end.x, cast->end.z))) )
-				continue;
-
-			AddCollisionEntry(new FutureCollision(target, cast, unitColPt, spellColPt, pair.second));
-
-			if (pair.second) /// Check if collision is strict/final, then we stop the checking here since the projectile wont go further
-				break;
 		}
 	}
 }
@@ -213,7 +169,7 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 		}
 		
 		if (targetFuturePos.distance(cast->end) < (castStatic->castRadius + target->staticData->gameplayRadius)) {
-			AddCollisionEntry(new FutureCollision(target, cast, Vector2(targetFuturePos.x, targetFuturePos.z), Vector2(cast->end.x, cast->end.z), false));
+			AddCollisionEntry(new FutureCollision(target, cast, Vector2(targetFuturePos.x, targetFuturePos.z), Vector2(cast->end.x, cast->end.z), false, secsUntilSpellHits));
 		}
 	}
 }
@@ -303,13 +259,14 @@ FutureCollision::FutureCollision()
 {
 }
 
-FutureCollision::FutureCollision(const GameUnit* unit, const SpellCast* cast, const Vector2& unitColPt, const Vector2& castColPt, bool isFinal)
+FutureCollision::FutureCollision(const GameUnit* unit, const SpellCast* cast, const Vector2& unitColPt, const Vector2& castColPt, bool isFinal, float timeUntilImpact)
 	:
 	unit(unit),
 	cast(cast),
 	unitCollisionPoint(unitColPt),
 	castCollisionPoint(castColPt),
-	isFinal(isFinal)
+	isFinal(isFinal),
+	timeUntilImpact(timeUntilImpact)
 {
 }
 

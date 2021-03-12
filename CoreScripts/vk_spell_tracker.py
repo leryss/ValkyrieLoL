@@ -1,4 +1,5 @@
 from valkyrie import *
+from helpers.drawings import draw_spell_track
 import json
 
 show_enemies = None
@@ -18,12 +19,13 @@ def valkyrie_menu(ctx):
 	global show_enemies, show_allies, show_self, settings
 	
 	ui = ctx.ui
+	ui.text('Show settings', Col.Purple)
 	show_enemies = ui.checkbox("Show for enemies", show_enemies)
 	show_allies  = ui.checkbox("Show for allies", show_allies)
 	show_self	= ui.checkbox("Show for self", show_self)
 	
 	ui.separator()
-	ui.text('Customization')
+	ui.text('Customization', Col.Purple)
 	for i, (name, offset, rounding, size, show) in enumerate(settings):
 		
 		spell = ctx.player.spells[i]
@@ -56,19 +58,6 @@ def valkyrie_on_save(ctx):
 	cfg.set_bool("show_self",	show_self)
 	
 	cfg.set_str("settings", json.dumps(settings))
-	
-def draw_spell(ctx, spell, pos, size, rounding):
-
-	cd = spell.cd
-	color = Col.White
-	if spell.lvl == 0:
-		color = Col.Gray
-	if cd > 0.0:
-		color = Col.Red
-		
-	ctx.image(spell.static.icon if spell.static else 'none', pos, Vec2(size, size), color, rounding)
-	if cd > 0.0 and size > 20:
-		ctx.text(pos, str(int(cd)), Col.White)
 
 def draw_tracker_for(ctx, champ):
 	pos = champ.hpbar_pos
@@ -76,7 +65,7 @@ def draw_tracker_for(ctx, champ):
 	for i in range(0, 6):
 		name, offset, rounding, size, show = settings[i]
 		if show:
-			draw_spell(ctx, spells[i], Vec2(pos.x + offset[0], pos.y + offset[1]), size, rounding)
+			draw_spell_track(ctx, spells[i], Vec2(pos.x + offset[0], pos.y + offset[1]), size, rounding)
 	
 def valkyrie_exec(ctx):
 	

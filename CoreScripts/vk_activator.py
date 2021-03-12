@@ -101,7 +101,7 @@ class ActivatorQSS:
 						if remaining_duration < self.min_slow_duration and ctx.player.move_speed > self.ms_breakpoint:
 							return None
 					else:
-						if min_cc_duration < self.min_cc_duration:
+						if remaining_duration < self.min_cc_duration:
 							return None
 					
 					return ctx.player
@@ -233,6 +233,7 @@ def valkyrie_menu(ctx):
 	global activators
 	ui = ctx.ui
 	
+	ui.text('Activables', Col.Purple)
 	for name, activator in activators.items():
 		ui.image(activator.get_icon(), Vec2(16, 16))
 		ui.sameline()

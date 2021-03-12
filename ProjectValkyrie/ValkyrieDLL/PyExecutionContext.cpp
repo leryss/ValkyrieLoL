@@ -85,6 +85,11 @@ void PyExecutionContext::MoveToLocation(const Vector3 & location)
 	}
 }
 
+void PyExecutionContext::MoveMouse(const Vector3 & worldLocation)
+{
+	currentScript->input.SetMouseCursor(World2Screen(worldLocation));
+}
+
 void PyExecutionContext::AttackUnit(const GameUnit & unit)
 {
 	if (!state->hud.isChatOpen)
@@ -138,16 +143,6 @@ bool PyExecutionContext::IsInFountain(const GameObject & obj)
 			return true;
 	}
 	return false;
-}
-
-list PyExecutionContext::OnScreenMinions()
-{
-	list l = list();
-	for (auto& m : state->minions) {
-		if (state->renderer.IsWorldPointOnScreen(m->pos))
-			l.append(ptr(m.get()));
-	}
-	return l;
 }
 
 PyExecutionContext::PyExecutionContext()

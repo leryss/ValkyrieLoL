@@ -54,6 +54,7 @@ public:
 	bool    WasKeyPressed(int key);
 	void    MoveToMouse();
 	void    MoveToLocation(const Vector3& location);
+	void    MoveMouse(const Vector3& worldLocation);
 	void    AttackUnit(const GameUnit& unit);
 
 	list    GetCollisionsForUnit(const GameUnit& unit);
@@ -72,8 +73,6 @@ public:
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsWorldPointOnScreenOverloads, IsWorldPointOnScreen, 1, 3);
 	bool    IsWorldPointOnScreen(const Vector3& point, float offsetX = 0.f, float offsetY = 0.f);
 	bool    IsInFountain(const GameObject& obj);
-
-	list    OnScreenMinions();
 
 	void    DrawRectWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, const Vector3& p4, float thickness, const ImVec4& color);
 	void    DrawTriangleWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, float thickness, const ImVec4& color);
