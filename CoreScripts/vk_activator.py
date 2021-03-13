@@ -71,7 +71,7 @@ class ActivatorQSS:
 		self.ms_breakpoint     = ms_breakpoint
 		self.buff_settings     = buff_settings
 		
-	def ui(self, ui):
+	def ui(self, ctx, ui):
 		self.enabler.ui(ui)
 		for buff, enabled in self.buff_settings.items():
 			self.buff_settings[buff] = ui.checkbox(f'Cleanse on {CCType.Names[int(buff)]}', enabled)
@@ -131,9 +131,9 @@ class ActivatorSmite:
 		self.enabler = enabler
 		self.sel_monster = selector_monster
 		
-	def ui(self, ui):
+	def ui(self, ctx, ui):
 		self.enabler.ui(ui)
-		self.sel_monster.ui('Targeting Monsters', ui)
+		self.sel_monster.ui('Targeting Monsters', ctx, ui)
 		
 	def check(self, ctx, spell):
 		if self.enabler.check(ctx):
@@ -163,6 +163,7 @@ class ActivatorSmite:
 class ActivatorPotion:
 
 	pot_buffs = {
+		'item2010'             : 'Item2010',
 		'item2003'             : 'Item2003',
 		'itemcrystalflask'     : 'ItemCrystalFlask',
 		'itemdarkcrystalflask' : 'ItemDarkCrystalFlask'
@@ -172,7 +173,7 @@ class ActivatorPotion:
 		self.enabler = enabler
 		self.hp_breakpoint = hp_breakpoint
 		
-	def ui(self, ui):
+	def ui(self, ctx, ui):
 		self.enabler.ui(ui)
 		self.hp_breakpoint = ui.sliderfloat('When below % HP', self.hp_breakpoint, 0.0, 99.0)
 		
@@ -224,6 +225,7 @@ spell_to_activator = {
 	'6035_spell'                   : 'QSS', # Silvermere Dawn active
 	'itemmercurial'                : 'QSS', # Mercurial active
 	
+	'item2010'                     : 'Potion', # Biscuit
 	'item2003'                     : 'Potion', # Red potion
 	'itemcrystalflask'             : 'Potion', # Refillable potion
 	'itemdarkcrystalflask'         : 'Potion'  # Corruption potion
@@ -238,7 +240,7 @@ def valkyrie_menu(ctx):
 		ui.image(activator.get_icon(), Vec2(16, 16))
 		ui.sameline()
 		if ui.beginmenu(activator.get_name()):
-			activator.ui(ui)
+			activator.ui(ctx, ui)
 			ui.endmenu()
 
 def valkyrie_on_load(ctx):

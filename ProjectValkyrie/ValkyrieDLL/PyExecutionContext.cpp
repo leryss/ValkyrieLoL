@@ -189,6 +189,11 @@ object PyExecutionContext::GetConfig()
 	return object(boost::ref(currentScript->config));
 }
 
+Vector2 PyExecutionContext::GetMousePosition()
+{
+	return currentScript->input.GetMouseCursor();
+}
+
 void PyExecutionContext::SetScript(Script * script)
 {
 	this->currentScript = script;

@@ -51,5 +51,7 @@ public:
 	Vector3        dir;
 	bool           isMoving;
 	bool           isVisible;
+
+	float          firstSeen;
 	float          lastSeen;
 };

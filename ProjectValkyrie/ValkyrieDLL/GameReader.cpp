@@ -254,6 +254,7 @@ void GameReader::ReadGameObject(int address)
 			}
 
 			obj->ReadFromBaseAddress(address);
+			obj->firstSeen = state.time;
 			AddToCache(obj);
 		}
 		else {

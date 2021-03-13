@@ -261,6 +261,7 @@ void Valkyrie::SaveConfigs()
 	Configs.SetBool("show_console", ShowConsoleWindow);
 	Configs.SetBool("show_obj_explorer", ShowConsoleWindow);
 	Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
+
 	Configs.SetInt("show_key", ShowMenuKey);
 	Configs.SetInt("menu_style", MenuStyle);
 	Configs.SetFloat("ping", AveragePing);

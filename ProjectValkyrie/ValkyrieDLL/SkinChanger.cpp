@@ -6,7 +6,6 @@
 int SkinChanger::CurrentSkinIndex   = 0;
 int SkinChanger::CurrentChromaIndex = -1;
 int SkinChanger::CurrentSkinId      = -1;
-bool SkinChanger::HasDied = false;
 
 void SkinChanger::ImGuiDraw()
 {
@@ -31,6 +30,7 @@ void SkinChanger::ImGuiDraw()
 	auto& chromas = skins[CurrentSkinIndex]->chromas;
 	if (chromas.size() > 0)
 		ImGui::Text("Chromas");
+
 	for (size_t i = 0; i < chromas.size(); ++i) {
 		ImGui::PushID(chromas[i].id);
 		if (ImGui::ColorButton(" ", chromas[i].color)) {

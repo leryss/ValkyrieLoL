@@ -76,7 +76,7 @@ Settings = {
 	],                                                                                            
 	'ahri' : [                                                                                    
 		EvadeSettings(name = 'Ahri Q',                cast_names = ['ahriorbofdeception'],        missile_names = ['ahriorbmissile']),
-		EvadeSettings(name = 'Ahri E',            cast_names = ['ahriseduce'],                missile_names = ['ahriseducemissile'])
+		EvadeSettings(name = 'Ahri E',                cast_names = ['ahriseduce'],                missile_names = ['ahriseducemissile'])
 	],                                                                                            
 	'akali': [                                                                                    
 		EvadeSettings(name = 'Akali Q',               cast_names = ['akaliq'],                    missile_names = []),

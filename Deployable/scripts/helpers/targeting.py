@@ -2,21 +2,61 @@ import json
 from valkyrie import *
 from enum import Enum
 
-class TargeterClosestToPlayer:
+class BaseTargeter:
+	def get_score(self, ctx, target):
+		return 0
+		
+	def ui(self, ctx, ui):
+		pass
+
+class TargeterClosestToPlayer(BaseTargeter):
 	def __str__(self):
 		return "Closest To Player"
 		
 	def get_score(self, ctx, target):
 		return target.pos.distance(ctx.player.pos)
 
-class TargeterLowestHealth:
+class TargeterLowestHealth(BaseTargeter):
 	def __str__(self):
 		return "Lowest Health"
 		
 	def get_score(self, ctx, target):
 		return target.health
 		
-class TargeterMonsterLargest:
+class TargeterClosestToMouse(BaseTargeter):
+	def __str__(self):
+		return "Closest To Mouse"
+		
+	def get_score(self, ctx, target):
+		return ctx.cursor_pos.distance(ctx.w2s(target.pos))
+		
+class TargeterChampionPriority(BaseTargeter):
+	
+	def __init__(self):
+		self.priorities = {}
+		self.initialized = False
+		
+	def __str__(self):
+		return "Champion Priority"
+		
+	def get_score(self, ctx, target):
+		if not self.initialized:
+			self.init(ctx)
+		return -self.priorities.get(target.name, 0)
+		
+	def ui(self, ctx, ui):
+		if not self.initialized:
+			self.init(ctx)
+		for name, old_prio in self.priorities.items():
+			new_prio = ui.sliderint(name, old_prio, 0, 5)
+			self.priorities[name] = new_prio
+	
+	def init(self, ctx):
+		for champ in ctx.champs.enemy_to(ctx.player).get():
+			self.priorities[champ.name] = 3
+		self.initialized = True
+	
+class TargeterMonsterLargest(BaseTargeter):
 	def __str__(self):
 		return "Largest Jungle Monster"
 	
@@ -28,7 +68,7 @@ class TargeterMonsterLargest:
 		else:
 			return -10
 			
-class TargeterMonsterSmallest:
+class TargeterMonsterSmallest(BaseTargeter):
 	def __str__(self):
 		return "Smallest Jungle Monster"
 	
@@ -49,14 +89,17 @@ class TargetSelector:
 	target_sets = {
 		TargetSet.Champion: [
 			TargeterClosestToPlayer(),
-			TargeterLowestHealth()
+			TargeterLowestHealth(),
+			TargeterClosestToMouse(),
+			TargeterChampionPriority()
 		],
 		
 		TargetSet.Monster: [
 			TargeterClosestToPlayer(),
 			TargeterLowestHealth(),
 			TargeterMonsterLargest(),
-			TargeterMonsterSmallest()
+			TargeterMonsterSmallest(),
+			TargeterClosestToMouse()
 		]
 	}
 	
@@ -65,9 +108,10 @@ class TargetSelector:
 		self.targeters         = self.target_sets[target_set]
 		self.selected_targeter = selected
 	
-	def ui(self, label, ui):
+	def ui(self, label, ctx, ui):
 		ui.pushid(id(self))
 		self.selected_targeter = ui.combo(label, self.targeters, self.selected_targeter)
+		self.targeters[self.selected_targeter].ui(ctx, ui)
 		ui.popid()
 
 	def get_target(self, ctx, targets):

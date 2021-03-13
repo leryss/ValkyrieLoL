@@ -85,8 +85,8 @@ def valkyrie_menu(ctx):
 	ui = ctx.ui
 	
 	ui.text('Settings', Col.Purple)
-	target_selector.ui("Champion targeting", ui)
-	target_selector_monster.ui('Monster targeting', ui)
+	target_selector.ui("Champion targeting", ctx, ui)
+	target_selector_monster.ui('Monster targeting', ctx, ui)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
 	delay_percent  = ui.sliderfloat('Delay percent (%)', delay_percent, 0.0, 0.4)
 	key_kite.ui("Key kite champions", ui)

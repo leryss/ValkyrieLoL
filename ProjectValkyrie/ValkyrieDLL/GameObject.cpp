@@ -52,6 +52,7 @@ void GameObject::ImGuiDraw()
 	ImGui::DragInt("Index",      &idx);
 	ImGui::DragInt("Team",       &tm);
 	ImGui::DragFloat("LastSeen", &lastSeen);
+	ImGui::DragFloat("FirstSeen", &firstSeen);
 	ImGui::Checkbox("Visible",   &isVisible);
 	ImGui::Checkbox("Moving",    &isMoving);
 }

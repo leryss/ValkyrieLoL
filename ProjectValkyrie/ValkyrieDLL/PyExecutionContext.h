@@ -45,6 +45,8 @@ public:
 	object  GetOthers();
 	object  GetConfig();
 
+	Vector2 GetMousePosition();
+
 	void    SetScript(Script* script);
 	void    SetGameState(GameState* state);
 	void    SetImGuiOverlay(ImDrawList* overlay);

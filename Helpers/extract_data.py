@@ -39,7 +39,8 @@ StatTranslator = {
 	8     : 'champ.haste_multi',
 	10    : 'champ.max_hp',
 	11    : 'champ.hp',
-	23    : 'champ.lethality'
+	23    : 'champ.lethality',
+	24    : '100.0 * champ.lethality'
 }
 
 def by_level_formula(part):
@@ -266,9 +267,9 @@ def extract_unit_info(folder):
 				continue
 			
 			s = val["mSpell"]
-			#calcs = perform_spell_calculations(s)
-			#if len(calcs['data_vals']) > 0 or len(calcs['calcs']) > 0:
-			#	spell_calculations[val['mScriptName']] = calcs
+			calcs = perform_spell_calculations(s)
+			if len(calcs['data_vals']) > 0 or len(calcs['calcs']) > 0:
+				spell_calculations[val['mScriptName']] = calcs
 			
 			if s:
 				icon_name = os.path.basename(s.get("mImgIconName", [""])[0]).lower().replace(".dds", "")

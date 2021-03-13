@@ -109,6 +109,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("pos",               &GameObject::pos,                 "Position of the object")
 		.def_readonly("visible",           &GameObject::isVisible,           "True if object is visible")
 		.def_readonly("last_seen",         &GameObject::lastSeen,            "Timestamp in game time for when the object was last visible")
+		.def_readonly("first_seen",        &GameObject::firstSeen,           "When the object was first seen")
 		.def_readonly("dir",               &GameObject::dir,                 "Direction the object is facing as a normalized Vec3")
 		.def_readonly("moving",            &GameObject::isMoving,            "True if object is moving")
 																             
@@ -275,6 +276,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("cfg",             &PyExecutionContext::GetConfig,         "The script config interface. Used to load/save settings")
 		.def_readonly("time",            &PyExecutionContext::time,              "Current game duration in seconds")
 		.def_readonly("ping",            &PyExecutionContext::ping,              "Current ping of the game")
+		.def_readonly("cursor_pos",      &PyExecutionContext::GetMousePosition,  "Gets the current position of the mouse")
 
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Gets the game object under the mouse")
 		.def_readonly("player",          &PyExecutionContext::player,            "The champion used by the local player. In replays this will be a random champion")
@@ -294,7 +296,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 		.def("is_held",                  &PyExecutionContext::IsKeyDown,         "Checks if key is held down")
 		.def("was_pressed",              &PyExecutionContext::WasKeyPressed,     "Checks if key was pressed")
-
+		
 		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
 		.def("get_spell_static",         &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
 
