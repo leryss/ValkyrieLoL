@@ -44,7 +44,21 @@ object PyExecutionContext::GetSpellInfo(const char* label) {
 	return object(ptr(GameData::GetSpell(labelStr)));
 }
 
-bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3& targetLocation) {
+bool PyExecutionContext::StartChannel(GameSpell * spell)
+{
+	/// Check if castable
+	if (spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
+		return false;
+
+	currentScript->input.IssueHoldKey(spell->castKey);
+}
+
+bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLocation)
+{
+	return CastSpell(spell, targetLocation);
+}
+
+bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocation) {
 	
 	auto now = steady_clock::now();
 	duration<float, std::milli> diff = now - spell->lastCastTimestamp;
@@ -55,15 +69,31 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3& targetLocati
 	if (spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
 		return false;
 
-	/// Check if something already casting
-	if (state->player->isCasting)
-		return false;
-
-	Vector2 screenPos = state->renderer.WorldToScreen(targetLocation);
-	currentScript->input.IssuePressKeyAt(spell->castKey, [screenPos] { return screenPos; });
+	if (targetLocation != nullptr) {
+		Vector2 screenPos = state->renderer.WorldToScreen(*targetLocation);
+		currentScript->input.IssuePressKeyAt(spell->castKey, [screenPos] { return screenPos; });
+	}
+	else
+		currentScript->input.IssuePressKey(spell->castKey);
+	
 	spell->lastCastTimestamp = steady_clock::now();
 
 	return true;
+}
+
+
+object PyExecutionContext::PredictCastPoint(const GameUnit & caster, const GameUnit& target, const GameSpell * info)
+{
+	if (info->staticData == nullptr) {
+		return object();
+	}
+
+	Vector3 point;
+
+	if (!collisionEngine.PredictPointForCollision(caster, target, *info->staticData, point))
+		return object();
+
+	return object(point);
 }
 
 void PyExecutionContext::MoveToMouse() {

@@ -37,8 +37,8 @@ public:
 	void IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter);
 	void IssueClick(ClickType type);
 	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter);
-
 	void IssueClickUnit(ClickType type, const GameUnit& unit);
+	void IssueHoldKey(HKey key);
 
 	static int ImGuiKeySelect(const char* label, int key);
 

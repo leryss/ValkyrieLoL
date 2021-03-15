@@ -293,11 +293,13 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("move",                     &PyExecutionContext::MoveToLocation,    "Moves the player to the given location")
 		.def("move",                     &PyExecutionContext::MoveToMouse,       "Moves the player to where the mouse cursor is")
 		.def("move_mouse",               &PyExecutionContext::MoveMouse,         "Moves the mouse location to the specified game world coordinate")
-
 		.def("is_held",                  &PyExecutionContext::IsKeyDown,         "Checks if key is held down")
 		.def("was_pressed",              &PyExecutionContext::WasKeyPressed,     "Checks if key was pressed")
 		
+		.def("start_channel",            &PyExecutionContext::StartChannel,      "Starts a channeled spell")
+		.def("end_channel",              &PyExecutionContext::EndChannel,        "Ends and casts the channeled spell at the target location")
 		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
+		.def("predict_cast_point",       &PyExecutionContext::PredictCastPoint,  "Predicts a cast point such that the spell will hit the target. Returns None if doesnt find such a point")
 		.def("get_spell_static",         &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
 
 		.def("is_at_spawn",              &PyExecutionContext::IsInFountain,      "Checks if the object is in the fountain of his team")
@@ -435,11 +437,11 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("CastAnywhere",    CastAnywhere)
 		.value("CastTarget",      CastTarget)
 		.value("CastDirection",   CastDirection)
+		.value("CastSelf",        CastSelf)
 								  
 		.value("TypeLine",        TypeLine)
 		.value("TypeArea",        TypeArea)
 		.value("TypeCone",        TypeCone)
-		.value("TypeTargeted",    TypeTargeted)
 
 		.value("CollideWindwall", CollideWindwall)
 		.value("CollideMinion",   CollideMinion)
@@ -452,6 +454,9 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 		.value("CollideCommon",   CollideCommon)
 		.value("AffectAllUnits",  AffectAllUnits)
+
+		.value("DashSkill",       DashSkill)
+		.value("ChannelSkill",    ChannelSkill)
 		;
 	
 	enum_<UnitTag>("Unit", "Riot unit tags extracted from the game files. These are not compatible with bitwise operations so writing things like Unit.Monster | Unit.Plant will not yield a tag that has both of those.")

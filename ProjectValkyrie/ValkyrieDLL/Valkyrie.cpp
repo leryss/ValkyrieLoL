@@ -9,9 +9,9 @@
 #include "PyStructs.h"
 #include "OffsetScanner.h"
 #include "SkinChanger.h"
-#include "FakeMouse.h"
 #include "ValkyrieShared.h"
 
+#include "FakeMouse.h"
 #include "D3DX9Shader.h"
 
 #include <boost/exception/diagnostic_information.hpp>
@@ -522,7 +522,7 @@ LRESULT ImGuiWindowMessageHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 		return true;
 	}
 
-	return 0;
+	return true;
 }
 
 LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -541,5 +541,6 @@ LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM 
 		::PostQuitMessage(0);
 		return 0;
 	}
+	
 	return CallWindowProcA(OriginalWindowMessageHandler, hWnd, msg, wParam, lParam);
 }

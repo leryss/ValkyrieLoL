@@ -2,28 +2,32 @@
 #include "imgui/imgui.h"
 
 std::map<std::string, SpellFlags> SpellInfo::FlagMap = {
-	{ "CastPoint", CastPoint },
-	{ "CastAnywhere", CastAnywhere },
-	{ "CastTarget", CastTarget },
-	{ "CastDirection", CastDirection },
-
-	{ "TypeLine", TypeLine },
-	{ "TypeArea", TypeArea },
-	{ "TypeCone", TypeCone },
-	{ "TypeTargeted", TypeTargeted },
-	{ "TypeRect", TypeRect },
+	{ "CastPoint",       CastPoint },
+	{ "CastAnywhere",    CastAnywhere },
+	{ "CastTarget",      CastTarget },
+	{ "CastDirection",   CastDirection },
+	{ "CastSelf",        CastSelf },
+					     
+	{ "Line",            TypeLine },
+	{ "Area",            TypeArea },
+	{ "Cone",            TypeCone },
+	{ "Rect",            TypeRect },
 
 	{ "CollideWindwall", CollideWindwall },
-	{ "CollideMinion", CollideMinion },
+	{ "CollideMinion",   CollideMinion },
 	{ "CollideChampion", CollideChampion },
-	{ "CollideMonster", CollideMonster },
+	{ "CollideMonster",  CollideMonster },
 
-	{ "AffectMinion", AffectMinion },
-	{ "AffectChampion", AffectChampion },
-	{ "AffectMonster", AffectMonster },
+	{ "AffectMinion",    AffectMinion },
+	{ "AffectChampion",  AffectChampion },
+	{ "AffectMonster",   AffectMonster },
+						 
+	{ "CollideCommon",   CollideCommon },
+	{ "AffectAll",       AffectAllUnits },
+					     
+	{ "Dash",            DashSkill },
+	{ "Channel",         ChannelSkill},
 
-	{ "CollideCommon", CollideCommon },
-	{ "AffectAllUnits", AffectAllUnits }
 };
 
 void SpellInfo::AddFlag(std::string & flag)

@@ -11,12 +11,15 @@ enum SpellFlags {
 	CastAnywhere     = (1 << 1),
 	CastTarget       = (1 << 2),
 	CastDirection    = (1 << 3),
+	CastSelf         = (1 << 4),
 
-	TypeLine         = (1 << 4),
-	TypeArea         = (1 << 5),
-	TypeCone         = (1 << 6),
-	TypeTargeted     = (1 << 7),
+	TypeLine         = (1 << 5),
+	TypeArea         = (1 << 6),
+	TypeCone         = (1 << 7),
 	TypeRect         = (1 << 8),
+	///
+	///
+	///
 
 	CollideWindwall  = (1 << 12),
 	CollideMinion    = (1 << 13),
@@ -27,7 +30,10 @@ enum SpellFlags {
 	AffectChampion   = (1 << 17),
 	AffectMonster    = (1 << 18),
 
-	SpellAllTypes   = TypeLine | TypeArea | TypeCone | TypeTargeted | TypeRect,
+	DashSkill        = (1 << 19),
+	ChannelSkill     = (1 << 20),
+
+	SpellAllTypes   = TypeLine | TypeArea | TypeCone | TypeRect,
 	CollideCommon   = CollideWindwall | CollideMinion | CollideChampion | CollideMonster,
 	AffectAllUnits  = AffectMinion | AffectChampion | AffectMonster
 };

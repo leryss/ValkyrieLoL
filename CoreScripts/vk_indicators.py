@@ -189,9 +189,9 @@ def valkyrie_exec(ctx):
 		draw_minion_hit_indicators(ctx)
 	
 	if show_casting_spells:
-		for champ in ctx.champs.casting().enemy_to(ctx.player).near(ctx.player, 3000).get():
+		for champ in ctx.champs.casting().ally_to(ctx.player).near(ctx.player, 3000).get():
 			draw_cast(ctx, champ)
 	
 	if show_missiles:
-		for missile in ctx.missiles.enemy_to(ctx.player).near(ctx.player, 3000).get():
+		for missile in ctx.missiles.ally_to(ctx.player).near(ctx.player, 3000).get():
 			draw_missile(ctx, missile)

@@ -139,7 +139,7 @@ class ActivatorSmite:
 		if self.enabler.check(ctx):
 			ctx.pill('Smite', Col.Black, Col.Yellow)
 			
-			target = self.sel_monster.get_target(ctx, ctx.jungle, 500.0)
+			target = self.sel_monster.get_target(ctx, ctx.jungle.near(ctx.player, 500).get())
 			if target and target.health - self.smite_dmg[ctx.player.lvl - 1] <= 0.0 and (target.has_tags(Unit.MonsterLarge) or target.has_tags(Unit.MonsterEpic)):
 				return target
 			

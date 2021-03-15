@@ -139,6 +139,11 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 	ioQueue.push(new IoUnspoofMouse());
 }
 
+void InputController::IssueHoldKey(HKey key)
+{
+	ioQueue.push(new IoPressKey(key));
+}
+
 void DrawButton(HKey key, HKey& clickedBtn, bool& wasClicked) {
 	if (ImGui::Button(HKeyNames[key])) {
 		clickedBtn = key;

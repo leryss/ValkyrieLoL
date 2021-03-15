@@ -255,7 +255,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "aatroxq",
@@ -511,7 +511,7 @@
         "speed": 2200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "Dash", "AffectAll"]
     },
     {
         "name": "ahrifoxfiremissile",
@@ -575,7 +575,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastSelf", "AffectAll"]
     },
     {
         "name": "ahritumblemissile",
@@ -607,7 +607,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "ahriseduce",
@@ -623,7 +623,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "ahriorbmissile",
@@ -639,7 +639,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "ahriseducemissile",
@@ -655,7 +655,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "ahricritattack",
@@ -735,7 +735,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "akalibasicattack",
@@ -783,7 +783,7 @@
         "speed": 3200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "akalip",
@@ -975,7 +975,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "akalibasicattack3",
@@ -1151,7 +1151,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "akalir",
@@ -1167,7 +1167,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "akaliwsmokeparentriver",
@@ -1295,7 +1295,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "akalie",
@@ -1311,7 +1311,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "ferocioushowl",
@@ -1327,7 +1327,7 @@
         "speed": 828.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "ferocioushowl_urf",
@@ -1407,7 +1407,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "pulverize",
@@ -1423,7 +1423,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "alistarpassiveheal",
@@ -1455,7 +1455,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "alistarbasicattack",
@@ -1503,7 +1503,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "auraofdespair",
@@ -1519,7 +1519,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "nightmarebotamumur",
@@ -1583,7 +1583,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere", "Area"]
     },
     {
         "name": "curseofthesadmummy",
@@ -1599,7 +1599,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere", "Area"]
     },
     {
         "name": "amumubasicattack2",
@@ -1647,7 +1647,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "glacialstormspell",
@@ -1663,7 +1663,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "aniviabasicattack",
@@ -1711,7 +1711,7 @@
         "speed": 950.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "flashfrost",
@@ -1775,7 +1775,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "rebirthmarker",
@@ -1807,7 +1807,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "infernalguardianguide",
@@ -1871,7 +1871,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "AffectAll" ]
     },
     {
         "name": "annieq",
@@ -1887,7 +1887,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "anniee",
@@ -1903,7 +1903,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastSelf"]
     },
     {
         "name": "nightmarebotannieinfernalguardian",
@@ -1967,7 +1967,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "anniercontroller",
@@ -2159,7 +2159,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "apheliosq_clienttooltipwrapper",
@@ -2319,7 +2319,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Cone", "AffectAll", "CollideCommon"]
     },
     {
         "name": "apheliosseverumlineattack",
@@ -2575,7 +2575,7 @@
         "speed": 2050.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "aphelioscrescendumattackmisout",
@@ -2607,7 +2607,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "apheliosseverumattack",
@@ -2655,7 +2655,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "apheliosw",
@@ -2719,7 +2719,7 @@
         "speed": 2050.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "aphelioscrescendumattackmisoutmini",
@@ -2799,7 +2799,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "enchantedcrystalarrow",
@@ -2815,7 +2815,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectChampion" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectChampion" ]
     },
     {
         "name": "ashespiritofthehawkcast",
@@ -2879,7 +2879,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "asheq",
@@ -2895,7 +2895,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "asheqattacknoonhit",
@@ -2927,7 +2927,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "volleyrank4",
@@ -2943,7 +2943,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "ashebasicattack",
@@ -2975,7 +2975,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "volleyrank2",
@@ -2991,7 +2991,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "ashepassive",
@@ -3071,7 +3071,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "ashecritattack",
@@ -3103,7 +3103,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "ashespiritofthehawk",
@@ -3119,7 +3119,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "assassinmode_objective_boss2basicattack3",
@@ -3183,7 +3183,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "aurelionsolq",
@@ -3199,7 +3199,7 @@
         "speed": 850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "aurelionsolstarmissile",
@@ -3231,7 +3231,7 @@
         "speed": 4500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "aurelionsolw",
@@ -3247,7 +3247,7 @@
         "speed": 300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "aurelionsolpassive",
@@ -3311,7 +3311,7 @@
         "speed": 4500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "aurelionsolecancelbutton",
@@ -3327,7 +3327,7 @@
         "speed": 850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "aurelionsolqmissile",
@@ -3423,7 +3423,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "azirqwrapper",
@@ -3439,7 +3439,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "azirwtower",
@@ -3487,7 +3487,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "azirq",
@@ -3510,16 +3510,16 @@
         "parent": "",
         "icon": "azir_r",
         "castTime": 0.5,
-        "castRange": 250.0,
+        "castRange": 500.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
-        "width": 0.0,
+        "width": 275.0,
         "height": 0.0,
-        "speed": 100000.0,
+        "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "azirdummyspell",
@@ -3983,7 +3983,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "bardecreatedoor",
@@ -4047,7 +4047,7 @@
         "speed": 100000.0,
         "travelTime": 0.5,
         "delay": 0.5,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "bardw",
@@ -4063,7 +4063,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "bardq",
@@ -4079,7 +4079,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "bardpspiritmissile",
@@ -4111,7 +4111,7 @@
         "speed": 100000.0,
         "travelTime": 0.5,
         "delay": 0.5,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "bardbasicattack",
@@ -4143,7 +4143,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "bardcritattack",
@@ -4351,7 +4351,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "staticfield",
@@ -4367,7 +4367,7 @@
         "speed": 347.79998779296875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "nightmarebotblitzcrankrocketgrabsidemissile",
@@ -4431,7 +4431,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "powerfistattack",
@@ -4479,7 +4479,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "nightmarebotblitzcrankstaticfield",
@@ -4527,7 +4527,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "blitzcrankbasicattack2",
@@ -4719,7 +4719,7 @@
         "speed": 900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "nightmarebotbrandqmissile",
@@ -4863,7 +4863,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "brandr",
@@ -4879,7 +4879,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "brandw",
@@ -4895,7 +4895,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.627,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "brandscorchattack",
@@ -4927,7 +4927,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "braumw",
@@ -4943,7 +4943,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "braumq",
@@ -4959,7 +4959,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "braumpulselinepopup",
@@ -5071,7 +5071,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "braumpulselinewrapper",
@@ -5135,7 +5135,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "braumcritattack",
@@ -5183,7 +5183,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "braumblockstancetimermis1",
@@ -5263,7 +5263,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "braumpassive",
@@ -5567,7 +5567,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "caitlynentrapmentmissile",
@@ -5583,7 +5583,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "caitlynaceintheholemissile",
@@ -5615,7 +5615,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "caitlynentrapment",
@@ -5631,7 +5631,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "caitlynpiltoverpeacemaker",
@@ -5647,7 +5647,7 @@
         "speed": 2200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "camillebasicattack",
@@ -6047,7 +6047,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "cassiopeiarstun",
@@ -6079,7 +6079,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "cassiopeiaq",
@@ -6095,7 +6095,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "cassiopeiar",
@@ -6111,7 +6111,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "AffectAll"]
     },
     {
         "name": "vorpalspikes",
@@ -6127,7 +6127,7 @@
         "speed": 347.79998779296875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "carnivore",
@@ -6278,7 +6278,7 @@
         "parent": "",
         "icon": "greenterror_feralscream",
         "castTime": 0.5,
-        "castRange": 300.0,
+        "castRange": 585.0,
         "castRadius": 210.0,
         "castConeAngle": 60.0,
         "castConeDistance": 585.0,
@@ -6287,7 +6287,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastAnywhere", "TypeCone", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "chogathbasicattack2",
@@ -6422,7 +6422,7 @@
         "parent": "",
         "icon": "greenterror_feast",
         "castTime": 0.25,
-        "castRange": 175.0,
+        "castRange": 300.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -6447,7 +6447,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.627,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "corkibasicattack2",
@@ -6511,7 +6511,7 @@
         "speed": 700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "Dash"]
     },
     {
         "name": "ggspray",
@@ -6575,23 +6575,23 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "missilebarrage",
         "parent": "",
         "icon": "corki_missilebarrage",
-        "castTime": 0.25,
+        "castTime": 0.175,
         "castRange": 1225.0,
         "castRadius": 550.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 40.0,
         "height": 0.0,
-        "speed": 828.5,
+        "speed": 2000.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "carpetbombmega",
@@ -6614,7 +6614,7 @@
         "parent": "",
         "icon": "corki_phosphorusbomb",
         "castTime": 0.25,
-        "castRange": 10000.0,
+        "castRange": 825.0,
         "castRadius": 250.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -6623,7 +6623,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "rapidreload",
@@ -6655,7 +6655,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "phosphorusbombmissile",
@@ -6671,7 +6671,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "corkibasicattack",
@@ -6703,7 +6703,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "dariushemointernal",
@@ -6735,7 +6735,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeCone", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Cone", "AffectAll" ]
     },
     {
         "name": "dariusnoxiantacticsonhattack",
@@ -6927,7 +6927,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "dianaorbsmissile",
@@ -6991,7 +6991,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastTarget", "TypeArea", "CollideWall", "AffectAllUnits"]
+        "flags": ["CastTarget", "Area", "CollideWall", "AffectAll"]
     },
     {
         "name": "dianar",
@@ -7007,7 +7007,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastAnywhere", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastAnywhere", "Area", "AffectAll"]
     },
     {
         "name": "dianabasicattack",
@@ -7039,7 +7039,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWall", "AffectAll"]
     },
     {
         "name": "dianapassivedeathrecap",
@@ -7087,7 +7087,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "dianabasicattack3",
@@ -7375,7 +7375,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "dravenbasicattack2",
@@ -7407,7 +7407,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "dravenspinningreturnleftaxe",
@@ -7439,7 +7439,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "dravenspinningattack2",
@@ -7567,7 +7567,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "dravenrdoublecast",
@@ -7599,7 +7599,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "dravenspinningreturn",
@@ -7695,7 +7695,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "dravenpassive",
@@ -7775,7 +7775,7 @@
         "speed": 828.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "masochism",
@@ -7791,7 +7791,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "burningagony",
@@ -7807,7 +7807,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "drmundobasicattack2",
@@ -7871,7 +7871,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "drmundocritattack",
@@ -8095,7 +8095,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Dash"]
     },
     {
         "name": "ekkoq",
@@ -8111,7 +8111,7 @@
         "speed": 1650.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideChampion", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideChampion", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "ekkor",
@@ -8127,14 +8127,14 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "ekkow",
         "parent": "",
         "icon": "ekko_w",
         "castTime": 0.25,
-        "castRange": 25000.0,
+        "castRange": 1600.0,
         "castRadius": 375.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -8143,7 +8143,7 @@
         "speed": 100000.0,
         "travelTime": 1.0,
         "delay": 3.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ekkoqmis",
@@ -8159,7 +8159,7 @@
         "speed": 1650.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion",  "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion",  "AffectAll"]
     },
     {
         "name": "ekkoqreturn",
@@ -8303,7 +8303,7 @@
         "speed": 1500.0,
         "travelTime": 1.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "elisebasicattack",
@@ -8367,7 +8367,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "elisespiderq",
@@ -8399,7 +8399,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "elisespidereinitial",
@@ -8415,7 +8415,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "elisehumane",
@@ -8431,14 +8431,14 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "elisespideredescent",
         "parent": "",
         "icon": "elisespidere",
         "castTime": 0.25,
-        "castRange": 10.0,
+        "castRange": 1000.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -8447,7 +8447,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "elisebasicattack3",
@@ -8495,7 +8495,7 @@
         "speed": 10000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "elisehumanq",
@@ -8511,7 +8511,7 @@
         "speed": 2200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "eliser",
@@ -8527,7 +8527,7 @@
         "speed": 943.7999877929688,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "eliserspider",
@@ -8543,7 +8543,7 @@
         "speed": 943.7999877929688,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "elisepassive",
@@ -8694,7 +8694,7 @@
         "parent": "",
         "icon": "evelynn_e1",
         "castTime": 0.25,
-        "castRange": 210.0,
+        "castRange": 470.0,
         "castRadius": 0.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -8703,7 +8703,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "evelynnwmissile",
@@ -8735,7 +8735,7 @@
         "speed": 2400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "evelynnr",
@@ -8751,7 +8751,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "evelynnw",
@@ -8767,7 +8767,7 @@
         "speed": 2400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "evelynnwapplymark",
@@ -8934,7 +8934,7 @@
         "parent": "",
         "icon": "evelynn_e2",
         "castTime": 0.15000000596046448,
-        "castRange": 210.0,
+        "castRange": 470.0,
         "castRadius": 470.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -8943,7 +8943,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "evelynnq2",
@@ -8959,7 +8959,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "evelynne2dash",
@@ -9055,7 +9055,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectChampion"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectChampion"]
     },
     {
         "name": "ezrealq",
@@ -9071,7 +9071,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "ezrealr",
@@ -9087,7 +9087,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWall", "AffectAll"]
     },
     {
         "name": "ezreale",
@@ -9103,7 +9103,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "Dash"]
     },
     {
         "name": "ezrealbasicattack2",
@@ -9343,7 +9343,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "fiddlesticksq",
@@ -9359,7 +9359,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "fiddlesticksr",
@@ -9375,7 +9375,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "fiddlestickse",
@@ -9391,7 +9391,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "nightmarebotfiddlestickscrowstorm",
@@ -9647,7 +9647,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "fiorapassive",
@@ -9679,14 +9679,14 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAll"]
     },
     {
         "name": "fioraq",
         "parent": "",
         "icon": "fiora_q",
-        "castTime": -0.375,
-        "castRange": 0.0,
+        "castTime": 0.0,
+        "castRange": 420.0,
         "castRadius": 420.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -9695,7 +9695,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "fiorar",
@@ -9711,7 +9711,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "fizzeone",
@@ -9775,7 +9775,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideChampion", "CollideWindwall", "AffectChampion"]
+        "flags": ["CastPoint", "Line", "CollideChampion", "CollideWindwall", "AffectChampion"]
     },
     {
         "name": "fizzcritattack",
@@ -9823,7 +9823,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "Dash"]
     },
     {
         "name": "fizzrhop",
@@ -9855,7 +9855,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "fizzq",
@@ -9871,7 +9871,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "fizzr",
@@ -9887,7 +9887,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideChampion", "CollideWindwall", "AffectChampion"]
+        "flags": ["CastPoint", "Line", "CollideChampion", "CollideWindwall", "AffectChampion"]
     },
     {
         "name": "fizzwbasicattack",
@@ -10063,7 +10063,7 @@
         "speed": 2300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideChampion", "AffectAll"]
     },
     {
         "name": "galior",
@@ -10079,7 +10079,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastTarget", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastTarget", "Area", "AffectAll"]
     },
     {
         "name": "galioq",
@@ -10095,7 +10095,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits", "CollideWindwall"]
+        "flags": ["CastPoint", "Area", "AffectAll", "CollideWindwall"]
     },
     {
         "name": "galiow",
@@ -10111,7 +10111,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "galiobasicattack",
@@ -10191,7 +10191,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits", "CollideWindwall"]
+        "flags": ["CastPoint", "Area", "AffectAll", "CollideWindwall"]
     },
     {
         "name": "gangplankbasicattack",
@@ -10271,7 +10271,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "gangplankr",
@@ -10287,7 +10287,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "gangplankw",
@@ -10303,7 +10303,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "gangplankqproceedcrit",
@@ -10351,7 +10351,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "gangplankrwithraisemorale",
@@ -10495,7 +10495,7 @@
         "speed": 700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "garenq",
@@ -10511,14 +10511,14 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "garenr",
         "parent": "",
         "icon": "garen_r",
         "castTime": 0.4350000023841858,
-        "castRange": 100.0,
+        "castRange": 400.0,
         "castRadius": 100.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -10527,7 +10527,7 @@
         "speed": 900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "garenw",
@@ -10543,7 +10543,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "garenecancel",
@@ -10559,7 +10559,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "gnarbige",
@@ -10671,7 +10671,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine",  "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line",  "CollideCommon", "AffectAll"]
     },
     {
         "name": "gnarqmissilereturn",
@@ -10687,7 +10687,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine",  "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line",  "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "gnarcritattack2",
@@ -10831,7 +10831,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "gnarbigcritattack",
@@ -10927,7 +10927,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "gragasrboom",
@@ -10943,7 +10943,7 @@
         "speed": 1800.0,
         "travelTime": 0.550000011920929,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "gragaswattack",
@@ -10975,7 +10975,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "gragasr",
@@ -10991,7 +10991,7 @@
         "speed": 1800.0,
         "travelTime": 0.550000011920929,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "gragasw",
@@ -11007,7 +11007,7 @@
         "speed": 828.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "gragasqtoggle",
@@ -11039,7 +11039,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAll", "Dash"]
     },
     {
         "name": "gragasbasicattack2",
@@ -11167,7 +11167,7 @@
         "speed": 1650.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "gravesclustershotsoundmissile",
@@ -11199,7 +11199,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "gravesclustershotricochet",
@@ -11231,7 +11231,7 @@
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "gravesautoattackrecoil",
@@ -11407,7 +11407,7 @@
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "gravesbasicattackclone",
@@ -11471,7 +11471,7 @@
         "speed": 1650.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "gravespassive",
@@ -11503,7 +11503,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "gravesmove",
@@ -11519,7 +11519,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Dash"]
     },
     {
         "name": "gravesqreturn",
@@ -11535,7 +11535,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "AffectAll" ]
     },
     {
         "name": "gravesqchargeup2",
@@ -12214,7 +12214,7 @@
         "parent": "",
         "icon": "hecarim_onslaughtofshadows",
         "castTime": 0.009999999776482582,
-        "castRange": 50000.0,
+        "castRange": 1000.0,
         "castRadius": 300.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -12223,7 +12223,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "hecarimramp",
@@ -12239,7 +12239,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "hecarimwvfx",
@@ -12287,7 +12287,7 @@
         "speed": 828.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "hecarimcritattack",
@@ -12351,7 +12351,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "hecarimultmissile",
@@ -12367,7 +12367,7 @@
         "speed": 1100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeLine", "AffectAllUnits"]
+        "flags": [ "CastPoint", "Line", "AffectAll"]
     },
     {
         "name": "heimerdingerultwdummyspell",
@@ -12447,7 +12447,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "heimerdingerpassivespeed",
@@ -12479,7 +12479,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "nightmarebotheimerdingerq",
@@ -12527,7 +12527,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "heimerdingerqvo",
@@ -12607,7 +12607,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "heimerdingerr",
@@ -12623,7 +12623,7 @@
         "speed": 347.79998779296875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "heimerdingerwattack2_ult",
@@ -12662,7 +12662,7 @@
         "parent": "",
         "icon": "heimerdinger_q1",
         "castTime": 0.25,
-        "castRange": 350.0,
+        "castRange": 400.0,
         "castRadius": 400.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -12671,7 +12671,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "heimerdingerqspell2",
@@ -12703,7 +12703,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "heimerdingerqspell3",
@@ -12863,7 +12863,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "heimerdingerespell_ult2",
@@ -12879,7 +12879,7 @@
         "speed": 1400.0,
         "travelTime": 0.4000000059604645,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "heimerdingerespell_ult3",
@@ -12895,7 +12895,7 @@
         "speed": 1400.0,
         "travelTime": 0.4000000059604645,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "heimerdingere_ult",
@@ -12975,7 +12975,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "heimerdingerultedummyspell",
@@ -13023,7 +13023,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "heimerdingerw",
@@ -13039,7 +13039,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "heimerdingerturretbigenergyblast",
@@ -13231,7 +13231,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "illaoiq",
@@ -13247,7 +13247,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "illaoir",
@@ -13263,7 +13263,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "illaoiw",
@@ -13279,7 +13279,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "illaoiemis",
@@ -13295,7 +13295,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "illaoicritattack",
@@ -13455,7 +13455,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "ireliabasicattack",
@@ -13487,7 +13487,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideChampion", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideChampion", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "ireliaw",
@@ -13503,7 +13503,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere", "Channel"]
     },
     {
         "name": "ireliar2",
@@ -13535,7 +13535,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "ireliabasicattack2",
@@ -13567,7 +13567,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "ireliaeparticlemissile",
@@ -13583,7 +13583,7 @@
         "speed": 2000.0,
         "travelTime": 0.6000000238418579,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "AffectAll"]
     },
     {
         "name": "ireliaw2",
@@ -13663,7 +13663,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "ivernbasicattack3",
@@ -13823,7 +13823,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "ivernbasicattackranged",
@@ -13871,7 +13871,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "ivernp",
@@ -13903,7 +13903,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "ivernminionbasicattack3",
@@ -13999,7 +13999,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "TypeLine", "AffectAll", "CollideWindwall"]
     },
     {
         "name": "sowthewind",
@@ -14015,7 +14015,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "reapthewhirlwind",
@@ -14031,7 +14031,7 @@
         "speed": 828.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "howlinggalespell13",
@@ -14047,7 +14047,7 @@
         "speed": 1066.6669921875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell12",
@@ -14063,7 +14063,7 @@
         "speed": 1033.3330078125,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell11",
@@ -14079,7 +14079,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "eyeofthestorm",
@@ -14095,7 +14095,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "howlinggalespell10",
@@ -14111,7 +14111,7 @@
         "speed": 966.6669921875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell16",
@@ -14127,7 +14127,7 @@
         "speed": 1166.6669921875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell15",
@@ -14143,7 +14143,7 @@
         "speed": 1133.3330078125,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell14",
@@ -14159,7 +14159,7 @@
         "speed": 1100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "tailwindself",
@@ -14191,7 +14191,7 @@
         "speed": 667.6669921875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggale_urf",
@@ -14255,7 +14255,7 @@
         "speed": 700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell3",
@@ -14271,7 +14271,7 @@
         "speed": 733.3330078125,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell4",
@@ -14287,7 +14287,7 @@
         "speed": 766.6669921875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell5",
@@ -14303,7 +14303,7 @@
         "speed": 800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell6",
@@ -14319,7 +14319,7 @@
         "speed": 833.3330078125,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell7",
@@ -14335,7 +14335,7 @@
         "speed": 866.6669921875,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell8",
@@ -14351,7 +14351,7 @@
         "speed": 900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "howlinggalespell9",
@@ -14367,7 +14367,7 @@
         "speed": 933.3330078125,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "jarvanivdemacianstandard",
@@ -14383,7 +14383,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "jarvanivbasicattack",
@@ -14415,7 +14415,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "jarvanivdragonstrike",
@@ -14431,7 +14431,7 @@
         "speed": 5000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "jarvanivmartialcadenceattack",
@@ -14543,7 +14543,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "jaxempowertwo",
@@ -14559,7 +14559,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "jaxleapstrikeattack",
@@ -14591,7 +14591,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "jaxpassive",
@@ -14623,7 +14623,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "jaxrelentlessattack",
@@ -14719,7 +14719,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "jaxempowerattack",
@@ -15087,14 +15087,14 @@
         "speed": 5000.0,
         "travelTime": 0.0,
         "delay": 0.25,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "jhinr",
         "parent": "",
         "icon": "jhin_r",
         "castTime": 1.0,
-        "castRange": 25000.0,
+        "castRange": 3500.0,
         "castRadius": 550.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
@@ -15103,7 +15103,7 @@
         "speed": 828.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection"]
     },
     {
         "name": "jhinrshotmis",
@@ -15119,7 +15119,7 @@
         "speed": 5000.0,
         "travelTime": 0.0,
         "delay": 0.25,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "jhinrshot",
@@ -15132,10 +15132,10 @@
         "castConeDistance": 100.0,
         "width": 80.0,
         "height": 0.0,
-        "speed": 1200.0,
+        "speed": 5000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "jhinetrap",
@@ -15151,7 +15151,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "jhinpassiveattack",
@@ -15199,7 +15199,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "jhinbasicattack3",
@@ -15247,7 +15247,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "jhinw",
@@ -15263,7 +15263,7 @@
         "speed": 10000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll" ]
     },
     {
         "name": "jhinpassive",
@@ -15439,7 +15439,7 @@
         "speed": 3300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "odysseyaugments_jinxtagqcrit",
@@ -15535,7 +15535,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "jinxcritattack5",
@@ -15823,7 +15823,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "odysseyaugments_jinxemine",
@@ -15855,7 +15855,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideChampion", "CollideWindwall", "AffectChampion"]
+        "flags": ["CastDirection", "Line", "CollideChampion", "CollideWindwall", "AffectChampion"]
     },
     {
         "name": "jinxqattack2",
@@ -15887,7 +15887,7 @@
         "speed": 1100.0,
         "travelTime": 0.4000000059604645,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "jinxefireburn",
@@ -16143,7 +16143,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kaisawevolved",
@@ -16175,7 +16175,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "kaisaq",
@@ -16191,7 +16191,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kaisar",
@@ -16207,7 +16207,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kaisaqevolved",
@@ -16687,7 +16687,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kalistapassivedashspellactual",
@@ -16783,7 +16783,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "kalistabasicattackslow",
@@ -16847,7 +16847,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "kalistabasicattacknonemiss",
@@ -16943,7 +16943,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kalistadummyspell",
@@ -17135,7 +17135,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "kalistarallystun",
@@ -17215,7 +17215,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "karmabasicattack2",
@@ -17247,7 +17247,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "karmasolkimshieldlocket",
@@ -17343,7 +17343,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "karmaqmissilemantra",
@@ -17359,7 +17359,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "karmaspiritbind",
@@ -17375,7 +17375,7 @@
         "speed": 2200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "karmamantra",
@@ -17391,7 +17391,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "karthuscritattack",
@@ -17535,7 +17535,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "karthusdefilesounddummy2",
@@ -17583,7 +17583,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "karthuslaywastedeada1",
@@ -17663,7 +17663,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
     {
         "name": "karthuslaywastea2",
@@ -17711,7 +17711,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.6,
-        "flags": [ "CastPoint", "TypeArea", "AffectAllUnits" ]
+        "flags": [ "CastPoint", "Area", "AffectAll" ]
     },
     {
         "name": "karthusdefile2",
@@ -17775,7 +17775,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "karthuscritattack2",
@@ -17823,7 +17823,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "voidstone",
@@ -17855,7 +17855,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "forcepulse",
@@ -17871,7 +17871,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "AffectAll"]
     },
     {
         "name": "netherblade",
@@ -17887,7 +17887,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "riftwalk_urf",
@@ -18031,7 +18031,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "katarinaq",
@@ -18047,7 +18047,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "katarinawdaggerarc",
@@ -18079,7 +18079,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "katarinaewrapper",
@@ -18095,7 +18095,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "katarinacritattack",
@@ -18319,7 +18319,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "kayleeattackmelee",
@@ -18559,7 +18559,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kayleeattack",
@@ -18591,7 +18591,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ ]
+        "flags": ["CastTarget"]
     },
     {
         "name": "kayleq",
@@ -18607,7 +18607,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "kaylew",
@@ -18623,7 +18623,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "kaynbasicattack3",
@@ -18703,7 +18703,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "kaynq",
@@ -19663,7 +19663,7 @@
         "speed": 1700.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "khazixpassive",
@@ -19759,7 +19759,7 @@
         "speed": 1700.5,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "khazixbasicattack2",
@@ -19855,7 +19855,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideCommon", "AffectAll"]
     },
     {
         "name": "kindredqmissileminor",
@@ -20543,7 +20543,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "kledw",
@@ -20607,7 +20607,7 @@
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideCommon", "AffectAll"]
     },
     {
         "name": "kledriderbasicattack2",
@@ -20671,7 +20671,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "kledriderqmissile",
@@ -20687,7 +20687,7 @@
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "kledwattack4",
@@ -21279,7 +21279,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "leblancre",
@@ -21295,7 +21295,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "leblancbasicattack",
@@ -21359,7 +21359,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "leblancrtoggle",
@@ -21519,7 +21519,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "leblanccritattack",
@@ -21807,7 +21807,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "blindmonkeone",
@@ -22047,7 +22047,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideChampion", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideChampion", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "leonabasicattack4",
@@ -22079,7 +22079,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideChampion", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideChampion", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "leonabasicattack3",
@@ -22175,7 +22175,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.625,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "lilliarexpungemissiletwo",
@@ -22255,7 +22255,7 @@
         "speed": 1150.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "lilliaerollingmissileshort",
@@ -22287,7 +22287,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "lilliaespellpassive",
@@ -22399,7 +22399,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.759,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "lilliaprancestack",
@@ -22623,7 +22623,7 @@
         "speed": 2200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "lissandraw",
@@ -22831,7 +22831,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "lucianqdamage",
@@ -22879,7 +22879,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]	
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]	
     },
     {
         "name": "lucianbasicattack2",
@@ -23039,7 +23039,7 @@
         "speed": 2800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "lucianpassiveshot",
@@ -23103,7 +23103,7 @@
         "speed": 2800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": [ "CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits" ]
+        "flags": [ "CastDirection", "Line", "CollideCommon", "AffectAll" ]
     },
     {
         "name": "lucianq",
@@ -23167,7 +23167,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "lulupassivemissilecontroller",
@@ -23247,7 +23247,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "lulur",
@@ -23375,7 +23375,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "nightmarebotluluwtwo",
@@ -23519,7 +23519,7 @@
         "speed": 1000000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "luxilluminatingfraulein",
@@ -23551,7 +23551,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "luxmalicecannonmis",
@@ -23567,7 +23567,7 @@
         "speed": 1000000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "luxlightbindingmis",
@@ -23583,7 +23583,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "nightmarebotluxqsplit",
@@ -23663,7 +23663,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "luxultimateskintransformanimation",
@@ -24831,7 +24831,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "missfortunebullets",
@@ -24847,7 +24847,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "missfortunebasicattack",
@@ -25055,7 +25055,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "monkeykingcritattack",
@@ -25375,7 +25375,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "AffectAll"]
     },
     {
         "name": "mordekaiserr",
@@ -25407,7 +25407,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "mordekaiserw",
@@ -25471,7 +25471,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "morganaq",
@@ -25487,7 +25487,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "morganar",
@@ -25647,7 +25647,7 @@
         "speed": 850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "namibasicattack",
@@ -25679,7 +25679,7 @@
         "speed": 850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "namiwmissileally",
@@ -25743,7 +25743,7 @@
         "speed": 2500.0,
         "travelTime": 0.699999988079071,
         "delay": 0.70,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "namiwenemy",
@@ -25839,7 +25839,7 @@
         "speed": 2500.0,
         "travelTime": 0.699999988079071,
         "delay": 0.70,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "namiwally",
@@ -25999,7 +25999,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "nasuscritattack",
@@ -26143,7 +26143,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "nautiluspassive",
@@ -26207,7 +26207,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "nautiluswdot",
@@ -26415,7 +26415,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "neekordummyspell",
@@ -26463,7 +26463,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "takedown",
@@ -26863,7 +26863,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "nightmarebots_malzahar_riftheraldbasicattack",
@@ -26927,7 +26927,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "nocturneparanoia2",
@@ -27455,7 +27455,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "olafragnarokpassivebuff",
@@ -27551,7 +27551,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "olafbasicattack3",
@@ -27679,7 +27679,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "oriannabasicattack3",
@@ -28191,7 +28191,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 4.45,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "pantheonpassiveready",
@@ -28223,7 +28223,7 @@
         "speed": 2700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "pantheonw",
@@ -28847,7 +28847,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "pykecritattack",
@@ -28895,7 +28895,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "pykeqmelee",
@@ -28991,7 +28991,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "qiyanarwallhitmis",
@@ -29055,7 +29055,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "qiyanarwallfollowmisshadow",
@@ -29103,7 +29103,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "qiyanaq_water",
@@ -29119,7 +29119,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags":["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags":["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "qiyanaq",
@@ -29167,7 +29167,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "qiyanabasicattack3",
@@ -29423,7 +29423,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "quinne",
@@ -29615,7 +29615,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "rakanw",
@@ -29631,7 +29631,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.35,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "rakanqreturnmis",
@@ -29711,7 +29711,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "rakanpassive",
@@ -29775,7 +29775,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "rakanbasicattack",
@@ -30639,7 +30639,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "rellp",
@@ -30671,7 +30671,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastAnywhere", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastAnywhere", "Area", "AffectAll"]
     },
     {
         "name": "relle",
@@ -31023,7 +31023,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "rengarbasicattack",
@@ -31215,7 +31215,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "rengarqattack",
@@ -31327,7 +31327,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "rengarrleap",
@@ -31407,7 +31407,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "rivenbasicattack3",
@@ -31487,7 +31487,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "rivenpassive",
@@ -31551,7 +31551,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "rivenwindslashmissilecenter",
@@ -31567,7 +31567,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "riventricleave",
@@ -31631,7 +31631,7 @@
         "speed": 1450.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "rivenfengshuiengine",
@@ -32079,7 +32079,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "ryzer",
@@ -32383,7 +32383,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "AffectAll"]
     },
     {
         "name": "samiraqgun",
@@ -32399,7 +32399,7 @@
         "speed": 2600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "samiraqbufferedsword",
@@ -32719,7 +32719,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "sejuaniw",
@@ -32815,7 +32815,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "sejuanipassive",
@@ -32991,7 +32991,7 @@
         "speed": 20000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "sennarwarningmis",
@@ -33167,7 +33167,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits", "CollideCommon"]
+        "flags": ["CastDirection", "Line", "AffectAll", "CollideCommon"]
     },
     {
         "name": "sennaq",
@@ -33247,7 +33247,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "seraphinewshield",
@@ -33311,7 +33311,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "seraphinecritattack",
@@ -33359,7 +33359,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "seraphinee",
@@ -33391,7 +33391,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "seraphinew2warning",
@@ -33487,7 +33487,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "seraphinebasicattack",
@@ -33551,7 +33551,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "seraphinepassive",
@@ -33695,7 +33695,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "seraphinerpostcast",
@@ -33775,7 +33775,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "settq",
@@ -34447,7 +34447,7 @@
         "speed": 1575.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "shyvanadoubleattackhit",
@@ -34655,7 +34655,7 @@
         "speed": 1575.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "shyvanadoubleattackdragon",
@@ -34719,7 +34719,7 @@
         "speed": 1575.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "CollideChampion", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "CollideChampion", "AffectAll"]
     },
     {
         "name": "shyvanadoubleattack",
@@ -34815,7 +34815,7 @@
         "speed": 1575.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "shyvanabasicattack3",
@@ -34927,7 +34927,7 @@
         "speed": 700.0,
         "travelTime": 0.0,
         "delay": 0.4,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "fling",
@@ -35007,7 +35007,7 @@
         "speed": 700.0,
         "travelTime": 0.0,
         "delay": 0.4,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "sionqshapecut",
@@ -35407,7 +35407,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "sionemissile",
@@ -35423,7 +35423,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "sivirqmissilereturn",
@@ -35503,7 +35503,7 @@
         "speed": 1350.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "sivirr",
@@ -35615,7 +35615,7 @@
         "speed": 1350.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "sivirbasicattack2",
@@ -36239,7 +36239,7 @@
         "speed": 2400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "sonaqmissile",
@@ -36399,7 +36399,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 1.5,
-        "flags": ["CastPoint", "TypeArea", "AffectChampion"]
+        "flags": ["CastPoint", "Area", "AffectChampion"]
     },
     {
         "name": "sorakaqreturnmissile",
@@ -36511,7 +36511,7 @@
         "speed": 1100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "soraka_basicattack",
@@ -36575,7 +36575,7 @@
         "speed": 1100.0,
         "travelTime": 0.0,
         "delay": 0.5,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "sorakawparticlemissile",
@@ -38607,7 +38607,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "swainq",
@@ -38623,7 +38623,7 @@
         "speed": 1000000000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "AffectAll"]
     },
     {
         "name": "swainpassivereturnbirdmissile",
@@ -38687,7 +38687,7 @@
         "speed": 935.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "swainpassive",
@@ -38991,7 +38991,7 @@
         "speed": 1800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "sylascritattack",
@@ -39087,7 +39087,7 @@
         "speed": 1600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "sylasrbuff",
@@ -39183,7 +39183,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "syndraespheremissile",
@@ -39311,7 +39311,7 @@
         "speed": 1600.0,
         "travelTime": 0.6000000238418579,
         "delay": 0.6,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "syndraesound",
@@ -39503,7 +39503,7 @@
         "speed": 902.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideCommon", "AffectAll"]
     },
     {
         "name": "syndrawdebuff",
@@ -39999,7 +39999,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "taliyahqmis",
@@ -40015,7 +40015,7 @@
         "speed": 3600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "taliyahrterrainproto",
@@ -40127,7 +40127,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "taliyahq",
@@ -40143,7 +40143,7 @@
         "speed": 3600.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "taliyahrblowupsoundmis",
@@ -40223,7 +40223,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "taliyahwnoclick",
@@ -40543,7 +40543,7 @@
         "speed": 2500.0,
         "travelTime": 0.3499999940395355,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "talonshadowassaultmisonehalf",
@@ -40591,7 +40591,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "talonq",
@@ -41199,7 +41199,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "threshqselfroot",
@@ -41487,7 +41487,7 @@
         "speed": 1900.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "threshq_darkstar",
@@ -42303,7 +42303,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "redcardpreattack",
@@ -42447,7 +42447,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "twistedfatebasicattack",
@@ -42591,7 +42591,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "twitchfullautomatic",
@@ -42703,7 +42703,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "deadly_venom",
@@ -44367,7 +44367,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.5,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "veigarcritattack",
@@ -44415,7 +44415,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 1.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "velkozqmissile",
@@ -44431,7 +44431,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "velkozpassive",
@@ -44463,7 +44463,7 @@
         "speed": 2100.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "velkozbasicattack3",
@@ -44527,7 +44527,7 @@
         "speed": 1000000.0,
         "travelTime": 0.550000011920929,
         "delay": 0.55,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "velkozq",
@@ -44543,7 +44543,7 @@
         "speed": 1300.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "velkozr",
@@ -44559,7 +44559,7 @@
         "speed": 1000000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "velkozw",
@@ -44575,7 +44575,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "velkozbasicattack",
@@ -44639,7 +44639,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "velkozemissile",
@@ -44655,7 +44655,7 @@
         "speed": 1500.0,
         "travelTime": 0.550000011920929,
         "delay": 0.55,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "vipassive",
@@ -45279,7 +45279,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.75,
-        "flags": ["CastPoint", "TypeArea","AffectAllUnits"]
+        "flags": ["CastPoint", "Area","AffectAll"]
     },
     {
         "name": "viktordeathraymissile",
@@ -45295,7 +45295,7 @@
         "speed": 1050.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "viktorqbuff",
@@ -45327,7 +45327,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "viktorchaosstormguide",
@@ -45455,7 +45455,7 @@
         "speed": 1050.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "vladimire",
@@ -45471,7 +45471,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastAnywhere", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastAnywhere", "Area", "AffectAll"]
     },
     {
         "name": "vladimirq",
@@ -45743,7 +45743,7 @@
         "speed": 4000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "voidspawnbasicattack2",
@@ -46559,7 +46559,7 @@
         "speed": 4000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "xayahqmissile1",
@@ -46575,7 +46575,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "xayahqmissile2",
@@ -46591,7 +46591,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "xayahbasicattack",
@@ -46687,7 +46687,7 @@
         "speed": 4000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "xayahe",
@@ -46751,7 +46751,7 @@
         "speed": 2000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "xayahwhaste",
@@ -46799,7 +46799,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "xeratharcanopulsechargeup",
@@ -46814,8 +46814,8 @@
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.5,
+        "flags": ["Channel", "CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "xerathlocuspulse",
@@ -46831,7 +46831,7 @@
         "speed": 100000.0,
         "travelTime": 0.6000000238418579,
         "delay": 0.627,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "xerathlocusofpower2",
@@ -46847,14 +46847,14 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "xerathrmissilewrapper",
         "parent": "",
         "icon": "xerath_r1",
         "castTime": 0,
-        "castRange": 25000.0,
+        "castRange": 5000.0,
         "castRadius": 150.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
@@ -46862,8 +46862,8 @@
         "height": 0.0,
         "speed": 100000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": []
+        "delay": 0.627,
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "xerathbasicattack2",
@@ -46927,7 +46927,7 @@
         "speed": 1400.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "xeratharcanebarrage2",
@@ -46943,7 +46943,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.5,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "xerathcritattack",
@@ -47231,7 +47231,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "xenzhaothrust",
@@ -47375,7 +47375,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "yasuobasicattack",
@@ -47631,7 +47631,7 @@
         "speed": 8700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "yasuoq2",
@@ -47647,7 +47647,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "yasuoq3",
@@ -47663,7 +47663,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "odysseyaugments_yasuopassiveshield",
@@ -48879,7 +48879,7 @@
         "speed": 8700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "yonew",
@@ -48895,7 +48895,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeCone", "AffectAllUnits"]
+        "flags": ["CastDirection", "Cone", "AffectAll"]
     },
     {
         "name": "yonepassive",
@@ -48943,7 +48943,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "yoneq3missile",
@@ -49023,7 +49023,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "yorickw",
@@ -49375,7 +49375,7 @@
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "{1d7bd936}",
@@ -49471,7 +49471,7 @@
         "speed": 3000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "yuumiwcast",
@@ -49839,7 +49839,7 @@
         "speed": 2800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "zacqrecast",
@@ -49887,7 +49887,7 @@
         "speed": 2800.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "zacbasicattack2",
@@ -49919,7 +49919,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "zacbasicattack",
@@ -50047,7 +50047,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "zedult",
@@ -50367,7 +50367,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "zedrdasheffectshadow",
@@ -50415,7 +50415,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ziggsq",
@@ -50431,7 +50431,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "nightmarebotziggsqspell2",
@@ -50543,7 +50543,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ziggswtoggle",
@@ -50735,7 +50735,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ziggspassiveattack",
@@ -50767,7 +50767,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "odysseyaugments_ziggspattack_bounce",
@@ -50799,7 +50799,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "nightmarebotziggsqspell",
@@ -50879,7 +50879,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "odysseyaugments_ziggsw",
@@ -50911,7 +50911,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "odysseyaugments_ziggsr",
@@ -50943,7 +50943,7 @@
         "speed": 1700.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "odysseyaugments_ziggsq",
@@ -51087,7 +51087,7 @@
         "speed": 1550.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ziggseslow",
@@ -51135,7 +51135,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ziggsbasicattack",
@@ -51199,7 +51199,7 @@
         "speed": 1550.0,
         "travelTime": 1.2000000476837158,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "ziggse",
@@ -51215,7 +51215,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "ziggsbasicattack2",
@@ -51247,7 +51247,7 @@
         "speed": 1750.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeArea", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "zileanqbuffer",
@@ -51295,7 +51295,7 @@
         "speed": 2000.0,
         "travelTime": 0.44999998807907104,
         "delay": 0.45,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "zileanq_urf",
@@ -51327,7 +51327,7 @@
         "speed": 2000.0,
         "travelTime": 0.44999998807907104,
         "delay": 0.45,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "zileanw",
@@ -51759,7 +51759,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "zoew",
@@ -51807,7 +51807,7 @@
         "speed": 1850.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "zoeqinterstitial",
@@ -52223,7 +52223,7 @@
         "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "zoeedistancesolver2",
@@ -52463,7 +52463,7 @@
         "speed": 2500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastPoint", "TypeLine", "CollideCommon", "AffectAllUnits"]
+        "flags": ["CastPoint", "Line", "CollideCommon", "AffectAll"]
     },
     {
         "name": "zoepassiveyoyoattack",
@@ -52703,7 +52703,7 @@
         "speed": 1000000.0,
         "travelTime": 0.0,
         "delay": 2.0,
-        "flags": ["CastPoint", "TypeArea", "AffectAllUnits"]
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "zyrarsplash",
@@ -52751,7 +52751,7 @@
         "speed": 1150.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastDirection", "TypeLine", "CollideWindwall", "AffectAllUnits"]
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "zyraqplantmissileonspawn",

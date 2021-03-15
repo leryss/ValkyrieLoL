@@ -62,7 +62,10 @@ public:
 	list    GetCollisionsForUnit(const GameUnit& unit);
 	list    GetCollisionsForCast(const SpellCast& cast);
 	object  GetSpellInfo(const char* label);
-	bool    CastSpell(GameSpell* spell, const Vector3& targetLocation);
+	bool    StartChannel(GameSpell* spell);
+	bool    EndChannel(GameSpell* spell, const Vector3* targetLocation);
+	bool    CastSpell(GameSpell* spell, const Vector3* targetLocation);
+	object  PredictCastPoint(const GameUnit& caster, const GameUnit& target, const GameSpell* info);
 
 	void    LogInfo(const char* msg);
 	void    LogWarning(const char* msg);
