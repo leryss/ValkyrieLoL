@@ -16,11 +16,14 @@ def valkyrie_menu(ctx) :
 	ui = ctx.ui
 	
 	target_sel.ui('Target selector', ctx, ui)
-	ui.text("Don't use Q,W,E,R keys")
-	keys[0] = ui.keyselect('Key Q', keys[0])
-	keys[1] = ui.keyselect('Key W', keys[1])
-	keys[2] = ui.keyselect('Key E', keys[2])
-	keys[3] = ui.keyselect('Key R', keys[3])
+	keys[0] = ui.keyselect('Key auto aim Q', keys[0])
+	keys[1] = ui.keyselect('Key auto aim W', keys[1])
+	keys[2] = ui.keyselect('Key auto aim E', keys[2])
+	keys[3] = ui.keyselect('Key auto aim R', keys[3])
+	ui.separator()
+	ui.text("Don't bind keys to Q,W,E,R")
+	ui.text("Currently doesnt support ally targeting")
+	ui.text("Some champions arent tested yet")
 	
 def valkyrie_on_load(ctx) :	 
 	global keys, target_sel
@@ -36,10 +39,6 @@ def valkyrie_on_save(ctx) :
 	cfg.set_str('target_sel', str(target_sel))
 	
 def cast(ctx, spell, static, end_channel = False):
-	
-	if static.has_flag(Spell.CastSelf):
-		ctx.cast_spell(spell, ctx.player.pos)
-		return
 		
 	if static.has_flag(Spell.DashSkill) or static.has_flag(Spell.CastAnywhere):
 		ctx.cast_spell(spell, None)
@@ -55,7 +54,7 @@ def cast(ctx, spell, static, end_channel = False):
 	if not target:
 		if end_channel:
 			ctx.cast_spell(spell, None)
-			return
+		return
 	
 	point = ctx.predict_cast_point(player, target, spell)
 	if point:

@@ -69,7 +69,6 @@ enabled            = True
 always_evade       = False
 extra_evade_length = 50.0
 
-NotSupportedYet = ['jayce', 'kennen', 'kogmaw', 'malzahar', 'maokai', 'ornn', 'reksai', 'rumble', 'skarner' , 'tahmkench', 'urgot', 'varus', 'viego']
 Settings = {
 	'aatrox' : [
 		EvadeSettings(name = 'Aaatrox W',             cast_names = ['aatroxw'],                   missile_names = ['aatroxw'])
@@ -179,7 +178,8 @@ Settings = {
 	],
 	'gnar': [		
 		EvadeSettings(name = 'Gnar small Q',          cast_names = ['gnarqmissile'],              missile_names = ['gnarqmissile', 'gnarqmissilereturn']),
-		EvadeSettings(name = 'Gnar big Q',            cast_names = ['gnarbigqmissile'],           missile_names = ['gnarbigqmissile'])
+		EvadeSettings(name = 'Gnar big Q',            cast_names = ['gnarbigqmissile'],           missile_names = ['gnarbigqmissile']),
+		EvadeSettings(name = 'Gnar big W',            cast_names = ['gnarbigw'],                  missile_names = [])
 	],
 	'gragas': [
 		EvadeSettings(name = 'Graras Q',              cast_names = ['gragasq'],                   missile_names = ['gragasqmissile']),
@@ -216,6 +216,9 @@ Settings = {
 	'jarvaniv': [
 		EvadeSettings(name = 'Jarvan Q',              cast_names = ['jarvanivdragonstrike'],      missile_names = [])
 	],
+	"jayce": [
+		EvadeSettings(name = 'Jayce Q',               cast_names = ['jayceshockblast'],           missile_names = ['jayceshockblastmis', 'jayceshockblastwallmis'])
+	],
 	'jhin': [
 		EvadeSettings(name = 'Jhin W',                cast_names = ['jhinw'],                     missile_names = []),
 		EvadeSettings(name = 'Jhin R',                cast_names = [],                            missile_names = ['jhinrshotmis', 'jhinrshotmis4'])
@@ -247,12 +250,20 @@ Settings = {
 	'kayn': [
 		EvadeSettings(name = 'Kayn W',                cast_names = ['kaynw'],                     missile_names = [])
 	],
+	"kennen": [
+		EvadeSettings(name = 'Kennen Q',              cast_names = ['kennenshurikenhurlmissile1'], missile_names = ["kennenshurikenhurlmissile1"])
+	],
 	'khazix': [
 		EvadeSettings(name = 'Khazix W',              cast_names = ['khazixw', 'khazixwlong'],    missile_names = ['khazixwmissile'])
 	],
 	'kled': [
 		EvadeSettings(name = 'Kled Q',                cast_names = ['kledq'],                     missile_names = ['kledqmissile']),
 		EvadeSettings(name = 'Kled Q (Rider)',        cast_names = ['kledriderq'],                missile_names = ['kledriderqmissile'])
+	],
+	"kogmaw": [
+		EvadeSettings(name = 'Kogmaw Q',              cast_names = ['kogmawq'],                   missile_names = ['kogmawq']),
+		EvadeSettings(name = 'Kogmaw E',              cast_names = ['kogmawvoidooze'],            missile_names = ['kogmawvoidoozemissile']),
+		EvadeSettings(name = 'Kogmaw R',              cast_names = ['kogmawlivingartillery'],     missile_names = [])
 	],
 	'leblanc': [
 		EvadeSettings(name = 'Leblanc E',             cast_names = ['leblance', 'leblancre'],     missile_names = ['leblancemissile', 'leblancremissile']),
@@ -282,6 +293,10 @@ Settings = {
 		EvadeSettings(name = 'Lux Q',                 cast_names = ['luxlightbinding'],           missile_names = ['luxlightbindingmis']),
 		EvadeSettings(name = 'Lux E',                 cast_names = ['luxlightstrikekugel'],       missile_names = ['luxlightstrikekugel']),
 		EvadeSettings(name = 'Lux R',                 cast_names = ['luxmalicecannon'],           missile_names = ['luxmalicecannonmis'])
+	],
+	"maokai": [
+		EvadeSettings(name = 'Maokai Q',              cast_names = ['maokaiq'],                   missile_names = ['maokaiqmissile']),
+		EvadeSettings(name = 'Maokai E',              cast_names = ['maokaie'],                   missile_names = ['maokaiemissile'])
 	],
 	'missfortune': [
 		EvadeSettings(name = 'Miss fortune E',        cast_names = ['missfortunescattershot'],    missile_names = []),
@@ -317,6 +332,10 @@ Settings = {
 	'orianna': [
 		EvadeSettings(name = 'Orianna Q',             cast_names = [],                            missile_names = ['orianaizuna'])
 	],
+	"ornn": [
+		EvadeSettings(name = 'Ornn Q',                cast_names = ['ornnq'],                     missile_names = ['ornnq']),
+		EvadeSettings(name = 'Ornn R',                cast_names = [],                            missile_names = ['ornnrwave2'])
+	],
 	'pantheon': [
 		EvadeSettings(name = 'Pantheon Q',            cast_names = ['pantheonqmissile'],          missile_names = ['pantheonqmissile']),
 	],
@@ -335,6 +354,9 @@ Settings = {
 		EvadeSettings(name = 'Rakan Q',               cast_names = ['rakanq'],                    missile_names = ['rakanqmis']),
 		EvadeSettings(name = 'Rakan W',               cast_names = ['rakanwcast'],                missile_names = [])
 	],
+	"reksai": [
+		EvadeSettings(name = 'Reksai Q',               cast_names = ['reksaiqburrowed'],          missile_names = ['reksaiqburrowedmis'])
+	],
 	'rell': [
 		EvadeSettings(name = 'Rell Q',                cast_names = ['rellq'],                     missile_names = []),
 		EvadeSettings(name = 'Rell R',                cast_names = ['rellr'],                     missile_names = [])
@@ -345,6 +367,10 @@ Settings = {
 	],
 	'riven': [
 		EvadeSettings(name = 'Riven R',               cast_names = ['rivenizunablade'],           missile_names = ['rivenwindslashmissileright', 'rivenwindslashmissileleft', 'rivenwindslashmissilecenter'])
+	],
+	'rumble': [
+		EvadeSettings(name = 'Rumble E',              cast_names = ['rumblegrenade'],             missile_names = ['rumblegrenademissile']),
+		EvadeSettings(name = 'Rumble R',              cast_names = ['rumblecarpetbombdummy'],     missile_names = ['rumblecarpetbombmissile'])
 	],
 	'ryze': [
 		EvadeSettings(name = 'Ryze Q',                cast_names = ['ryzeq'],                     missile_names = ['ryzeq'])
@@ -380,6 +406,9 @@ Settings = {
 	'sivir': [
 		EvadeSettings(name = 'Sivir Q',               cast_names = ['sivirq'],                    missile_names = ['sivirqmissile'])
 	],
+	'skarner': [
+		EvadeSettings(name = 'Skarner E',             cast_names = ['skarnerfracturemissile'],    missile_names = ['skarnerfracturemissile'])
+	],
 	'sona': [
 		EvadeSettings(name = 'Sona R',                cast_names = ['sonar'],                     missile_names = ['sonar'])
 	],
@@ -400,6 +429,9 @@ Settings = {
 		EvadeSettings(name = 'Syndra Q',              cast_names = [],                            missile_names = ['syndraqspell']),
 		EvadeSettings(name = 'Syndra E',              cast_names = ['syndrae'],                   missile_names = ['syndraemissile'])
 	],
+	'tahmkench': [
+		EvadeSettings(name = 'Tahmkench Q',           cast_names = ['tahmkenchq'],                missile_names = ['tahmkenchqmissile'])
+	],
 	'taliyah': [
 		EvadeSettings(name = 'Taliyah Q',             cast_names = ['taliyahq'],                  missile_names = ['taliyahqmis']),
 		EvadeSettings(name = 'Taliyah W',             cast_names = ['taliyahwvc'],                missile_names = []),
@@ -417,6 +449,16 @@ Settings = {
 	'twitch': [
 		EvadeSettings(name = 'Twitch W',              cast_names = ['twitchvenomcask'],           missile_names = ['twitchvenomcaskmissile'])
 	],
+	'urgot': [
+		EvadeSettings(name = 'Urgot Q',               cast_names = ['urgotq'],                    missile_names = ['urgotqmissile']),
+		EvadeSettings(name = 'Urgot E',               cast_names = ['urgote'],                    missile_names = []),
+		EvadeSettings(name = 'Urgot R',               cast_names = ['urgotr'],                    missile_names = ['urgotr'])
+	],
+	'varus': [
+		EvadeSettings(name = 'Varus Q',               cast_names = ['varusq'],                    missile_names = ['varusqmissile']),
+		EvadeSettings(name = 'Varus E',               cast_names = ['varuse'],                    missile_names = ['varusemissile']),
+		EvadeSettings(name = 'Varus R',               cast_names = ['varusr'],                    missile_names = ['varusrmissile'])
+	],
 	'veigar': [
 		EvadeSettings(name = 'Veigar W',              cast_names = ['veigardarkmattercastlockout'], missile_names = []),
 		EvadeSettings(name = 'Veigar E',              cast_names = ['veigareventhorizon'],        missile_names = [])
@@ -426,6 +468,10 @@ Settings = {
 		EvadeSettings(name = 'Velkoz W',              cast_names = ['velkozw'],                   missile_names = ['velkozwmissile']),
 		EvadeSettings(name = 'Velkoz E',              cast_names = ['velkoze'],                   missile_names = ['velkozemissile']),
 		EvadeSettings(name = 'Velkoz R',              cast_names = ['velkozr'],                   missile_names = [])
+	],
+	"viego": [
+		EvadeSettings(name = 'Viego Q',               cast_names = ['viegoq'],                    missile_names = []),
+		EvadeSettings(name = 'Viego R',               cast_names = ['viegor'],                    missile_names = [])
 	],
 	'viktor': [
 		EvadeSettings(name = 'Viktor W',              cast_names = ['viktorgravitonfield'],       missile_names = []),
@@ -522,10 +568,6 @@ def valkyrie_menu(ctx) :
 		ui.text('3. Currently only sidesteps skillshots no dahes/flash')
 		ui.text('4. Since it simulates clicks it might click an minion. Dont tank the wave and expect evades.')
 		ui.text('5. Doesnt check for walls so it might evade in walls')
-		ui.text('5. Following champs not supported (cause i dont have them): ')
-		for name in NotSupportedYet:
-			ui.image(name + '_square', Vec2(20, 20))
-			ui.sameline()
 		ui.treepop()
 		
 def valkyrie_on_load(ctx) :	 

@@ -89,15 +89,14 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("parent",            &SpellInfo::GetParentPy,          "SpellStatic of parent spell. This field is non empty for missile spells, the parent is the spell that created the missile")
 		.def_readonly("icon",              &SpellInfo::icon,                 "Icon name of the spell in lowercase")
 		.def_readonly("cast_time",         &SpellInfo::castTime,             "Cast time of spell")
-		.def_readonly("cast_range",        &SpellInfo::castRange,            "Cast range of the spell (e.g Ezreal Q length)")
+		.def_readonly("cast_range",        &SpellInfo::castRange,            "Cast range of the spell. Can mean multiple things, the range of a skillshot or the cast range of targeted spell")
 		.def_readonly("cast_radius",       &SpellInfo::castRadius,           "Cast radius of the spell (e.g Ziggs R area of effect)")
 		.def_readonly("cast_cone_angle",   &SpellInfo::castConeAngle,        "If spell is conic this is the cone angle")
 		.def_readonly("cast_cone_distance",&SpellInfo::castConeDistance,     "If the spell is conic this is the cone length")
-		.def_readonly("delay",             &SpellInfo::delay,                "Additional delay besides the cast_time")
+		.def_readonly("delay",             &SpellInfo::delay,                "Additional delay besides the cast_time. Also if a missile has fixed travel time the value will be added here.")
 		.def_readonly("width",             &SpellInfo::width,                "Width of the spell")
 		.def_readonly("height_augment",    &SpellInfo::height,               "For drawing purposes. Height of the missile/spell must be augmented by this value")
 		.def_readonly("speed",             &SpellInfo::speed,                "Speed of the spell. Used mostly by missile spells")
-		.def_readonly("travel_time",       &SpellInfo::travelTime,           "Flat travel time in seconds. Use this if not 0 instead of calculating travel time using speed")
 		.def("has_flag",                   &SpellInfo::HasFlag,              "Checks if the spell has the specified Spell flag")
 		;
 
@@ -287,8 +286,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Returns jungle monster query builder")
 		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Returns other uncategorized objects query builder")
 
-		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit,     "")
-		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,     "")
+		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit, "Gets a list of future collisions for a unit")
+		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast, "Gets a list of future collisions for a spell cast")
 		.def("attack",                   &PyExecutionContext::AttackUnit,        "Makes the player attack the given unit")
 		.def("move",                     &PyExecutionContext::MoveToLocation,    "Moves the player to the given location")
 		.def("move",                     &PyExecutionContext::MoveToMouse,       "Moves the player to where the mouse cursor is")
@@ -298,7 +297,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		
 		.def("start_channel",            &PyExecutionContext::StartChannel,      "Starts a channeled spell")
 		.def("end_channel",              &PyExecutionContext::EndChannel,        "Ends and casts the channeled spell at the target location")
-		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
+		.def("cast_spell",               &PyExecutionContext::CastSpell,         "Casts a spell on a location. If second argument is None, it will cast at the current mouse position. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
 		.def("predict_cast_point",       &PyExecutionContext::PredictCastPoint,  "Predicts a cast point such that the spell will hit the target. Returns None if doesnt find such a point")
 		.def("get_spell_static",         &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
 
@@ -432,12 +431,11 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
 		;
 
-	enum_<SpellFlags>("Spell")
+	enum_<SpellFlags>("Spell", "Spell flags that specify behaviour and type of a spell")
 		.value("CastPoint",       CastPoint)
 		.value("CastAnywhere",    CastAnywhere)
 		.value("CastTarget",      CastTarget)
 		.value("CastDirection",   CastDirection)
-		.value("CastSelf",        CastSelf)
 								  
 		.value("TypeLine",        TypeLine)
 		.value("TypeArea",        TypeArea)

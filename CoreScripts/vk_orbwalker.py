@@ -37,8 +37,16 @@ class OrbwalkLastHit:
 		return None
 
 class OrbwalkLanePush:
+
+	allow_champ = False
+	
 	def get_target(self, ctx):
 		player			  = ctx.player
+		
+		if self.allow_champ:
+			target = kite_mode.get_target(ctx)
+			if target:
+				return target
 		
 		# Try getting jungle mob
 		jungle_target = target_selector_monster.get_target(ctx, ctx.jungle.targetable().near(player, player.atk_range + player.static.gameplay_radius).get())
@@ -89,6 +97,9 @@ def valkyrie_menu(ctx):
 	target_selector_monster.ui('Monster targeting', ctx, ui)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
 	delay_percent  = ui.sliderfloat('Delay percent (%)', delay_percent, 0.0, 0.4)
+	lane_push_mode.allow_champ = ui.checkbox('Allow target champion while lane pushing', lane_push_mode.allow_champ)
+	ui.separator()
+	
 	key_kite.ui("Key kite champions", ui)
 	key_last_hit.ui("Key last hit minions (No Turret Farming Yet)", ui)
 	key_lane_push.ui("Key lane push", ui)
@@ -107,6 +118,7 @@ def valkyrie_on_load(ctx):
 	key_kite		= KeyInput.from_str(cfg.get_str("key_kite", str(key_kite)))
 	key_last_hit	= KeyInput.from_str(cfg.get_str("key_last_hit", str(key_last_hit)))
 	key_lane_push   = KeyInput.from_str(cfg.get_str("key_lane_push", str(key_lane_push)))
+	lane_push_mode.allow_champ = cfg.get_bool('lane_push_mode.allow_champ', False)
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
@@ -120,6 +132,7 @@ def valkyrie_on_save(ctx):
 	cfg.set_str("key_kite", str(key_kite))
 	cfg.set_str("key_last_hit", str(key_last_hit))
 	cfg.set_str("key_lane_push", str(key_lane_push))
+	cfg.set_bool("lane_push_mode.allow_champ", lane_push_mode.allow_champ)
 
 last_moved	= 0
 last_attacked = 0

@@ -1,0 +1,3149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>valkyrie API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>valkyrie</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="valkyrie.Buff"><code class="flex name class">
+<span>class <span class="ident">Buff</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Contains data related to a buff on a champion</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Buff.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the buff</p></div>
+</dd>
+<dt id="valkyrie.Buff.time_begin"><code class="name">var <span class="ident">time_begin</span></code></dt>
+<dd>
+<div class="desc"><p>When the buff was received in game time</p></div>
+</dd>
+<dt id="valkyrie.Buff.time_end"><code class="name">var <span class="ident">time_end</span></code></dt>
+<dd>
+<div class="desc"><p>When the buff will end in game time</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.ChampionObj"><code class="flex name class">
+<span>class <span class="ident">ChampionObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a champion object</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="valkyrie.UnitObj" href="#valkyrie.UnitObj">UnitObj</a></li>
+<li><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></li>
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.ChampionObj.buffs"><code class="name">var <span class="ident">buffs</span></code></dt>
+<dd>
+<div class="desc"><p>List of all the buffs on the champion. Currently buffs are only read for the player champion due to performance reasons.</p></div>
+</dd>
+<dt id="valkyrie.ChampionObj.hpbar_pos"><code class="name">var <span class="ident">hpbar_pos</span></code></dt>
+<dd>
+<div class="desc"><p>Height position of the HP bar of the champion</p></div>
+</dd>
+<dt id="valkyrie.ChampionObj.is_clone"><code class="name">var <span class="ident">is_clone</span></code></dt>
+<dd>
+<div class="desc"><p>Checks if the champion is a clone</p></div>
+</dd>
+<dt id="valkyrie.ChampionObj.item_slots"><code class="name">var <span class="ident">item_slots</span></code></dt>
+<dd>
+<div class="desc"><p>List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons</p></div>
+</dd>
+<dt id="valkyrie.ChampionObj.recalling"><code class="name">var <span class="ident">recalling</span></code></dt>
+<dd>
+<div class="desc"><p>True if champion is recalling</p></div>
+</dd>
+<dt id="valkyrie.ChampionObj.spells"><code class="name">var <span class="ident">spells</span></code></dt>
+<dd>
+<div class="desc"><p>List of all the champion spells. Remarks: First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them. Only enemies and local player have item actives read for performance reasons</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.ChampionObj.has_buff"><code class="name flex">
+<span>def <span class="ident">has_buff</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>has_buff( (ChampionObj)arg1, (str)arg2) -&gt; bool :
+Check if champion has buff. The buff name is case sensitive</p>
+<pre><code>C++ signature :
+    bool has_buff(class GameChampion {lvalue},char const *)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Col"><code class="flex name class">
+<span>class <span class="ident">Col</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>( (object)arg1, (float)arg2, (float)arg3, (float)arg4, (float)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *,float,float,float,float)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="valkyrie.Col.Black"><code class="name">var <span class="ident">Black</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Blue"><code class="name">var <span class="ident">Blue</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Brown"><code class="name">var <span class="ident">Brown</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Cyan"><code class="name">var <span class="ident">Cyan</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.DarkGreen"><code class="name">var <span class="ident">DarkGreen</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.DarkRed"><code class="name">var <span class="ident">DarkRed</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.DarkYellow"><code class="name">var <span class="ident">DarkYellow</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Gray"><code class="name">var <span class="ident">Gray</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Green"><code class="name">var <span class="ident">Green</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Orange"><code class="name">var <span class="ident">Orange</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Purple"><code class="name">var <span class="ident">Purple</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Red"><code class="name">var <span class="ident">Red</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.White"><code class="name">var <span class="ident">White</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Col.Yellow"><code class="name">var <span class="ident">Yellow</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Col.a"><code class="name">var <span class="ident">a</span></code></dt>
+<dd>
+<div class="desc"><p>Alpha value of color</p></div>
+</dd>
+<dt id="valkyrie.Col.b"><code class="name">var <span class="ident">b</span></code></dt>
+<dd>
+<div class="desc"><p>Blue value of color</p></div>
+</dd>
+<dt id="valkyrie.Col.g"><code class="name">var <span class="ident">g</span></code></dt>
+<dd>
+<div class="desc"><p>Green value of color</p></div>
+</dd>
+<dt id="valkyrie.Col.r"><code class="name">var <span class="ident">r</span></code></dt>
+<dd>
+<div class="desc"><p>Red value of color</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Config"><code class="flex name class">
+<span>class <span class="ident">Config</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interface for saving &amp; loading script configurations</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.Config.get_bool"><code class="name flex">
+<span>def <span class="ident">get_bool</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>get_bool( (Config)arg1, (str)arg2, (bool)arg3) -&gt; bool :
+Gets a bool from the config file</p>
+<pre><code>C++ signature :
+    bool get_bool(class ConfigSet {lvalue},char const *,bool)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.get_float"><code class="name flex">
+<span>def <span class="ident">get_float</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>get_float( (Config)arg1, (str)arg2, (float)arg3) -&gt; float :
+Gets a float from the config file</p>
+<pre><code>C++ signature :
+    float get_float(class ConfigSet {lvalue},char const *,float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.get_int"><code class="name flex">
+<span>def <span class="ident">get_int</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>get_int( (Config)arg1, (str)arg2, (WindowFlag)arg3) -&gt; int :
+Gets an integer from the config file</p>
+<pre><code>C++ signature :
+    int get_int(class ConfigSet {lvalue},char const *,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.get_str"><code class="name flex">
+<span>def <span class="ident">get_str</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>get_str( (Config)arg1, (str)arg2, (str)arg3) -&gt; str :
+Gets a string from the config file</p>
+<pre><code>C++ signature :
+    class std::basic_string&lt;char,struct std::char_traits&lt;char&gt;,class std::allocator&lt;char&gt; &gt; get_str(class ConfigSet {lvalue},char const *,char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.set_bool"><code class="name flex">
+<span>def <span class="ident">set_bool</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>set_bool( (Config)arg1, (str)arg2, (bool)arg3) -&gt; None :
+Saves a bool to the config file</p>
+<pre><code>C++ signature :
+    void set_bool(class ConfigSet {lvalue},char const *,bool)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.set_float"><code class="name flex">
+<span>def <span class="ident">set_float</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>set_float( (Config)arg1, (str)arg2, (float)arg3) -&gt; None :
+Saves a float to the config file</p>
+<pre><code>C++ signature :
+    void set_float(class ConfigSet {lvalue},char const *,float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.set_int"><code class="name flex">
+<span>def <span class="ident">set_int</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>set_int( (Config)arg1, (str)arg2, (WindowFlag)arg3) -&gt; None :
+Saves an integer to the config file</p>
+<pre><code>C++ signature :
+    void set_int(class ConfigSet {lvalue},char const *,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Config.set_str"><code class="name flex">
+<span>def <span class="ident">set_str</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>set_str( (Config)arg1, (str)arg2, (str)arg3) -&gt; None :
+Saves a string to the config file</p>
+<pre><code>C++ signature :
+    void set_str(class ConfigSet {lvalue},char const *,char const *)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Context"><code class="flex name class">
+<span>class <span class="ident">Context</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Contains everything necessarry to create scripts. From utility functions to game data</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Context.cfg"><code class="name">var <span class="ident">cfg</span></code></dt>
+<dd>
+<div class="desc"><p>The script config interface. Used to load/save settings</p></div>
+</dd>
+<dt id="valkyrie.Context.champs"><code class="name">var <span class="ident">champs</span></code></dt>
+<dd>
+<div class="desc"><p>Returns champion query builder</p></div>
+</dd>
+<dt id="valkyrie.Context.cursor_pos"><code class="name">var <span class="ident">cursor_pos</span></code></dt>
+<dd>
+<div class="desc"><p>Gets the current position of the mouse</p></div>
+</dd>
+<dt id="valkyrie.Context.hovered"><code class="name">var <span class="ident">hovered</span></code></dt>
+<dd>
+<div class="desc"><p>Gets the game object under the mouse</p></div>
+</dd>
+<dt id="valkyrie.Context.jungle"><code class="name">var <span class="ident">jungle</span></code></dt>
+<dd>
+<div class="desc"><p>Returns jungle monster query builder</p></div>
+</dd>
+<dt id="valkyrie.Context.minions"><code class="name">var <span class="ident">minions</span></code></dt>
+<dd>
+<div class="desc"><p>Returns minions query builder</p></div>
+</dd>
+<dt id="valkyrie.Context.missiles"><code class="name">var <span class="ident">missiles</span></code></dt>
+<dd>
+<div class="desc"><p>Returns missiles query builder</p></div>
+</dd>
+<dt id="valkyrie.Context.others"><code class="name">var <span class="ident">others</span></code></dt>
+<dd>
+<div class="desc"><p>Returns other uncategorized objects query builder</p></div>
+</dd>
+<dt id="valkyrie.Context.ping"><code class="name">var <span class="ident">ping</span></code></dt>
+<dd>
+<div class="desc"><p>Current ping of the game</p></div>
+</dd>
+<dt id="valkyrie.Context.player"><code class="name">var <span class="ident">player</span></code></dt>
+<dd>
+<div class="desc"><p>The champion used by the local player. In replays this will be a random champion</p></div>
+</dd>
+<dt id="valkyrie.Context.time"><code class="name">var <span class="ident">time</span></code></dt>
+<dd>
+<div class="desc"><p>Current game duration in seconds</p></div>
+</dd>
+<dt id="valkyrie.Context.turrets"><code class="name">var <span class="ident">turrets</span></code></dt>
+<dd>
+<div class="desc"><p>Returns turrets query builder</p></div>
+</dd>
+<dt id="valkyrie.Context.ui"><code class="name">var <span class="ident">ui</span></code></dt>
+<dd>
+<div class="desc"><p>UI interface for drawing menus based on imgui</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.Context.attack"><code class="name flex">
+<span>def <span class="ident">attack</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>attack( (Context)arg1, (UnitObj)arg2) -&gt; None :
+Makes the player attack the given unit</p>
+<pre><code>C++ signature :
+    void attack(class PyExecutionContext {lvalue},class GameUnit)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.cast_spell"><code class="name flex">
+<span>def <span class="ident">cast_spell</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>cast_spell( (Context)arg1, (SpellObj)arg2, (Vec3)arg3) -&gt; bool :
+Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.</p>
+<pre><code>C++ signature :
+    bool cast_spell(class PyExecutionContext {lvalue},class GameSpell *,struct Vector3 const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.circle"><code class="name flex">
+<span>def <span class="ident">circle</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>circle( (Context)arg1, (Vec2)arg2, (float)arg3, (WindowFlag)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
+<pre><code>C++ signature :
+    void circle(class PyExecutionContext {lvalue},struct Vector2,float,int,float,struct ImVec4)
+</code></pre>
+<p>circle( (Context)arg1, (Vec3)arg2, (float)arg3, (WindowFlag)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
+<pre><code>C++ signature :
+    void circle(class PyExecutionContext {lvalue},struct Vector3,float,int,float,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.circle_fill"><code class="name flex">
+<span>def <span class="ident">circle_fill</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>circle_fill( (Context)arg1, (Vec2)arg2, (float)arg3, (WindowFlag)arg4, (Col)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void circle_fill(class PyExecutionContext {lvalue},struct Vector2,float,int,struct ImVec4)
+</code></pre>
+<p>circle_fill( (Context)arg1, (Vec3)arg2, (float)arg3, (WindowFlag)arg4, (Col)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void circle_fill(class PyExecutionContext {lvalue},struct Vector3,float,int,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.collisions_for"><code class="name flex">
+<span>def <span class="ident">collisions_for</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>collisions_for( (Context)arg1, (UnitObj)arg2) -&gt; list :
+Gets a list of future collisions for a unit</p>
+<pre><code>C++ signature :
+    class boost::python::list collisions_for(class PyExecutionContext {lvalue},class GameUnit)
+</code></pre>
+<p>collisions_for( (Context)arg1, (SpellCast)arg2) -&gt; list :
+Gets a list of future collisions for a spell cast</p>
+<pre><code>C++ signature :
+    class boost::python::list collisions_for(class PyExecutionContext {lvalue},class SpellCast)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.d2m"><code class="name flex">
+<span>def <span class="ident">d2m</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>d2m( (Context)arg1, (float)arg2) -&gt; float :
+Converts a distance value from world space to minimap space</p>
+<pre><code>C++ signature :
+    float d2m(class PyExecutionContext {lvalue},float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.end_channel"><code class="name flex">
+<span>def <span class="ident">end_channel</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>end_channel( (Context)arg1, (SpellObj)arg2, (Vec3)arg3) -&gt; bool :
+Ends and casts the channeled spell at the target location</p>
+<pre><code>C++ signature :
+    bool end_channel(class PyExecutionContext {lvalue},class GameSpell *,struct Vector3 const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.error"><code class="name flex">
+<span>def <span class="ident">error</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>error( (Context)arg1, (str)arg2) -&gt; None :
+Logs a error message to the console &amp; file log. The file log will be flushed. Use this in absolute worse cases</p>
+<pre><code>C++ signature :
+    void error(class PyExecutionContext {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.get_spell_static"><code class="name flex">
+<span>def <span class="ident">get_spell_static</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>get_spell_static( (Context)arg1, (str)arg2) -&gt; object :
+Gets static spell info. Argument must be lower case</p>
+<pre><code>C++ signature :
+    class boost::python::api::object get_spell_static(class PyExecutionContext {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.image"><code class="name flex">
+<span>def <span class="ident">image</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>image( (Context)arg1, (str)arg2, (Vec2)arg3, (Vec2)arg4, (Col)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void image(class PyExecutionContext {lvalue},char const *,struct Vector2,struct Vector2,struct ImVec4)
+</code></pre>
+<p>image( (Context)arg1, (str)arg2, (Vec2)arg3, (Vec2)arg4, (Col)arg5, (float)arg6) -&gt; None :</p>
+<pre><code>C++ signature :
+    void image(class PyExecutionContext {lvalue},char const *,struct Vector2,struct Vector2,struct ImVec4,float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.info"><code class="name flex">
+<span>def <span class="ident">info</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>info( (Context)arg1, (str)arg2) -&gt; None :
+Logs an info message to the console &amp; file log</p>
+<pre><code>C++ signature :
+    void info(class PyExecutionContext {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.is_at_spawn"><code class="name flex">
+<span>def <span class="ident">is_at_spawn</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>is_at_spawn( (Context)arg1, (Obj)arg2) -&gt; bool :
+Checks if the object is in the fountain of his team</p>
+<pre><code>C++ signature :
+    bool is_at_spawn(class PyExecutionContext {lvalue},class GameObject)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.is_held"><code class="name flex">
+<span>def <span class="ident">is_held</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>is_held( (Context)arg1, (WindowFlag)arg2) -&gt; bool :
+Checks if key is held down</p>
+<pre><code>C++ signature :
+    bool is_held(class PyExecutionContext {lvalue},int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.is_on_screen"><code class="name flex">
+<span>def <span class="ident">is_on_screen</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>is_on_screen( (Context)arg1, (Vec2)arg2 [, (float)arg3 [, (float)arg4]]) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool is_on_screen(class PyExecutionContext {lvalue},struct Vector2 [,float [,float]])
+</code></pre>
+<p>is_on_screen( (Context)arg1, (Vec3)arg2 [, (float)arg3 [, (float)arg4]]) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool is_on_screen(class PyExecutionContext {lvalue},struct Vector3 [,float [,float]])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.line"><code class="name flex">
+<span>def <span class="ident">line</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>line( (Context)arg1, (Vec2)arg2, (Vec2)arg3, (float)arg4, (Col)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void line(class PyExecutionContext {lvalue},struct Vector2,struct Vector2,float,struct ImVec4)
+</code></pre>
+<p>line( (Context)arg1, (Vec3)arg2, (Vec3)arg3, (float)arg4, (Col)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void line(class PyExecutionContext {lvalue},struct Vector3,struct Vector3,float,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.move"><code class="name flex">
+<span>def <span class="ident">move</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>move( (Context)arg1, (Vec3)arg2) -&gt; None :
+Moves the player to the given location</p>
+<pre><code>C++ signature :
+    void move(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre>
+<p>move( (Context)arg1) -&gt; None :
+Moves the player to where the mouse cursor is</p>
+<pre><code>C++ signature :
+    void move(class PyExecutionContext {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.move_mouse"><code class="name flex">
+<span>def <span class="ident">move_mouse</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>move_mouse( (Context)arg1, (Vec3)arg2) -&gt; None :
+Moves the mouse location to the specified game world coordinate</p>
+<pre><code>C++ signature :
+    void move_mouse(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.pill"><code class="name flex">
+<span>def <span class="ident">pill</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>pill( (Context)arg1, (str)arg2, (Col)arg3, (Col)arg4) -&gt; None :
+Draws a pill with a text under the player. Pill positions are automatically managed each frame so that they dont overlap.</p>
+<pre><code>C++ signature :
+    void pill(class PyExecutionContext {lvalue},char const *,struct ImVec4,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.predict_cast_point"><code class="name flex">
+<span>def <span class="ident">predict_cast_point</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>predict_cast_point( (Context)arg1, (UnitObj)arg2, (UnitObj)arg3, (SpellObj)arg4) -&gt; object :
+Predicts a cast point such that the spell will hit the target. Returns None if doesnt find such a point</p>
+<pre><code>C++ signature :
+    class boost::python::api::object predict_cast_point(class PyExecutionContext {lvalue},class GameUnit,class GameUnit,class GameSpell const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.rect"><code class="name flex">
+<span>def <span class="ident">rect</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>rect( (Context)arg1, (Vec2)arg2, (Vec2)arg3, (Col)arg4 [, (float)arg5 [, (float)arg6]]) -&gt; None :</p>
+<pre><code>C++ signature :
+    void rect(class PyExecutionContext {lvalue},struct Vector2,struct Vector2,struct ImVec4 [,float [,float]])
+</code></pre>
+<p>rect( (Context)arg1, (Vec3)arg2, (Vec3)arg3, (Vec3)arg4, (Vec3)arg5, (float)arg6, (Col)arg7) -&gt; None :</p>
+<pre><code>C++ signature :
+    void rect(class PyExecutionContext {lvalue},struct Vector3,struct Vector3,struct Vector3,struct Vector3,float,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.rect_fill"><code class="name flex">
+<span>def <span class="ident">rect_fill</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>rect_fill( (Context)arg1, (Vec2)arg2, (Vec2)arg3, (Col)arg4 [, (float)arg5]) -&gt; None :</p>
+<pre><code>C++ signature :
+    void rect_fill(class PyExecutionContext {lvalue},struct Vector2,struct Vector2,struct ImVec4 [,float])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.start_channel"><code class="name flex">
+<span>def <span class="ident">start_channel</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>start_channel( (Context)arg1, (SpellObj)arg2) -&gt; bool :
+Starts a channeled spell</p>
+<pre><code>C++ signature :
+    bool start_channel(class PyExecutionContext {lvalue},class GameSpell *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.text"><code class="name flex">
+<span>def <span class="ident">text</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>text( (Context)arg1, (Vec2)arg2, (str)arg3, (Col)arg4) -&gt; None :</p>
+<pre><code>C++ signature :
+    void text(class PyExecutionContext {lvalue},struct Vector2,char const *,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.triangle"><code class="name flex">
+<span>def <span class="ident">triangle</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>triangle( (Context)arg1, (Vec3)arg2, (Vec3)arg3, (Vec3)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
+<pre><code>C++ signature :
+    void triangle(class PyExecutionContext {lvalue},struct Vector3,struct Vector3,struct Vector3,float,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.triangle_fill"><code class="name flex">
+<span>def <span class="ident">triangle_fill</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>triangle_fill( (Context)arg1, (Vec3)arg2, (Vec3)arg3, (Vec3)arg4, (Col)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void triangle_fill(class PyExecutionContext {lvalue},struct Vector3,struct Vector3,struct Vector3,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.w2m"><code class="name flex">
+<span>def <span class="ident">w2m</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>w2m( (Context)arg1, (Vec3)arg2) -&gt; Vec2 :
+Converts a world space point to minimap space</p>
+<pre><code>C++ signature :
+    struct Vector2 w2m(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.w2s"><code class="name flex">
+<span>def <span class="ident">w2s</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>w2s( (Context)arg1, (Vec3)arg2) -&gt; Vec2 :
+Converts a world space point to screen space</p>
+<pre><code>C++ signature :
+    struct Vector2 w2s(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.warn"><code class="name flex">
+<span>def <span class="ident">warn</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>warn( (Context)arg1, (str)arg2) -&gt; None :
+Logs a warning message to the console &amp; file log</p>
+<pre><code>C++ signature :
+    void warn(class PyExecutionContext {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.was_pressed"><code class="name flex">
+<span>def <span class="ident">was_pressed</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>was_pressed( (Context)arg1, (WindowFlag)arg2) -&gt; bool :
+Checks if key was pressed</p>
+<pre><code>C++ signature :
+    bool was_pressed(class PyExecutionContext {lvalue},int)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.FutureCollision"><code class="flex name class">
+<span>class <span class="ident">FutureCollision</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Information about a future collision between a spell and a unit</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.FutureCollision.final"><code class="name">var <span class="ident">final</span></code></dt>
+<dd>
+<div class="desc"><p>True if the projectile will not go further after this collision. Useful for drawing indicators</p></div>
+</dd>
+<dt id="valkyrie.FutureCollision.spell"><code class="name">var <span class="ident">spell</span></code></dt>
+<dd>
+<div class="desc"><p>The spell in the collision</p></div>
+</dd>
+<dt id="valkyrie.FutureCollision.spell_pos"><code class="name">var <span class="ident">spell_pos</span></code></dt>
+<dd>
+<div class="desc"><p>The spell position at the moment of collision</p></div>
+</dd>
+<dt id="valkyrie.FutureCollision.time_until_impact"><code class="name">var <span class="ident">time_until_impact</span></code></dt>
+<dd>
+<div class="desc"><p>Time in seconds until the collision occurs</p></div>
+</dd>
+<dt id="valkyrie.FutureCollision.unit"><code class="name">var <span class="ident">unit</span></code></dt>
+<dd>
+<div class="desc"><p>The unit in the collision</p></div>
+</dd>
+<dt id="valkyrie.FutureCollision.unit_pos"><code class="name">var <span class="ident">unit_pos</span></code></dt>
+<dd>
+<div class="desc"><p>The unit position at the moment of collision</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.ItemSlot"><code class="flex name class">
+<span>class <span class="ident">ItemSlot</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an item slot</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.ItemSlot.active"><code class="name">var <span class="ident">active</span></code></dt>
+<dd>
+<div class="desc"><p>Spell active of the item. None if item doesnt have active</p></div>
+</dd>
+<dt id="valkyrie.ItemSlot.charges"><code class="name">var <span class="ident">charges</span></code></dt>
+<dd>
+<div class="desc"><p>Charges of item (example: corruption potion charges, number of red potions etc)</p></div>
+</dd>
+<dt id="valkyrie.ItemSlot.item"><code class="name">var <span class="ident">item</span></code></dt>
+<dd>
+<div class="desc"><p>Static data of the item. If there is no item on the slot then this is None otherwise it is an ItemStatic instance</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.ItemStatic"><code class="flex name class">
+<span>class <span class="ident">ItemStatic</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Static data loaded at runtime for an item</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.ItemStatic.ap"><code class="name">var <span class="ident">ap</span></code></dt>
+<dd>
+<div class="desc"><p>Flat ability power given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.armor"><code class="name">var <span class="ident">armor</span></code></dt>
+<dd>
+<div class="desc"><p>Flat armour given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.atk_speed"><code class="name">var <span class="ident">atk_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Attack speed percent given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.cost"><code class="name">var <span class="ident">cost</span></code></dt>
+<dd>
+<div class="desc"><p>Cost of item in gold coins</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.crit"><code class="name">var <span class="ident">crit</span></code></dt>
+<dd>
+<div class="desc"><p>Crit chance given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.health"><code class="name">var <span class="ident">health</span></code></dt>
+<dd>
+<div class="desc"><p>Flat health given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.hp_regen"><code class="name">var <span class="ident">hp_regen</span></code></dt>
+<dd>
+<div class="desc"><p>Health regen percent given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"><p>Item internal id</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.life_steal"><code class="name">var <span class="ident">life_steal</span></code></dt>
+<dd>
+<div class="desc"><p>Life steal percent given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.magic_res"><code class="name">var <span class="ident">magic_res</span></code></dt>
+<dd>
+<div class="desc"><p>Flat magic resist given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.mana"><code class="name">var <span class="ident">mana</span></code></dt>
+<dd>
+<div class="desc"><p>Flat mana given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.mov_speed"><code class="name">var <span class="ident">mov_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Flat movement speed given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.mov_speed_percent"><code class="name">var <span class="ident">mov_speed_percent</span></code></dt>
+<dd>
+<div class="desc"><p>Movement speed percent given by item</p></div>
+</dd>
+<dt id="valkyrie.ItemStatic.phys_dmg"><code class="name">var <span class="ident">phys_dmg</span></code></dt>
+<dd>
+<div class="desc"><p>Flat physical damage given by item</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.JungleMobObj"><code class="flex name class">
+<span>class <span class="ident">JungleMobObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a jungle mob object</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="valkyrie.UnitObj" href="#valkyrie.UnitObj">UnitObj</a></li>
+<li><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></li>
+<li>Boost.Python.instance</li>
+</ul>
+</dd>
+<dt id="valkyrie.MinionObj"><code class="flex name class">
+<span>class <span class="ident">MinionObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a minion object</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="valkyrie.UnitObj" href="#valkyrie.UnitObj">UnitObj</a></li>
+<li><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></li>
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.MinionObj.hpbar_pos"><code class="name">var <span class="ident">hpbar_pos</span></code></dt>
+<dd>
+<div class="desc"><p>Height position of the HP bar of the minion</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.MissileObj"><code class="flex name class">
+<span>class <span class="ident">MissileObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents the base of a ingame object. Most ingame objects derive from this.</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></li>
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.MissileObj.spell"><code class="name">var <span class="ident">spell</span></code></dt>
+<dd>
+<div class="desc"><p>The spell of the missile. A spell can have multiple missiles. So this is not necessarily the spell that was cast.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Obj"><code class="flex name class">
+<span>class <span class="ident">Obj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents the base of a ingame object. Most ingame objects derive from this.</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="valkyrie.MissileObj" href="#valkyrie.MissileObj">MissileObj</a></li>
+<li><a title="valkyrie.UnitObj" href="#valkyrie.UnitObj">UnitObj</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Obj.dir"><code class="name">var <span class="ident">dir</span></code></dt>
+<dd>
+<div class="desc"><p>Direction the object is facing as a normalized Vec3</p></div>
+</dd>
+<dt id="valkyrie.Obj.first_seen"><code class="name">var <span class="ident">first_seen</span></code></dt>
+<dd>
+<div class="desc"><p>When the object was first seen</p></div>
+</dd>
+<dt id="valkyrie.Obj.index"><code class="name">var <span class="ident">index</span></code></dt>
+<dd>
+<div class="desc"><p>Index of the object. This is not a unique id, you use this for targeted spells to find who the target is</p></div>
+</dd>
+<dt id="valkyrie.Obj.last_seen"><code class="name">var <span class="ident">last_seen</span></code></dt>
+<dd>
+<div class="desc"><p>Timestamp in game time for when the object was last visible</p></div>
+</dd>
+<dt id="valkyrie.Obj.moving"><code class="name">var <span class="ident">moving</span></code></dt>
+<dd>
+<div class="desc"><p>True if object is moving</p></div>
+</dd>
+<dt id="valkyrie.Obj.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the object in lower case</p></div>
+</dd>
+<dt id="valkyrie.Obj.net_id"><code class="name">var <span class="ident">net_id</span></code></dt>
+<dd>
+<div class="desc"><p>Network id. This is a unique id of the object</p></div>
+</dd>
+<dt id="valkyrie.Obj.pos"><code class="name">var <span class="ident">pos</span></code></dt>
+<dd>
+<div class="desc"><p>Position of the object</p></div>
+</dd>
+<dt id="valkyrie.Obj.team"><code class="name">var <span class="ident">team</span></code></dt>
+<dd>
+<div class="desc"><p>Team of the object: possible values 100, 200 and 300 for jungle side. Use ally_to/enemy_to functions instead of this</p></div>
+</dd>
+<dt id="valkyrie.Obj.visible"><code class="name">var <span class="ident">visible</span></code></dt>
+<dd>
+<div class="desc"><p>True if object is visible</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.Obj.ally_to"><code class="name flex">
+<span>def <span class="ident">ally_to</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ally_to( (Obj)arg1, (Obj)arg2) -&gt; bool :
+Checks if two objects are allied</p>
+<pre><code>C++ signature :
+    bool ally_to(class GameObject {lvalue},class GameObject)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Obj.enemy_to"><code class="name flex">
+<span>def <span class="ident">enemy_to</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>enemy_to( (Obj)arg1, (Obj)arg2) -&gt; bool :
+Checks if two objects are enemies</p>
+<pre><code>C++ signature :
+    bool enemy_to(class GameObject {lvalue},class GameObject)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.ObjectQuery"><code class="flex name class">
+<span>class <span class="ident">ObjectQuery</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Used to query game objects by avoiding python to C++ call overhead.</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.ObjectQuery.alive"><code class="name flex">
+<span>def <span class="ident">alive</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>alive( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query alive objects</p>
+<pre><code>C++ signature :
+    class ObjectQuery * alive(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.ally_to"><code class="name flex">
+<span>def <span class="ident">ally_to</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ally_to( (ObjectQuery)arg1, (Obj)arg2) -&gt; ObjectQuery :
+Query allies</p>
+<pre><code>C++ signature :
+    class ObjectQuery * ally_to(class ObjectQuery {lvalue},class GameObject)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.casting"><code class="name flex">
+<span>def <span class="ident">casting</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>casting( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query units casting a spell</p>
+<pre><code>C++ signature :
+    class ObjectQuery * casting(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.clone"><code class="name flex">
+<span>def <span class="ident">clone</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>clone( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query clone objects</p>
+<pre><code>C++ signature :
+    class ObjectQuery * clone(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.dead"><code class="name flex">
+<span>def <span class="ident">dead</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>dead( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query dead objects</p>
+<pre><code>C++ signature :
+    class ObjectQuery * dead(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.enemy_to"><code class="name flex">
+<span>def <span class="ident">enemy_to</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>enemy_to( (ObjectQuery)arg1, (Obj)arg2) -&gt; ObjectQuery :
+Query enemies</p>
+<pre><code>C++ signature :
+    class ObjectQuery * enemy_to(class ObjectQuery {lvalue},class GameObject)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>get( (ObjectQuery)arg1) -&gt; list :</p>
+<pre><code>C++ signature :
+    class boost::python::list get(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.invisible"><code class="name flex">
+<span>def <span class="ident">invisible</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>invisible( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query objects out of vision</p>
+<pre><code>C++ signature :
+    class ObjectQuery * invisible(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.near"><code class="name flex">
+<span>def <span class="ident">near</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>near( (ObjectQuery)arg1, (Obj)arg2, (float)arg3) -&gt; ObjectQuery :
+Query objects within distance of another object</p>
+<pre><code>C++ signature :
+    class ObjectQuery * near(class ObjectQuery {lvalue},class GameObject,float)
+</code></pre>
+<p>near( (ObjectQuery)arg1, (Vec3)arg2, (float)arg3) -&gt; ObjectQuery :
+Query objects within distance of a point</p>
+<pre><code>C++ signature :
+    class ObjectQuery * near(class ObjectQuery {lvalue},struct Vector3,float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.not_clone"><code class="name flex">
+<span>def <span class="ident">not_clone</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>not_clone( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query non clone objects</p>
+<pre><code>C++ signature :
+    class ObjectQuery * not_clone(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.on_screen"><code class="name flex">
+<span>def <span class="ident">on_screen</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>on_screen( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query objects on screen</p>
+<pre><code>C++ signature :
+    class ObjectQuery * on_screen(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.targetable"><code class="name flex">
+<span>def <span class="ident">targetable</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>targetable( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query targetable. Not equivalent to UnitObj.targetable. This checks if obj is alive, targetable and not invulnerable</p>
+<pre><code>C++ signature :
+    class ObjectQuery * targetable(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.untargetable"><code class="name flex">
+<span>def <span class="ident">untargetable</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>untargetable( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query untargetable</p>
+<pre><code>C++ signature :
+    class ObjectQuery * untargetable(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.visible"><code class="name flex">
+<span>def <span class="ident">visible</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>visible( (ObjectQuery)arg1) -&gt; ObjectQuery :
+Query objects in vision</p>
+<pre><code>C++ signature :
+    class ObjectQuery * visible(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Spell"><code class="flex name class">
+<span>class <span class="ident">Spell</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Spell flags that specify behaviour and type of a spell</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.enum</li>
+<li>builtins.int</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="valkyrie.Spell.AffectAllUnits"><code class="name">var <span class="ident">AffectAllUnits</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.AffectChampion"><code class="name">var <span class="ident">AffectChampion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.AffectMinion"><code class="name">var <span class="ident">AffectMinion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.AffectMonster"><code class="name">var <span class="ident">AffectMonster</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CastAnywhere"><code class="name">var <span class="ident">CastAnywhere</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CastDirection"><code class="name">var <span class="ident">CastDirection</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CastPoint"><code class="name">var <span class="ident">CastPoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CastTarget"><code class="name">var <span class="ident">CastTarget</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.ChannelSkill"><code class="name">var <span class="ident">ChannelSkill</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CollideChampion"><code class="name">var <span class="ident">CollideChampion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CollideCommon"><code class="name">var <span class="ident">CollideCommon</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CollideMinion"><code class="name">var <span class="ident">CollideMinion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CollideMonster"><code class="name">var <span class="ident">CollideMonster</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.CollideWindwall"><code class="name">var <span class="ident">CollideWindwall</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.DashSkill"><code class="name">var <span class="ident">DashSkill</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.TypeArea"><code class="name">var <span class="ident">TypeArea</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.TypeCone"><code class="name">var <span class="ident">TypeCone</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.TypeLine"><code class="name">var <span class="ident">TypeLine</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.names"><code class="name">var <span class="ident">names</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Spell.values"><code class="name">var <span class="ident">values</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.SpellCast"><code class="flex name class">
+<span>class <span class="ident">SpellCast</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Has data about a spell being cast.</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.SpellCast.cast_time"><code class="name">var <span class="ident">cast_time</span></code></dt>
+<dd>
+<div class="desc"><p>Total cast time</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.dest_index"><code class="name">var <span class="ident">dest_index</span></code></dt>
+<dd>
+<div class="desc"><p>If casting a targeted spell this holds the index of the target object</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.dir"><code class="name">var <span class="ident">dir</span></code></dt>
+<dd>
+<div class="desc"><p>Direction the spell is facing (in case of missiles)</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.end_pos"><code class="name">var <span class="ident">end_pos</span></code></dt>
+<dd>
+<div class="desc"><p>End position of the spell. Use this to get the direction of the spell. Remarks: this might not always be the real endpoint check SpellStatic project_endpoint field for more information.</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the spell being cast</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.remaining"><code class="name">var <span class="ident">remaining</span></code></dt>
+<dd>
+<div class="desc"><p>Remaining cast time. This can go into negatives since casts arent removed from memory always</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.src_index"><code class="name">var <span class="ident">src_index</span></code></dt>
+<dd>
+<div class="desc"><p>Index of the object who is casting</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.start_pos"><code class="name">var <span class="ident">start_pos</span></code></dt>
+<dd>
+<div class="desc"><p>Start position of the spell. Usually the position of the caster</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.static"><code class="name">var <span class="ident">static</span></code></dt>
+<dd>
+<div class="desc"><p>Static data of the spell being cast. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev</p></div>
+</dd>
+<dt id="valkyrie.SpellCast.time_begin"><code class="name">var <span class="ident">time_begin</span></code></dt>
+<dd>
+<div class="desc"><p>Start timestamp in game time of the casting</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.SpellObj"><code class="flex name class">
+<span>class <span class="ident">SpellObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a spell in game. In case of spells from items make sure level &gt; 0 before casting it.</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.SpellObj.cd"><code class="name">var <span class="ident">cd</span></code></dt>
+<dd>
+<div class="desc"><p>The remaining cooldown of the spell. Internally it is calculated using ready_at</p></div>
+</dd>
+<dt id="valkyrie.SpellObj.lvl"><code class="name">var <span class="ident">lvl</span></code></dt>
+<dd>
+<div class="desc"><p>Level of the spell. Has value 0 when spell is not learned</p></div>
+</dd>
+<dt id="valkyrie.SpellObj.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the spell in lower case</p></div>
+</dd>
+<dt id="valkyrie.SpellObj.ready_at"><code class="name">var <span class="ident">ready_at</span></code></dt>
+<dd>
+<div class="desc"><p>Timestamp in game time for when the cooldown of the spell ends</p></div>
+</dd>
+<dt id="valkyrie.SpellObj.static"><code class="name">var <span class="ident">static</span></code></dt>
+<dd>
+<div class="desc"><p>Gets static information loaded at runtime about the spell. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev</p></div>
+</dd>
+<dt id="valkyrie.SpellObj.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<div class="desc"><p>Value of spells. Holds the value of the spell for summoner spells like ignite/smite it holds the damage. For champion spells this value is usually 0</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.SpellStatic"><code class="flex name class">
+<span>class <span class="ident">SpellStatic</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Static data loaded at runtime for a spell</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.SpellStatic.cast_cone_angle"><code class="name">var <span class="ident">cast_cone_angle</span></code></dt>
+<dd>
+<div class="desc"><p>If spell is conic this is the cone angle</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.cast_cone_distance"><code class="name">var <span class="ident">cast_cone_distance</span></code></dt>
+<dd>
+<div class="desc"><p>If the spell is conic this is the cone length</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.cast_radius"><code class="name">var <span class="ident">cast_radius</span></code></dt>
+<dd>
+<div class="desc"><p>Cast radius of the spell (e.g Ziggs R area of effect)</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.cast_range"><code class="name">var <span class="ident">cast_range</span></code></dt>
+<dd>
+<div class="desc"><p>Cast range of the spell. Can mean multiple things, the range of a skillshot or the cast range of targeted spell</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.cast_time"><code class="name">var <span class="ident">cast_time</span></code></dt>
+<dd>
+<div class="desc"><p>Cast time of spell</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.delay"><code class="name">var <span class="ident">delay</span></code></dt>
+<dd>
+<div class="desc"><p>Additional delay besides the cast_time. Also if a missile has fixed travel time the value will be added here.</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.height_augment"><code class="name">var <span class="ident">height_augment</span></code></dt>
+<dd>
+<div class="desc"><p>For drawing purposes. Height of the missile/spell must be augmented by this value</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.icon"><code class="name">var <span class="ident">icon</span></code></dt>
+<dd>
+<div class="desc"><p>Icon name of the spell in lowercase</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the spell in lower case</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.parent"><code class="name">var <span class="ident">parent</span></code></dt>
+<dd>
+<div class="desc"><p>SpellStatic of parent spell. This field is non empty for missile spells, the parent is the spell that created the missile</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.speed"><code class="name">var <span class="ident">speed</span></code></dt>
+<dd>
+<div class="desc"><p>Speed of the spell. Used mostly by missile spells</p></div>
+</dd>
+<dt id="valkyrie.SpellStatic.width"><code class="name">var <span class="ident">width</span></code></dt>
+<dd>
+<div class="desc"><p>Width of the spell</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.SpellStatic.has_flag"><code class="name flex">
+<span>def <span class="ident">has_flag</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>has_flag( (SpellStatic)arg1, (Spell)arg2) -&gt; bool :
+Checks if the spell has the specified Spell flag</p>
+<pre><code>C++ signature :
+    bool has_flag(class SpellInfo {lvalue},enum SpellFlags)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.TurretObj"><code class="flex name class">
+<span>class <span class="ident">TurretObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a turret object</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="valkyrie.UnitObj" href="#valkyrie.UnitObj">UnitObj</a></li>
+<li><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></li>
+<li>Boost.Python.instance</li>
+</ul>
+</dd>
+<dt id="valkyrie.UI"><code class="flex name class">
+<span>class <span class="ident">UI</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Used to draw imgui backed UIs. Each method is more or less the equivalent of the original imgui method. Check imgui documentation for more info</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.UI.begin"><code class="name flex">
+<span>def <span class="ident">begin</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>begin( (UI)arg1, (str)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void begin(class PyImGui {lvalue},char const *)
+</code></pre>
+<p>begin( (UI)arg1, (str)arg2, (WindowFlag)arg3) -&gt; None :</p>
+<pre><code>C++ signature :
+    void begin(class PyImGui {lvalue},char const *,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.begingroup"><code class="name flex">
+<span>def <span class="ident">begingroup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>begingroup( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void begingroup(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.beginmenu"><code class="name flex">
+<span>def <span class="ident">beginmenu</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>beginmenu( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool beginmenu(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.beginmodal"><code class="name flex">
+<span>def <span class="ident">beginmodal</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>beginmodal( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool beginmodal(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.beginpopup"><code class="name flex">
+<span>def <span class="ident">beginpopup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>beginpopup( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool beginpopup(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.begintbl"><code class="name flex">
+<span>def <span class="ident">begintbl</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>begintbl( (UI)arg1, (str)arg2, (WindowFlag)arg3) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool begintbl(class PyImGui {lvalue},char const *,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.button"><code class="name flex">
+<span>def <span class="ident">button</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>button( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool button(class PyImGui {lvalue},char const *)
+</code></pre>
+<p>button( (UI)arg1, (str)arg2, (Col)arg3) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool button(class PyImGui {lvalue},char const *,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.checkbox"><code class="name flex">
+<span>def <span class="ident">checkbox</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>checkbox( (UI)arg1, (str)arg2, (bool)arg3) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool checkbox(class PyImGui {lvalue},char const *,bool)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.closepopup"><code class="name flex">
+<span>def <span class="ident">closepopup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>closepopup( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void closepopup(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.colorpick"><code class="name flex">
+<span>def <span class="ident">colorpick</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>colorpick( (UI)arg1, (str)arg2, (object)arg3) -&gt; Col :</p>
+<pre><code>C++ signature :
+    struct ImVec4 colorpick(class PyImGui {lvalue},char const *,class boost::python::api::object)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.combo"><code class="name flex">
+<span>def <span class="ident">combo</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>combo( (UI)arg1, (str)arg2, (list)arg3, (WindowFlag)arg4) -&gt; int :</p>
+<pre><code>C++ signature :
+    int combo(class PyImGui {lvalue},char const *,class boost::python::list,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.demo"><code class="name flex">
+<span>def <span class="ident">demo</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>demo( (UI)arg1) -&gt; None :
+Shows the famous imgui demo</p>
+<pre><code>C++ signature :
+    void demo(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.dragfloat"><code class="name flex">
+<span>def <span class="ident">dragfloat</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>dragfloat( (UI)arg1, (str)arg2, (float)arg3 [, (float)arg4 [, (float)arg5 [, (float)arg6]]]) -&gt; float :</p>
+<pre><code>C++ signature :
+    float dragfloat(class PyImGui {lvalue},char const *,float [,float [,float [,float]]])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.dragint"><code class="name flex">
+<span>def <span class="ident">dragint</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>dragint( (UI)arg1, (str)arg2, (WindowFlag)arg3 [, (WindowFlag)arg4 [, (WindowFlag)arg5 [, (WindowFlag)arg6]]]) -&gt; int :</p>
+<pre><code>C++ signature :
+    int dragint(class PyImGui {lvalue},char const *,int [,int [,int [,int]]])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.end"><code class="name flex">
+<span>def <span class="ident">end</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>end( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void end(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.endgroup"><code class="name flex">
+<span>def <span class="ident">endgroup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>endgroup( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void endgroup(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.endmenu"><code class="name flex">
+<span>def <span class="ident">endmenu</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>endmenu( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void endmenu(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.endpopup"><code class="name flex">
+<span>def <span class="ident">endpopup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>endpopup( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void endpopup(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.endtbl"><code class="name flex">
+<span>def <span class="ident">endtbl</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>endtbl( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void endtbl(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.header"><code class="name flex">
+<span>def <span class="ident">header</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>header( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool header(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.image"><code class="name flex">
+<span>def <span class="ident">image</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>image( (UI)arg1, (str)arg2, (Vec2)arg3 [, (Col)arg4]) -&gt; None :</p>
+<pre><code>C++ signature :
+    void image(class PyImGui {lvalue},char const *,struct Vector2 [,struct ImVec4])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.inputtext"><code class="name flex">
+<span>def <span class="ident">inputtext</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>inputtext( (UI)arg1, (str)arg2, (str)arg3) -&gt; str :</p>
+<pre><code>C++ signature :
+    class boost::python::str inputtext(class PyImGui {lvalue},char const *,char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.keyselect"><code class="name flex">
+<span>def <span class="ident">keyselect</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>keyselect( (UI)arg1, (str)arg2, (WindowFlag)arg3) -&gt; int :</p>
+<pre><code>C++ signature :
+    int keyselect(class PyImGui {lvalue},char const *,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.labeltext"><code class="name flex">
+<span>def <span class="ident">labeltext</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>labeltext( (UI)arg1, (str)arg2, (str)arg3) -&gt; None :</p>
+<pre><code>C++ signature :
+    void labeltext(class PyImGui {lvalue},char const *,char const *)
+</code></pre>
+<p>labeltext( (UI)arg1, (str)arg2, (str)arg3, (object)arg4) -&gt; None :</p>
+<pre><code>C++ signature :
+    void labeltext(class PyImGui {lvalue},char const *,char const *,class boost::python::api::object)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.listbox"><code class="name flex">
+<span>def <span class="ident">listbox</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>listbox( (UI)arg1, (str)arg2, (list)arg3, (WindowFlag)arg4) -&gt; int :</p>
+<pre><code>C++ signature :
+    int listbox(class PyImGui {lvalue},char const *,class boost::python::list,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.opennext"><code class="name flex">
+<span>def <span class="ident">opennext</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>opennext( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void opennext(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.openpopup"><code class="name flex">
+<span>def <span class="ident">openpopup</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>openpopup( (UI)arg1, (str)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void openpopup(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.popid"><code class="name flex">
+<span>def <span class="ident">popid</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>popid( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void popid(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.progressbar"><code class="name flex">
+<span>def <span class="ident">progressbar</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>progressbar( (UI)arg1, (float)arg2, (Vec2)arg3, (str)arg4) -&gt; None :</p>
+<pre><code>C++ signature :
+    void progressbar(class PyImGui {lvalue},float,struct Vector2,char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.pushid"><code class="name flex">
+<span>def <span class="ident">pushid</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>pushid( (UI)arg1, (WindowFlag)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void pushid(class PyImGui {lvalue},int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.sameline"><code class="name flex">
+<span>def <span class="ident">sameline</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sameline( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void sameline(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.selectable"><code class="name flex">
+<span>def <span class="ident">selectable</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>selectable( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool selectable(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.separator"><code class="name flex">
+<span>def <span class="ident">separator</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>separator( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void separator(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.sliderenum"><code class="name flex">
+<span>def <span class="ident">sliderenum</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sliderenum( (UI)arg1, (str)arg2, (str)arg3, (WindowFlag)arg4, (WindowFlag)arg5) -&gt; int :</p>
+<pre><code>C++ signature :
+    int sliderenum(class PyImGui {lvalue},char const *,char const *,int,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.sliderfloat"><code class="name flex">
+<span>def <span class="ident">sliderfloat</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sliderfloat( (UI)arg1, (str)arg2, (float)arg3, (float)arg4, (float)arg5) -&gt; float :</p>
+<pre><code>C++ signature :
+    float sliderfloat(class PyImGui {lvalue},char const *,float,float,float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.sliderint"><code class="name flex">
+<span>def <span class="ident">sliderint</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sliderint( (UI)arg1, (str)arg2, (WindowFlag)arg3, (WindowFlag)arg4, (WindowFlag)arg5) -&gt; int :</p>
+<pre><code>C++ signature :
+    int sliderint(class PyImGui {lvalue},char const *,int,int,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.tblcolumn"><code class="name flex">
+<span>def <span class="ident">tblcolumn</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>tblcolumn( (UI)arg1, (WindowFlag)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void tblcolumn(class PyImGui {lvalue},int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.tblnextrow"><code class="name flex">
+<span>def <span class="ident">tblnextrow</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>tblnextrow( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void tblnextrow(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.text"><code class="name flex">
+<span>def <span class="ident">text</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>text( (UI)arg1, (str)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void text(class PyImGui {lvalue},char const *)
+</code></pre>
+<p>text( (UI)arg1, (str)arg2, (Col)arg3) -&gt; None :</p>
+<pre><code>C++ signature :
+    void text(class PyImGui {lvalue},char const *,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.treenode"><code class="name flex">
+<span>def <span class="ident">treenode</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>treenode( (UI)arg1, (str)arg2) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool treenode(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.treepop"><code class="name flex">
+<span>def <span class="ident">treepop</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>treepop( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void treepop(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Unit"><code class="flex name class">
+<span>class <span class="ident">Unit</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Riot unit tags extracted from the game files. These are not compatible with bitwise operations so writing things like Unit.Monster | Unit.Plant will not yield a tag that has both of those.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.enum</li>
+<li>builtins.int</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="valkyrie.Unit.Champion"><code class="name">var <span class="ident">Champion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.ChampionClone"><code class="name">var <span class="ident">ChampionClone</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.IsolationNonImpacting"><code class="name">var <span class="ident">IsolationNonImpacting</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.KingPoro"><code class="name">var <span class="ident">KingPoro</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.Minion"><code class="name">var <span class="ident">Minion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionLane"><code class="name">var <span class="ident">MinionLane</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionLaneMelee"><code class="name">var <span class="ident">MinionLaneMelee</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionLaneRanged"><code class="name">var <span class="ident">MinionLaneRanged</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionLaneSiege"><code class="name">var <span class="ident">MinionLaneSiege</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionLaneSuper"><code class="name">var <span class="ident">MinionLaneSuper</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionSummon"><code class="name">var <span class="ident">MinionSummon</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MinionSummon_Large"><code class="name">var <span class="ident">MinionSummon_Large</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.Monster"><code class="name">var <span class="ident">Monster</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterBlue"><code class="name">var <span class="ident">MonsterBlue</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterBuff"><code class="name">var <span class="ident">MonsterBuff</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterCamp"><code class="name">var <span class="ident">MonsterCamp</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterCrab"><code class="name">var <span class="ident">MonsterCrab</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterDragon"><code class="name">var <span class="ident">MonsterDragon</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterEpic"><code class="name">var <span class="ident">MonsterEpic</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterGromp"><code class="name">var <span class="ident">MonsterGromp</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterKrug"><code class="name">var <span class="ident">MonsterKrug</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterLarge"><code class="name">var <span class="ident">MonsterLarge</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterMedium"><code class="name">var <span class="ident">MonsterMedium</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterRaptor"><code class="name">var <span class="ident">MonsterRaptor</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterRed"><code class="name">var <span class="ident">MonsterRed</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.MonsterWolf"><code class="name">var <span class="ident">MonsterWolf</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.Plant"><code class="name">var <span class="ident">Plant</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.Special"><code class="name">var <span class="ident">Special</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialAzirR"><code class="name">var <span class="ident">SpecialAzirR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialAzirW"><code class="name">var <span class="ident">SpecialAzirW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialCorkiBomb"><code class="name">var <span class="ident">SpecialCorkiBomb</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialEpicMonsterIgnores"><code class="name">var <span class="ident">SpecialEpicMonsterIgnores</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialKPMinion"><code class="name">var <span class="ident">SpecialKPMinion</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialMonsterIgnores"><code class="name">var <span class="ident">SpecialMonsterIgnores</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialPeaceful"><code class="name">var <span class="ident">SpecialPeaceful</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialSyndraSphere"><code class="name">var <span class="ident">SpecialSyndraSphere</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialTeleportTarget"><code class="name">var <span class="ident">SpecialTeleportTarget</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialTrap"><code class="name">var <span class="ident">SpecialTrap</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialTunnel"><code class="name">var <span class="ident">SpecialTunnel</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialTurretIgnores"><code class="name">var <span class="ident">SpecialTurretIgnores</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialUntargetableBySpells"><code class="name">var <span class="ident">SpecialUntargetableBySpells</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialVoid"><code class="name">var <span class="ident">SpecialVoid</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.SpecialYorickW"><code class="name">var <span class="ident">SpecialYorickW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.Structure"><code class="name">var <span class="ident">Structure</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureInhibitor"><code class="name">var <span class="ident">StructureInhibitor</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureNexus"><code class="name">var <span class="ident">StructureNexus</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureTurret"><code class="name">var <span class="ident">StructureTurret</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureTurretInhib"><code class="name">var <span class="ident">StructureTurretInhib</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureTurretInner"><code class="name">var <span class="ident">StructureTurretInner</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureTurretNexus"><code class="name">var <span class="ident">StructureTurretNexus</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureTurretOuter"><code class="name">var <span class="ident">StructureTurretOuter</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.StructureTurretShrine"><code class="name">var <span class="ident">StructureTurretShrine</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.Ward"><code class="name">var <span class="ident">Ward</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.names"><code class="name">var <span class="ident">names</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Unit.values"><code class="name">var <span class="ident">values</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.UnitObj"><code class="flex name class">
+<span>class <span class="ident">UnitObj</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a base unit object</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></li>
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="valkyrie.ChampionObj" href="#valkyrie.ChampionObj">ChampionObj</a></li>
+<li><a title="valkyrie.JungleMobObj" href="#valkyrie.JungleMobObj">JungleMobObj</a></li>
+<li><a title="valkyrie.MinionObj" href="#valkyrie.MinionObj">MinionObj</a></li>
+<li><a title="valkyrie.TurretObj" href="#valkyrie.TurretObj">TurretObj</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.UnitObj.ap"><code class="name">var <span class="ident">ap</span></code></dt>
+<dd>
+<div class="desc"><p>Flat ability power of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.armor"><code class="name">var <span class="ident">armor</span></code></dt>
+<dd>
+<div class="desc"><p>Armour of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.atk_range"><code class="name">var <span class="ident">atk_range</span></code></dt>
+<dd>
+<div class="desc"><p>Attack range of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.atk_speed"><code class="name">var <span class="ident">atk_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Calculates the attack speed of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.atk_speed_multi"><code class="name">var <span class="ident">atk_speed_multi</span></code></dt>
+<dd>
+<div class="desc"><p>Attack speed multiplier of the unit as a decimal. Multiply this with base attack speed to get current attack speed</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.base_atk"><code class="name">var <span class="ident">base_atk</span></code></dt>
+<dd>
+<div class="desc"><p>Base physical damage of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.bonus_atk"><code class="name">var <span class="ident">bonus_atk</span></code></dt>
+<dd>
+<div class="desc"><p>Bonus physical damage of the unit (from items, buffs etc)</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.crit"><code class="name">var <span class="ident">crit</span></code></dt>
+<dd>
+<div class="desc"><p>Crit chance of the unit as a decimal</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.crit_multi"><code class="name">var <span class="ident">crit_multi</span></code></dt>
+<dd>
+<div class="desc"><p>Crit multi of the unit as a decimal</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.curr_casting"><code class="name">var <span class="ident">curr_casting</span></code></dt>
+<dd>
+<div class="desc"><p>Currently casting spell by the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.dead"><code class="name">var <span class="ident">dead</span></code></dt>
+<dd>
+<div class="desc"><p>Used to check if unit is dead</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.expiry"><code class="name">var <span class="ident">expiry</span></code></dt>
+<dd>
+<div class="desc"><p>Expiration duration in seconds. Used for units like wards</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.health"><code class="name">var <span class="ident">health</span></code></dt>
+<dd>
+<div class="desc"><p>Current health of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.invulnerable"><code class="name">var <span class="ident">invulnerable</span></code></dt>
+<dd>
+<div class="desc"><p>Used to check if unit is invulnerable</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.is_ranged"><code class="name">var <span class="ident">is_ranged</span></code></dt>
+<dd>
+<div class="desc"><p>True if unit is ranged</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.lvl"><code class="name">var <span class="ident">lvl</span></code></dt>
+<dd>
+<div class="desc"><p>Level of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.magic_res"><code class="name">var <span class="ident">magic_res</span></code></dt>
+<dd>
+<div class="desc"><p>Magic resist of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.mana"><code class="name">var <span class="ident">mana</span></code></dt>
+<dd>
+<div class="desc"><p>Current mana of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.max_health"><code class="name">var <span class="ident">max_health</span></code></dt>
+<dd>
+<div class="desc"><p>Max health of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.move_speed"><code class="name">var <span class="ident">move_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Movement speed of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.static"><code class="name">var <span class="ident">static</span></code></dt>
+<dd>
+<div class="desc"><p>Static data loaded at runtime of the unit. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.targetable"><code class="name">var <span class="ident">targetable</span></code></dt>
+<dd>
+<div class="desc"><p>Used to check if unit is targetable</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.UnitObj.has_tags"><code class="name flex">
+<span>def <span class="ident">has_tags</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>has_tags( (UnitObj)arg1, (Unit)arg2) -&gt; bool :
+Checks if the unit has unit tags (see Unit class)</p>
+<pre><code>C++ signature :
+    bool has_tags(class GameUnit {lvalue},enum UnitTag)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.UnitStatic"><code class="flex name class">
+<span>class <span class="ident">UnitStatic</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Static data loaded at runtime for an unit</p>
+<p><strong>init</strong>( (object)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.UnitStatic.acquisition_radius"><code class="name">var <span class="ident">acquisition_radius</span></code></dt>
+<dd>
+<div class="desc"><p>Acquisition radius. See league wiki for more info</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.atk_speed_ratio"><code class="name">var <span class="ident">atk_speed_ratio</span></code></dt>
+<dd>
+<div class="desc"><p>Attack speed ratio</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.base_atk_range"><code class="name">var <span class="ident">base_atk_range</span></code></dt>
+<dd>
+<div class="desc"><p>Base attack range</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.base_atk_speed"><code class="name">var <span class="ident">base_atk_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Base attack speed</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.basic_atk"><code class="name">var <span class="ident">basic_atk</span></code></dt>
+<dd>
+<div class="desc"><p>Default basic attack on the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.basic_atk_cast_time"><code class="name">var <span class="ident">basic_atk_cast_time</span></code></dt>
+<dd>
+<div class="desc"><p>Basic attack cast time. See league wiki for more info</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.basic_atk_windup"><code class="name">var <span class="ident">basic_atk_windup</span></code></dt>
+<dd>
+<div class="desc"><p>Basic attack windup. See league wiki for more info</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.gameplay_radius"><code class="name">var <span class="ident">gameplay_radius</span></code></dt>
+<dd>
+<div class="desc"><p>Gameplay radius. See league wiki for more info</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.hp_bar_height"><code class="name">var <span class="ident">hp_bar_height</span></code></dt>
+<dd>
+<div class="desc"><p>The height at which the health bar starts</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.movement_speed"><code class="name">var <span class="ident">movement_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Base movement speed</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.pathing_radius"><code class="name">var <span class="ident">pathing_radius</span></code></dt>
+<dd>
+<div class="desc"><p>Pathing radius. See league wiki for more info</p></div>
+</dd>
+<dt id="valkyrie.UnitStatic.selection_radius"><code class="name">var <span class="ident">selection_radius</span></code></dt>
+<dd>
+<div class="desc"><p>Selection radius. See league wiki for more info</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Vec2"><code class="flex name class">
+<span>class <span class="ident">Vec2</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>( (object)arg1, (float)arg2, (float)arg3) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *,float,float)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Vec2.x"><code class="name">var <span class="ident">x</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Vec2.y"><code class="name">var <span class="ident">y</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.Vec2.clone"><code class="name flex">
+<span>def <span class="ident">clone</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>clone( (Vec2)arg1) -&gt; Vec2 :</p>
+<pre><code>C++ signature :
+    struct Vector2 clone(struct Vector2 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec2.distance"><code class="name flex">
+<span>def <span class="ident">distance</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>distance( (Vec2)arg1, (Vec2)arg2) -&gt; float :</p>
+<pre><code>C++ signature :
+    float distance(struct Vector2 {lvalue},struct Vector2)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec2.length"><code class="name flex">
+<span>def <span class="ident">length</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>length( (Vec2)arg1) -&gt; float :</p>
+<pre><code>C++ signature :
+    float length(struct Vector2 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec2.normalize"><code class="name flex">
+<span>def <span class="ident">normalize</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>normalize( (Vec2)arg1) -&gt; Vec2 :</p>
+<pre><code>C++ signature :
+    struct Vector2 normalize(struct Vector2 {lvalue})
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Vec3"><code class="flex name class">
+<span>class <span class="ident">Vec3</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>( (object)arg1, (float)arg2, (float)arg3, (float)arg4) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *,float,float,float)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Vec3.x"><code class="name">var <span class="ident">x</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Vec3.y"><code class="name">var <span class="ident">y</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Vec3.z"><code class="name">var <span class="ident">z</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.Vec3.clone"><code class="name flex">
+<span>def <span class="ident">clone</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>clone( (Vec3)arg1) -&gt; Vec3 :</p>
+<pre><code>C++ signature :
+    struct Vector3 clone(struct Vector3 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.distance"><code class="name flex">
+<span>def <span class="ident">distance</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>distance( (Vec3)arg1, (Vec3)arg2) -&gt; float :</p>
+<pre><code>C++ signature :
+    float distance(struct Vector3 {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.l1"><code class="name flex">
+<span>def <span class="ident">l1</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>l1( (Vec3)arg1, (Vec3)arg2) -&gt; float :
+L1 Distance</p>
+<pre><code>C++ signature :
+    float l1(struct Vector3 {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.length"><code class="name flex">
+<span>def <span class="ident">length</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>length( (Vec3)arg1) -&gt; float :</p>
+<pre><code>C++ signature :
+    float length(struct Vector3 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.normalize"><code class="name flex">
+<span>def <span class="ident">normalize</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>normalize( (Vec3)arg1) -&gt; Vec3 :</p>
+<pre><code>C++ signature :
+    struct Vector3 normalize(struct Vector3 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.rotate_x"><code class="name flex">
+<span>def <span class="ident">rotate_x</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>rotate_x( (Vec3)arg1, (float)arg2) -&gt; Vec3 :
+Rotates the vector along the x axis</p>
+<pre><code>C++ signature :
+    struct Vector3 rotate_x(struct Vector3 {lvalue},float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.rotate_y"><code class="name flex">
+<span>def <span class="ident">rotate_y</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>rotate_y( (Vec3)arg1, (float)arg2) -&gt; Vec3 :
+Rotates the vector along the y axis</p>
+<pre><code>C++ signature :
+    struct Vector3 rotate_y(struct Vector3 {lvalue},float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.rotate_z"><code class="name flex">
+<span>def <span class="ident">rotate_z</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>rotate_z( (Vec3)arg1, (float)arg2) -&gt; Vec3 :
+Rotates the vector along the z axis</p>
+<pre><code>C++ signature :
+    struct Vector3 rotate_z(struct Vector3 {lvalue},float)
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.Vec4"><code class="flex name class">
+<span>class <span class="ident">Vec4</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>( (object)arg1, (float)arg2, (float)arg3, (float)arg4, (float)arg5) -&gt; None :</p>
+<pre><code>C++ signature :
+    void __init__(struct _object *,float,float,float,float)
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.instance</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="valkyrie.Vec4.w"><code class="name">var <span class="ident">w</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Vec4.x"><code class="name">var <span class="ident">x</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Vec4.y"><code class="name">var <span class="ident">y</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.Vec4.z"><code class="name">var <span class="ident">z</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="valkyrie.Vec4.clone"><code class="name flex">
+<span>def <span class="ident">clone</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>clone( (Vec4)arg1) -&gt; Vec4 :</p>
+<pre><code>C++ signature :
+    struct Vector4 clone(struct Vector4 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec4.distance"><code class="name flex">
+<span>def <span class="ident">distance</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>distance( (Vec4)arg1, (Vec4)arg2) -&gt; float :</p>
+<pre><code>C++ signature :
+    float distance(struct Vector4 {lvalue},struct Vector4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec4.length"><code class="name flex">
+<span>def <span class="ident">length</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>length( (Vec4)arg1) -&gt; float :</p>
+<pre><code>C++ signature :
+    float length(struct Vector4 {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec4.normalize"><code class="name flex">
+<span>def <span class="ident">normalize</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>normalize( (Vec4)arg1) -&gt; Vec4 :</p>
+<pre><code>C++ signature :
+    struct Vector4 normalize(struct Vector4 {lvalue})
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+<dt id="valkyrie.WindowFlag"><code class="flex name class">
+<span>class <span class="ident">WindowFlag</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents imgui window flags. These support bitwise operations so WindowFlag.NoResize | WindowFlag.NoMove would yield a flag with both</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.enum</li>
+<li>builtins.int</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="valkyrie.WindowFlag.AlwaysAutoResize"><code class="name">var <span class="ident">AlwaysAutoResize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.AlwaysHorizontalScrollbar"><code class="name">var <span class="ident">AlwaysHorizontalScrollbar</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.AlwaysUseWindowPadding"><code class="name">var <span class="ident">AlwaysUseWindowPadding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.AlwaysVerticalScrollbar"><code class="name">var <span class="ident">AlwaysVerticalScrollbar</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.HorizontalScrollbar"><code class="name">var <span class="ident">HorizontalScrollbar</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.MenuBar"><code class="name">var <span class="ident">MenuBar</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoBackground"><code class="name">var <span class="ident">NoBackground</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoBringToFrontOnFocus"><code class="name">var <span class="ident">NoBringToFrontOnFocus</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoCollapse"><code class="name">var <span class="ident">NoCollapse</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoDecoration"><code class="name">var <span class="ident">NoDecoration</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoFocusOnAppearing"><code class="name">var <span class="ident">NoFocusOnAppearing</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoInputs"><code class="name">var <span class="ident">NoInputs</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoMouseInputs"><code class="name">var <span class="ident">NoMouseInputs</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoMove"><code class="name">var <span class="ident">NoMove</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoNav"><code class="name">var <span class="ident">NoNav</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoNavFocus"><code class="name">var <span class="ident">NoNavFocus</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoNavInputs"><code class="name">var <span class="ident">NoNavInputs</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoResize"><code class="name">var <span class="ident">NoResize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoSavedSettings"><code class="name">var <span class="ident">NoSavedSettings</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoScrollWithMouse"><code class="name">var <span class="ident">NoScrollWithMouse</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoScrollbar"><code class="name">var <span class="ident">NoScrollbar</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.NoTitleBar"><code class="name">var <span class="ident">NoTitleBar</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.None"><code class="name">var <span class="ident">None</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.UnsavedDocument"><code class="name">var <span class="ident">UnsavedDocument</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.names"><code class="name">var <span class="ident">names</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.WindowFlag.values"><code class="name">var <span class="ident">values</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="valkyrie.Buff" href="#valkyrie.Buff">Buff</a></code></h4>
+<ul class="">
+<li><code><a title="valkyrie.Buff.name" href="#valkyrie.Buff.name">name</a></code></li>
+<li><code><a title="valkyrie.Buff.time_begin" href="#valkyrie.Buff.time_begin">time_begin</a></code></li>
+<li><code><a title="valkyrie.Buff.time_end" href="#valkyrie.Buff.time_end">time_end</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.ChampionObj" href="#valkyrie.ChampionObj">ChampionObj</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.ChampionObj.buffs" href="#valkyrie.ChampionObj.buffs">buffs</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.has_buff" href="#valkyrie.ChampionObj.has_buff">has_buff</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.hpbar_pos" href="#valkyrie.ChampionObj.hpbar_pos">hpbar_pos</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.is_clone" href="#valkyrie.ChampionObj.is_clone">is_clone</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.item_slots" href="#valkyrie.ChampionObj.item_slots">item_slots</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.recalling" href="#valkyrie.ChampionObj.recalling">recalling</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.spells" href="#valkyrie.ChampionObj.spells">spells</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Col" href="#valkyrie.Col">Col</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Col.Black" href="#valkyrie.Col.Black">Black</a></code></li>
+<li><code><a title="valkyrie.Col.Blue" href="#valkyrie.Col.Blue">Blue</a></code></li>
+<li><code><a title="valkyrie.Col.Brown" href="#valkyrie.Col.Brown">Brown</a></code></li>
+<li><code><a title="valkyrie.Col.Cyan" href="#valkyrie.Col.Cyan">Cyan</a></code></li>
+<li><code><a title="valkyrie.Col.DarkGreen" href="#valkyrie.Col.DarkGreen">DarkGreen</a></code></li>
+<li><code><a title="valkyrie.Col.DarkRed" href="#valkyrie.Col.DarkRed">DarkRed</a></code></li>
+<li><code><a title="valkyrie.Col.DarkYellow" href="#valkyrie.Col.DarkYellow">DarkYellow</a></code></li>
+<li><code><a title="valkyrie.Col.Gray" href="#valkyrie.Col.Gray">Gray</a></code></li>
+<li><code><a title="valkyrie.Col.Green" href="#valkyrie.Col.Green">Green</a></code></li>
+<li><code><a title="valkyrie.Col.Orange" href="#valkyrie.Col.Orange">Orange</a></code></li>
+<li><code><a title="valkyrie.Col.Purple" href="#valkyrie.Col.Purple">Purple</a></code></li>
+<li><code><a title="valkyrie.Col.Red" href="#valkyrie.Col.Red">Red</a></code></li>
+<li><code><a title="valkyrie.Col.White" href="#valkyrie.Col.White">White</a></code></li>
+<li><code><a title="valkyrie.Col.Yellow" href="#valkyrie.Col.Yellow">Yellow</a></code></li>
+<li><code><a title="valkyrie.Col.a" href="#valkyrie.Col.a">a</a></code></li>
+<li><code><a title="valkyrie.Col.b" href="#valkyrie.Col.b">b</a></code></li>
+<li><code><a title="valkyrie.Col.g" href="#valkyrie.Col.g">g</a></code></li>
+<li><code><a title="valkyrie.Col.r" href="#valkyrie.Col.r">r</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Config" href="#valkyrie.Config">Config</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Config.get_bool" href="#valkyrie.Config.get_bool">get_bool</a></code></li>
+<li><code><a title="valkyrie.Config.get_float" href="#valkyrie.Config.get_float">get_float</a></code></li>
+<li><code><a title="valkyrie.Config.get_int" href="#valkyrie.Config.get_int">get_int</a></code></li>
+<li><code><a title="valkyrie.Config.get_str" href="#valkyrie.Config.get_str">get_str</a></code></li>
+<li><code><a title="valkyrie.Config.set_bool" href="#valkyrie.Config.set_bool">set_bool</a></code></li>
+<li><code><a title="valkyrie.Config.set_float" href="#valkyrie.Config.set_float">set_float</a></code></li>
+<li><code><a title="valkyrie.Config.set_int" href="#valkyrie.Config.set_int">set_int</a></code></li>
+<li><code><a title="valkyrie.Config.set_str" href="#valkyrie.Config.set_str">set_str</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Context" href="#valkyrie.Context">Context</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Context.attack" href="#valkyrie.Context.attack">attack</a></code></li>
+<li><code><a title="valkyrie.Context.cast_spell" href="#valkyrie.Context.cast_spell">cast_spell</a></code></li>
+<li><code><a title="valkyrie.Context.cfg" href="#valkyrie.Context.cfg">cfg</a></code></li>
+<li><code><a title="valkyrie.Context.champs" href="#valkyrie.Context.champs">champs</a></code></li>
+<li><code><a title="valkyrie.Context.circle" href="#valkyrie.Context.circle">circle</a></code></li>
+<li><code><a title="valkyrie.Context.circle_fill" href="#valkyrie.Context.circle_fill">circle_fill</a></code></li>
+<li><code><a title="valkyrie.Context.collisions_for" href="#valkyrie.Context.collisions_for">collisions_for</a></code></li>
+<li><code><a title="valkyrie.Context.cursor_pos" href="#valkyrie.Context.cursor_pos">cursor_pos</a></code></li>
+<li><code><a title="valkyrie.Context.d2m" href="#valkyrie.Context.d2m">d2m</a></code></li>
+<li><code><a title="valkyrie.Context.end_channel" href="#valkyrie.Context.end_channel">end_channel</a></code></li>
+<li><code><a title="valkyrie.Context.error" href="#valkyrie.Context.error">error</a></code></li>
+<li><code><a title="valkyrie.Context.get_spell_static" href="#valkyrie.Context.get_spell_static">get_spell_static</a></code></li>
+<li><code><a title="valkyrie.Context.hovered" href="#valkyrie.Context.hovered">hovered</a></code></li>
+<li><code><a title="valkyrie.Context.image" href="#valkyrie.Context.image">image</a></code></li>
+<li><code><a title="valkyrie.Context.info" href="#valkyrie.Context.info">info</a></code></li>
+<li><code><a title="valkyrie.Context.is_at_spawn" href="#valkyrie.Context.is_at_spawn">is_at_spawn</a></code></li>
+<li><code><a title="valkyrie.Context.is_held" href="#valkyrie.Context.is_held">is_held</a></code></li>
+<li><code><a title="valkyrie.Context.is_on_screen" href="#valkyrie.Context.is_on_screen">is_on_screen</a></code></li>
+<li><code><a title="valkyrie.Context.jungle" href="#valkyrie.Context.jungle">jungle</a></code></li>
+<li><code><a title="valkyrie.Context.line" href="#valkyrie.Context.line">line</a></code></li>
+<li><code><a title="valkyrie.Context.minions" href="#valkyrie.Context.minions">minions</a></code></li>
+<li><code><a title="valkyrie.Context.missiles" href="#valkyrie.Context.missiles">missiles</a></code></li>
+<li><code><a title="valkyrie.Context.move" href="#valkyrie.Context.move">move</a></code></li>
+<li><code><a title="valkyrie.Context.move_mouse" href="#valkyrie.Context.move_mouse">move_mouse</a></code></li>
+<li><code><a title="valkyrie.Context.others" href="#valkyrie.Context.others">others</a></code></li>
+<li><code><a title="valkyrie.Context.pill" href="#valkyrie.Context.pill">pill</a></code></li>
+<li><code><a title="valkyrie.Context.ping" href="#valkyrie.Context.ping">ping</a></code></li>
+<li><code><a title="valkyrie.Context.player" href="#valkyrie.Context.player">player</a></code></li>
+<li><code><a title="valkyrie.Context.predict_cast_point" href="#valkyrie.Context.predict_cast_point">predict_cast_point</a></code></li>
+<li><code><a title="valkyrie.Context.rect" href="#valkyrie.Context.rect">rect</a></code></li>
+<li><code><a title="valkyrie.Context.rect_fill" href="#valkyrie.Context.rect_fill">rect_fill</a></code></li>
+<li><code><a title="valkyrie.Context.start_channel" href="#valkyrie.Context.start_channel">start_channel</a></code></li>
+<li><code><a title="valkyrie.Context.text" href="#valkyrie.Context.text">text</a></code></li>
+<li><code><a title="valkyrie.Context.time" href="#valkyrie.Context.time">time</a></code></li>
+<li><code><a title="valkyrie.Context.triangle" href="#valkyrie.Context.triangle">triangle</a></code></li>
+<li><code><a title="valkyrie.Context.triangle_fill" href="#valkyrie.Context.triangle_fill">triangle_fill</a></code></li>
+<li><code><a title="valkyrie.Context.turrets" href="#valkyrie.Context.turrets">turrets</a></code></li>
+<li><code><a title="valkyrie.Context.ui" href="#valkyrie.Context.ui">ui</a></code></li>
+<li><code><a title="valkyrie.Context.w2m" href="#valkyrie.Context.w2m">w2m</a></code></li>
+<li><code><a title="valkyrie.Context.w2s" href="#valkyrie.Context.w2s">w2s</a></code></li>
+<li><code><a title="valkyrie.Context.warn" href="#valkyrie.Context.warn">warn</a></code></li>
+<li><code><a title="valkyrie.Context.was_pressed" href="#valkyrie.Context.was_pressed">was_pressed</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.FutureCollision" href="#valkyrie.FutureCollision">FutureCollision</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.FutureCollision.final" href="#valkyrie.FutureCollision.final">final</a></code></li>
+<li><code><a title="valkyrie.FutureCollision.spell" href="#valkyrie.FutureCollision.spell">spell</a></code></li>
+<li><code><a title="valkyrie.FutureCollision.spell_pos" href="#valkyrie.FutureCollision.spell_pos">spell_pos</a></code></li>
+<li><code><a title="valkyrie.FutureCollision.time_until_impact" href="#valkyrie.FutureCollision.time_until_impact">time_until_impact</a></code></li>
+<li><code><a title="valkyrie.FutureCollision.unit" href="#valkyrie.FutureCollision.unit">unit</a></code></li>
+<li><code><a title="valkyrie.FutureCollision.unit_pos" href="#valkyrie.FutureCollision.unit_pos">unit_pos</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.ItemSlot" href="#valkyrie.ItemSlot">ItemSlot</a></code></h4>
+<ul class="">
+<li><code><a title="valkyrie.ItemSlot.active" href="#valkyrie.ItemSlot.active">active</a></code></li>
+<li><code><a title="valkyrie.ItemSlot.charges" href="#valkyrie.ItemSlot.charges">charges</a></code></li>
+<li><code><a title="valkyrie.ItemSlot.item" href="#valkyrie.ItemSlot.item">item</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.ItemStatic" href="#valkyrie.ItemStatic">ItemStatic</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.ItemStatic.ap" href="#valkyrie.ItemStatic.ap">ap</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.armor" href="#valkyrie.ItemStatic.armor">armor</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.atk_speed" href="#valkyrie.ItemStatic.atk_speed">atk_speed</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.cost" href="#valkyrie.ItemStatic.cost">cost</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.crit" href="#valkyrie.ItemStatic.crit">crit</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.health" href="#valkyrie.ItemStatic.health">health</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.hp_regen" href="#valkyrie.ItemStatic.hp_regen">hp_regen</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.id" href="#valkyrie.ItemStatic.id">id</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.life_steal" href="#valkyrie.ItemStatic.life_steal">life_steal</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.magic_res" href="#valkyrie.ItemStatic.magic_res">magic_res</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.mana" href="#valkyrie.ItemStatic.mana">mana</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.mov_speed" href="#valkyrie.ItemStatic.mov_speed">mov_speed</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.mov_speed_percent" href="#valkyrie.ItemStatic.mov_speed_percent">mov_speed_percent</a></code></li>
+<li><code><a title="valkyrie.ItemStatic.phys_dmg" href="#valkyrie.ItemStatic.phys_dmg">phys_dmg</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.JungleMobObj" href="#valkyrie.JungleMobObj">JungleMobObj</a></code></h4>
+</li>
+<li>
+<h4><code><a title="valkyrie.MinionObj" href="#valkyrie.MinionObj">MinionObj</a></code></h4>
+<ul class="">
+<li><code><a title="valkyrie.MinionObj.hpbar_pos" href="#valkyrie.MinionObj.hpbar_pos">hpbar_pos</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.MissileObj" href="#valkyrie.MissileObj">MissileObj</a></code></h4>
+<ul class="">
+<li><code><a title="valkyrie.MissileObj.spell" href="#valkyrie.MissileObj.spell">spell</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Obj" href="#valkyrie.Obj">Obj</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Obj.ally_to" href="#valkyrie.Obj.ally_to">ally_to</a></code></li>
+<li><code><a title="valkyrie.Obj.dir" href="#valkyrie.Obj.dir">dir</a></code></li>
+<li><code><a title="valkyrie.Obj.enemy_to" href="#valkyrie.Obj.enemy_to">enemy_to</a></code></li>
+<li><code><a title="valkyrie.Obj.first_seen" href="#valkyrie.Obj.first_seen">first_seen</a></code></li>
+<li><code><a title="valkyrie.Obj.index" href="#valkyrie.Obj.index">index</a></code></li>
+<li><code><a title="valkyrie.Obj.last_seen" href="#valkyrie.Obj.last_seen">last_seen</a></code></li>
+<li><code><a title="valkyrie.Obj.moving" href="#valkyrie.Obj.moving">moving</a></code></li>
+<li><code><a title="valkyrie.Obj.name" href="#valkyrie.Obj.name">name</a></code></li>
+<li><code><a title="valkyrie.Obj.net_id" href="#valkyrie.Obj.net_id">net_id</a></code></li>
+<li><code><a title="valkyrie.Obj.pos" href="#valkyrie.Obj.pos">pos</a></code></li>
+<li><code><a title="valkyrie.Obj.team" href="#valkyrie.Obj.team">team</a></code></li>
+<li><code><a title="valkyrie.Obj.visible" href="#valkyrie.Obj.visible">visible</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.ObjectQuery" href="#valkyrie.ObjectQuery">ObjectQuery</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.ObjectQuery.alive" href="#valkyrie.ObjectQuery.alive">alive</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.ally_to" href="#valkyrie.ObjectQuery.ally_to">ally_to</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.casting" href="#valkyrie.ObjectQuery.casting">casting</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.clone" href="#valkyrie.ObjectQuery.clone">clone</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.dead" href="#valkyrie.ObjectQuery.dead">dead</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.enemy_to" href="#valkyrie.ObjectQuery.enemy_to">enemy_to</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.get" href="#valkyrie.ObjectQuery.get">get</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.invisible" href="#valkyrie.ObjectQuery.invisible">invisible</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.near" href="#valkyrie.ObjectQuery.near">near</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.not_clone" href="#valkyrie.ObjectQuery.not_clone">not_clone</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.on_screen" href="#valkyrie.ObjectQuery.on_screen">on_screen</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.targetable" href="#valkyrie.ObjectQuery.targetable">targetable</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.untargetable" href="#valkyrie.ObjectQuery.untargetable">untargetable</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.visible" href="#valkyrie.ObjectQuery.visible">visible</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Spell" href="#valkyrie.Spell">Spell</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Spell.AffectAllUnits" href="#valkyrie.Spell.AffectAllUnits">AffectAllUnits</a></code></li>
+<li><code><a title="valkyrie.Spell.AffectChampion" href="#valkyrie.Spell.AffectChampion">AffectChampion</a></code></li>
+<li><code><a title="valkyrie.Spell.AffectMinion" href="#valkyrie.Spell.AffectMinion">AffectMinion</a></code></li>
+<li><code><a title="valkyrie.Spell.AffectMonster" href="#valkyrie.Spell.AffectMonster">AffectMonster</a></code></li>
+<li><code><a title="valkyrie.Spell.CastAnywhere" href="#valkyrie.Spell.CastAnywhere">CastAnywhere</a></code></li>
+<li><code><a title="valkyrie.Spell.CastDirection" href="#valkyrie.Spell.CastDirection">CastDirection</a></code></li>
+<li><code><a title="valkyrie.Spell.CastPoint" href="#valkyrie.Spell.CastPoint">CastPoint</a></code></li>
+<li><code><a title="valkyrie.Spell.CastTarget" href="#valkyrie.Spell.CastTarget">CastTarget</a></code></li>
+<li><code><a title="valkyrie.Spell.ChannelSkill" href="#valkyrie.Spell.ChannelSkill">ChannelSkill</a></code></li>
+<li><code><a title="valkyrie.Spell.CollideChampion" href="#valkyrie.Spell.CollideChampion">CollideChampion</a></code></li>
+<li><code><a title="valkyrie.Spell.CollideCommon" href="#valkyrie.Spell.CollideCommon">CollideCommon</a></code></li>
+<li><code><a title="valkyrie.Spell.CollideMinion" href="#valkyrie.Spell.CollideMinion">CollideMinion</a></code></li>
+<li><code><a title="valkyrie.Spell.CollideMonster" href="#valkyrie.Spell.CollideMonster">CollideMonster</a></code></li>
+<li><code><a title="valkyrie.Spell.CollideWindwall" href="#valkyrie.Spell.CollideWindwall">CollideWindwall</a></code></li>
+<li><code><a title="valkyrie.Spell.DashSkill" href="#valkyrie.Spell.DashSkill">DashSkill</a></code></li>
+<li><code><a title="valkyrie.Spell.TypeArea" href="#valkyrie.Spell.TypeArea">TypeArea</a></code></li>
+<li><code><a title="valkyrie.Spell.TypeCone" href="#valkyrie.Spell.TypeCone">TypeCone</a></code></li>
+<li><code><a title="valkyrie.Spell.TypeLine" href="#valkyrie.Spell.TypeLine">TypeLine</a></code></li>
+<li><code><a title="valkyrie.Spell.names" href="#valkyrie.Spell.names">names</a></code></li>
+<li><code><a title="valkyrie.Spell.values" href="#valkyrie.Spell.values">values</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.SpellCast" href="#valkyrie.SpellCast">SpellCast</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.SpellCast.cast_time" href="#valkyrie.SpellCast.cast_time">cast_time</a></code></li>
+<li><code><a title="valkyrie.SpellCast.dest_index" href="#valkyrie.SpellCast.dest_index">dest_index</a></code></li>
+<li><code><a title="valkyrie.SpellCast.dir" href="#valkyrie.SpellCast.dir">dir</a></code></li>
+<li><code><a title="valkyrie.SpellCast.end_pos" href="#valkyrie.SpellCast.end_pos">end_pos</a></code></li>
+<li><code><a title="valkyrie.SpellCast.name" href="#valkyrie.SpellCast.name">name</a></code></li>
+<li><code><a title="valkyrie.SpellCast.remaining" href="#valkyrie.SpellCast.remaining">remaining</a></code></li>
+<li><code><a title="valkyrie.SpellCast.src_index" href="#valkyrie.SpellCast.src_index">src_index</a></code></li>
+<li><code><a title="valkyrie.SpellCast.start_pos" href="#valkyrie.SpellCast.start_pos">start_pos</a></code></li>
+<li><code><a title="valkyrie.SpellCast.static" href="#valkyrie.SpellCast.static">static</a></code></li>
+<li><code><a title="valkyrie.SpellCast.time_begin" href="#valkyrie.SpellCast.time_begin">time_begin</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.SpellObj" href="#valkyrie.SpellObj">SpellObj</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.SpellObj.cd" href="#valkyrie.SpellObj.cd">cd</a></code></li>
+<li><code><a title="valkyrie.SpellObj.lvl" href="#valkyrie.SpellObj.lvl">lvl</a></code></li>
+<li><code><a title="valkyrie.SpellObj.name" href="#valkyrie.SpellObj.name">name</a></code></li>
+<li><code><a title="valkyrie.SpellObj.ready_at" href="#valkyrie.SpellObj.ready_at">ready_at</a></code></li>
+<li><code><a title="valkyrie.SpellObj.static" href="#valkyrie.SpellObj.static">static</a></code></li>
+<li><code><a title="valkyrie.SpellObj.value" href="#valkyrie.SpellObj.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.SpellStatic" href="#valkyrie.SpellStatic">SpellStatic</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.SpellStatic.cast_cone_angle" href="#valkyrie.SpellStatic.cast_cone_angle">cast_cone_angle</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.cast_cone_distance" href="#valkyrie.SpellStatic.cast_cone_distance">cast_cone_distance</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.cast_radius" href="#valkyrie.SpellStatic.cast_radius">cast_radius</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.cast_range" href="#valkyrie.SpellStatic.cast_range">cast_range</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.cast_time" href="#valkyrie.SpellStatic.cast_time">cast_time</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.delay" href="#valkyrie.SpellStatic.delay">delay</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.has_flag" href="#valkyrie.SpellStatic.has_flag">has_flag</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.height_augment" href="#valkyrie.SpellStatic.height_augment">height_augment</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.icon" href="#valkyrie.SpellStatic.icon">icon</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.name" href="#valkyrie.SpellStatic.name">name</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.parent" href="#valkyrie.SpellStatic.parent">parent</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.speed" href="#valkyrie.SpellStatic.speed">speed</a></code></li>
+<li><code><a title="valkyrie.SpellStatic.width" href="#valkyrie.SpellStatic.width">width</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.TurretObj" href="#valkyrie.TurretObj">TurretObj</a></code></h4>
+</li>
+<li>
+<h4><code><a title="valkyrie.UI" href="#valkyrie.UI">UI</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.UI.begin" href="#valkyrie.UI.begin">begin</a></code></li>
+<li><code><a title="valkyrie.UI.begingroup" href="#valkyrie.UI.begingroup">begingroup</a></code></li>
+<li><code><a title="valkyrie.UI.beginmenu" href="#valkyrie.UI.beginmenu">beginmenu</a></code></li>
+<li><code><a title="valkyrie.UI.beginmodal" href="#valkyrie.UI.beginmodal">beginmodal</a></code></li>
+<li><code><a title="valkyrie.UI.beginpopup" href="#valkyrie.UI.beginpopup">beginpopup</a></code></li>
+<li><code><a title="valkyrie.UI.begintbl" href="#valkyrie.UI.begintbl">begintbl</a></code></li>
+<li><code><a title="valkyrie.UI.button" href="#valkyrie.UI.button">button</a></code></li>
+<li><code><a title="valkyrie.UI.checkbox" href="#valkyrie.UI.checkbox">checkbox</a></code></li>
+<li><code><a title="valkyrie.UI.closepopup" href="#valkyrie.UI.closepopup">closepopup</a></code></li>
+<li><code><a title="valkyrie.UI.colorpick" href="#valkyrie.UI.colorpick">colorpick</a></code></li>
+<li><code><a title="valkyrie.UI.combo" href="#valkyrie.UI.combo">combo</a></code></li>
+<li><code><a title="valkyrie.UI.demo" href="#valkyrie.UI.demo">demo</a></code></li>
+<li><code><a title="valkyrie.UI.dragfloat" href="#valkyrie.UI.dragfloat">dragfloat</a></code></li>
+<li><code><a title="valkyrie.UI.dragint" href="#valkyrie.UI.dragint">dragint</a></code></li>
+<li><code><a title="valkyrie.UI.end" href="#valkyrie.UI.end">end</a></code></li>
+<li><code><a title="valkyrie.UI.endgroup" href="#valkyrie.UI.endgroup">endgroup</a></code></li>
+<li><code><a title="valkyrie.UI.endmenu" href="#valkyrie.UI.endmenu">endmenu</a></code></li>
+<li><code><a title="valkyrie.UI.endpopup" href="#valkyrie.UI.endpopup">endpopup</a></code></li>
+<li><code><a title="valkyrie.UI.endtbl" href="#valkyrie.UI.endtbl">endtbl</a></code></li>
+<li><code><a title="valkyrie.UI.header" href="#valkyrie.UI.header">header</a></code></li>
+<li><code><a title="valkyrie.UI.image" href="#valkyrie.UI.image">image</a></code></li>
+<li><code><a title="valkyrie.UI.inputtext" href="#valkyrie.UI.inputtext">inputtext</a></code></li>
+<li><code><a title="valkyrie.UI.keyselect" href="#valkyrie.UI.keyselect">keyselect</a></code></li>
+<li><code><a title="valkyrie.UI.labeltext" href="#valkyrie.UI.labeltext">labeltext</a></code></li>
+<li><code><a title="valkyrie.UI.listbox" href="#valkyrie.UI.listbox">listbox</a></code></li>
+<li><code><a title="valkyrie.UI.opennext" href="#valkyrie.UI.opennext">opennext</a></code></li>
+<li><code><a title="valkyrie.UI.openpopup" href="#valkyrie.UI.openpopup">openpopup</a></code></li>
+<li><code><a title="valkyrie.UI.popid" href="#valkyrie.UI.popid">popid</a></code></li>
+<li><code><a title="valkyrie.UI.progressbar" href="#valkyrie.UI.progressbar">progressbar</a></code></li>
+<li><code><a title="valkyrie.UI.pushid" href="#valkyrie.UI.pushid">pushid</a></code></li>
+<li><code><a title="valkyrie.UI.sameline" href="#valkyrie.UI.sameline">sameline</a></code></li>
+<li><code><a title="valkyrie.UI.selectable" href="#valkyrie.UI.selectable">selectable</a></code></li>
+<li><code><a title="valkyrie.UI.separator" href="#valkyrie.UI.separator">separator</a></code></li>
+<li><code><a title="valkyrie.UI.sliderenum" href="#valkyrie.UI.sliderenum">sliderenum</a></code></li>
+<li><code><a title="valkyrie.UI.sliderfloat" href="#valkyrie.UI.sliderfloat">sliderfloat</a></code></li>
+<li><code><a title="valkyrie.UI.sliderint" href="#valkyrie.UI.sliderint">sliderint</a></code></li>
+<li><code><a title="valkyrie.UI.tblcolumn" href="#valkyrie.UI.tblcolumn">tblcolumn</a></code></li>
+<li><code><a title="valkyrie.UI.tblnextrow" href="#valkyrie.UI.tblnextrow">tblnextrow</a></code></li>
+<li><code><a title="valkyrie.UI.text" href="#valkyrie.UI.text">text</a></code></li>
+<li><code><a title="valkyrie.UI.treenode" href="#valkyrie.UI.treenode">treenode</a></code></li>
+<li><code><a title="valkyrie.UI.treepop" href="#valkyrie.UI.treepop">treepop</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Unit" href="#valkyrie.Unit">Unit</a></code></h4>
+<ul class="">
+<li><code><a title="valkyrie.Unit.Champion" href="#valkyrie.Unit.Champion">Champion</a></code></li>
+<li><code><a title="valkyrie.Unit.ChampionClone" href="#valkyrie.Unit.ChampionClone">ChampionClone</a></code></li>
+<li><code><a title="valkyrie.Unit.IsolationNonImpacting" href="#valkyrie.Unit.IsolationNonImpacting">IsolationNonImpacting</a></code></li>
+<li><code><a title="valkyrie.Unit.KingPoro" href="#valkyrie.Unit.KingPoro">KingPoro</a></code></li>
+<li><code><a title="valkyrie.Unit.Minion" href="#valkyrie.Unit.Minion">Minion</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionLane" href="#valkyrie.Unit.MinionLane">MinionLane</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionLaneMelee" href="#valkyrie.Unit.MinionLaneMelee">MinionLaneMelee</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionLaneRanged" href="#valkyrie.Unit.MinionLaneRanged">MinionLaneRanged</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionLaneSiege" href="#valkyrie.Unit.MinionLaneSiege">MinionLaneSiege</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionLaneSuper" href="#valkyrie.Unit.MinionLaneSuper">MinionLaneSuper</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionSummon" href="#valkyrie.Unit.MinionSummon">MinionSummon</a></code></li>
+<li><code><a title="valkyrie.Unit.MinionSummon_Large" href="#valkyrie.Unit.MinionSummon_Large">MinionSummon_Large</a></code></li>
+<li><code><a title="valkyrie.Unit.Monster" href="#valkyrie.Unit.Monster">Monster</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterBlue" href="#valkyrie.Unit.MonsterBlue">MonsterBlue</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterBuff" href="#valkyrie.Unit.MonsterBuff">MonsterBuff</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterCamp" href="#valkyrie.Unit.MonsterCamp">MonsterCamp</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterCrab" href="#valkyrie.Unit.MonsterCrab">MonsterCrab</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterDragon" href="#valkyrie.Unit.MonsterDragon">MonsterDragon</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterEpic" href="#valkyrie.Unit.MonsterEpic">MonsterEpic</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterGromp" href="#valkyrie.Unit.MonsterGromp">MonsterGromp</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterKrug" href="#valkyrie.Unit.MonsterKrug">MonsterKrug</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterLarge" href="#valkyrie.Unit.MonsterLarge">MonsterLarge</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterMedium" href="#valkyrie.Unit.MonsterMedium">MonsterMedium</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterRaptor" href="#valkyrie.Unit.MonsterRaptor">MonsterRaptor</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterRed" href="#valkyrie.Unit.MonsterRed">MonsterRed</a></code></li>
+<li><code><a title="valkyrie.Unit.MonsterWolf" href="#valkyrie.Unit.MonsterWolf">MonsterWolf</a></code></li>
+<li><code><a title="valkyrie.Unit.Plant" href="#valkyrie.Unit.Plant">Plant</a></code></li>
+<li><code><a title="valkyrie.Unit.Special" href="#valkyrie.Unit.Special">Special</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialAzirR" href="#valkyrie.Unit.SpecialAzirR">SpecialAzirR</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialAzirW" href="#valkyrie.Unit.SpecialAzirW">SpecialAzirW</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialCorkiBomb" href="#valkyrie.Unit.SpecialCorkiBomb">SpecialCorkiBomb</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialEpicMonsterIgnores" href="#valkyrie.Unit.SpecialEpicMonsterIgnores">SpecialEpicMonsterIgnores</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialKPMinion" href="#valkyrie.Unit.SpecialKPMinion">SpecialKPMinion</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialMonsterIgnores" href="#valkyrie.Unit.SpecialMonsterIgnores">SpecialMonsterIgnores</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialPeaceful" href="#valkyrie.Unit.SpecialPeaceful">SpecialPeaceful</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialSyndraSphere" href="#valkyrie.Unit.SpecialSyndraSphere">SpecialSyndraSphere</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialTeleportTarget" href="#valkyrie.Unit.SpecialTeleportTarget">SpecialTeleportTarget</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialTrap" href="#valkyrie.Unit.SpecialTrap">SpecialTrap</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialTunnel" href="#valkyrie.Unit.SpecialTunnel">SpecialTunnel</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialTurretIgnores" href="#valkyrie.Unit.SpecialTurretIgnores">SpecialTurretIgnores</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialUntargetableBySpells" href="#valkyrie.Unit.SpecialUntargetableBySpells">SpecialUntargetableBySpells</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialVoid" href="#valkyrie.Unit.SpecialVoid">SpecialVoid</a></code></li>
+<li><code><a title="valkyrie.Unit.SpecialYorickW" href="#valkyrie.Unit.SpecialYorickW">SpecialYorickW</a></code></li>
+<li><code><a title="valkyrie.Unit.Structure" href="#valkyrie.Unit.Structure">Structure</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureInhibitor" href="#valkyrie.Unit.StructureInhibitor">StructureInhibitor</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureNexus" href="#valkyrie.Unit.StructureNexus">StructureNexus</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureTurret" href="#valkyrie.Unit.StructureTurret">StructureTurret</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureTurretInhib" href="#valkyrie.Unit.StructureTurretInhib">StructureTurretInhib</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureTurretInner" href="#valkyrie.Unit.StructureTurretInner">StructureTurretInner</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureTurretNexus" href="#valkyrie.Unit.StructureTurretNexus">StructureTurretNexus</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureTurretOuter" href="#valkyrie.Unit.StructureTurretOuter">StructureTurretOuter</a></code></li>
+<li><code><a title="valkyrie.Unit.StructureTurretShrine" href="#valkyrie.Unit.StructureTurretShrine">StructureTurretShrine</a></code></li>
+<li><code><a title="valkyrie.Unit.Ward" href="#valkyrie.Unit.Ward">Ward</a></code></li>
+<li><code><a title="valkyrie.Unit.names" href="#valkyrie.Unit.names">names</a></code></li>
+<li><code><a title="valkyrie.Unit.values" href="#valkyrie.Unit.values">values</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.UnitObj" href="#valkyrie.UnitObj">UnitObj</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.UnitObj.ap" href="#valkyrie.UnitObj.ap">ap</a></code></li>
+<li><code><a title="valkyrie.UnitObj.armor" href="#valkyrie.UnitObj.armor">armor</a></code></li>
+<li><code><a title="valkyrie.UnitObj.atk_range" href="#valkyrie.UnitObj.atk_range">atk_range</a></code></li>
+<li><code><a title="valkyrie.UnitObj.atk_speed" href="#valkyrie.UnitObj.atk_speed">atk_speed</a></code></li>
+<li><code><a title="valkyrie.UnitObj.atk_speed_multi" href="#valkyrie.UnitObj.atk_speed_multi">atk_speed_multi</a></code></li>
+<li><code><a title="valkyrie.UnitObj.base_atk" href="#valkyrie.UnitObj.base_atk">base_atk</a></code></li>
+<li><code><a title="valkyrie.UnitObj.bonus_atk" href="#valkyrie.UnitObj.bonus_atk">bonus_atk</a></code></li>
+<li><code><a title="valkyrie.UnitObj.crit" href="#valkyrie.UnitObj.crit">crit</a></code></li>
+<li><code><a title="valkyrie.UnitObj.crit_multi" href="#valkyrie.UnitObj.crit_multi">crit_multi</a></code></li>
+<li><code><a title="valkyrie.UnitObj.curr_casting" href="#valkyrie.UnitObj.curr_casting">curr_casting</a></code></li>
+<li><code><a title="valkyrie.UnitObj.dead" href="#valkyrie.UnitObj.dead">dead</a></code></li>
+<li><code><a title="valkyrie.UnitObj.expiry" href="#valkyrie.UnitObj.expiry">expiry</a></code></li>
+<li><code><a title="valkyrie.UnitObj.has_tags" href="#valkyrie.UnitObj.has_tags">has_tags</a></code></li>
+<li><code><a title="valkyrie.UnitObj.health" href="#valkyrie.UnitObj.health">health</a></code></li>
+<li><code><a title="valkyrie.UnitObj.invulnerable" href="#valkyrie.UnitObj.invulnerable">invulnerable</a></code></li>
+<li><code><a title="valkyrie.UnitObj.is_ranged" href="#valkyrie.UnitObj.is_ranged">is_ranged</a></code></li>
+<li><code><a title="valkyrie.UnitObj.lvl" href="#valkyrie.UnitObj.lvl">lvl</a></code></li>
+<li><code><a title="valkyrie.UnitObj.magic_res" href="#valkyrie.UnitObj.magic_res">magic_res</a></code></li>
+<li><code><a title="valkyrie.UnitObj.mana" href="#valkyrie.UnitObj.mana">mana</a></code></li>
+<li><code><a title="valkyrie.UnitObj.max_health" href="#valkyrie.UnitObj.max_health">max_health</a></code></li>
+<li><code><a title="valkyrie.UnitObj.move_speed" href="#valkyrie.UnitObj.move_speed">move_speed</a></code></li>
+<li><code><a title="valkyrie.UnitObj.static" href="#valkyrie.UnitObj.static">static</a></code></li>
+<li><code><a title="valkyrie.UnitObj.targetable" href="#valkyrie.UnitObj.targetable">targetable</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.UnitStatic" href="#valkyrie.UnitStatic">UnitStatic</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.UnitStatic.acquisition_radius" href="#valkyrie.UnitStatic.acquisition_radius">acquisition_radius</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.atk_speed_ratio" href="#valkyrie.UnitStatic.atk_speed_ratio">atk_speed_ratio</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.base_atk_range" href="#valkyrie.UnitStatic.base_atk_range">base_atk_range</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.base_atk_speed" href="#valkyrie.UnitStatic.base_atk_speed">base_atk_speed</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.basic_atk" href="#valkyrie.UnitStatic.basic_atk">basic_atk</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.basic_atk_cast_time" href="#valkyrie.UnitStatic.basic_atk_cast_time">basic_atk_cast_time</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.basic_atk_windup" href="#valkyrie.UnitStatic.basic_atk_windup">basic_atk_windup</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.gameplay_radius" href="#valkyrie.UnitStatic.gameplay_radius">gameplay_radius</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.hp_bar_height" href="#valkyrie.UnitStatic.hp_bar_height">hp_bar_height</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.movement_speed" href="#valkyrie.UnitStatic.movement_speed">movement_speed</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.pathing_radius" href="#valkyrie.UnitStatic.pathing_radius">pathing_radius</a></code></li>
+<li><code><a title="valkyrie.UnitStatic.selection_radius" href="#valkyrie.UnitStatic.selection_radius">selection_radius</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Vec2" href="#valkyrie.Vec2">Vec2</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Vec2.clone" href="#valkyrie.Vec2.clone">clone</a></code></li>
+<li><code><a title="valkyrie.Vec2.distance" href="#valkyrie.Vec2.distance">distance</a></code></li>
+<li><code><a title="valkyrie.Vec2.length" href="#valkyrie.Vec2.length">length</a></code></li>
+<li><code><a title="valkyrie.Vec2.normalize" href="#valkyrie.Vec2.normalize">normalize</a></code></li>
+<li><code><a title="valkyrie.Vec2.x" href="#valkyrie.Vec2.x">x</a></code></li>
+<li><code><a title="valkyrie.Vec2.y" href="#valkyrie.Vec2.y">y</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Vec3" href="#valkyrie.Vec3">Vec3</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Vec3.clone" href="#valkyrie.Vec3.clone">clone</a></code></li>
+<li><code><a title="valkyrie.Vec3.distance" href="#valkyrie.Vec3.distance">distance</a></code></li>
+<li><code><a title="valkyrie.Vec3.l1" href="#valkyrie.Vec3.l1">l1</a></code></li>
+<li><code><a title="valkyrie.Vec3.length" href="#valkyrie.Vec3.length">length</a></code></li>
+<li><code><a title="valkyrie.Vec3.normalize" href="#valkyrie.Vec3.normalize">normalize</a></code></li>
+<li><code><a title="valkyrie.Vec3.rotate_x" href="#valkyrie.Vec3.rotate_x">rotate_x</a></code></li>
+<li><code><a title="valkyrie.Vec3.rotate_y" href="#valkyrie.Vec3.rotate_y">rotate_y</a></code></li>
+<li><code><a title="valkyrie.Vec3.rotate_z" href="#valkyrie.Vec3.rotate_z">rotate_z</a></code></li>
+<li><code><a title="valkyrie.Vec3.x" href="#valkyrie.Vec3.x">x</a></code></li>
+<li><code><a title="valkyrie.Vec3.y" href="#valkyrie.Vec3.y">y</a></code></li>
+<li><code><a title="valkyrie.Vec3.z" href="#valkyrie.Vec3.z">z</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.Vec4" href="#valkyrie.Vec4">Vec4</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.Vec4.clone" href="#valkyrie.Vec4.clone">clone</a></code></li>
+<li><code><a title="valkyrie.Vec4.distance" href="#valkyrie.Vec4.distance">distance</a></code></li>
+<li><code><a title="valkyrie.Vec4.length" href="#valkyrie.Vec4.length">length</a></code></li>
+<li><code><a title="valkyrie.Vec4.normalize" href="#valkyrie.Vec4.normalize">normalize</a></code></li>
+<li><code><a title="valkyrie.Vec4.w" href="#valkyrie.Vec4.w">w</a></code></li>
+<li><code><a title="valkyrie.Vec4.x" href="#valkyrie.Vec4.x">x</a></code></li>
+<li><code><a title="valkyrie.Vec4.y" href="#valkyrie.Vec4.y">y</a></code></li>
+<li><code><a title="valkyrie.Vec4.z" href="#valkyrie.Vec4.z">z</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="valkyrie.WindowFlag" href="#valkyrie.WindowFlag">WindowFlag</a></code></h4>
+<ul class="">
+<li><code><a title="valkyrie.WindowFlag.AlwaysAutoResize" href="#valkyrie.WindowFlag.AlwaysAutoResize">AlwaysAutoResize</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.AlwaysHorizontalScrollbar" href="#valkyrie.WindowFlag.AlwaysHorizontalScrollbar">AlwaysHorizontalScrollbar</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.AlwaysUseWindowPadding" href="#valkyrie.WindowFlag.AlwaysUseWindowPadding">AlwaysUseWindowPadding</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.AlwaysVerticalScrollbar" href="#valkyrie.WindowFlag.AlwaysVerticalScrollbar">AlwaysVerticalScrollbar</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.HorizontalScrollbar" href="#valkyrie.WindowFlag.HorizontalScrollbar">HorizontalScrollbar</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.MenuBar" href="#valkyrie.WindowFlag.MenuBar">MenuBar</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoBackground" href="#valkyrie.WindowFlag.NoBackground">NoBackground</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoBringToFrontOnFocus" href="#valkyrie.WindowFlag.NoBringToFrontOnFocus">NoBringToFrontOnFocus</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoCollapse" href="#valkyrie.WindowFlag.NoCollapse">NoCollapse</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoDecoration" href="#valkyrie.WindowFlag.NoDecoration">NoDecoration</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoFocusOnAppearing" href="#valkyrie.WindowFlag.NoFocusOnAppearing">NoFocusOnAppearing</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoInputs" href="#valkyrie.WindowFlag.NoInputs">NoInputs</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoMouseInputs" href="#valkyrie.WindowFlag.NoMouseInputs">NoMouseInputs</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoMove" href="#valkyrie.WindowFlag.NoMove">NoMove</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoNav" href="#valkyrie.WindowFlag.NoNav">NoNav</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoNavFocus" href="#valkyrie.WindowFlag.NoNavFocus">NoNavFocus</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoNavInputs" href="#valkyrie.WindowFlag.NoNavInputs">NoNavInputs</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoResize" href="#valkyrie.WindowFlag.NoResize">NoResize</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoSavedSettings" href="#valkyrie.WindowFlag.NoSavedSettings">NoSavedSettings</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoScrollWithMouse" href="#valkyrie.WindowFlag.NoScrollWithMouse">NoScrollWithMouse</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoScrollbar" href="#valkyrie.WindowFlag.NoScrollbar">NoScrollbar</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.NoTitleBar" href="#valkyrie.WindowFlag.NoTitleBar">NoTitleBar</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.None" href="#valkyrie.WindowFlag.None">None</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.UnsavedDocument" href="#valkyrie.WindowFlag.UnsavedDocument">UnsavedDocument</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.names" href="#valkyrie.WindowFlag.names">names</a></code></li>
+<li><code><a title="valkyrie.WindowFlag.values" href="#valkyrie.WindowFlag.values">values</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,3 +1,13 @@
+[Valkyrie v0.19]
+	* Fixed anivia egg targeting issue
+	* Added missing icon for hextech flash
+
+	+ Added new script Aimcast that aims automatically skillshots and targeted spells
+	+ Added rest of skills to evade
+	+ Added more target selectors
+	+ Added option to target champions while lane push in orbwalker
+	+ Added biscuit to potion activator
+
 [Valkyrie v0.18]
 	* Fixed auto qss/cleanse activator crash
 	* Added missing icons for certain champs
@@ -7,7 +17,6 @@
 	+ Added more customization to spell tracker
 	+ Added summoner spells to gank awareness portrait
 	+ Added ability to change icon size in vision tracker
-	+ Added auto saving of selected skin 
 	+ Added skillshot drawing in indicators
 	+ Added simple evade script
 
