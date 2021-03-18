@@ -36,3 +36,11 @@ std::string Paths::GetScriptPath(std::string & scriptName)
 
 	return res;
 }
+
+std::string Paths::GetTemporaryPath() {
+	
+	char path[MAX_PATH];
+	GetTempPathA(MAX_PATH, path);
+
+	return std::string(path);
+}

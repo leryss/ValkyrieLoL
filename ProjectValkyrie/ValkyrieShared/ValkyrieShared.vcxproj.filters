@@ -104,6 +104,9 @@
     <ClInclude Include="ScriptRepository.h">
       <Filter>Source Files\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="DllHide.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">

@@ -11,11 +11,16 @@ channels = [
 ]
 
 target_sel = TargetSelector(0, TargetSet.Champion)
+target_minions  = False
+target_monsters = True
 
-def valkyrie_menu(ctx) :		 
+def valkyrie_menu(ctx):
+	global target_minions, target_monsters
 	ui = ctx.ui
 	
 	target_sel.ui('Target selector', ctx, ui)
+	target_minions = ui.checkbox('Target minions', target_minions)
+	target_monsters = ui.checkbox('Target jungle monsters', target_monsters)
 	keys[0] = ui.keyselect('Key auto aim Q', keys[0])
 	keys[1] = ui.keyselect('Key auto aim W', keys[1])
 	keys[2] = ui.keyselect('Key auto aim E', keys[2])
@@ -25,18 +30,23 @@ def valkyrie_menu(ctx) :
 	ui.text("Currently doesnt support ally targeting")
 	ui.text("Some champions arent tested yet")
 	
-def valkyrie_on_load(ctx) :	 
+def valkyrie_on_load(ctx) :	
 	global keys, target_sel
+	global target_minions, target_monsters
 	cfg = ctx.cfg				 
 	
 	keys = json.loads(cfg.get_str('keys', str(keys)))
 	target_sel = TargetSelector.from_str(cfg.get_str('target_sel', str(target_sel)))
+	target_minions = cfg.get_bool('target_minions', target_minions)
+	target_monsters = cfg.get_bool('target_monsters', target_monsters)
 	
 def valkyrie_on_save(ctx) :	 
 	cfg = ctx.cfg				 
 	
 	cfg.set_str('keys', str(keys))
 	cfg.set_str('target_sel', str(target_sel))
+	cfg.set_bool('target_minions', target_minions)
+	cfg.set_bool('target_monsters', target_monsters)
 	
 def cast(ctx, spell, static, end_channel = False):
 		
@@ -46,9 +56,9 @@ def cast(ctx, spell, static, end_channel = False):
 	
 	player = ctx.player
 	target = target_sel.get_target(ctx, ctx.champs.enemy_to(player).targetable().near(player, static.cast_range).get())
-	if not target:
+	if not target and target_minions:
 		target = target_sel.get_target(ctx, ctx.minions.enemy_to(player).targetable().near(player, static.cast_range).get())
-	if not target:
+	if not target and target_monsters:
 		target = target_sel.get_target(ctx, ctx.jungle.enemy_to(player).targetable().near(player, static.cast_range).get())
 	
 	if not target:

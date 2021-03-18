@@ -96,6 +96,11 @@ void UserPanel::DrawHome()
 		performUpdate = true;
 		updateComplete = false;
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Extend Subscription")) {
+		strcpy_s(loader->extendSubPanel.name, loader->identity.name.c_str());
+		loader->ChangePanel(&loader->extendSubPanel);
+	}
 
 	/// Inject stuff
 	ImGui::Separator();

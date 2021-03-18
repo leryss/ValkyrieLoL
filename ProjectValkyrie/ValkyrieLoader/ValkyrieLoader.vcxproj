@@ -136,6 +136,7 @@
     <ClInclude Include="AsyncUpdater.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CreateAccountPanel.h" />
+    <ClInclude Include="ExtendSubscriptionPanel.h" />
     <ClInclude Include="LoaderPanel.h" />
     <ClInclude Include="LoginPanel.h" />
     <ClInclude Include="UserPanel.h" />
@@ -149,6 +150,7 @@
     <ClCompile Include="AsyncUpdater.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="CreateAccountPanel.cpp" />
+    <ClCompile Include="ExtendSubscriptionPanel.cpp" />
     <ClCompile Include="LoginPanel.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="UserPanel.cpp" />

@@ -25,17 +25,28 @@ void AsyncInjector::Perform()
 			handleInjected = hWindow;
 			currentStep = "Injecting cheat";
 
+			/// Check if payload exists
 			if (!Paths::FileExists(dllPath)) {
 				SetError(Strings::Format("%s missing. Antivirus might have deleted it", dllPath).c_str());
 				return;
 			}
 
+			/// Copy to temp with random name
+			std::string dllTempPath = Paths::GetTemporaryPath() + "\\" + Strings::RandomDLLName();
+			if (!CopyFileA(dllPath.c_str(), dllTempPath.c_str(), FALSE)) {
+				SetError(Strings::Format("Failed to copy dll to %s", dllTempPath.c_str()).c_str());
+				return;
+			}
+
+			/// Inject
 			DWORD processId = 0;
 			GetWindowThreadProcessId(hWindow, &processId);
 
 			Sleep(delay);
-			InjectIntoPID(dllPath, processId);
+			InjectIntoPID(dllTempPath, processId);
 			currentStep = "Injected. Enjoy your game";
+
+			Sleep(2000);
 			if (oneTimeInjection)
 				break;
 		}

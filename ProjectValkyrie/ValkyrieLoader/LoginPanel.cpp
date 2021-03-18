@@ -23,7 +23,10 @@ void LoginPanel::Draw(ValkyrieLoader & loader)
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Register"))
-			loader.currentPanel = &loader.createAccPanel;
+			loader.ChangePanel(&loader.createAccPanel);
+		ImGui::SameLine();
+		if (ImGui::Button("Extend Subscription"))
+			loader.ChangePanel(&loader.extendSubPanel);
 
 		ImGui::Checkbox("Remember credentials", &autoSaveCredentials);
 		ImGui::Checkbox("Auto login", &autoLogin);
@@ -40,7 +43,7 @@ void LoginPanel::Login(ValkyrieLoader& loader)
 		[&loader, this](std::shared_ptr<AsyncTask> response) {
 			ValkyrieShared::SaveCredentials(nameBuff, passBuff);
 			loader.loggedUser = ((UserResultAsync*)response.get())->user;
-			loader.currentPanel = &loader.userPanel;
+			loader.ChangePanel(&loader.userPanel);
 		}
 	);
 }

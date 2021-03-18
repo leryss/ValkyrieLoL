@@ -38,20 +38,26 @@ std::string Strings::Format(const char* c, ...) {
 	return std::string(buff);
 }
 
-std::string Strings::RandomString(const int len) {
+std::string Strings::RandomAsciiLowerString(const int len) {
 
 	std::string tmp_s;
-	static const char alphanum[] =
-		"0123456789"
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz";
+	static const char alpha[] = "abcdefghijklmnopqrstuvwxyz";
 
 	srand((unsigned int)time(0));
 	tmp_s.reserve(len);
 
 	for (int i = 0; i < len; ++i)
-		tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+		tmp_s += alpha[rand() % (sizeof(alpha) - 1)];
 
 
 	return tmp_s;
+}
+
+std::string Strings::RandomDLLName()
+{
+	srand((unsigned int)time(0));
+	int sizeAlpha = 5 + (rand() % 4);
+	bool use32 = rand() % 2;
+
+	return Format("%s%s.dll", RandomAsciiLowerString(sizeAlpha).c_str(), (use32 ? "32" : ""));
 }

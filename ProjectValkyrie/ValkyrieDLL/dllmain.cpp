@@ -2,6 +2,8 @@
 
 #include <codecvt>
 #include <windows.h>
+
+#include "DllHide.h"
 #include "Valkyrie.h"
 #include "Strings.h"
 #include "Paths.h"
@@ -25,9 +27,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                        LPVOID lpReserved
                      )
 {
-	if (ul_reason_for_call == DLL_PROCESS_ATTACH)
+	UnlinkModuleFromPEB(hModule);
+	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
 		CreateThread(NULL, 0, &OverlayThreadEntryPoint, NULL, 0, NULL);
-
+	}
 	return TRUE;
 }
 

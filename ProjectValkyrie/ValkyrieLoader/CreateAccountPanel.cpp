@@ -21,13 +21,13 @@ void CreateAccountPanel::Draw(ValkyrieLoader & loader)
 					ValkyrieShared::SaveCredentials(loader.loginPanel.nameBuff, loader.loginPanel.passBuff);
 					loader.loggedUser   = ((UserResultAsync*)response.get())->user;
 					loader.identity     = IdentityInfo(loader.loginPanel.nameBuff, loader.loginPanel.passBuff, loader.hardwareInfo);
-					loader.currentPanel = &loader.userPanel;
+					loader.ChangePanel(&loader.userPanel);
 			}
 			);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
-			loader.currentPanel = &loader.loginPanel;
+			loader.ChangeToPreviousPanel();
 
 		ImGui::End();
 	}

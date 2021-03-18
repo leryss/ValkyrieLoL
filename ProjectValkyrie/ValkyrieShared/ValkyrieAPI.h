@@ -220,7 +220,6 @@ public:
 class ValkyrieAPI {
 
 public:
-	
 	std::shared_ptr<GetS3ObjectHeadResultAsync> GetS3ObjectHead(const char* bucket, const char* key);
 	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
 
@@ -238,6 +237,7 @@ public:
 	std::shared_ptr<ScriptSubmissionsResultAsync> GetAllSubmissions(const IdentityInfo& identity);
 
 	std::shared_ptr<LambdaInvokeResultAsync> UpdateSubmission(const IdentityInfo& identity, const ScriptSubmission& submission);
+	std::shared_ptr<StringResultAsync>       ExtendSubscription(const char* name, const char* code);
 
 	static ValkyrieAPI*                   Get();
 

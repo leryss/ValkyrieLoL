@@ -1,12 +1,18 @@
+[Valkyrie v0.20]
+	+ Added DLL hiding as another layer of anti-cheat detection
+	+ Added Extend Subscription functionality in loader
+
 [Valkyrie v0.19]
 	* Fixed anivia egg targeting issue
 	* Added missing icon for hextech flash
+	* Fixed performance issues caused by ashe E
 
 	+ Added new script Aimcast that aims automatically skillshots and targeted spells
 	+ Added rest of skills to evade
 	+ Added more target selectors
 	+ Added option to target champions while lane push in orbwalker
 	+ Added biscuit to potion activator
+	+ Valkyrie updated for league patch 11.6
 
 [Valkyrie v0.18]
 	* Fixed auto qss/cleanse activator crash

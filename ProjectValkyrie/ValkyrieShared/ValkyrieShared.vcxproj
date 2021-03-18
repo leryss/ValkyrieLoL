@@ -160,6 +160,7 @@
     <ClInclude Include="AsyncTaskPool.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigSet.h" />
+    <ClInclude Include="DllHide.h" />
     <ClInclude Include="HardwareInfo.h" />
     <ClInclude Include="IdentityInfo.h" />
     <ClInclude Include="imgui\imconfig.h" />

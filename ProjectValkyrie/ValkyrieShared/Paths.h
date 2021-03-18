@@ -9,6 +9,7 @@ public:
 
 	static bool FileExists(std::string& path);
 	static std::string GetScriptPath(std::string& scriptName);
+	static std::string GetTemporaryPath();
 
 	static std::string Root;
 	static std::string Payload;

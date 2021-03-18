@@ -11,6 +11,7 @@
 #include "UserPanel.h"
 #include "LoginPanel.h"
 #include "CreateAccountPanel.h"
+#include "ExtendSubscriptionPanel.h"
 #include "AdminPanel.h"
 
 using namespace std::chrono;
@@ -27,13 +28,14 @@ public:
 	                   ValkyrieLoader();
 	void               ImGuiShow();
 	void               SaveConfigs();
-	void               UpdateData();
+	void               ChangePanel(LoaderPanel* panel);
+	void               ChangeToPreviousPanel();
 
 	UserPanel          userPanel;
 	AdminPanel         adminPanel;
 	LoginPanel         loginPanel;
+	ExtendSubscriptionPanel extendSubPanel;
 	CreateAccountPanel createAccPanel;
-	LoaderPanel*       currentPanel;
 				       
 	UserInfo           loggedUser;
 	IdentityInfo       identity;
@@ -45,6 +47,9 @@ public:
 	ConfigSet          configs;
 
 private:
+
+	LoaderPanel*       currentPanel;
+	LoaderPanel*       previousPanel;
 
 	bool performLoaderUpdate = true;
 	bool loaderUpdated = false;

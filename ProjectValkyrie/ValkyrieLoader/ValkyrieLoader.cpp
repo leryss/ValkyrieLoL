@@ -70,6 +70,18 @@ void ValkyrieLoader::SaveConfigs()
 	configs.Save();
 }
 
+void ValkyrieLoader::ChangePanel(LoaderPanel * panel)
+{
+	previousPanel = currentPanel;
+	currentPanel = panel;
+}
+
+void ValkyrieLoader::ChangeToPreviousPanel()
+{
+	if (previousPanel != nullptr)
+		currentPanel = previousPanel;
+}
+
 void ValkyrieLoader::SetupWorkingDir()
 {
 	/// Check if valkyrie dir exists

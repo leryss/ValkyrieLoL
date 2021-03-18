@@ -9,6 +9,7 @@ public:
 
 private:
 	void             Login(ValkyrieLoader& loader);
+
 public:
 	bool             autoSaveCredentials;
 	bool             loadCredentials;

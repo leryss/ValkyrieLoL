@@ -140,6 +140,16 @@ std::shared_ptr<LambdaInvokeResultAsync> ValkyrieAPI::UpdateSubmission(const Ide
 	return std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
+std::shared_ptr<StringResultAsync> ValkyrieAPI::ExtendSubscription(const char * name, const char * code)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithString("name", name);
+	jsonParams.WithString("invite-code", code);
+	PutOperation("extend-sub", jsonParams);
+
+	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
 ValkyrieAPI* ValkyrieAPI::Get()
 {
 	if (Instance == nullptr)
