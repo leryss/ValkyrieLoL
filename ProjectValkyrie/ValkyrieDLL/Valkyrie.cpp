@@ -30,6 +30,7 @@ ValkyrieAPI*                       Valkyrie::Api = ValkyrieAPI::Get();
 UserInfo                           Valkyrie::LoggedUser;
 AsyncTaskPool*                     Valkyrie::TaskPool = AsyncTaskPool::Get();
 bool                               Valkyrie::EssentialsLoaded = false;
+bool                               Valkyrie::LoadedScripts = false;
 
 GameReader                         Valkyrie::Reader;
 PyExecutionContext                 Valkyrie::ScriptContext;
@@ -268,18 +269,17 @@ void Valkyrie::SaveConfigs()
 	Configs.Save();
 }
 
-void Valkyrie::LoadScripts()
-{
-	ScriptManager.LoadAllScripts();
-}
-
 void Valkyrie::ExecuteScripts()
 {
+	if (!LoadedScripts) {
+		ScriptManager.LoadAllScripts(CurrentGameState);
+		LoadedScripts = true;
+	}
 	if(GetForegroundWindow() == LeagueWindowHandle)
 		ScriptManager.ExecuteScripts(ScriptContext);
 }
 
-void Valkyrie::SetupScriptExecutionContext()
+void Valkyrie::SetupScripts()
 {
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -300,7 +300,7 @@ void Valkyrie::SetupScriptExecutionContext()
 void Valkyrie::DrawDevMenu()
 {
 	if (ImGui::Button("Reload Scripts"))
-		LoadScripts();
+		LoadedScripts = false;
 
 	ImGui::SameLine();
 	if (ImGui::Button("Reload Essentials")) {
@@ -369,12 +369,11 @@ void Valkyrie::Update()
 		TaskPool->ImGuiDraw();
 		if (EssentialsLoaded) {
 			
-			
 			CurrentGameState = Reader.GetNextState();
 			//ShowMenu();
 			if (CurrentGameState->gameStarted) {
 				SkinChanger::Refresh();
-				SetupScriptExecutionContext();
+				SetupScripts();
 				ShowMenu();
 				ExecuteScripts();
 			}
@@ -453,7 +452,6 @@ HRESULT __stdcall Valkyrie::HookedD3DPresent(LPDIRECT3DDEVICE9 Device, const REC
 			DxDevice = Device;
 			InitializePython();
 			InitializeOverlay();
-			LoadScripts();
 		}
 		Update();
 	}

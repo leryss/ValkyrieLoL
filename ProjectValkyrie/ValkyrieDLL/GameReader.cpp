@@ -45,6 +45,7 @@ GameState* GameReader::GetNextState()
 			}
 			else if (champ->IsEnemyTo(*state.player)) {
 				champ->ReadSpells(GameChampion::NUM_SPELLS);
+				champ->ReadBuffs();
 				if(!champ->IsClone())
 					champ->ReadItems();
 			}

@@ -72,6 +72,7 @@ public:
 	static int SpellInfoSpellData;
 	static int SpellDataSpellName;
 	static int SpellDataMissileName;
+	static int SpellDataManaArray;
 
 	static int ObjectManager;
 	static int LocalPlayer;

@@ -90,6 +90,7 @@ int Offsets::SpellSlotSpellInfo              = 0x13C;
 int Offsets::SpellInfoSpellData              = 0x44;
 int Offsets::SpellDataSpellName              = 0x64;
 int Offsets::SpellDataMissileName            = 0x64;
+int Offsets::SpellDataManaArray              = 0x524;
 										    
 int Offsets::ObjectMapCount                  = 0x2C;
 int Offsets::ObjectMapRoot                   = 0x28;

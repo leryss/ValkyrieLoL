@@ -123,6 +123,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("ready_at",          &GameSpell::readyAt,              "Timestamp in game time for when the cooldown of the spell ends")
 		.def_readonly("value",             &GameSpell::value,                "Value of spells. Holds the value of the spell for summoner spells like ignite/smite it holds the damage. For champion spells this value is usually 0")
 		.def_readonly("cd",                &GameSpell::GetRemainingCooldown, "The remaining cooldown of the spell. Internally it is calculated using ready_at")
+		.def_readonly("mana",              &GameSpell::mana,                 "Mana necessarry for casting the spell")
 
 		.def_readonly("static",            &GameSpell::GetStaticData,        "Gets static information loaded at runtime about the spell. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		;
@@ -175,7 +176,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
 		.def("has_buff",                   &GameChampion::HasBuff,           "Check if champion has buff. The buff name is case sensitive")
-		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "List of all the buffs on the champion. Currently buffs are only read for the player champion due to performance reasons.")
+		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "List of all the buffs on the champion. Currently buffs are only read for the player champion and enemies due to performance reasons.")
 		.def_readonly("spells",            &GameChampion::SpellsToPy,        "List of all the champion spells. Remarks: First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them. Only enemies and local player have item actives read for performance reasons")
 		.def_readonly("item_slots",        &GameChampion::ItemsToPy,         "List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons")
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "Height position of the HP bar of the champion")

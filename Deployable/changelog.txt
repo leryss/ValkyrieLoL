@@ -1,3 +1,8 @@
+[Valkyrie v0.21]
+	+ Updated spell db for ~20 more champs
+	+ Added option to disable minion/monster targeting for vk_aimcast
+	+ Added vk_cassiopeia script
+
 [Valkyrie v0.20]
 	+ Added DLL hiding as another layer of anti-cheat detection
 	+ Added Extend Subscription functionality in loader

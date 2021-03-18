@@ -28,6 +28,7 @@ public:
 	int         charges;
 	float       value;
 	HKey        castKey;
+	float       mana;
 
 	SpellInfo*  staticData;
 

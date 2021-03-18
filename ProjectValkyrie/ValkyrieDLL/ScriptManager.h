@@ -10,7 +10,7 @@ class ScriptManager {
 
 public:
 
-	void LoadAllScripts();
+	void LoadAllScripts(const GameState* gameState);
 	void ExecuteScripts(PyExecutionContext& ctx);
 	void ImGuiDrawMenu(PyExecutionContext& ctx);
 

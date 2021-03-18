@@ -50,12 +50,12 @@ private:
 	static void                        SaveConfigs();
 
 	/// Script stuff
-	static void                        LoadScripts();
 	static void                        ExecuteScripts();
-	static void                        SetupScriptExecutionContext();
+	static void                        SetupScripts();
 	
 private:
 	/// Game stuff
+	static bool                        LoadedScripts;
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
 	static PyExecutionContext          ScriptContext;

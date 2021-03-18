@@ -6,7 +6,7 @@
 #include "Paths.h"
 #include "PyExecutionContext.h"
 
-void ScriptManager::LoadAllScripts()
+void ScriptManager::LoadAllScripts(const GameState* gameState)
 {
 	Logger::Info("Loading scripts");
 	repository.LoadLocalEntries(Paths::ScriptsIndex);
@@ -19,6 +19,9 @@ void ScriptManager::LoadAllScripts()
 		if (scriptInfo == nullptr)
 			continue;
 		
+		if (scriptInfo->champion != "all" && gameState->player->name != scriptInfo->champion)
+			continue;
+
 		if (scriptInfo->author == "TeamValkyrie")
 			LoadScript(scriptInfo, coreScripts);
 		else

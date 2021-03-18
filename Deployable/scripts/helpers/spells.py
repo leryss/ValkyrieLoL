@@ -1,5 +1,6 @@
 import os, json
 from enum import Enum
+from time import time
 
 class CCType:
 	Charm    = 0
@@ -41,7 +42,7 @@ class Buff:
 		return self.type & type == type
 
 class Buffs:
-
+	
 	UnknownBuff = Buff('UnknownBuff', '?', 0)
 	AllBuffs = [
 		#    Pretty nam               In game name                 Type              More type info
@@ -73,6 +74,9 @@ class Buffs:
 
 	@classmethod
 	def has_buff(self, champ, buff_name):
+		'''
+			Check if champion has a buff.
+		'''
 		buff_obj = Buffs.AllBuffsDict.get(buff_name, None)
 		if buff_obj == None:
 			return False
@@ -81,8 +85,107 @@ class Buffs:
 	
 	@classmethod
 	def get(self, buff_name):
+		'''
+			Gets the buff object by name of the buff
+		'''
 		return Buffs.AllBuffsDict.get(buff_name, Buffs.UnknownBuff)
 
+class Slot:
+	''' 
+		Spell slot indices. Usage: ChampionObj.spells[Slot.Q] 
+	'''
+	Q = 0
+	W = 1
+	E = 2
+	R = 3
+	D = 4
+	F = 5
+
+class RSpell:
+	''' 
+		Rotation Spell info. 
+		condition argument must be a function with arguments (ctx=Context, player=ChampionObj, target=UnitObj, spell=GameSpell).
+		condition function must return a boolean if spell should be cast
+	'''
+	def __init__(self, slot, condition = None):
+		self.slot = slot
+		self.condition = condition
+		
+class SpellRotation:
+	'''
+		Represents a rotation of spells
+	'''
+	
+	def __init__(self, rotation_spells):
+		'''
+			rotation_spells must be an array of RSpell's
+		'''
+		self.rotation_spells = rotation_spells
+	
+	def get_spell(self, ctx, target):
+		'''
+			Gets the next castable spell in the rotation. Returns None if nothing found
+		'''
+		player = ctx.player
+		spells = player.spells
+		
+		for rspell in self.rotation_spells:
+			spell = spells[rspell.slot]
+			if not spell.static:
+				continue
+			if rspell.condition and not rspell.condition(ctx, player, target, spell):
+				continue
+				
+			if spell.cd == 0.0 and player.mana >= spell.mana and target.pos.distance(player.pos) < spell.static.cast_range:
+				return spell
+		
+		return None
+		
+class SpellKiter:
+	'''
+		Similar to orbwalker but instead of attacks it casts spells from a SpellRotation
+	'''
+	
+	cooldown_move = 0.08
+	
+	def __init__(self, selector, rotation, target_distance):
+		self.selector = selector
+		self.rotation = rotation
+		self.target_distance = target_distance
+		self.last_moved = 0
+		
+	def kite(self, ctx):
+		player = ctx.player
+		
+		spell, point = self.get_spell(ctx, player)
+		if spell:
+			ctx.cast_spell(spell, point)
+		else:
+			now = time()
+			if now - self.last_moved > self.cooldown_move:
+				self.last_moved = now
+				ctx.move()
+		
+	def get_spell(self, ctx, player):
+		'''
+			Gets next spell to cast from the rotation along with the cast point
+		'''
+		if player.curr_casting and player.curr_casting.remaining > 0.0:
+			return None, None
+		
+		target = self.selector.get_target(ctx, ctx.champs.enemy_to(player).targetable().near(player, self.target_distance).get())
+		if not target:
+			return None, None
+			
+		spell = self.rotation.get_spell(ctx, target)
+		if not spell:
+			return None, None
+		
+		point = ctx.predict_cast_point(player, target, spell)
+		if not point:
+			return None, None
+		
+		return spell, point
 
 '''
 Spells = {}
