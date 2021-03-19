@@ -48,8 +48,11 @@ private:
 
 	/// Invite code generator stuff
 	int              inviteRole = 0;
+	int              inviteMode = 0;
 	float            inviteSubscriptionDays = 30.f;
-	char             generatedInviteCodeBuff[Constants::INPUT_TEXT_SIZE] = "";
+	static const int inviteCodeBuffSize = 2048;
+	int              numCodesToGenerate = 1;
+	char             generatedInviteCodeBuff[inviteCodeBuffSize] = "";
 
 	/// User Manager stuff
 	bool              retrieveUsers = true;

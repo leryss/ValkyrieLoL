@@ -15,7 +15,16 @@ public:
 	void      ReadFromBaseAddress(int addr);
 	void      ImGuiDraw();
 	bool      HasTags(UnitTag tag);
+
 	float     GetAttackSpeed();
+	float     GetCooldownReduction();
+	float     GetAttackDamage();
+	float     GetBonusMoveSpeed();
+	float     GetBonusAttackSpeed();
+
+	float     EffectivePhysicalDamage(const GameUnit& target, float dmg) const;
+	float     EffectiveMagicalDamage(const GameUnit target, float dmg) const;
+
 	bool      IsRanged();
 	object    GetStaticData();
 	object    GetCastingSpell();
@@ -30,7 +39,9 @@ public:
 	float       health;
 	float       maxHealth;
 	float       armor;
+	float       bonusArmor;
 	float       magicRes;
+	float       bonusMagicRes;
 	float       baseAtk;
 	float       bonusAtk;
 	float       moveSpeed;
@@ -41,6 +52,11 @@ public:
 	float       abilityPower;
 	float       atkSpeedMulti;
 	float       attackRange;
+	float       lethality;
+	float       haste;
+
+	float       magicPen;
+	float       magicPenMulti;
 	
 	SpellCast   castingSpell;
 	UnitInfo*   staticData;

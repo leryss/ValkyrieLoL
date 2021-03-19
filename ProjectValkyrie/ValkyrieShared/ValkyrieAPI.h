@@ -217,27 +217,46 @@ public:
 	}
 };
 
+class InviteListResultAsync : public LambdaInvokeResultAsync {
+public:
+	std::vector<std::shared_ptr<InviteInfo>> invites;
+
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
+
+	virtual void Perform() {
+		LambdaInvokeResultAsync::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED) {
+			auto inviteListJson = rawJson.View().GetArray("result");
+			for (size_t i = 0; i < inviteListJson.GetLength(); ++i) {
+				auto inviteJson = inviteListJson.GetItem(i);
+				invites.push_back(InviteInfo::FromJsonView(inviteJson));
+			}
+		}
+	}
+};
+
 class ValkyrieAPI {
 
 public:
-	std::shared_ptr<GetS3ObjectHeadResultAsync> GetS3ObjectHead(const char* bucket, const char* key);
-	std::shared_ptr<GetS3ObjectAsync>     GetCheatS3Object(const char* bucket, const char* key);
-
-	std::shared_ptr<UserResultAsync>      CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
-	std::shared_ptr<GetUserListAsync>     GetUsers(const IdentityInfo& identity);
-	std::shared_ptr<UserResultAsync>      GetUser(const IdentityInfo& identity, const char* target);
-	std::shared_ptr<StringResultAsync>    GenerateInviteCode(const IdentityInfo& identity, float days, UserLevel level);
-	std::shared_ptr<UserResultAsync>      UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
-	
-	std::shared_ptr<ScriptListAsync>      GetScriptList(const IdentityInfo& identity);
-	std::shared_ptr<StringResultAsync>    GetScriptCode(const IdentityInfo& identity, std::string& id);
+	std::shared_ptr<GetS3ObjectHeadResultAsync>   GetS3ObjectHead(const char* bucket, const char* key);
+	std::shared_ptr<GetS3ObjectAsync>             GetCheatS3Object(const char* bucket, const char* key);
+										          
+	std::shared_ptr<UserResultAsync>              CreateAccount(const char* name, const char* pass, const char* discord, const HardwareInfo& hardware, const char* inviteCode);
+	std::shared_ptr<GetUserListAsync>             GetUsers(const IdentityInfo& identity);
+	std::shared_ptr<UserResultAsync>              GetUser(const IdentityInfo& identity, const char* target);
+	std::shared_ptr<InviteListResultAsync>        GenerateInviteCodes(const IdentityInfo & identity, const InviteInfo& invite, int numToGenerate);
+	std::shared_ptr<UserResultAsync>              UpdateUser(const IdentityInfo& identity, const char* target, const UserInfo& targetInfo);
+										          
+	std::shared_ptr<ScriptListAsync>              GetScriptList(const IdentityInfo& identity);
+	std::shared_ptr<StringResultAsync>            GetScriptCode(const IdentityInfo& identity, std::string& id);
 
 	std::shared_ptr<ScriptSubmissionsResultAsync> SubmitScript(const IdentityInfo& identity, const ScriptInfo& script, const std::string& code);
 	std::shared_ptr<ScriptSubmissionsResultAsync> GetSubmissions(const IdentityInfo& identity, const std::string& name);
 	std::shared_ptr<ScriptSubmissionsResultAsync> GetAllSubmissions(const IdentityInfo& identity);
 
-	std::shared_ptr<LambdaInvokeResultAsync> UpdateSubmission(const IdentityInfo& identity, const ScriptSubmission& submission);
-	std::shared_ptr<StringResultAsync>       ExtendSubscription(const char* name, const char* code);
+	std::shared_ptr<LambdaInvokeResultAsync>      UpdateSubmission(const IdentityInfo& identity, const ScriptSubmission& submission);
+	std::shared_ptr<StringResultAsync>            ExtendSubscription(const char* name, const char* code);
 
 	static ValkyrieAPI*                   Get();
 

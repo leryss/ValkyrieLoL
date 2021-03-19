@@ -155,7 +155,7 @@ void GameChampion::ImGuiDraw()
 	}
 }
 
-Vector2 GameChampion::GetHpBarPosition()
+Vector2 GameChampion::GetHpBarPosition() const
 {
 	Vector3 p = pos.clone();
 	p.y += staticData->healthBarHeight;
@@ -197,6 +197,16 @@ object GameChampion::ItemsToPy()
 bool GameChampion::HasBuff(const char * buff)
 {
 	return buffs.find(std::string(buff)) != buffs.end();
+}
+
+int GameChampion::BuffStackCount(const char * buff)
+{
+	std::string buffName = buff;
+	for (auto& buff : buffs)
+		if (buff.second->name == buffName)
+			return buff.second->count;
+
+	return 0;
 }
 
 bool GameChampion::IsClone() const

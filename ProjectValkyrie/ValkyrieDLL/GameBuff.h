@@ -12,5 +12,6 @@ public:
 public:
 	float       startTime;
 	float       endTime;
+	int         count;
 	std::string name;
 };

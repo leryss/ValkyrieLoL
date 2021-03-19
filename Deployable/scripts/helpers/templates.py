@@ -2,6 +2,7 @@ import json
 from valkyrie import *
 from .spells import SpellKiter
 from .targeting import TargetSelector
+from .flags import Orbwalker
 
 class ChampionScript:
 	'''
@@ -28,7 +29,7 @@ class ChampionScript:
 			Sets up the combat mode. target_distance is the minimum distance to the target champion for combat
 		'''
 		self.combat_kiter = SpellKiter(self.target_selector, rota, target_distance)
-		
+
 	def in_combat(self, ctx):
 		'''
 			Checks if combat mode is enabled
@@ -41,6 +42,7 @@ class ChampionScript:
 		self.target_selector.ui('Target selector', ctx, ui)
 		self.combat_key = ui.keyselect('Key combat', self.combat_key)
 		self.harras_on  = ui.checkbox('Auto harras', self.harras_on)
+		ui.separator()
 		
 	def exec(self, ctx):
 		player = ctx.player

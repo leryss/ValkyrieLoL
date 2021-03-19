@@ -48,6 +48,9 @@ def valkyrie_on_save(ctx) :
 	
 def valkyrie_exec(ctx) :	     
 	
+	if ctx.player.dead:
+		return
+		
 	cassiopeia.exec(ctx)
 	if last_hit_e and not cassiopeia.in_combat(ctx):
 		ctx.pill('LastHitE', Col.Green, Col.Black)

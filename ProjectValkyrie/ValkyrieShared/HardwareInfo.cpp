@@ -1,4 +1,5 @@
 #include "HardwareInfo.h"
+#include "Strings.h"
 #include <comdef.h>
 #include <Wbemidl.h>
 
@@ -81,7 +82,7 @@ HardwareInfo HardwareInfo::Calculate()
 		CLSCTX_INPROC_SERVER,
 		IID_IWbemLocator, (LPVOID *)&pLoc);
 	if (FAILED(hres))
-		throw std::exception("Failed to create COM instance");
+		throw std::exception(Strings::Format("Failed to create COM instance %d", hres).c_str());
 
 	IWbemServices *pSvc = NULL;
 	hres = pLoc->ConnectServer(
@@ -95,7 +96,7 @@ HardwareInfo HardwareInfo::Calculate()
 		&pSvc                    // pointer to IWbemServices proxy
 	);
 	if (FAILED(hres))
-		throw std::exception("Failed to connect to COM server");
+		throw std::exception(Strings::Format("Failed to connect to COM server %d", hres).c_str());
 
 	hres = CoSetProxyBlanket(
 		pSvc,                        // Indicates the proxy to set
@@ -108,7 +109,7 @@ HardwareInfo HardwareInfo::Calculate()
 		EOAC_NONE                    // proxy capabilities 
 	);
 	if (FAILED(hres))
-		throw std::exception("Failed to set COM proxy blanket");
+		throw std::exception(Strings::Format("Failed to set COM proxy blanket %d", hres).c_str());
 
 
 	hw.gpuInfo = GetWMIPropertyFrom(pSvc, L"PNPDeviceID", L"Win32_VideoController");

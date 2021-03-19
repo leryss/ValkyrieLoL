@@ -66,7 +66,7 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocati
 		return false;
 
 	/// Check if castable
-	if (spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
+	if (state->player->mana < spell->mana || spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
 		return false;
 
 	if (targetLocation != nullptr) {
@@ -175,6 +175,15 @@ bool PyExecutionContext::IsInFountain(const GameObject & obj)
 	return false;
 }
 
+bool PyExecutionContext::IsUnderTower(const GameUnit & obj)
+{
+	for (auto& turret : state->turrets) {
+		if (turret->IsAllyTo(obj) && (turret->pos.distance(obj.pos) - obj.staticData->gameplayRadius) < turret->staticData->baseAttackRange)
+			return true;
+	}
+	return false;
+}
+
 PyExecutionContext::PyExecutionContext()
 {
 }
@@ -248,6 +257,17 @@ void PyExecutionContext::SetGameState(GameState * state)
 void PyExecutionContext::SetImGuiOverlay(ImDrawList * overlay)
 {
 	this->overlay = overlay;
+}
+
+void PyExecutionContext::DrawHpBarDamageIndicator(const GameChampion & champ, float dmg, ImVec4 color)
+{
+	Vector2 hpbar_pos = champ.GetHpBarPosition();
+	Vector2 pos_start = hpbar_pos.add(Vector2(24.0, -18.0));
+	Vector2 pos_end = pos_start.add(Vector2((champ.health / champ.maxHealth) * 105.0, 0.0));
+	Vector2 pos_start2 = pos_end.add(Vector2(-105.0 * dmg / champ.maxHealth, 0.0));
+	if (pos_start2.x < pos_start.x)
+		pos_start2.x = pos_start.x;
+	DrawLine(pos_start2, pos_end, 12.0, color);
 }
 
 void PyExecutionContext::DrawRectWorld(const Vector3 & p1, const Vector3 & p2, const Vector3 & p3, const Vector3 & p4, float thickness, const ImVec4 & color)

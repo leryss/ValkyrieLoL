@@ -22,12 +22,14 @@ public:
 	void      ReadFromBaseAddress(int addr);
 	void      ImGuiDraw();
 			  
-	Vector2   GetHpBarPosition();
+	Vector2   GetHpBarPosition() const;
 			  
 	list      BuffsToPy();
 	object    SpellsToPy();
 	object    ItemsToPy();
+
 	bool      HasBuff(const char* buff);
+	int       BuffStackCount(const char* buff);
 	bool      IsClone() const;
 
 public:

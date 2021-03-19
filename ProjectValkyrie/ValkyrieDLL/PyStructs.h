@@ -42,6 +42,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("name",                &GameBuff::name,        "Name of the buff")
 		.def_readonly("time_begin",          &GameBuff::startTime,   "When the buff was received in game time")
 		.def_readonly("time_end",            &GameBuff::endTime,     "When the buff will end in game time")
+		.def_readonly("count",               &GameBuff::count,       "Number of stacks of the buff")
 		;
 
 	class_<UnitInfo>("UnitStatic",         "Static data loaded at runtime for an unit")
@@ -111,7 +112,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("first_seen",        &GameObject::firstSeen,           "When the object was first seen")
 		.def_readonly("dir",               &GameObject::dir,                 "Direction the object is facing as a normalized Vec3")
 		.def_readonly("moving",            &GameObject::isMoving,            "True if object is moving")
-																             
+		
 		.def("ally_to",                    &GameObject::IsAllyTo,            "Checks if two objects are allied")
 		.def("enemy_to",                   &GameObject::IsEnemyTo,           "Checks if two objects are enemies")
 		.def("__eq__",                     &GameObject::EqualsTo,            "Checks if two object are identical by checking their network id")
@@ -152,10 +153,13 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("mana",              &GameUnit::mana,                  "Current mana of the unit")
 		.def_readonly("health",            &GameUnit::health,                "Current health of the unit")
 		.def_readonly("max_health",        &GameUnit::maxHealth,             "Max health of the unit")
-		.def_readonly("armor",             &GameUnit::armor,                 "Armour of the unit")
-		.def_readonly("magic_res",         &GameUnit::magicRes,              "Magic resist of the unit")
+		.def_readonly("armor",             &GameUnit::armor,                 "Total armor of the unit")
+		.def_readonly("magic_res",         &GameUnit::magicRes,              "Total magic resist of the unit")
+		.def_readonly("atk",               &GameUnit::GetAttackDamage,       "Total attack damage of the unit")
+		.def_readonly("lethality",         &GameUnit::lethality,             "Lethality of unit")
+		.def_readonly("haste",             &GameUnit::haste,                 "Haste of unit")
+		.def_readonly("cdr",               &GameUnit::GetCooldownReduction,  "Cooldown reduction of unit")
 		.def_readonly("base_atk",          &GameUnit::baseAtk,               "Base physical damage of the unit")
-		.def_readonly("bonus_atk",         &GameUnit::bonusAtk,              "Bonus physical damage of the unit (from items, buffs etc)")
 		.def_readonly("move_speed",        &GameUnit::moveSpeed,             "Movement speed of the unit")
 		.def_readonly("lvl",               &GameUnit::lvl,                   "Level of the unit")
 		.def_readonly("expiry",            &GameUnit::expiry,                "Expiration duration in seconds. Used for units like wards")
@@ -166,9 +170,18 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("atk_range",         &GameUnit::attackRange,           "Attack range of the unit")
 		.def_readonly("atk_speed",         &GameUnit::GetAttackSpeed,        "Calculates the attack speed of the unit")
 
+		.def_readonly("bonus_move_speed",  &GameUnit::GetBonusMoveSpeed,     "Bonus move speed of unit")
+		.def_readonly("bonus_armor",       &GameUnit::bonusArmor,            "Bonus armor of the unit")
+		.def_readonly("bonus_magic_res",   &GameUnit::bonusMagicRes,         "Bonus magic resist of the unit")
+		.def_readonly("bonus_atk",         &GameUnit::bonusAtk,              "Bonus physical damage of the unit (from items, buffs etc)")
+		.def_readonly("bonus_atk_speed",   &GameUnit::GetBonusAttackSpeed,   "Bonus attack speed of the unit")
+
 		.def_readonly("curr_casting",      &GameUnit::GetCastingSpell,       "Currently casting spell by the unit")
 		.def_readonly("static",            &GameUnit::GetStaticData,         "Static data loaded at runtime of the unit. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		.def_readonly("is_ranged",         &GameUnit::IsRanged,              "True if unit is ranged")
+
+		.def("effective_phys_dmg",         &GameUnit::EffectivePhysicalDamage, "Calculates effective physical damage against target considering armor and armor penetration")
+		.def("effective_magic_dmg",        &GameUnit::EffectiveMagicalDamage,  "Calculates effective magic damage against target considering magic res and magic res penetration")
 
 		.def("has_tags",                   &GameUnit::HasTags,               "Checks if the unit has unit tags (see Unit class)")
 
@@ -176,6 +189,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
 		.def("has_buff",                   &GameChampion::HasBuff,           "Check if champion has buff. The buff name is case sensitive")
+		.def("num_buff_stacks",            &GameChampion::BuffStackCount,    "Gets the number of stacks for the buff given by the name")
 		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "List of all the buffs on the champion. Currently buffs are only read for the player champion and enemies due to performance reasons.")
 		.def_readonly("spells",            &GameChampion::SpellsToPy,        "List of all the champion spells. Remarks: First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them. Only enemies and local player have item actives read for performance reasons")
 		.def_readonly("item_slots",        &GameChampion::ItemsToPy,         "List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons")
@@ -302,13 +316,15 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("predict_cast_point",       &PyExecutionContext::PredictCastPoint,  "Predicts a cast point such that the spell will hit the target. Returns None if doesnt find such a point")
 		.def("get_spell_static",         &PyExecutionContext::GetSpellInfo,      "Gets static spell info. Argument must be lower case")
 
+		.def("is_under_tower",           &PyExecutionContext::IsUnderTower,      "True if the game object is under tower")
 		.def("is_at_spawn",              &PyExecutionContext::IsInFountain,      "Checks if the object is in the fountain of his team")
 		.def("is_on_screen",             &PyExecutionContext::IsScreenPointOnScreen, PyExecutionContext::IsScreenPointOnScreenOverloads())
 		.def("is_on_screen",             &PyExecutionContext::IsWorldPointOnScreen,  PyExecutionContext::IsWorldPointOnScreenOverloads())
 		.def("w2s",                      &PyExecutionContext::World2Screen,      "Converts a world space point to screen space")
 		.def("w2m",                      &PyExecutionContext::World2Minimap,     "Converts a world space point to minimap space")
 		.def("d2m",                      &PyExecutionContext::DistanceOnMinimap, "Converts a distance value from world space to minimap space")
-										    
+		
+		.def("hp_dmg_indicator",         &PyExecutionContext::DrawHpBarDamageIndicator, "Draws an damage indicator with a specified color for an amount of damage on a champion hp bar.")
 		.def("line",                     &PyExecutionContext::DrawLine)
 		.def("line",                     &PyExecutionContext::DrawLineWorld)
 		.def("circle",                   &PyExecutionContext::DrawCircle)

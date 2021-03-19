@@ -5,3 +5,4 @@
 #include "UserInfo.h"
 #include "ScriptInfo.h"
 #include "ScriptSubmission.h"
+#include "InviteInfo.h"

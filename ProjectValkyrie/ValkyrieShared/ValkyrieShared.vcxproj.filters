@@ -107,6 +107,9 @@
     <ClInclude Include="DllHide.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="InviteInfo.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -165,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="ValkyrieShared.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InviteInfo.cpp">
+      <Filter>Source Files\API\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

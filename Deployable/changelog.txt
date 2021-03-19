@@ -1,3 +1,8 @@
+[Valkyrie v0.22]
+	+ Added vk_samira script
+	+ Now you can bind same keys for Orbwalker Kite and champion Combat and it will do both
+	+ Added spell damage indicator (only 3 champs, will update with time)
+
 [Valkyrie v0.21]
 	+ Updated spell db for ~20 more champs
 	+ Added option to disable minion/monster targeting for vk_aimcast

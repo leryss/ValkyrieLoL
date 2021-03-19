@@ -44,11 +44,21 @@ public:
 	static int ObjTargetable;
 	static int ObjIsMoving;
 	static int ObjDirection;
+	static int ObjLethality;
+	static int ObjAbilityHaste;
+	static int ObjBonusArmor;
+	static int ObjBonusMagicRes;
+
+	static int ObjMagicPen;
+	static int ObjMagicPenMulti;
+	static int ObjAdditionalApMulti;
+
 
 	static int BuffManagerEntriesArray;
 	static int BuffEntryBuff;
 	static int BuffEntryBuffStartTime;
 	static int BuffEntryBuffEndTime;
+	static int BuffEntryBuffCount;
 	static int BuffName;
 
 	static int ItemListItem;

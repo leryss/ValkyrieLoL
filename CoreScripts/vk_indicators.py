@@ -2,7 +2,9 @@ from valkyrie import *
 from helpers.drawings import Circle
 from helpers.prediction import *
 from helpers.items import *
+from helpers.damages import calculate_raw_spell_dmg
 from time import time
+import json
 
 player_circle	     = Circle(0.0, 30, 1.0, Col.Green, False, True)
 turret_circle_enemy  = Circle(0.0, 50, 1.0, Col.Red,   False, True)
@@ -11,6 +13,9 @@ show_minion_hit      = True
 show_casting_spells  = True
 show_missiles        = True
 
+show_potential_dmg   = True
+potential_dmg_mask   = [True, True, True, True, True, True]
+
 def degree_to_rad(degrees):
 	return 0.01745*degrees
 
@@ -18,7 +23,7 @@ _90_DEG_IN_RAD = degree_to_rad(90)
 
 def valkyrie_menu(ctx):
 	global player_circle, show_minion_hit
-	global show_casting_spells, show_missiles
+	global show_casting_spells, show_missiles, show_potential_dmg, potential_dmg_mask
 	ui = ctx.ui
 	
 	ui.text('Circles', Col.Purple)
@@ -31,10 +36,19 @@ def valkyrie_menu(ctx):
 	show_minion_hit     = ui.checkbox("Show minion hit damage indicator", show_minion_hit)
 	show_casting_spells = ui.checkbox("Draw nearby skillshots (being cast)", show_casting_spells)
 	show_missiles       = ui.checkbox("Draw nearby skillshot missiles", show_missiles)
+	ui.separator()
+	
+	ui.text("Potential Damage", Col.Purple)
+	show_potential_dmg  = ui.checkbox("Draw potential damage indicator", show_potential_dmg)
+	potential_dmg_mask[0] = ui.checkbox("Include Q", potential_dmg_mask[0]); ui.sameline()
+	potential_dmg_mask[1] = ui.checkbox("Include W", potential_dmg_mask[1]); ui.sameline()
+	potential_dmg_mask[2] = ui.checkbox("Include E", potential_dmg_mask[2]); ui.sameline()
+	potential_dmg_mask[3] = ui.checkbox("Include R", potential_dmg_mask[3])
+	ui.text('Currently few champs are supported, request a champ on discord if u really want it.')
 	
 def valkyrie_on_load(ctx):
 	global player_circle, show_minion_hit, turret_circle_ally, turret_circle_enemy
-	global show_casting_spells, show_missiles
+	global show_casting_spells, show_missiles, show_potential_dmg, potential_dmg_mask
 	cfg = ctx.cfg
 	
 	player_circle         = Circle.from_str(cfg.get_str("player_circle", str(player_circle)))	  
@@ -44,6 +58,8 @@ def valkyrie_on_load(ctx):
 	show_minion_hit       = cfg.get_bool("show_minion_hit", show_minion_hit)
 	show_missiles         = cfg.get_bool("show_missiles", show_missiles)
 	show_casting_spells   = cfg.get_bool("show_casting_spells", show_casting_spells)
+	show_potential_dmg    = cfg.get_bool("show_potential_dmg", show_potential_dmg)
+	potential_dmg_mask    = json.loads(cfg.get_str("potential_dmg_mask", json.dumps(potential_dmg_mask)))
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
@@ -54,6 +70,8 @@ def valkyrie_on_save(ctx):
 	cfg.set_bool("show_minion_hit", show_minion_hit)
 	cfg.set_bool("show_missiles", show_missiles)
 	cfg.set_bool("show_casting_spells", show_casting_spells)
+	cfg.set_bool("show_potential_dmg", show_potential_dmg)
+	cfg.set_str("potential_dmg_mask", json.dumps(potential_dmg_mask))
 
 def draw_rect(ctx, start_pos, end_pos, radius, color):
 	
@@ -181,6 +199,25 @@ def draw_player_range(ctx):
 	player_circle.radius = ctx.player.atk_range + ctx.player.static.gameplay_radius
 	player_circle.draw_at(ctx, ctx.player.pos)
 	
+def draw_potential_dmg(ctx):
+	
+	dmgs = []
+	player = ctx.player
+	for i in range(4):
+		if not potential_dmg_mask[i]:
+			continue
+			
+		spell = player.spells[i]
+		if spell.cd == 0.0 and spell.lvl > 0:
+			dmgs.append(calculate_raw_spell_dmg(player, spell))
+	
+	for target in ctx.champs.enemy_to(player).targetable().on_screen().get():
+		total_dmg = 0.0
+		for dmg in dmgs:
+			total_dmg += dmg.calc_against(player, target)
+		ctx.hp_dmg_indicator(target, total_dmg, Col(1.0, 0.5, 0.1, 0.5))
+		
+	
 def valkyrie_exec(ctx):
 	draw_player_range(ctx)
 	draw_turret_range(ctx)
@@ -195,3 +232,6 @@ def valkyrie_exec(ctx):
 	if show_missiles:
 		for missile in ctx.missiles.enemy_to(ctx.player).near(ctx.player, 3000).get():
 			draw_missile(ctx, missile)
+			
+	if show_potential_dmg:
+		draw_potential_dmg(ctx)

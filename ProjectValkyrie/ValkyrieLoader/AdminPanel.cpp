@@ -1,5 +1,6 @@
 #include "AdminPanel.h"
 #include "ValkyrieLoader.h"
+#include "InviteInfo.h"
 
 enum UserColumnId {
 	UserColumnName,
@@ -344,16 +345,33 @@ void AdminPanel::DrawInviteGenerator()
 	ImGui::TextColored(Color::PURPLE, "Invite code generator");
 
 	ImGui::Combo("Role", &inviteRole, "User\0Tester\0Admin\0Super Admin");
+	ImGui::SameLine();
+	ImGui::Combo("Mode", &inviteMode, "Create Account\0Extend Sub");
+
+	ImGui::SliderInt("Number of codes", &numCodesToGenerate, 1, 20);
 	ImGui::DragFloat("Subscription Days", &inviteSubscriptionDays);
-	ImGui::InputText("Generated Code", generatedInviteCodeBuff, Constants::INPUT_TEXT_SIZE, ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputTextMultiline("Generated Codes", generatedInviteCodeBuff, Constants::INPUT_TEXT_SIZE, ImVec2(400, 500), ImGuiInputTextFlags_ReadOnly);
 
 	if (ImGui::Button("Generate code") && !taskPool->IsExecuting(trackIdGenerateInvite)) {
+
+		InviteInfo info;
+		info.days = inviteSubscriptionDays;
+		info.level = (UserLevel)inviteRole;
+		info.mode = (InviteMode)inviteMode;
+		info.code = "dummycode";
+		
 		taskPool->DispatchTask(
 			trackIdGenerateInvite,
-			api->GenerateInviteCode(loader->identity, inviteSubscriptionDays, (UserLevel)inviteRole),
+			api->GenerateInviteCodes(loader->identity, info, numCodesToGenerate),
 			[this](std::shared_ptr<AsyncTask> response) {
-				auto resp = (StringResultAsync*)response.get();
-				strcpy_s(generatedInviteCodeBuff, resp->result.c_str());
+				auto resp = (InviteListResultAsync*)response.get();
+
+				std::string inviteBlock;
+				for (auto& invite : resp->invites) {
+					inviteBlock.append(invite->code);
+					inviteBlock.append("\n");
+				}
+				strcpy_s(generatedInviteCodeBuff, inviteBlock.c_str()); 
 			}
 		);
 	}

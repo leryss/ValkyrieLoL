@@ -31,7 +31,7 @@ std::shared_ptr<UserResultAsync> ValkyrieAPI::CreateAccount(const char * name, c
 	jsonParams.WithString("name", name);
 	jsonParams.WithString("pass", pass);
 	jsonParams.WithString("discord", discord);
-	jsonParams.WithString("invite-code", inviteCode);
+	jsonParams.WithString("code", inviteCode);
 	jsonParams.WithObject("hardware", hardware.ToJsonValue());
 
 	PutOperation("create-account", jsonParams);
@@ -58,16 +58,16 @@ std::shared_ptr<UserResultAsync> ValkyrieAPI::GetUser(const IdentityInfo & ident
 	return std::shared_ptr<UserResultAsync>(new UserResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
-std::shared_ptr<StringResultAsync> ValkyrieAPI::GenerateInviteCode(const IdentityInfo & identity, float days, UserLevel level)
+std::shared_ptr<InviteListResultAsync> ValkyrieAPI::GenerateInviteCodes(const IdentityInfo & identity, const InviteInfo& invite, int numToGenerate)
 {
 	Aws::Utils::Json::JsonValue jsonParams;
-	jsonParams.WithDouble("days", days);
-	jsonParams.WithInteger("level", level);
+	jsonParams.WithObject("invite", invite.ToJsonValue());
+	jsonParams.WithInteger("num-invites", numToGenerate);
 
 	PutIdentity(jsonParams, identity);
 	PutOperation("generate-invite", jsonParams);
 
-	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));
+	return std::shared_ptr<InviteListResultAsync>(new InviteListResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
 std::shared_ptr<UserResultAsync> ValkyrieAPI::UpdateUser(const IdentityInfo & identity, const char * target, const UserInfo & targetInfo)
@@ -144,7 +144,7 @@ std::shared_ptr<StringResultAsync> ValkyrieAPI::ExtendSubscription(const char * 
 {
 	Aws::Utils::Json::JsonValue jsonParams;
 	jsonParams.WithString("name", name);
-	jsonParams.WithString("invite-code", code);
+	jsonParams.WithString("code", code);
 	PutOperation("extend-sub", jsonParams);
 
 	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));

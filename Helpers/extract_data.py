@@ -2,20 +2,23 @@ import sys, os, json
 from pprint import pprint, pformat
 from math import floor
 
+SkillLevel = 'skill.lvl'
+ChampLevel = 'champ.lvl'
+
 CalculationTranslators = {
-	'NamedDataValueCalculationPart'              : lambda part: 'self.' + part['mDataValue'].replace(' ', '_') + '[skill.lvl]',
+	'NamedDataValueCalculationPart'              : lambda part: 'self.' + get_data_name(part) + f'[{SkillLevel}]',
 	'StatByNamedDataValueCalculationPart'        : lambda part: stat_calculation_translator(part, True),
 	'StatByCoefficientCalculationPart'           : lambda part: stat_calculation_translator(part, False),
 	'StatBySubPartCalculationPart'               : lambda part: stat_calculation_translator(part, False, part['mSubpart']),
 	'NumberCalculationPart'                      : lambda part: str(part.get('mNumber', 0.0)),
-	'ByCharLevelInterpolationCalculationPart'    : lambda part: f"{part.get('mStartValue', 0.0)} + champ.lvl * {(part['mEndValue'] - part.get('mStartValue', 0.0))/18.0}",
+	'ByCharLevelInterpolationCalculationPart'    : lambda part: f"{part.get('mStartValue', 0.0)} + ({ChampLevel}) * {(part['mEndValue'] - part.get('mStartValue', 0.0))/18.0}",
 	'ByCharLevelBreakpointsCalculationPart'      : lambda part: by_level_breakpoint_translator(part),
-	'EffectValueCalculationPart'                 : lambda part: f"self.Effect{part['mEffectIndex'] - 1}[skill.lvl]",
-	'BuffCounterByNamedDataValueCalculationPart' : lambda part: f"self.{part['mDataValue'].replace(' ', '_')}[skill.lvl] * champ.num_buffs({part['mBuffName']})",
+	'EffectValueCalculationPart'                 : lambda part: f"self.Effect{part['mEffectIndex'] - 1}[{SkillLevel}]",
+	'BuffCounterByNamedDataValueCalculationPart' : lambda part: f"self.{get_data_name(part)}[{SkillLevel}] * champ.num_buffs({part['mBuffName']})",
 	'BuffCounterByCoefficientCalculationPart'    : lambda part: f"{part['mCoefficient']} * champ.num_buffs({part['mBuffName']})",
 	'ProductOfSubPartsCalculationPart'           : lambda part: product_of_subparts_translator(part),
 	'SumOfSubPartsCalculationPart'               : lambda part: sum_of_subparts_translator(part),
-	'CooldownMultiplierCalculationPart'          : lambda part: 'champ.haste_multi',
+	'CooldownMultiplierCalculationPart'          : lambda part: 'champ.cdr',
 	'AbilityResourceByCoefficientCalculationPart': lambda part: f"champ.max_mana * {part['mCoefficient']}",
 	'ByCharLevelFormulaCalculationPart'          : lambda part: by_level_formula(part),
 }
@@ -27,21 +30,38 @@ SpellCalculationFormulaExceptions = {
 	'P + 08': 'P + 8'
 }
 
-StatTranslator = {
-	-1000 : 'champ.ap',
-	1     : 'champ.bonus_armor',
-	2     : 'champ.ad',
-	3     : 'champ.bonus_atk_speed',
-	4     : 'champ.bonus_magic_res',
-	5     : 'champ.bonus_ms',
-	6     : 'champ.crit',
-	7     : 'champ.crit_multi',
-	8     : 'champ.haste_multi',
-	10    : 'champ.max_hp',
-	11    : 'champ.hp',
-	23    : 'champ.lethality',
-	24    : '100.0 * champ.lethality'
+HashTranslations = {
+	'{81918a70}': 'QADRatio'
 }
+
+StatTranslator = {
+	(-1000, 0) : 'champ.ap',
+	(-1000, 2) : 'champ.ap',
+	(1, 0)     : 'champ.armor',
+	(1, 2)     : 'champ.bonus_armor',
+	(2 , 0)    : 'champ.atk',
+	(2 , 2)    : 'champ.bonus_atk',
+	(3 , 0)    : 'champ.atk_speed',
+	(3 , 2)    : 'champ.bonus_atk_speed',
+	(4 , 0)    : 'champ.magic_res',
+	(4 , 2)    : 'champ.bonus_magic_res',
+	(5 , 2)    : 'champ.bonus_move_speed',
+	(6 , 0)    : 'champ.crit',
+	(7 , 0)    : 'champ.crit_multi',
+	(7 , 1)    : 'champ.crit_multi',
+	(7 , 2)    : 'champ.crit_multi',
+	(8 , 0)    : 'champ.cdr',
+	(10, 0)    : 'champ.max_health',
+	(10, 1)    : 'champ.base_health',
+	(10, 2)    : 'champ.bonus_health',
+	(11, 0)    : 'champ.health',
+	(23, 0)    : 'champ.lethality',
+	(24, 0)    : '100.0 * champ.lethality'
+}
+
+def get_data_name(part):
+	name = part['mDataValue']
+	return HashTranslations.get(name, name).replace(' ', '_') 
 
 def by_level_formula(part):
 	global PrecalculatedIndex, CurrentDataVals
@@ -59,7 +79,7 @@ def by_level_formula(part):
 	CurrentDataVals[key] = vals
 	PrecalculatedIndex += 1
 	
-	return f"self.{key}[champ.lvl]"
+	return f"self.{key}[{ChampLevel}]"
 	
 def by_level_breakpoint_translator(part):
 	global PrecalculatedIndex, CurrentDataVals
@@ -91,7 +111,7 @@ def by_level_breakpoint_translator(part):
 	CurrentDataVals[key] = vals
 	PrecalculatedIndex += 1
 	
-	return f'self.{key}[champ.lvl]'
+	return f'self.{key}[{ChampLevel}]'
 	
 def product_of_subparts_translator(part):
 	part1 = part['mPart1']
@@ -109,12 +129,13 @@ def sum_of_subparts_translator(part):
 
 def stat_calculation_translator(part, is_named, subpart = None):
 	id_stat = part.get('mStat', -1000)
-	stat = StatTranslator[id_stat]
+	id_stat_formula = part.get('mStatFormula', 0)
+	stat = StatTranslator[(id_stat, id_stat_formula)]
 	
 	if subpart != None:
 		val = f"({CalculationTranslators[subpart['__type']](subpart)})"
 	else:
-		val = 'self.' + part['mDataValue'].replace(' ', '_') + '[skill.lvl]' if is_named else part['mCoefficient']
+		val = 'self.' + get_data_name(part) + f'[{SkillLevel}]' if is_named else part['mCoefficient']
 	return f" ({val} * {stat})"
 
 def get_part_value(part):
@@ -137,12 +158,12 @@ def perform_spell_calculations(spell):
 			formula = SpellCalculationFormulaExceptions[formula]
 		
 		values = jval.get('mValues', [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-		for i, val in enumerate(values):
-			N = i
-			P = val
-			vals.append(eval(formula))
+		#for i, val in enumerate(values):
+		#	N = i
+		#	P = val
+		#	vals.append(eval(formula))
 		
-		data_vals[jval['mName'].replace(' ', '_')] = vals
+		data_vals[jval['mName'].replace(' ', '_')] = values
 		
 	for i, jeffect in enumerate(jeffects):
 		values = jeffect.get('value', [])
@@ -157,7 +178,8 @@ def perform_spell_calculations(spell):
 	jcalcs = spell.get('{94572284}', {})
 	post_process = []
 	for name, jcalc in jcalcs.items():
-	
+		print(name)
+		
 		_type = jcalc['__type']
 		final_formula = ''
 		if _type == 'GameCalculation':
@@ -266,6 +288,7 @@ def extract_unit_info(folder):
 			if "mSpell" not in val:
 				continue
 			
+			print(key)
 			s = val["mSpell"]
 			calcs = perform_spell_calculations(s)
 			if len(calcs['data_vals']) > 0 or len(calcs['calcs']) > 0:

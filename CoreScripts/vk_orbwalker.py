@@ -5,7 +5,7 @@ from helpers.inputs import KeyInput
 from helpers.spells import Buffs
 from time import time
 from enum import Enum
-from helpers.flags import EvadeFlags
+from helpers.flags import EvadeFlags, Orbwalker
 
 target_selector         = TargetSelector(0, TargetSet.Champion)
 target_selector_monster = TargetSelector(0, TargetSet.Monster)
@@ -120,6 +120,8 @@ def valkyrie_on_load(ctx):
 	key_lane_push   = KeyInput.from_str(cfg.get_str("key_lane_push", str(key_lane_push)))
 	lane_push_mode.allow_champ = cfg.get_bool('lane_push_mode.allow_champ', False)
 	
+	Orbwalker.Present = True
+	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
 	
@@ -139,7 +141,7 @@ last_attacked = 0
 
 def valkyrie_exec(ctx):
 	global last_moved, last_attacked
-	
+
 	now = time()
 	if now < EvadeFlags.EvadeEndTime:
 		return
@@ -175,9 +177,11 @@ def valkyrie_exec(ctx):
 	if dt > c_atk_time:
 		target = mode.get_target(ctx)
 		if target:
+			Orbwalker.Attacking = True
 			ctx.attack(target)
 			last_attacked = now
 			
 	if not target and dt > b_windup_time and now - last_moved > move_interval:
+		Orbwalker.Attacking = False
 		ctx.move()
 		last_moved = now

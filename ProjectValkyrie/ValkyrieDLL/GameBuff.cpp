@@ -15,7 +15,8 @@ void GameBuff::ReadFromBaseAddress(int addr)
 		return;
 	
 	startTime = ReadFloat(addr + Offsets::BuffEntryBuffStartTime);
-	name = Memory::ReadString(buff + Offsets::BuffName, 100);
+	count     = ReadInt(addr + Offsets::BuffEntryBuffCount);
+	name      = Memory::ReadString(buff + Offsets::BuffName, 100);
 }
 
 void GameBuff::ImGuiDraw()
@@ -23,4 +24,5 @@ void GameBuff::ImGuiDraw()
 	ImGui::TextColored(Color::YELLOW, name.c_str());
 	ImGui::DragFloat("Start Time", &startTime);
 	ImGui::DragFloat("End Time", &endTime);
+	ImGui::DragInt("Count", &count);
 }

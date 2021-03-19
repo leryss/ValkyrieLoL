@@ -48,12 +48,21 @@ int Offsets::ObjTargetable                   = 0xD00;
 int Offsets::ObjInvulnerable                 = 0x3D0;
 int Offsets::ObjIsMoving                     = 0x3638;  /// Not a bool, but its 0 when not moving and some point when its moving
 int Offsets::ObjDirection                    = 0x1B80;
+int Offsets::ObjLethality                    = 0x11B4;
+int Offsets::ObjAbilityHaste                 = 0x10cc;
+int Offsets::ObjBonusArmor                   = 0x12A0;
+int Offsets::ObjBonusMagicRes                = 0x12A8;
+
+int Offsets::ObjMagicPen                     = 0x1198; 
+int Offsets::ObjMagicPenMulti                = 0x11A0; /// 1.0 when to percent magic pen is applied othrwise its below 1.0 depending on the percent applied
+int Offsets::ObjAdditionalApMulti            = 0x1204; /// I use this for rabadon, its 0.35 when rabadon is in inventory
 
 int Offsets::ObjBuffManager                  = 0x2178;
 int Offsets::BuffManagerEntriesArray         = 0x10;
 int Offsets::BuffEntryBuff                   = 0x8;
 int Offsets::BuffEntryBuffStartTime          = 0xC;
 int Offsets::BuffEntryBuffEndTime            = 0x10;
+int Offsets::BuffEntryBuffCount              = 0x74;
 int Offsets::BuffName                        = 0x8;
 //oObjIsMoving = 363B;
 //oObjDirection = 0x1B80;

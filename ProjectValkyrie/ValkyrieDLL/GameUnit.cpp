@@ -28,6 +28,15 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	abilityPower  = ReadFloat(addr + Offsets::ObjAbilityPower);
 	atkSpeedMulti = ReadFloat(addr + Offsets::ObjAtkSpeedMulti);
 	attackRange   = ReadFloat(addr + Offsets::ObjAtkRange);
+	bonusArmor    = ReadFloat(addr + Offsets::ObjBonusArmor);
+	bonusMagicRes = ReadFloat(addr + Offsets::ObjBonusMagicRes);
+	lethality     = ReadFloat(addr + Offsets::ObjLethality);
+	haste         = ReadFloat(addr + Offsets::ObjAbilityHaste);
+
+	magicPenMulti = ReadFloat(addr + Offsets::ObjMagicPenMulti);
+	magicPen           = ReadFloat(addr + Offsets::ObjMagicPen);
+	abilityPower       += abilityPower*ReadFloat(addr + Offsets::ObjAdditionalApMulti);
+	
 
 	targetable    = ReadBool(addr + Offsets::ObjTargetable);
 	invulnerable  = ReadBool(addr + Offsets::ObjInvulnerable);
@@ -66,7 +75,9 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragFloat("Health",        &health);
 	ImGui::DragFloat("MaxHealth",     &maxHealth);
 	ImGui::DragFloat("Armor",         &armor);
+	ImGui::DragFloat("Bonus Armor",   &bonusArmor);
 	ImGui::DragFloat("MagicRes",      &magicRes);
+	ImGui::DragFloat("Bonus MagicRes",&bonusMagicRes);
 	ImGui::DragFloat("BaseAtk",       &baseAtk);
 	ImGui::DragFloat("BonusAtk",      &bonusAtk);
 	ImGui::DragFloat("MoveSpeed",     &moveSpeed);
@@ -76,6 +87,10 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragFloat("AbilityPower",  &abilityPower);
 	ImGui::DragFloat("AtkSpeedMulti", &atkSpeedMulti);
 	ImGui::DragFloat("AttackRange",   &attackRange);
+	ImGui::DragFloat("Lethality",     &lethality);
+	ImGui::DragFloat("Haste",         &haste);
+	ImGui::DragFloat("Magic Pen",     &magicPen);
+	ImGui::DragFloat("Enemy MagicRes Multi", &magicPenMulti);
 
 	ImGui::Checkbox("IsDead",         &isDead);
 	ImGui::Checkbox("Targetable",     &targetable);
@@ -109,6 +124,45 @@ float GameUnit::GetAttackSpeed()
 	if (staticData != nullptr)
 		return staticData->baseAttackSpeed * atkSpeedMulti;
 	return 0.f;
+}
+
+float GameUnit::GetAttackDamage()
+{
+	return baseAtk + bonusAtk;
+}
+
+float GameUnit::GetBonusMoveSpeed()
+{
+	if (staticData == nullptr)
+		return 0.f;
+	return moveSpeed - staticData->baseMovementSpeed;
+}
+
+float GameUnit::GetBonusAttackSpeed()
+{
+	if (staticData == nullptr)
+		return 0.f;
+	return GetAttackSpeed() - staticData->baseAttackSpeed;
+}
+
+float GameUnit::EffectivePhysicalDamage(const GameUnit & target, float dmg) const
+{
+	float flatArmorPen = lethality * (0.6f + (0.4f * lvl) / 18.f);
+	float armorMulti = 100.f / (100.f + max(0.f, target.armor - flatArmorPen));
+
+	return armorMulti * dmg;
+}
+
+float GameUnit::EffectiveMagicalDamage(const GameUnit target, float dmg) const
+{
+	float magicMulti = 100.f / (100.f + max(0.f, target.magicRes - magicPen)*magicPenMulti);
+
+	return magicMulti * dmg;
+}
+
+float GameUnit::GetCooldownReduction()
+{
+	return 1.0f - (1.0f/(1.0f + (haste / 100.f)));
 }
 
 bool GameUnit::IsRanged()
