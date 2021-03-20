@@ -7,6 +7,7 @@
 #define ReadFloat(addr) *(float*)(addr)
 #define ReadShort(addr) *(short*)(addr)
 #define ReadBool(addr) *(bool*)(addr)
+#define ReadChar(addr) *(char*)(addr)
 #define AsPtr(addr) (void*)(addr)
 #define CantRead(addr) IsBadReadPtr((void*)(addr), 1)
 

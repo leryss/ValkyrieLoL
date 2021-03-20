@@ -34,6 +34,10 @@ void GameChampion::ReadSpells(int numToRead)
 	for (int i = 0; i < numToRead; ++i) {
 		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
 	}
+
+	char castableMask = ReadChar(spellBook + Offsets::SpellBookCastableMask);
+	for (int i = 0; i < 4; ++i)
+		spells[i].castableBit = castableMask & (1 << i);
 }
 
 void GameChampion::ReadBuffs()
@@ -192,6 +196,11 @@ object GameChampion::ItemsToPy()
 		l.append(boost::ref(items[i]));
 	
 	return l;
+}
+
+bool GameChampion::CanCast(const GameSpell * spell)
+{
+	return mana > spell->mana && spell->GetRemainingCooldown() == 0.0f && spell->castableBit;
 }
 
 bool GameChampion::HasBuff(const char * buff)

@@ -48,6 +48,10 @@
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="valkyrie.Buff.count"><code class="name">var <span class="ident">count</span></code></dt>
+<dd>
+<div class="desc"><p>Number of stacks of the buff</p></div>
+</dd>
 <dt id="valkyrie.Buff.name"><code class="name">var <span class="ident">name</span></code></dt>
 <dd>
 <div class="desc"><p>Name of the buff</p></div>
@@ -82,7 +86,7 @@
 <dl>
 <dt id="valkyrie.ChampionObj.buffs"><code class="name">var <span class="ident">buffs</span></code></dt>
 <dd>
-<div class="desc"><p>List of all the buffs on the champion. Currently buffs are only read for the player champion due to performance reasons.</p></div>
+<div class="desc"><p>List of all the buffs on the champion. Currently buffs are only read for the player champion and enemies due to performance reasons.</p></div>
 </dd>
 <dt id="valkyrie.ChampionObj.hpbar_pos"><code class="name">var <span class="ident">hpbar_pos</span></code></dt>
 <dd>
@@ -107,6 +111,16 @@
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="valkyrie.ChampionObj.can_cast_spell"><code class="name flex">
+<span>def <span class="ident">can_cast_spell</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>can_cast_spell( (ChampionObj)arg1, (SpellObj)arg2) -&gt; bool :
+Checks if champion can cast the GameSpell provided</p>
+<pre><code>C++ signature :
+    bool can_cast_spell(class GameChampion {lvalue},class GameSpell const *)
+</code></pre></div>
+</dd>
 <dt id="valkyrie.ChampionObj.has_buff"><code class="name flex">
 <span>def <span class="ident">has_buff</span></span>(<span>...)</span>
 </code></dt>
@@ -115,6 +129,16 @@
 Check if champion has buff. The buff name is case sensitive</p>
 <pre><code>C++ signature :
     bool has_buff(class GameChampion {lvalue},char const *)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ChampionObj.num_buff_stacks"><code class="name flex">
+<span>def <span class="ident">num_buff_stacks</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>num_buff_stacks( (ChampionObj)arg1, (str)arg2) -&gt; int :
+Gets the number of stacks for the buff given by the name</p>
+<pre><code>C++ signature :
+    int num_buff_stacks(class GameChampion {lvalue},char const *)
 </code></pre></div>
 </dd>
 </dl>
@@ -395,7 +419,7 @@ Makes the player attack the given unit</p>
 </code></dt>
 <dd>
 <div class="desc"><p>cast_spell( (Context)arg1, (SpellObj)arg2, (Vec3)arg3) -&gt; bool :
-Casts a spell on a location. This function will check if spell is castable automatically. It doesnt check for item charge availability.</p>
+Casts a spell on a location. If second argument is None, it will cast at the current mouse position. This function will check if spell is castable automatically. It doesnt check for item charge availability.</p>
 <pre><code>C++ signature :
     bool cast_spell(class PyExecutionContext {lvalue},class GameSpell *,struct Vector3 const *)
 </code></pre></div>
@@ -481,6 +505,16 @@ Gets static spell info. Argument must be lower case</p>
     class boost::python::api::object get_spell_static(class PyExecutionContext {lvalue},char const *)
 </code></pre></div>
 </dd>
+<dt id="valkyrie.Context.hp_dmg_indicator"><code class="name flex">
+<span>def <span class="ident">hp_dmg_indicator</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>hp_dmg_indicator( (Context)arg1, (ChampionObj)arg2, (float)arg3, (Col)arg4) -&gt; None :
+Draws an damage indicator with a specified color for an amount of damage on a champion hp bar.</p>
+<pre><code>C++ signature :
+    void hp_dmg_indicator(class PyExecutionContext {lvalue},class GameChampion,float,struct ImVec4)
+</code></pre></div>
+</dd>
 <dt id="valkyrie.Context.image"><code class="name flex">
 <span>def <span class="ident">image</span></span>(<span>...)</span>
 </code></dt>
@@ -535,6 +569,16 @@ Checks if key is held down</p>
 <p>is_on_screen( (Context)arg1, (Vec3)arg2 [, (float)arg3 [, (float)arg4]]) -&gt; bool :</p>
 <pre><code>C++ signature :
     bool is_on_screen(class PyExecutionContext {lvalue},struct Vector3 [,float [,float]])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.is_under_tower"><code class="name flex">
+<span>def <span class="ident">is_under_tower</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>is_under_tower( (Context)arg1, (UnitObj)arg2) -&gt; bool :
+True if the game object is under tower</p>
+<pre><code>C++ signature :
+    bool is_under_tower(class PyExecutionContext {lvalue},class GameUnit)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.Context.line"><code class="name flex">
@@ -1331,6 +1375,10 @@ Query objects in vision</p>
 <dd>
 <div class="desc"><p>Level of the spell. Has value 0 when spell is not learned</p></div>
 </dd>
+<dt id="valkyrie.SpellObj.mana"><code class="name">var <span class="ident">mana</span></code></dt>
+<dd>
+<div class="desc"><p>Mana necessarry for casting the spell</p></div>
+</dd>
 <dt id="valkyrie.SpellObj.name"><code class="name">var <span class="ident">name</span></code></dt>
 <dd>
 <div class="desc"><p>Name of the spell in lower case</p></div>
@@ -2114,7 +2162,11 @@ Shows the famous imgui demo</p>
 </dd>
 <dt id="valkyrie.UnitObj.armor"><code class="name">var <span class="ident">armor</span></code></dt>
 <dd>
-<div class="desc"><p>Armour of the unit</p></div>
+<div class="desc"><p>Total armor of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.atk"><code class="name">var <span class="ident">atk</span></code></dt>
+<dd>
+<div class="desc"><p>Total attack damage of the unit</p></div>
 </dd>
 <dt id="valkyrie.UnitObj.atk_range"><code class="name">var <span class="ident">atk_range</span></code></dt>
 <dd>
@@ -2132,9 +2184,29 @@ Shows the famous imgui demo</p>
 <dd>
 <div class="desc"><p>Base physical damage of the unit</p></div>
 </dd>
+<dt id="valkyrie.UnitObj.bonus_armor"><code class="name">var <span class="ident">bonus_armor</span></code></dt>
+<dd>
+<div class="desc"><p>Bonus armor of the unit</p></div>
+</dd>
 <dt id="valkyrie.UnitObj.bonus_atk"><code class="name">var <span class="ident">bonus_atk</span></code></dt>
 <dd>
 <div class="desc"><p>Bonus physical damage of the unit (from items, buffs etc)</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.bonus_atk_speed"><code class="name">var <span class="ident">bonus_atk_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Bonus attack speed of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.bonus_magic_res"><code class="name">var <span class="ident">bonus_magic_res</span></code></dt>
+<dd>
+<div class="desc"><p>Bonus magic resist of the unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.bonus_move_speed"><code class="name">var <span class="ident">bonus_move_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Bonus move speed of unit</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.cdr"><code class="name">var <span class="ident">cdr</span></code></dt>
+<dd>
+<div class="desc"><p>Cooldown reduction of unit</p></div>
 </dd>
 <dt id="valkyrie.UnitObj.crit"><code class="name">var <span class="ident">crit</span></code></dt>
 <dd>
@@ -2156,6 +2228,10 @@ Shows the famous imgui demo</p>
 <dd>
 <div class="desc"><p>Expiration duration in seconds. Used for units like wards</p></div>
 </dd>
+<dt id="valkyrie.UnitObj.haste"><code class="name">var <span class="ident">haste</span></code></dt>
+<dd>
+<div class="desc"><p>Haste of unit</p></div>
+</dd>
 <dt id="valkyrie.UnitObj.health"><code class="name">var <span class="ident">health</span></code></dt>
 <dd>
 <div class="desc"><p>Current health of the unit</p></div>
@@ -2168,13 +2244,17 @@ Shows the famous imgui demo</p>
 <dd>
 <div class="desc"><p>True if unit is ranged</p></div>
 </dd>
+<dt id="valkyrie.UnitObj.lethality"><code class="name">var <span class="ident">lethality</span></code></dt>
+<dd>
+<div class="desc"><p>Lethality of unit</p></div>
+</dd>
 <dt id="valkyrie.UnitObj.lvl"><code class="name">var <span class="ident">lvl</span></code></dt>
 <dd>
 <div class="desc"><p>Level of the unit</p></div>
 </dd>
 <dt id="valkyrie.UnitObj.magic_res"><code class="name">var <span class="ident">magic_res</span></code></dt>
 <dd>
-<div class="desc"><p>Magic resist of the unit</p></div>
+<div class="desc"><p>Total magic resist of the unit</p></div>
 </dd>
 <dt id="valkyrie.UnitObj.mana"><code class="name">var <span class="ident">mana</span></code></dt>
 <dd>
@@ -2199,6 +2279,26 @@ Shows the famous imgui demo</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="valkyrie.UnitObj.effective_magic_dmg"><code class="name flex">
+<span>def <span class="ident">effective_magic_dmg</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>effective_magic_dmg( (UnitObj)arg1, (UnitObj)arg2, (float)arg3) -&gt; float :
+Calculates effective magic damage against target considering magic res and magic res penetration</p>
+<pre><code>C++ signature :
+    float effective_magic_dmg(class GameUnit {lvalue},class GameUnit,float)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UnitObj.effective_phys_dmg"><code class="name flex">
+<span>def <span class="ident">effective_phys_dmg</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>effective_phys_dmg( (UnitObj)arg1, (UnitObj)arg2, (float)arg3) -&gt; float :
+Calculates effective physical damage against target considering armor and armor penetration</p>
+<pre><code>C++ signature :
+    float effective_phys_dmg(class GameUnit {lvalue},class GameUnit,float)
+</code></pre></div>
+</dd>
 <dt id="valkyrie.UnitObj.has_tags"><code class="name flex">
 <span>def <span class="ident">has_tags</span></span>(<span>...)</span>
 </code></dt>
@@ -2654,6 +2754,7 @@ Rotates the vector along the z axis</p>
 <li>
 <h4><code><a title="valkyrie.Buff" href="#valkyrie.Buff">Buff</a></code></h4>
 <ul class="">
+<li><code><a title="valkyrie.Buff.count" href="#valkyrie.Buff.count">count</a></code></li>
 <li><code><a title="valkyrie.Buff.name" href="#valkyrie.Buff.name">name</a></code></li>
 <li><code><a title="valkyrie.Buff.time_begin" href="#valkyrie.Buff.time_begin">time_begin</a></code></li>
 <li><code><a title="valkyrie.Buff.time_end" href="#valkyrie.Buff.time_end">time_end</a></code></li>
@@ -2663,10 +2764,12 @@ Rotates the vector along the z axis</p>
 <h4><code><a title="valkyrie.ChampionObj" href="#valkyrie.ChampionObj">ChampionObj</a></code></h4>
 <ul class="two-column">
 <li><code><a title="valkyrie.ChampionObj.buffs" href="#valkyrie.ChampionObj.buffs">buffs</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.can_cast_spell" href="#valkyrie.ChampionObj.can_cast_spell">can_cast_spell</a></code></li>
 <li><code><a title="valkyrie.ChampionObj.has_buff" href="#valkyrie.ChampionObj.has_buff">has_buff</a></code></li>
 <li><code><a title="valkyrie.ChampionObj.hpbar_pos" href="#valkyrie.ChampionObj.hpbar_pos">hpbar_pos</a></code></li>
 <li><code><a title="valkyrie.ChampionObj.is_clone" href="#valkyrie.ChampionObj.is_clone">is_clone</a></code></li>
 <li><code><a title="valkyrie.ChampionObj.item_slots" href="#valkyrie.ChampionObj.item_slots">item_slots</a></code></li>
+<li><code><a title="valkyrie.ChampionObj.num_buff_stacks" href="#valkyrie.ChampionObj.num_buff_stacks">num_buff_stacks</a></code></li>
 <li><code><a title="valkyrie.ChampionObj.recalling" href="#valkyrie.ChampionObj.recalling">recalling</a></code></li>
 <li><code><a title="valkyrie.ChampionObj.spells" href="#valkyrie.ChampionObj.spells">spells</a></code></li>
 </ul>
@@ -2723,11 +2826,13 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.Context.error" href="#valkyrie.Context.error">error</a></code></li>
 <li><code><a title="valkyrie.Context.get_spell_static" href="#valkyrie.Context.get_spell_static">get_spell_static</a></code></li>
 <li><code><a title="valkyrie.Context.hovered" href="#valkyrie.Context.hovered">hovered</a></code></li>
+<li><code><a title="valkyrie.Context.hp_dmg_indicator" href="#valkyrie.Context.hp_dmg_indicator">hp_dmg_indicator</a></code></li>
 <li><code><a title="valkyrie.Context.image" href="#valkyrie.Context.image">image</a></code></li>
 <li><code><a title="valkyrie.Context.info" href="#valkyrie.Context.info">info</a></code></li>
 <li><code><a title="valkyrie.Context.is_at_spawn" href="#valkyrie.Context.is_at_spawn">is_at_spawn</a></code></li>
 <li><code><a title="valkyrie.Context.is_held" href="#valkyrie.Context.is_held">is_held</a></code></li>
 <li><code><a title="valkyrie.Context.is_on_screen" href="#valkyrie.Context.is_on_screen">is_on_screen</a></code></li>
+<li><code><a title="valkyrie.Context.is_under_tower" href="#valkyrie.Context.is_under_tower">is_under_tower</a></code></li>
 <li><code><a title="valkyrie.Context.jungle" href="#valkyrie.Context.jungle">jungle</a></code></li>
 <li><code><a title="valkyrie.Context.line" href="#valkyrie.Context.line">line</a></code></li>
 <li><code><a title="valkyrie.Context.minions" href="#valkyrie.Context.minions">minions</a></code></li>
@@ -2888,6 +2993,7 @@ Rotates the vector along the z axis</p>
 <ul class="two-column">
 <li><code><a title="valkyrie.SpellObj.cd" href="#valkyrie.SpellObj.cd">cd</a></code></li>
 <li><code><a title="valkyrie.SpellObj.lvl" href="#valkyrie.SpellObj.lvl">lvl</a></code></li>
+<li><code><a title="valkyrie.SpellObj.mana" href="#valkyrie.SpellObj.mana">mana</a></code></li>
 <li><code><a title="valkyrie.SpellObj.name" href="#valkyrie.SpellObj.name">name</a></code></li>
 <li><code><a title="valkyrie.SpellObj.ready_at" href="#valkyrie.SpellObj.ready_at">ready_at</a></code></li>
 <li><code><a title="valkyrie.SpellObj.static" href="#valkyrie.SpellObj.static">static</a></code></li>
@@ -3026,20 +3132,30 @@ Rotates the vector along the z axis</p>
 <ul class="two-column">
 <li><code><a title="valkyrie.UnitObj.ap" href="#valkyrie.UnitObj.ap">ap</a></code></li>
 <li><code><a title="valkyrie.UnitObj.armor" href="#valkyrie.UnitObj.armor">armor</a></code></li>
+<li><code><a title="valkyrie.UnitObj.atk" href="#valkyrie.UnitObj.atk">atk</a></code></li>
 <li><code><a title="valkyrie.UnitObj.atk_range" href="#valkyrie.UnitObj.atk_range">atk_range</a></code></li>
 <li><code><a title="valkyrie.UnitObj.atk_speed" href="#valkyrie.UnitObj.atk_speed">atk_speed</a></code></li>
 <li><code><a title="valkyrie.UnitObj.atk_speed_multi" href="#valkyrie.UnitObj.atk_speed_multi">atk_speed_multi</a></code></li>
 <li><code><a title="valkyrie.UnitObj.base_atk" href="#valkyrie.UnitObj.base_atk">base_atk</a></code></li>
+<li><code><a title="valkyrie.UnitObj.bonus_armor" href="#valkyrie.UnitObj.bonus_armor">bonus_armor</a></code></li>
 <li><code><a title="valkyrie.UnitObj.bonus_atk" href="#valkyrie.UnitObj.bonus_atk">bonus_atk</a></code></li>
+<li><code><a title="valkyrie.UnitObj.bonus_atk_speed" href="#valkyrie.UnitObj.bonus_atk_speed">bonus_atk_speed</a></code></li>
+<li><code><a title="valkyrie.UnitObj.bonus_magic_res" href="#valkyrie.UnitObj.bonus_magic_res">bonus_magic_res</a></code></li>
+<li><code><a title="valkyrie.UnitObj.bonus_move_speed" href="#valkyrie.UnitObj.bonus_move_speed">bonus_move_speed</a></code></li>
+<li><code><a title="valkyrie.UnitObj.cdr" href="#valkyrie.UnitObj.cdr">cdr</a></code></li>
 <li><code><a title="valkyrie.UnitObj.crit" href="#valkyrie.UnitObj.crit">crit</a></code></li>
 <li><code><a title="valkyrie.UnitObj.crit_multi" href="#valkyrie.UnitObj.crit_multi">crit_multi</a></code></li>
 <li><code><a title="valkyrie.UnitObj.curr_casting" href="#valkyrie.UnitObj.curr_casting">curr_casting</a></code></li>
 <li><code><a title="valkyrie.UnitObj.dead" href="#valkyrie.UnitObj.dead">dead</a></code></li>
+<li><code><a title="valkyrie.UnitObj.effective_magic_dmg" href="#valkyrie.UnitObj.effective_magic_dmg">effective_magic_dmg</a></code></li>
+<li><code><a title="valkyrie.UnitObj.effective_phys_dmg" href="#valkyrie.UnitObj.effective_phys_dmg">effective_phys_dmg</a></code></li>
 <li><code><a title="valkyrie.UnitObj.expiry" href="#valkyrie.UnitObj.expiry">expiry</a></code></li>
 <li><code><a title="valkyrie.UnitObj.has_tags" href="#valkyrie.UnitObj.has_tags">has_tags</a></code></li>
+<li><code><a title="valkyrie.UnitObj.haste" href="#valkyrie.UnitObj.haste">haste</a></code></li>
 <li><code><a title="valkyrie.UnitObj.health" href="#valkyrie.UnitObj.health">health</a></code></li>
 <li><code><a title="valkyrie.UnitObj.invulnerable" href="#valkyrie.UnitObj.invulnerable">invulnerable</a></code></li>
 <li><code><a title="valkyrie.UnitObj.is_ranged" href="#valkyrie.UnitObj.is_ranged">is_ranged</a></code></li>
+<li><code><a title="valkyrie.UnitObj.lethality" href="#valkyrie.UnitObj.lethality">lethality</a></code></li>
 <li><code><a title="valkyrie.UnitObj.lvl" href="#valkyrie.UnitObj.lvl">lvl</a></code></li>
 <li><code><a title="valkyrie.UnitObj.magic_res" href="#valkyrie.UnitObj.magic_res">magic_res</a></code></li>
 <li><code><a title="valkyrie.UnitObj.mana" href="#valkyrie.UnitObj.mana">mana</a></code></li>

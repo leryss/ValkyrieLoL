@@ -107,6 +107,7 @@ public:
 
 	static int SpellBookActiveSpellCast;
 	static int SpellBookSpellSlots;
+	static int SpellBookCastableMask;
 
 	static int SpellCastSpellInfo;
 	static int SpellCastStartTime;

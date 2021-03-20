@@ -5,7 +5,8 @@
 void GameBuff::ReadFromBaseAddress(int addr)
 {
 	static float* GameTime = (float*)((int)GetModuleHandle(NULL) + Offsets::GameTime);
-
+	
+	address = addr;
 	endTime = ReadFloat(addr + Offsets::BuffEntryBuffEndTime);
 	if (endTime < *GameTime)
 		return;
@@ -22,6 +23,7 @@ void GameBuff::ReadFromBaseAddress(int addr)
 void GameBuff::ImGuiDraw()
 {
 	ImGui::TextColored(Color::YELLOW, name.c_str());
+	ImGui::DragInt("Address", &address, 1.f, 0, 0, "%#10x");
 	ImGui::DragFloat("Start Time", &startTime);
 	ImGui::DragFloat("End Time", &endTime);
 	ImGui::DragInt("Count", &count);

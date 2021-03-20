@@ -1,5 +1,6 @@
 from valkyrie import *
 from helpers.spells import Slot
+from helpers.damages import calculate_raw_spell_dmg
 
 auto_e_killable = True
 
@@ -27,12 +28,11 @@ def valkyrie_exec(ctx) :
 		return
 
 	spell = player.spells[Slot.E]
-	if spell.cd > 0.0:
+	if spell.lvl == 0 or spell.cd > 0.0 or spell.mana > player.mana:
 		return
 	
+	raw_dmg = calculate_raw_spell_dmg(player, spell)
 	for champ in ctx.champs.enemy_to(player).targetable().near(player, 1200.0).get():
-		dmg = calc_venom_dmg(player, champ, spell)
-		
-		if champ.health - dmg <= 0.0:
+		if champ.health - raw_dmg.calc_against(player, champ) <= 0.0:
 			ctx.cast_spell(spell, None)
 			break

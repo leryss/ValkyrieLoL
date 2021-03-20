@@ -10,6 +10,7 @@ public:
 	void   ImGuiDraw();
 
 public:
+	int         address;
 	float       startTime;
 	float       endTime;
 	int         count;

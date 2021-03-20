@@ -70,6 +70,7 @@ int Offsets::BuffName                        = 0x8;
 
 int Offsets::ObjSpellBook                    = 0x2720;
 int Offsets::SpellBookActiveSpellCast        = 0x20;
+int Offsets::SpellBookCastableMask           = 0x38;
 int Offsets::SpellBookSpellSlots             = 0x478;
 
 int Offsets::SpellCastSpellInfo              = 0x8;

@@ -137,7 +137,7 @@ class SpellRotation:
 			if rspell.condition and not rspell.condition(ctx, player, target, spell):
 				continue
 				
-			if spell.lvl > 0 and spell.cd == 0.0 and player.mana >= spell.mana and target.pos.distance(player.pos) < spell.static.cast_range:
+			if player.can_cast_spell(spell) and target.pos.distance(player.pos) < spell.static.cast_range:
 				return spell
 		
 		return None

@@ -61,7 +61,7 @@ StatTranslator = {
 
 def get_data_name(part):
 	name = part['mDataValue']
-	return HashTranslations.get(name, name).replace(' ', '_') 
+	return HashTranslations.get(name, name).replace(' ', '_').lower()
 
 def by_level_formula(part):
 	global PrecalculatedIndex, CurrentDataVals
@@ -163,7 +163,7 @@ def perform_spell_calculations(spell):
 		#	P = val
 		#	vals.append(eval(formula))
 		
-		data_vals[jval['mName'].replace(' ', '_')] = values
+		data_vals[jval['mName'].replace(' ', '_').lower()] = values
 		
 	for i, jeffect in enumerate(jeffects):
 		values = jeffect.get('value', [])
@@ -178,6 +178,7 @@ def perform_spell_calculations(spell):
 	jcalcs = spell.get('{94572284}', {})
 	post_process = []
 	for name, jcalc in jcalcs.items():
+		name = name.lower()
 		print(name)
 		
 		_type = jcalc['__type']
@@ -189,7 +190,7 @@ def perform_spell_calculations(spell):
 					final_formula += " + "
 				final_formula += get_part_value(formula)
 		elif _type == 'GameCalculationModified':
-			name_multiplied = jcalc['mModifiedGameCalculation']
+			name_multiplied = jcalc['mModifiedGameCalculation'].lower()
 			part_val        = get_part_value(jcalc['mMultiplier'])
 			
 			post_process.append((name, name_multiplied, part_val))

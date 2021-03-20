@@ -66,7 +66,7 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocati
 		return false;
 
 	/// Check if castable
-	if (state->player->mana < spell->mana || spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
+	if (!state->player->CanCast(spell))
 		return false;
 
 	if (targetLocation != nullptr) {

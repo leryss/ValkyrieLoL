@@ -78,20 +78,31 @@ class CassiopeiaEDamage(MagicDamage):
 
 DamageExtractors = {
 	
+	# Ahri
+	'ahriorbofdeception': lambda calc, champ, skill: MixedDamage([MagicDamage(calc.totaldamage(champ, skill)), TrueDamage(calc.totaldamage(champ, skill))]),
+	'ahrifoxfire'       : lambda calc, champ, skill: MagicDamage(calc.singlefiredamage(champ, skill) + calc.multifiredamage(champ, skill)*2.0),
+	'ahriseduce'        : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'ahritumble'        : lambda calc, champ, skill: MagicDamage(calc.rcalculateddamage(champ, skill) * 3.0),
+	
+	# Darius
+	'dariuscleave'           : lambda calc, champ, skill: PhysDamage(calc.bladedamage(champ, skill)),
+	'dariusnoxiantacticsonh' : lambda calc, champ, skill: PhysDamage(calc.empoweredattackdamage(champ, skill)),
+	'dariusexecute'          : lambda calc, champ, skill: TrueDamage(calc.maximumdamage(champ, skill)),
+	
 	# Cassiopeia
-	'cassiopeiaq'  : lambda calc, champ, skill: MagicDamage(calc.TooltipTotalDamage(champ, skill)),
-	'cassiopeiaw'  : lambda calc, champ, skill: MagicDamage(calc.DamagePerSecond(champ, skill)*5.0),
-	'cassiopeiae'  : lambda calc, champ, skill: CassiopeiaEDamage(MagicDamage(calc.TotalDamage(champ, skill)), MagicDamage(calc.BousPoisonedDamage(champ, skill))),
-	'cassiopeiar'  : lambda calc, champ, skill: MagicDamage(calc.RDamage(champ, skill)),
+	'cassiopeiaq'  : lambda calc, champ, skill: MagicDamage(calc.tooltiptotaldamage(champ, skill)),
+	'cassiopeiaw'  : lambda calc, champ, skill: MagicDamage(calc.damagepersecond(champ, skill)*5.0),
+	'cassiopeiae'  : lambda calc, champ, skill: CassiopeiaEDamage(MagicDamage(calc.totaldamage(champ, skill)), MagicDamage(calc.bouspoisoneddamage(champ, skill))),
+	'cassiopeiar'  : lambda calc, champ, skill: MagicDamage(calc.rdamage(champ, skill)),
 	
 	# Twitch
-	'twitchexpunge': lambda calc, champ, skill: TwitchExpungeDamage(PhysDamage(calc.BaseDamage[skill.lvl - 1]), PhysDamage(calc.PhysicalDamagePerStack(champ, skill)), MagicDamage(calc.MagicDamagePerStack(champ, skill))),
+	'twitchexpunge': lambda calc, champ, skill: TwitchExpungeDamage(PhysDamage(calc.basedamage[skill.lvl - 1]), PhysDamage(calc.physicaldamageperstack(champ, skill)), MagicDamage(calc.magicdamageperstack(champ, skill))),
 									
 	# Samira
-	'samiraq'      : lambda calc, champ, skill: PhysDamage(calc.DamageCalc(champ, skill)),
-	'samiraw'      : lambda calc, champ, skill: PhysDamage(calc.DamageCalc(champ, skill)),
-	'samirae'      : lambda calc, champ, skill: MagicDamage(calc.DashDamage(champ, skill)),
-	'samirar'      : lambda calc, champ, skill: PhysDamage(11.0 * calc.DamageCalc(champ, skill)),
+	'samiraq'      : lambda calc, champ, skill: PhysDamage(calc.damagecalc(champ, skill)),
+	'samiraw'      : lambda calc, champ, skill: PhysDamage(calc.damagecalc(champ, skill)),
+	'samirae'      : lambda calc, champ, skill: MagicDamage(calc.dashdamage(champ, skill)),
+	'samirar'      : lambda calc, champ, skill: PhysDamage(11.0 * calc.damagecalc(champ, skill)),
 }
 
 def load_spell_calcs(path):

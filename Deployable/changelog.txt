@@ -1,7 +1,12 @@
 [Valkyrie v0.22]
+	* Fixed damage calculations therefore fixing twitch script
+	* Fixed scripting API bugs
+
 	+ Added vk_samira script
-	+ Now you can bind same keys for Orbwalker Kite and champion Combat and it will do both
-	+ Added spell damage indicator (only 3 champs, will update with time)
+	+ Now you can orbwalk while in "Combat" (champ script). To do this bind the same key for combat and orbwalker kite.
+	+ Added spell damage indicator (only 4 champs, will update with time)	
+	+ Added more stuff to the scripting API
+	
 
 [Valkyrie v0.21]
 	+ Updated spell db for ~20 more champs

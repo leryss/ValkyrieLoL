@@ -51,7 +51,7 @@ def valkyrie_on_load(ctx) :
 	cfg = ctx.cfg				 
 	
 	samira = ChampionScript.from_str(cfg.get_str('samira', str(samira)))
-	samira.setup_combat(650, SpellRotation([RSpell(Slot.Q), RSpell(Slot.W, condition_w), RSpell(Slot.E, condition_e)]))
+	samira.setup_combat(650, SpellRotation([RSpell(Slot.R), RSpell(Slot.Q), RSpell(Slot.W, condition_w), RSpell(Slot.E, condition_e)]))
 	samira.setup_harras(950, SpellRotation([RSpell(Slot.Q)]))
 	
 	leap_under_tower = cfg.get_bool('leap_under_tower', leap_under_tower)

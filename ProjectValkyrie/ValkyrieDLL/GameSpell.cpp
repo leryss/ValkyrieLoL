@@ -35,9 +35,10 @@ void GameSpell::ImGuiDraw()
 	ImGui::DragInt("Charges",           &charges);
 	ImGui::DragFloat("Value",           &value);
 	ImGui::DragFloat("Mana",            &mana);
+	ImGui::Checkbox("Castable",         &castableBit);
 }
 
-float GameSpell::GetRemainingCooldown()
+float GameSpell::GetRemainingCooldown() const
 {
 	float time = Valkyrie::CurrentGameState->time;
 	float cd = 0.0f;

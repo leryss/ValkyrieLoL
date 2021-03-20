@@ -18,7 +18,7 @@ public:
 	void        ReadFromBaseAddress(int addr);
 	void        ImGuiDraw();
 
-	float       GetRemainingCooldown();
+	float       GetRemainingCooldown() const;
 	object      GetStaticData();
 public:
 	std::string name;
@@ -29,6 +29,7 @@ public:
 	float       value;
 	HKey        castKey;
 	float       mana;
+	bool        castableBit;
 
 	SpellInfo*  staticData;
 

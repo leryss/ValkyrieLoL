@@ -21,13 +21,14 @@ public:
 	void      ReadItems();
 	void      ReadFromBaseAddress(int addr);
 	void      ImGuiDraw();
-			  
+			
 	Vector2   GetHpBarPosition() const;
 			  
 	list      BuffsToPy();
 	object    SpellsToPy();
 	object    ItemsToPy();
 
+	bool      CanCast(const GameSpell* spell);
 	bool      HasBuff(const char* buff);
 	int       BuffStackCount(const char* buff);
 	bool      IsClone() const;
