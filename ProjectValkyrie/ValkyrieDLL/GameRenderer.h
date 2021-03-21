@@ -5,6 +5,7 @@
 class GameRenderer: MemoryReadable{
 
 public:
+	Vector2 windowPos;
 	int width;
 	int height;
 

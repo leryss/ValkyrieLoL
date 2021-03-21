@@ -74,6 +74,19 @@ public:
 		ImGui::End();
 	}
 
+	void Help(const char* text) {
+		ImGui::SameLine();
+		ImGui::TextDisabled("(?)");
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::BeginTooltip();
+			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+			ImGui::TextUnformatted(text);
+			ImGui::PopTextWrapPos();
+			ImGui::EndTooltip();
+		}
+	}
+
 	bool Button(const char* text) {
 		return ImGui::Button(text);
 	}

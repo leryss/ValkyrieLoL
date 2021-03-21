@@ -19,11 +19,15 @@ move_interval   = 0.10
 delay_percent = 0.1
 
 class OrbwalkKite:
+	type = Orbwalker.ModeKite
+	
 	def get_target(self, ctx):
 		possible_targets = ctx.champs.targetable().enemy_to(ctx.player).near(ctx.player, ctx.player.atk_range + ctx.player.static.gameplay_radius).get()
 		return target_selector.get_target(ctx, possible_targets)
 
 class OrbwalkLastHit:
+	type = Orbwalker.ModeKite
+	
 	def get_target(self, ctx):
 		lasthits = predict_minions_lasthit(ctx, ctx.minions.alive().enemy_to(ctx.player).on_screen().get(), ctx.minions.alive().ally_to(ctx.player).on_screen().get())
 		if len(lasthits) == 0:
@@ -37,7 +41,7 @@ class OrbwalkLastHit:
 		return None
 
 class OrbwalkLanePush:
-
+	type = Orbwalker.ModeKite
 	allow_champ = False
 	
 	def get_target(self, ctx):
@@ -96,7 +100,11 @@ def valkyrie_menu(ctx):
 	target_selector.ui("Champion targeting", ctx, ui)
 	target_selector_monster.ui('Monster targeting', ctx, ui)
 	move_interval  = ui.sliderfloat("Move command interval (ms)", move_interval, 0.05, 0.20)
+	ui.help('Cooldown for move commands, the less the more clicks you will do while moving.')
+	
 	delay_percent  = ui.sliderfloat('Delay percent (%)', delay_percent, 0.0, 0.4)
+	ui.help('Delay percent account for lag. Usually 0.1 is a good value. You should experiment at high attack speeds with lethal tempo in a practice game.')
+	
 	lane_push_mode.allow_champ = ui.checkbox('Allow target champion while lane pushing', lane_push_mode.allow_champ)
 	ui.separator()
 	
@@ -121,6 +129,11 @@ def valkyrie_on_load(ctx):
 	lane_push_mode.allow_champ = cfg.get_bool('lane_push_mode.allow_champ', False)
 	
 	Orbwalker.Present = True
+	Orbwalker.SelectorChampion = target_selector
+	Orbwalker.SelectorMonster  = target_selector_monster
+	Orbwalker.ModeKite = kite_mode
+	Orbwalker.ModeLastHit = last_hit_mode
+	Orbwalker.ModeLanePush = lane_push_mode
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
@@ -150,19 +163,19 @@ def valkyrie_exec(ctx):
 	if player.dead:
 		return
 	
-	mode = None
+	Orbwalker.CurrentMode = None
 	if key_kite.check(ctx):
 		ctx.pill('Kite', Col.Black, Col.White)
-		mode = kite_mode
+		Orbwalker.CurrentMode = kite_mode
 	elif key_last_hit.check(ctx):
 		ctx.pill('LastHit', Col.Black, Col.White)
-		mode = last_hit_mode
+		Orbwalker.CurrentMode = last_hit_mode
 	elif key_lane_push.check(ctx):
 		ctx.pill('LanePush', Col.Black, Col.White)
-		mode = lane_push_mode
+		Orbwalker.CurrentMode = lane_push_mode
 	else:
 		return
-	
+
 	has_lethal_tempo = Buffs.has_buff(player, 'LethalTempo') 
 	atk_speed	     = player.atk_speed if has_lethal_tempo else min(player.atk_speed, 2.5)
 	if atk_speed == 0.0:
@@ -175,13 +188,13 @@ def valkyrie_exec(ctx):
 	dt = now - last_attacked
 	
 	if dt > c_atk_time:
-		target = mode.get_target(ctx)
+		target = Orbwalker.CurrentMode.get_target(ctx)
 		if target:
 			Orbwalker.Attacking = True
 			ctx.attack(target)
 			last_attacked = now
 			
-	if not target and dt > b_windup_time and now - last_moved > move_interval:
+	if not target and dt > b_windup_time and now - last_moved > move_interval:	
 		Orbwalker.Attacking = False
 		ctx.move()
 		last_moved = now

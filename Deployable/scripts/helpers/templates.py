@@ -3,57 +3,77 @@ from valkyrie import *
 from .spells import SpellKiter
 from .targeting import TargetSelector
 from .flags import Orbwalker
+from .inputs import KeyInput
+
+class Enabler:
+
+	enable_type = ['Always On', 'Key Input']
+
+	def __init__(self, always_on, keyinput):
+		self.keyinput  = keyinput
+		self.selected  = 0 if always_on else 1
+		
+	def ui(self, ui):
+		self.selected = ui.sliderenum('Activation Type', self.enable_type[self.selected], self.selected, 1)
+		if self.selected == 1:
+			self.keyinput.ui('Activation key', ui)
+		ui.separator()
+
+	def check(self, ctx):
+		if self.selected == 0:
+			return True
+			
+		return self.keyinput.check(ctx)
+		
+	def __str__(self):
+		return json.dumps([self.selected == 0, str(self.keyinput)])
+		
+	@classmethod
+	def from_str(self, s):
+		j = json.loads(s)
+		
+		return Enabler(j[0], KeyInput.from_str(j[1]))
 
 class ChampionScript:
 	'''
 		Template for a starter champion script. 
-		Currently supports combat, harras using spell rotations with target selection.
+		Currently supports combat and harras using spell rotations.
 		
-		Planned features: combos, farm/push lane
+		Planned features: combos, last hit, farm/push lane
 	'''
 	
-	def __init__(self, target_selector, harras_on, combat_key):
-		self.target_selector = target_selector
-		
+	def __init__(self, harras_on):
 		self.harras_on = harras_on
-		self.combat_key = combat_key
 		
 	def setup_harras(self, target_distance, rota):
 		'''
 			Sets up the harras mode. target_distance is the minimum distance to the target champion for harras
 		'''
-		self.harras_kiter = SpellKiter(self.target_selector, rota, target_distance)
+		self.harras_kiter = SpellKiter(rota, target_distance)
 		
 	def setup_combat(self, target_distance, rota):
 		'''
 			Sets up the combat mode. target_distance is the minimum distance to the target champion for combat
 		'''
-		self.combat_kiter = SpellKiter(self.target_selector, rota, target_distance)
-
-	def in_combat(self, ctx):
-		'''
-			Checks if combat mode is enabled
-		'''
-		return ctx.is_held(self.combat_key)
+		self.combat_kiter = SpellKiter(rota, target_distance)
 		
 	def ui(self, ctx):
 		ui = ctx.ui
 		
-		self.target_selector.ui('Target selector', ctx, ui)
-		self.combat_key = ui.keyselect('Key combat', self.combat_key)
 		self.harras_on  = ui.checkbox('Auto harras', self.harras_on)
 		ui.separator()
 		
 	def exec(self, ctx):
 		player = ctx.player
-		
-		if ctx.is_held(self.combat_key):
-			ctx.pill('Combat', Col.Green, Col.Black)
-			self.combat_kiter.kite(ctx)
+		if Orbwalker.CurrentMode:
+			if Orbwalker.CurrentMode == Orbwalker.ModeKite:
+				ctx.pill('Turbo', Col.Green, Col.Black)
+				self.combat_kiter.kite(ctx, Orbwalker.CurrentMode.get_target(ctx))
+				return
 			
-		elif self.harras_on:
+		if self.harras_on and Orbwalker.ModeKite:
 			ctx.pill('Harras', Col.Purple, Col.Black)
-			spell, point = self.harras_kiter.get_spell(ctx, player)
+			spell, point = self.harras_kiter.get_spell(ctx, player, Orbwalker.ModeKite.get_target(ctx))
 			if spell:
 				ctx.cast_spell(spell, point)
 		
@@ -61,14 +81,10 @@ class ChampionScript:
 	def from_str(self, s):
 		j = json.loads(s)
 		return ChampionScript(
-			target_selector = TargetSelector.from_str(j['target_selector']),
-			combat_key = j['combat_key'],
 			harras_on = j['harras_on']
 		)
 		
 	def __str__(self):
 		return json.dumps({
-			'target_selector': str(self.target_selector),
 			'harras_on': self.harras_on,
-			'combat_key': self.combat_key
 		})

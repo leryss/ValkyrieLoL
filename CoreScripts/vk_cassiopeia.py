@@ -7,8 +7,6 @@ import json
 
 
 cassiopeia = ChampionScript(
-	target_selector = TargetSelector(0, TargetSet.Champion),
-	combat_key      = 0,
 	harras_on       = False
 )
 last_hit_e = True

@@ -212,7 +212,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("begin",                    &PyImGui::Begin)
 		.def("begin",                    &PyImGui::BeginWithFlags)
 		.def("end",                      &PyImGui::End)
-						                 
+				
+		.def("help",                     &PyImGui::Help)
 		.def("button",                   &PyImGui::Button)
 		.def("button",                   &PyImGui::ColorButton)
 		.def("colorpick",                &PyImGui::ColorPicker)

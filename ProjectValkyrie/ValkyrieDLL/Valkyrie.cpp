@@ -275,8 +275,7 @@ void Valkyrie::ExecuteScripts()
 		ScriptManager.LoadAllScripts(CurrentGameState);
 		LoadedScripts = true;
 	}
-	if(GetForegroundWindow() == LeagueWindowHandle)
-		ScriptManager.ExecuteScripts(ScriptContext);
+	ScriptManager.ExecuteScripts(ScriptContext);
 }
 
 void Valkyrie::SetupScripts()
@@ -367,7 +366,7 @@ void Valkyrie::Update()
 
 	__try {
 		TaskPool->ImGuiDraw();
-		if (EssentialsLoaded) {
+		if (EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
 			
 			CurrentGameState = Reader.GetNextState();
 			//ShowMenu();

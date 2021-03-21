@@ -74,15 +74,27 @@ class CassiopeiaEDamage(MagicDamage):
 				dmg += self.bonus.calc_against(attacker, target)
 		
 		return dmg
-		
 
+class KogMawRDamage(MagicDamage):
+	
+	def calc_against(self, attacker, target):
+		p = target.health/target.max_health
+		if p < 0.4:
+			self.raw_dmg *= 2.0
+			dmg = super().calc_against(attacker, target)
+			self.raw_dmg /= 2.0
+		else:
+			dmg = super().calc_against(attacker, target)
+		
+		return dmg
+		
 DamageExtractors = {
 	
 	# Ahri
-	'ahriorbofdeception': lambda calc, champ, skill: MixedDamage([MagicDamage(calc.totaldamage(champ, skill)), TrueDamage(calc.totaldamage(champ, skill))]),
-	'ahrifoxfire'       : lambda calc, champ, skill: MagicDamage(calc.singlefiredamage(champ, skill) + calc.multifiredamage(champ, skill)*2.0),
-	'ahriseduce'        : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
-	'ahritumble'        : lambda calc, champ, skill: MagicDamage(calc.rcalculateddamage(champ, skill) * 3.0),
+	'ahriorbofdeception'     : lambda calc, champ, skill: MixedDamage([MagicDamage(calc.totaldamage(champ, skill)), TrueDamage(calc.totaldamage(champ, skill))]),
+	'ahrifoxfire'            : lambda calc, champ, skill: MagicDamage(calc.singlefiredamage(champ, skill) + calc.multifiredamage(champ, skill)*2.0),
+	'ahriseduce'             : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'ahritumble'             : lambda calc, champ, skill: MagicDamage(calc.rcalculateddamage(champ, skill) * 3.0),
 	
 	# Darius
 	'dariuscleave'           : lambda calc, champ, skill: PhysDamage(calc.bladedamage(champ, skill)),
@@ -90,19 +102,24 @@ DamageExtractors = {
 	'dariusexecute'          : lambda calc, champ, skill: TrueDamage(calc.maximumdamage(champ, skill)),
 	
 	# Cassiopeia
-	'cassiopeiaq'  : lambda calc, champ, skill: MagicDamage(calc.tooltiptotaldamage(champ, skill)),
-	'cassiopeiaw'  : lambda calc, champ, skill: MagicDamage(calc.damagepersecond(champ, skill)*5.0),
-	'cassiopeiae'  : lambda calc, champ, skill: CassiopeiaEDamage(MagicDamage(calc.totaldamage(champ, skill)), MagicDamage(calc.bouspoisoneddamage(champ, skill))),
-	'cassiopeiar'  : lambda calc, champ, skill: MagicDamage(calc.rdamage(champ, skill)),
+	'cassiopeiaq'            : lambda calc, champ, skill: MagicDamage(calc.tooltiptotaldamage(champ, skill)),
+	'cassiopeiaw'            : lambda calc, champ, skill: MagicDamage(calc.damagepersecond(champ, skill)*5.0),
+	'cassiopeiae'            : lambda calc, champ, skill: CassiopeiaEDamage(MagicDamage(calc.totaldamage(champ, skill)), MagicDamage(calc.bouspoisoneddamage(champ, skill))),
+	'cassiopeiar'            : lambda calc, champ, skill: MagicDamage(calc.rdamage(champ, skill)),
+	
+	# Kogmaw
+	'kogmawq'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'kogmawvoidooze'         : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'kogmawlivingartillery'  : lambda calc, champ, skill: KogMawRDamage(calc.basedamagecalc(champ, skill)),
 	
 	# Twitch
-	'twitchexpunge': lambda calc, champ, skill: TwitchExpungeDamage(PhysDamage(calc.basedamage[skill.lvl - 1]), PhysDamage(calc.physicaldamageperstack(champ, skill)), MagicDamage(calc.magicdamageperstack(champ, skill))),
-									
-	# Samira
-	'samiraq'      : lambda calc, champ, skill: PhysDamage(calc.damagecalc(champ, skill)),
-	'samiraw'      : lambda calc, champ, skill: PhysDamage(calc.damagecalc(champ, skill)),
-	'samirae'      : lambda calc, champ, skill: MagicDamage(calc.dashdamage(champ, skill)),
-	'samirar'      : lambda calc, champ, skill: PhysDamage(11.0 * calc.damagecalc(champ, skill)),
+	'twitchexpunge'          : lambda calc, champ, skill: TwitchExpungeDamage(PhysDamage(calc.basedamage[skill.lvl - 1]), PhysDamage(calc.physicaldamageperstack(champ, skill)), MagicDamage(calc.magicdamageperstack(champ, skill))),
+					          				
+	# Samira                 
+	'samiraq'                : lambda calc, champ, skill: PhysDamage(calc.damagecalc(champ, skill)),
+	'samiraw'                : lambda calc, champ, skill: PhysDamage(calc.damagecalc(champ, skill)),
+	'samirae'                : lambda calc, champ, skill: MagicDamage(calc.dashdamage(champ, skill)),
+	'samirar'                : lambda calc, champ, skill: PhysDamage(11.0 * calc.damagecalc(champ, skill)),
 }
 
 def load_spell_calcs(path):

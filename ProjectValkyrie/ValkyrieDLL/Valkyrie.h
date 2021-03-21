@@ -59,7 +59,6 @@ private:
 	static GameReader                  Reader;
 	static ScriptManager               ScriptManager;
 	static PyExecutionContext          ScriptContext;
-	static HWND                        LeagueWindowHandle;
 
 	/// DirectX stuff
 	static void                        HookDirectX();
@@ -92,6 +91,7 @@ private:
 	static InputController             InputController;
 
 public:
+	static HWND                        LeagueWindowHandle;
 	static std::mutex                  DxDeviceMutex;
 	static LPDIRECT3DDEVICE9           DxDevice;
 	static GameState*                  CurrentGameState;

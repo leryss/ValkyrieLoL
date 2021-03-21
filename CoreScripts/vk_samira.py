@@ -4,8 +4,6 @@ from helpers.spells import SpellRotation, RSpell, Slot
 from helpers.templates import ChampionScript
 
 samira = ChampionScript(
-	target_selector = TargetSelector(0, TargetSet.Champion),
-	combat_key      = 0,
 	harras_on       = False
 )
 leap_under_tower = False
@@ -65,5 +63,8 @@ def valkyrie_on_save(ctx) :
 	cfg.set_bool('leap_gap_closer', leap_gap_closer)
 	cfg.set_int('leap_below_hp', leap_below_hp)
 	
-def valkyrie_exec(ctx) :	     
+def valkyrie_exec(ctx) :
+	if ctx.player.dead:
+		return
+		
 	samira.exec(ctx)

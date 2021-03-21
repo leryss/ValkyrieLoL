@@ -34,17 +34,27 @@ def valkyrie_menu(ctx):
 	
 	ui.text('Others', Col.Purple)
 	show_minion_hit     = ui.checkbox("Show minion hit damage indicator", show_minion_hit)
-	show_casting_spells = ui.checkbox("Draw nearby skillshots (being cast)", show_casting_spells)
-	show_missiles       = ui.checkbox("Draw nearby skillshot missiles", show_missiles)
+	ui.help('Shows an indicator over the health bar of the minions of how much damage you deal per basic attack')
+	
+	show_casting_spells = ui.checkbox("Draw nearby casting skills", show_casting_spells)
+	ui.help('Draws nearby skills being cast (these might get intrerupted). Most of these are skillshots')
+	
+	show_missiles       = ui.checkbox("Draw nearby missiles", show_missiles)
+	ui.help('Draws nearby skillshot missiles.')
 	ui.separator()
 	
 	ui.text("Potential Damage", Col.Purple)
 	show_potential_dmg  = ui.checkbox("Draw potential damage indicator", show_potential_dmg)
+	ui.help('''
+	Draws over the enemy health bar an indicator representing how much damage you can do with Q, W, E, R
+	
+	Currently only very few champs are supported. They will be added with time, if you cant wait tell me on discord the champ and it will be pushed next update.
+	''')
+	
 	potential_dmg_mask[0] = ui.checkbox("Include Q", potential_dmg_mask[0]); ui.sameline()
 	potential_dmg_mask[1] = ui.checkbox("Include W", potential_dmg_mask[1]); ui.sameline()
 	potential_dmg_mask[2] = ui.checkbox("Include E", potential_dmg_mask[2]); ui.sameline()
 	potential_dmg_mask[3] = ui.checkbox("Include R", potential_dmg_mask[3])
-	ui.text('Currently few champs are supported, request a champ on discord if u really want it.')
 	
 def valkyrie_on_load(ctx):
 	global player_circle, show_minion_hit, turret_circle_ally, turret_circle_enemy

@@ -15,9 +15,15 @@ void GameBuff::ReadFromBaseAddress(int addr)
 	if (CantRead(buff))
 		return;
 	
+	name = Memory::ReadString(buff + Offsets::BuffName, 100);
 	startTime = ReadFloat(addr + Offsets::BuffEntryBuffStartTime);
 	count     = ReadInt(addr + Offsets::BuffEntryBuffCount);
-	name      = Memory::ReadString(buff + Offsets::BuffName, 100);
+	if (count == 0) {
+		int start = ReadInt(addr + Offsets::BuffEntryBuffNodeStart);
+		int current = ReadInt(addr + Offsets::BuffEntryBuffNodeCurrent);
+		
+		count = (current - start) / 0x8;
+	}
 }
 
 void GameBuff::ImGuiDraw()

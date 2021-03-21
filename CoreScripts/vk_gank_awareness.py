@@ -6,27 +6,29 @@ size_portrait_minimap = 24
 size_portrait_world   = 48
 
 max_gank_distance	= None
+show_line           = False
 show_gank_alerts	 = None
 show_last_seen_mm	= None
 show_last_seen_world = None
 
 def valkyrie_menu(ctx):
-	global max_gank_distance, show_last_seen_mm, show_last_seen_world, show_gank_alerts
+	global max_gank_distance, show_last_seen_mm, show_last_seen_world, show_gank_alerts, show_line
 	global size_portrait_world
 	ui = ctx.ui
 	
 	ui.text('Settings', Col.Purple)
 	size_portrait_world   = ui.sliderfloat("Size champion portrait", size_portrait_world, 20, 80)
-	max_gank_distance	 = ui.sliderfloat("Trigger distance", max_gank_distance, 1000, 10000)
-	show_last_seen_mm	 = ui.checkbox("Show enemy last position on minimap", show_last_seen_mm)
+	max_gank_distance	  = ui.sliderfloat("Trigger distance", max_gank_distance, 1000, 10000)
+	show_last_seen_mm	  = ui.checkbox("Show enemy last position on minimap", show_last_seen_mm)
 	show_last_seen_world  = ui.checkbox("Show enemy last position on world", show_last_seen_world)
 	show_gank_alerts	  = ui.checkbox("Show gank alerts", show_gank_alerts)
+	show_line             = ui.checkbox("Show line for gank alerts", show_line)
 	
 	
 	ui.image("garen_square", Vec2(size_portrait_world, size_portrait_world))
 
 def valkyrie_on_load(ctx):
-	global max_gank_distance, show_last_seen_mm, show_last_seen_world, show_gank_alerts
+	global max_gank_distance, show_last_seen_mm, show_last_seen_world, show_gank_alerts, show_line
 	global size_portrait_world
 	cfg = ctx.cfg
 	
@@ -35,18 +37,20 @@ def valkyrie_on_load(ctx):
 	show_last_seen_world = cfg.get_bool("show_last_seen_world", True)
 	show_gank_alerts	 = cfg.get_bool("show_gank_alerts", True)
 	size_portrait_world  = cfg.get_float("size_portrait_world", size_portrait_world)
+	show_line            = cfg.get_bool("show_line", show_line)
 	
 def valkyrie_on_save(ctx):
 	cfg = ctx.cfg
 	
 	cfg.set_float("max_gank_distance",   max_gank_distance)
 	cfg.set_float("size_portrait_world", size_portrait_world)
-	cfg.set_bool("show_last_seen_mm",	show_last_seen_mm)
+	cfg.set_bool("show_last_seen_mm",	 show_last_seen_mm)
 	cfg.set_bool("show_last_seen_world", show_last_seen_world)
 	cfg.set_bool("show_gank_alerts",	 show_gank_alerts)
+	cfg.set_bool("show_line",            show_line)
 
 def draw_portrait_world(ctx, champ, start, color = Col.Gray, distance = None):
-
+	
 	ctx.image(champ.name + '_square', start, Vec2(size_portrait_world, size_portrait_world), Col.White if champ.visible else color)
 	draw_spell_track(ctx, champ.spells[4], start + Vec2(size_portrait_world/2, -20), 21, 15)
 	draw_spell_track(ctx, champ.spells[5], start + Vec2(size_portrait_world/2, 3), 21, 15)
@@ -68,7 +72,14 @@ def draw_gank_alert(ctx, champ):
 		return
 		
 	pos = ctx.w2s(player.pos + (champ.pos - player.pos).normalize() * 500.0)
+	if show_line:
+		v = min(distance, 3500.0)/3500.0
+		v = v*v
+		color = Col(1.0 - v, v, 0.0, 0.7)
+		ctx.line(pos, ctx.w2s(champ.pos), 1.5, color)
+		
 	draw_portrait_world(ctx, champ, pos, distance=distance)
+
 	
 last_positions = {}
 
@@ -111,5 +122,3 @@ def valkyrie_exec(ctx):
 		if show_gank_alerts:
 			draw_gank_alert(ctx, champ)
 		draw_champ_last_position(ctx, champ)
-		
-		

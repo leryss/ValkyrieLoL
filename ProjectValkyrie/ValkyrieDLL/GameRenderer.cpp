@@ -1,8 +1,15 @@
 #include "GameRenderer.h"
 #include "Offsets.h"
+#include <windows.h>
 #include <cstring>
+#include "Valkyrie.h"
 
 void GameRenderer::ReadFromBaseAddress(int baseAddr) {
+
+	RECT rect;
+	GetWindowRect(Valkyrie::LeagueWindowHandle, &rect);
+	windowPos.x = rect.left;
+	windowPos.y = rect.top;
 
 	__try {
 		memcpy(&viewMatrix, (void*)(baseAddr + Offsets::ViewMatrix), 16 * sizeof(float));
@@ -32,7 +39,7 @@ void GameRenderer::MultiplyMatrices(float * out, float * a, int row1, int col1, 
 
 Vector2 GameRenderer::WorldToScreen(const Vector3& pos) const {
 
-	Vector2 out = { 0.f, 0.f };
+	Vector2 out = windowPos;
 	Vector2 screen = { (float)width, (float)height };
 	static Vector4 clipCoords;
 	clipCoords.x = pos.x * viewProjMatrix[0] + pos.y * viewProjMatrix[4] + pos.z * viewProjMatrix[8] + viewProjMatrix[12];
@@ -48,8 +55,8 @@ Vector2 GameRenderer::WorldToScreen(const Vector3& pos) const {
 	M.y = clipCoords.y / clipCoords.w;
 	M.z = clipCoords.z / clipCoords.w;
 
-	out.x = (screen.x / 2.f * M.x) + (M.x + screen.x / 2.f);
-	out.y = -(screen.y / 2.f * M.y) + (M.y + screen.y / 2.f);
+	out.x += (screen.x / 2.f * M.x) + (M.x + screen.x / 2.f);
+	out.y += -(screen.y / 2.f * M.y) + (M.y + screen.y / 2.f);
 
 
 	return out;

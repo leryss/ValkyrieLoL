@@ -1,5 +1,7 @@
 from valkyrie import *			 
 from helpers.flags import EvadeFlags
+from helpers.templates import Enabler
+from helpers.inputs import KeyInput
 import time, json
 
 RADIANS_90_DEG = 1.57079633
@@ -65,7 +67,7 @@ class EvadeSettings:
 			priority      = d.get('prio', 0)
 		)
 
-enabled            = True
+enabler            = Enabler(True, KeyInput(0, False))
 always_evade       = False
 extra_evade_length = 50.0
 
@@ -537,9 +539,14 @@ NameToSettings = {}
 #EvadeSettings(name = '',  cast_names = [''], missile_names = [''])
 
 def valkyrie_menu(ctx) :		 
-	global always_evade, enabled, extra_evade_length
+	global always_evade, enabler, extra_evade_length
 	ui = ctx.ui	
 
+	ui.text('Global settings', Col.Purple)
+	enabler.ui(ui)
+	always_evade       = ui.checkbox('Always try to dodge', always_evade)
+	ui.separator()
+	
 	ui.text('Champions settings', Col.Purple)
 	for champ in ctx.champs.enemy_to(ctx.player).get():
 		cname = champ.name
@@ -553,14 +560,8 @@ def valkyrie_menu(ctx) :
 					ui.popid()
 					
 				ui.endmenu()
-
 	ui.separator()
-	ui.text('Global settings', Col.Purple)
-	enabled            = ui.checkbox('Enabled', enabled)
-	always_evade       = ui.checkbox('Always try to dodge', always_evade)
-	#extra_evade_length = ui.sliderfloat('Extra evade distance', extra_evade_length, 50.0, 200.0)
 	
-	ui.separator()
 	if ui.treenode('Some notes'):
 		ui.text('Most of these will be fixed')
 		ui.text('1. Orbwalker + Evade not fully compatible with all spells')
@@ -571,13 +572,12 @@ def valkyrie_menu(ctx) :
 		ui.treepop()
 		
 def valkyrie_on_load(ctx) :	 
-	global always_evade, enabled, extra_evade_length
+	global always_evade, enabler, extra_evade_length
 	global Settings, NameToSettings
 	cfg = ctx.cfg
 	
-	enabled      = cfg.get_bool('_enabled', enabled)
+	enabler      = Enabler.from_str(cfg.get_str('_enabler', str(enabler)))
 	always_evade = cfg.get_bool('_always_evade', always_evade)
-	#extra_evade_length = cfg.get_float('_extra_evade_length', extra_evade_length)
 	for champ, settings in Settings.items():
 		for i, default_setting in enumerate(settings):
 			setting = EvadeSettings.from_str(cfg.get_str(default_setting.name, str(default_setting)))
@@ -592,9 +592,8 @@ def valkyrie_on_load(ctx) :
 def valkyrie_on_save(ctx) :	 
 	cfg = ctx.cfg
 	
-	cfg.set_bool('_enabled', enabled)
+	cfg.set_str('_enabler', str(enabler))
 	cfg.set_bool('_always_evade', always_evade)
-	#cfg.set_float('_extra_evade_length', extra_evade_length)
 	for champ, settings in Settings.items():
 		for setting in settings:
 			cfg.set_str(setting.name, str(setting))
@@ -713,7 +712,7 @@ def move(ctx, timenow):
 		last_moved = timenow
 	
 def valkyrie_exec(ctx) :	     
-	if not enabled:
+	if not enabler.check(ctx):
 		return
 	
 	now = time.time()

@@ -149,38 +149,25 @@ class SpellKiter:
 	
 	cooldown_move = 0.08
 	
-	def __init__(self, selector, rotation, target_distance):
-		self.selector = selector
+	def __init__(self, rotation, target_distance):
 		self.rotation = rotation
 		self.target_distance = target_distance
 		self.last_moved = 0
 		
-	def kite(self, ctx):
+	def kite(self, ctx, target):
 		player = ctx.player
-		
-		if Orbwalker.Attacking:
-			return
-		
-		now = time()
-		if now < EvadeFlags.EvadeEndTime:
-			return
-		
-		spell, point = self.get_spell(ctx, player)
+
+		spell, point = self.get_spell(ctx, player, target)
 		if spell:
 			ctx.cast_spell(spell, point)
-		else:
-			if now - self.last_moved > self.cooldown_move:
-				self.last_moved = now
-				ctx.move()
 		
-	def get_spell(self, ctx, player):
+	def get_spell(self, ctx, player, target):
 		'''
 			Gets next spell to cast from the rotation along with the cast point
 		'''
 		if player.curr_casting and player.curr_casting.remaining > 0.0:
 			return None, None
 		
-		target = self.selector.get_target(ctx, ctx.champs.enemy_to(player).targetable().near(player, self.target_distance).get())
 		if not target:
 			return None, None
 			

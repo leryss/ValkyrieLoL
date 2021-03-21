@@ -2,6 +2,8 @@ from valkyrie          import *
 from helpers.targeting import *
 from helpers.inputs    import KeyInput
 from helpers.spells    import Buffs, BuffType, CCType
+from helpers.templates import Enabler
+
 import time
 import json
 
@@ -25,36 +27,6 @@ rechargable_actives = {
 	2033, # Corruption pot
 	2031  # Reffilable pot
 }
-
-class Enabler:
-
-	enable_type = ['Always On', 'Key Input']
-
-	def __init__(self, always_on, keyinput):
-		self.keyinput  = keyinput
-		self.selected  = 0 if always_on else 1
-		
-	def ui(self, ui):
-		self.selected = ui.sliderenum('Activation Type', self.enable_type[self.selected], self.selected, 1)
-		if self.selected == 1:
-			self.keyinput.ui('Activation key', ui)
-		ui.separator()
-
-	def check(self, ctx):
-		if self.selected == 0:
-			return True
-			
-		return self.keyinput.check(ctx)
-		
-	def __str__(self):
-		return json.dumps([self.selected == 0, str(self.keyinput)])
-		
-	@classmethod
-	def from_str(self, s):
-		j = json.loads(s)
-		
-		return Enabler(j[0], KeyInput.from_str(j[1]))
-
 
 class ActivatorQSS:
 	

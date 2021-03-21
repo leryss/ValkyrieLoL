@@ -23,7 +23,8 @@ def valkyrie_menu(ctx):
 	bar_width = ui.sliderfloat("Bar width", bar_width, 100, 500)
 	bar_height = ui.sliderfloat("Bar height", bar_height, 10, 50)
 	
-	show_mock = ui.checkbox("Show test (drag the bars to change position)", show_mock)
+	show_mock = ui.checkbox("Show test", show_mock)
+	ui.help('Shows the panel with recalls with test data. Click and drag to change location. Use above sliders to change size')
 	
 def valkyrie_on_load(ctx):
 	global bar_width, bar_height

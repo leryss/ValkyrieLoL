@@ -1,3 +1,19 @@
+[Valkyrie v0.24]
+	* Fixed an mouse click emulation issue when league window was windowed and moved from default position
+
+[Valkyrie v0.23]
+	* Fixed a bug where menu would open while outside league window
+	* Fixed a bug where champ scripts wont harras while recalling
+	* vk_samira: Fixed issue were samira would harras while dead
+	
+	+ Added vk_kogmaw champion script
+	+ Now champion scripts will only work with orbwalker and you dont have to specify activation key
+	+ vk_gank_awareness: Added optional lines
+	+ vk_evade: Added ability to toggle
+
+	Remark: Since champion script system was reworked it will crash all champ scripts in this case just hit the "Reset cfg & reload" button 
+	
+
 [Valkyrie v0.22]
 	* Fixed damage calculations therefore fixing twitch script
 	* Fixed scripting API bugs
