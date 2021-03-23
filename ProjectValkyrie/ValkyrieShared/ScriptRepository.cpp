@@ -26,6 +26,11 @@ std::string ScriptRepository::BaseCodeScript = ""
 "								 \n"
 "";
 
+ScriptRepository::ScriptRepository()
+	: comparator(entries)
+{
+}
+
 void ScriptRepository::LoadLocalEntries(std::string path)
 {
 	mtxEntries.lock();
@@ -119,9 +124,8 @@ void ScriptRepository::Draw()
 	mtxEntries.lock();
 
 	if (ImGui::BeginTabBar("ScriptsTabBar")) {
-		
 		if (ImGui::BeginTabItem("My Scripts")) {
-			
+
 			if (ImGui::Button("Create New"))
 				CreateLocalEntry();
 			ImGui::SameLine();
@@ -133,14 +137,13 @@ void ScriptRepository::Draw()
 			DrawTable(true);
 			ImGui::EndTabItem();
 		}
-		if (ImGui::BeginTabItem("Online")) {
+		if (ImGui::BeginTabItem("Online Scripts")) {
 			DrawTable(false);
 			ImGui::EndTabItem();
 		}
 
 		ImGui::EndTabBar();
 	}
-	
 	mtxEntries.unlock();
 }
 
@@ -188,16 +191,28 @@ void ScriptRepository::DrawTable(bool showLocal)
 {
 	static const float SECS_IN_DAY = 24.f * 60.f * 60.f;
 
-	ImGui::TextColored(Color::PURPLE, "Scripts");
-	ImGui::BeginTable("TableScripts", 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable);
-	ImGui::TableSetupColumn("Id");
-	ImGui::TableSetupColumn("Name");
-	ImGui::TableSetupColumn("Author");
-	ImGui::TableSetupColumn("Champion");
-	ImGui::TableSetupColumn("Description");
-	ImGui::TableSetupColumn("Last Update");
-	ImGui::TableSetupColumn("Status");
+	if (ImGui::InputText("Search", searchStr, 50)) {
+		SortEntries();
+	}
 
+	ImGui::TextColored(Color::PURPLE, "Scripts");
+	ImGui::BeginTable("TableScripts", 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2(0.f, 400.f));
+	ImGui::TableSetupColumn("Id",           ImGuiTableColumnFlags_None, 0, REPO_COLUMN_ID);
+	ImGui::TableSetupColumn("Name",         ImGuiTableColumnFlags_None, 0, REPO_COLUMN_NAME);
+	ImGui::TableSetupColumn("Author",       ImGuiTableColumnFlags_None, 0, REPO_COLUMN_AUTHOR);
+	ImGui::TableSetupColumn("Champion",     ImGuiTableColumnFlags_None, 0, REPO_COLUMN_CHAMP);
+	ImGui::TableSetupColumn("Description",  ImGuiTableColumnFlags_None, 0);
+	ImGui::TableSetupColumn("Last Update",  ImGuiTableColumnFlags_None, 0);
+	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None, 0);
+	
+	if (ImGuiTableSortSpecs* specs = ImGui::TableGetSortSpecs()) {
+		comparator.sortSpecs = specs;
+		if (comparator.sortSpecs->SpecsDirty)
+		{
+			SortEntries();
+			comparator.sortSpecs->SpecsDirty = false;
+		}
+	}
 	ImGui::TableHeadersRow();
 
 	float nowTimestamp = std::time(0);
@@ -457,9 +472,20 @@ void ScriptRepository::CreateLocalEntry()
 void ScriptRepository::SortEntries()
 {
 	sorted.clear();
+
+	auto searchLower = Strings::ToLower(searchStr);
+	bool search = (searchLower.size() > 0);
+
 	for (auto& pair : entries) {
+		if (search) {
+			auto info = (pair.second->remote != nullptr ? pair.second->remote : pair.second->local);
+			if (info->champion.find(searchLower) == std::string::npos && Strings::ToLower(info->name).find(searchLower) == std::string::npos)
+				continue;
+		}
 		sorted.push_back(pair.first);
 	}
+
+	std::sort(sorted.begin(), sorted.end(), comparator);
 }
 
 void ScriptRepository::UpdateState(std::shared_ptr<ScriptEntry>& entry)

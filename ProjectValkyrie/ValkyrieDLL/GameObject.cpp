@@ -10,7 +10,10 @@ GameObject::GameObject(std::string name)
 {
 	this->name = name;
 	this->type = OBJ_UNKNOWN;
+	for(int i = 0; i < numPastPositions; ++i)
+		pastPositions.push_back(Vector3(0.f, 0.f, 0.f));
 }
+
 void GameObject::ReadFromBaseAddress(int baseAddr)
 {
 	address   = baseAddr;
@@ -19,9 +22,17 @@ void GameObject::ReadFromBaseAddress(int baseAddr)
 	index     = ReadShort(baseAddr + Offsets::ObjIndex);
 	team      = ReadShort(baseAddr + Offsets::ObjTeam);
 	isVisible = ReadBool(baseAddr + Offsets::ObjVisibility);
-	isMoving  = ReadInt(baseAddr + Offsets::ObjIsMoving);
+
 	memcpy(&pos, AsPtr(baseAddr + Offsets::ObjPos), sizeof(Vector3));
 	memcpy(&dir, AsPtr(baseAddr + Offsets::ObjDirection), sizeof(Vector3));
+	isMoving = pastPositions.front().x != pos.x;
+
+	auto now = GetTickCount();
+	if (now > pastMilliBegin + pastMilliInterval) {
+		pastMilliBegin = now;
+		pastPositions.pop_front();
+		pastPositions.push_back(pos);
+	}
 }
 
 bool GameObject::IsAllyTo(const GameObject& other)

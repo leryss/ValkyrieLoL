@@ -3,6 +3,11 @@
 	* Fixed a bug where cooldown would be calculated wrongly for Syndra R (and potentially other skills with charges)
 	* Fixed bug where orbwalker would not attack Olaf when he was using R
 	* Fixed a crash for ConditionKillable
+	* Fixed champion targeting bugs for very large distances in champion scripts (ex: ezreal ult)
+	* Fixed a bug where champion position prediction would be off because of failure to detect movement
+
+	+ Added vk_irelia
+	**Your champion settings might break in this case just hit the "Reset to Defaults" button**
 	
 [Valkyrie v0.25]
 	* Fixed a bug in menus when the menu popup would close when clicking a checkbox

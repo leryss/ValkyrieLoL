@@ -139,6 +139,12 @@ DamageExtractors = {
 	'ezreale'                : lambda calc, champ, skill: MagicDamage(calc.damage(champ, skill)),
 	'ezrealr'                : lambda calc, champ, skill: MagicDamage(calc.damage(champ, skill)),
 	
+	# Irelia
+	'ireliaq'                : lambda calc, champ, skill: PhysDamage(calc.championdamage(champ, skill)),
+	'ireliaw'                : lambda calc, champ, skill: PhysDamage(calc.maxdamagecalc(champ, skill)),
+	'ireliae'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'ireliar'                : lambda calc, champ, skill: MagicDamage(calc.missiledamage(champ, skill)),
+	
 	# Cassiopeia
 	'cassiopeiaq'            : lambda calc, champ, skill: MagicDamage(calc.tooltiptotaldamage(champ, skill)),
 	'cassiopeiaw'            : lambda calc, champ, skill: MagicDamage(calc.damagepersecond(champ, skill)*5.0),

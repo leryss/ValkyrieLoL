@@ -4,6 +4,7 @@ from .targeting import TargetSelector
 from .flags import Orbwalker
 from .inputs import KeyInput
 from .spells import Buffs, BuffType, SpellCondition
+from .damages import calculate_raw_spell_dmg
 import pickle, base64
 
 class Enabler:
@@ -117,15 +118,12 @@ class Attributes:
 
 class ChampionScript:
 	
-	Version = '0.1 alpha'
+	Version = '0.2 alpha'
 	
-	def __init__(self, passive_trigger, combat_rotation, passive_rotation, combat_distance, passive_distance):
+	def __init__(self, passive_trigger, combat_rotation, passive_rotation, combat_distance = None, passive_distance = None):
 		self.passive_trigger = passive_trigger
 		self.combat_rotation = combat_rotation
-		self.combat_distance = combat_distance
-		
 		self.passive_rotation = passive_rotation
-		self.passive_distance = passive_distance
 		
 	def ui(self, ctx):
 		ui = ctx.ui
@@ -149,17 +147,20 @@ class ChampionScript:
 		if Orbwalker.CurrentMode:
 			if Orbwalker.CurrentMode == Orbwalker.ModeKite:
 				ctx.pill('SpellKite', Col.Green, Col.Black)
-				self.combat_rotation.cast(ctx, Orbwalker.CurrentMode.get_target(ctx, self.combat_distance))
+				self.combat_rotation.cast(ctx, Orbwalker.SelectorChampion)
 				return
 			
 		if self.passive_trigger.check(ctx) and Orbwalker.ModeKite:
 			ctx.pill('Passive', Col.Purple, Col.Black)
-			self.passive_rotation.cast(ctx, Orbwalker.ModeKite.get_target(ctx, self.passive_distance))
+			self.passive_rotation.cast(ctx, Orbwalker.SelectorChampion)
 
 		
 	@classmethod
 	def from_str(self, s):
-		return pickle.loads(base64.b64decode(s))
+		result = pickle.loads(base64.b64decode(s))
+		if ChampionScript.Version != result.Version:
+			raise Exception('Champion script settings are outdated. Please "Reset to Defaults"')
+		return result
 		
 	def __str__(self):
 		return base64.b64encode(pickle.dumps(self)).decode('ascii')

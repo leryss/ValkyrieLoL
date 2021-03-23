@@ -125,11 +125,19 @@ class Slot:
 	def to_str(self, slot):
 		return self.SlotToStr[slot]
 
+class SpellPredictor:
+	def _ui(self, ctx, ui):
+		pass
+	
+	def _predict(self, ctx, player, target, spell):
+		return ctx.predict_cast_point(player, target, spell)
+
 class RSpell:
 	
-	def __init__(self, slot, condition = None):
+	def __init__(self, slot, condition = None, predictor = SpellPredictor()):
 		self.slot = slot
 		self.condition = condition
+		self.predictor = predictor
 	
 	def ui(self, ctx, ui):
 		if not self.condition:
@@ -195,7 +203,7 @@ class SpellRotation:
 		else:
 			self.mask = mask
 				
-	def find_spell(self, ctx, target):
+	def find_spell(self, ctx, target_selector):
 		'''
 			Gets the next castable spell in the rotation. Returns None if nothing found
 		'''
@@ -207,43 +215,39 @@ class SpellRotation:
 				continue
 				
 			spell = spells[rspell.slot]
-			if not spell.static:
+			if not spell.static or not player.can_cast_spell(spell):
+				continue
+				
+			target = target_selector.get_target(ctx, ctx.champs.enemy_to(player).near(player, spell.static.cast_range).get())
+			if not target:
 				continue
 				
 			if not rspell.check_condition(ctx, player, target, spell):
 				continue
 				
-			if not player.can_cast_spell(spell):
-				continue
-				
-			if not spell.static.has_flag(Spell.CastAnywhere) and target.pos.distance(player.pos) > spell.static.cast_range:
-				continue
-				
-			return spell
+			return target, spell, rspell
 		
-		return None
+		return None, None, None
 		
-	def get_spell(self, ctx, player, target):
+	def get_spell(self, ctx, player, target_selector):
 		if player.curr_casting and player.curr_casting.remaining > 0.0:
 			return None, None
-		
-		if not target:
-			return None, None
+
 			
-		spell = self.find_spell(ctx, target)
+		target, spell, rspell = self.find_spell(ctx, target_selector)
 		if not spell:
 			return None, None
 		
-		point = ctx.predict_cast_point(player, target, spell)
+		point = rspell.predictor._predict(ctx, player, target, spell)
 		if not point:
 			return None, None
 		
 		return spell, point
 		
-	def cast(self, ctx, target):
+	def cast(self, ctx, target_selector):
 		player = ctx.player
 
-		spell, point = self.get_spell(ctx, player, target)
+		spell, point = self.get_spell(ctx, player, target_selector)
 		if spell:
 			ctx.cast_spell(spell, point)
 	

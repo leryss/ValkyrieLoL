@@ -9,6 +9,7 @@
 
 #include <string>
 #include <windows.h>
+#include <deque>
 #include "Collidable.h"
 
 enum GameObjectType {
@@ -56,4 +57,11 @@ public:
 
 	float          firstSeen;
 	float          lastSeen;
+
+private:
+	
+	static const int    numPastPositions = 5;
+	static const int    pastMilliInterval = 5;
+	int                 pastMilliBegin;
+	std::deque<Vector3> pastPositions;
 };

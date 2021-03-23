@@ -44,8 +44,9 @@ float GameSpell::GetRemainingCooldown() const
 	float cd = 0.0f;
 	if (readyAt > readyAtCharge)
 		cd = readyAt - time;
-	else
+	else if(charges == 0) {
 		cd = readyAtCharge - time;
+	}
 	return (cd >= 0.f ? cd : 0.0f);
 }
 

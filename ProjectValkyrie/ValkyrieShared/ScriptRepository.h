@@ -24,6 +24,13 @@ enum ScriptEntryState {
 	SE_STATE_PENDING
 };
 
+enum ScriptRepoColumns {
+	REPO_COLUMN_ID,
+	REPO_COLUMN_NAME,
+	REPO_COLUMN_AUTHOR,
+	REPO_COLUMN_CHAMP
+};
+
 class ScriptEntry {
 
 public:
@@ -40,9 +47,56 @@ public:
 	ScriptEntryState state;
 };
 
+struct ScriptRepoEntryComparator
+{
+public:
+	ScriptRepoEntryComparator(std::map<std::string, std::shared_ptr<ScriptEntry>>& entries) 
+		:entries(entries)
+	{}
+
+	bool operator()(const std::string &a, const std::string &b) const
+	{
+		if (sortSpecs == nullptr)
+			return false;
+
+		auto find = entries.find(a);
+		if (find == entries.end())
+			return false;
+		auto& e1 = ExtractInfo(find->second);
+
+		find = entries.find(b);
+		if (find == entries.end())
+			return false;
+		auto& e2 = ExtractInfo(find->second);
+
+		bool result;
+		switch (sortSpecs->Specs->ColumnUserID) {
+			case REPO_COLUMN_ID     : result = e1->id < e2->id            ; break;
+			case REPO_COLUMN_NAME 	: result = e1->name < e2->name        ; break;
+			case REPO_COLUMN_AUTHOR : result = e1->author < e2->author    ; break;
+			case REPO_COLUMN_CHAMP  : result = e1->champion < e2->champion; break;
+			default: result = false;
+		}
+
+		return (sortSpecs->Specs->SortDirection == ImGuiSortDirection_Ascending ? result : !result);
+	}
+
+	const std::shared_ptr<ScriptInfo>& ExtractInfo(const std::shared_ptr<ScriptEntry>& entry) const {
+		if (entry->remote != nullptr)
+			return entry->remote;
+		else
+			return entry->local;
+	}
+
+	std::map<std::string, std::shared_ptr<ScriptEntry>>& entries;
+	ImGuiTableSortSpecs*                                 sortSpecs;
+};
+
 class ScriptRepository {
 
 public:
+
+	ScriptRepository();
 
 	/// Loads the local script entries from disk
 	void LoadLocalEntries(std::string path);
@@ -105,6 +159,8 @@ private:
 	
 	/// List of script ids sorted (used for drawing the script table)
 	std::vector<std::string>                            sorted;
+	ScriptRepoEntryComparator                           comparator;
+	char                                                searchStr[50];
 
 	/// Index in sorted array of selected script
 	int                                                 selectedScript = -1;

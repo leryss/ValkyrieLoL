@@ -13519,7 +13519,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": ["CastAnywhere", "Channel"]
+        "flags": ["CastDirection", "Channel"]
     },
     {
         "name": "ireliar2",
@@ -13543,15 +13543,15 @@
         "icon": "irelia_e",
         "castTime": 0.0,
         "castRange": 850.0,
-        "castRadius": 0.0,
+        "castRadius": 50.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 100000.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": ["CastPoint"]
+        "delay": 0.25,
+        "flags": ["CastPoint", "Area", "AffectAll", "CollideWindwall"]
     },
     {
         "name": "ireliabasicattack2",
@@ -13573,17 +13573,17 @@
         "name": "ireliae2",
         "parent": "",
         "icon": "irelia_e2",
-        "castTime": 0.125,
+        "castTime": 0.0,
         "castRange": 850.0,
-        "castRadius": 0.0,
+        "castRadius": 50.0,
         "castConeAngle": 0.0,
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 100000.0,
+        "speed": 2000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": ["CastPoint"]
+        "delay": 0.5,
+        "flags": ["CastPoint", "Area", "AffectAll", "CollideWindwall"]
     },
     {
         "name": "ireliaeparticlemissile",
@@ -41782,7 +41782,7 @@
         "parent": "",
         "icon": "tristana_q",
         "castTime": 0,
-        "castRange": 20.0,
+        "castRange": 800.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
