@@ -61,8 +61,8 @@ void InputController::SetMouseCursor(const Vector2 & position)
 	::ZeroMemory(&Input, sizeof(INPUT));
 	Input.type = INPUT_MOUSE;
 	Input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
-	Input.mi.dx = fx;
-	Input.mi.dy = fy;
+	Input.mi.dx = Valkyrie::WindowRect.left + fx;
+	Input.mi.dy = Valkyrie::WindowRect.top  + fy;
 	::SendInput(1, &Input, sizeof(INPUT));
 }
 

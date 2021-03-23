@@ -184,3 +184,13 @@ object GameUnit::GetCastingSpell()
 	else
 		return object();
 }
+
+bool GameUnit::HasBuff(const char * buff)
+{
+	return false;
+}
+
+int GameUnit::BuffStackCount(const char * buff)
+{
+	return 0;
+}

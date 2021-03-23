@@ -134,6 +134,14 @@ struct Vector3 {
 	Vector3 clone() const {
 		return Vector3(x, y, z);
 	}
+
+	float angle(const Vector3& o) const {
+		return acos(dot(o) / (length() + o.length()));
+	}
+
+	float dot(const Vector3& o) const {
+		return (x*o.x + y * o.y + z * o.z);
+	}
 };
 
 struct Vector4 {

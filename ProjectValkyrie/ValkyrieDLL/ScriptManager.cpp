@@ -85,27 +85,16 @@ void ScriptManager::ExecuteScripts(PyExecutionContext & ctx, std::deque<std::sha
 void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList)
 {
 	for (auto script : scriptList) {
-		bool errored = !script->error.empty();
-		if (errored)
-			ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
-
 		const char* scriptName = script->info->name.c_str();
-
 		ImGui::Text(" ");
 		ImGui::SameLine();
+
+		bool errored = !script->error.empty();
+		if(errored)
+			ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
+
 		if (ImGui::BeginMenu(scriptName)) {
-			if (errored) {
-				if (ImGui::Button("Reload"))
-					script->Load(script->info);
-				ImGui::SameLine();
-				if (ImGui::Button("Clear cfg & reload")) {
-					script->config.Reset();
-					script->config.Save();
-					script->Load(script->info);
-				}
-				ImGui::TextColored(Color::RED, script->error.c_str());
-			}
-			else {
+			if (!errored) {
 				ctx.SetScript(script.get());
 
 				script->Execute(ctx, ON_MENU);
@@ -114,10 +103,27 @@ void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::s
 					script->config.Save();
 				}
 			}
+			else {
+				ImGui::Text(script->error.c_str());
+			}
+
+			ScriptMenuFooter(script);
 			ImGui::EndMenu();
 		}
 
 		if (errored)
 			ImGui::PopStyleColor();
+	}
+}
+
+void ScriptManager::ScriptMenuFooter(std::shared_ptr<Script>& script)
+{
+	if (ImGui::Button("Reload"))
+		script->Load(script->info);
+	ImGui::SameLine();
+	if (ImGui::Button("Reset to Defaults")) {
+		script->config.Reset();
+		script->config.Save();
+		script->Load(script->info);
 	}
 }

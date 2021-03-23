@@ -5,12 +5,6 @@
 #include "Valkyrie.h"
 
 void GameRenderer::ReadFromBaseAddress(int baseAddr) {
-
-	RECT rect;
-	GetWindowRect(Valkyrie::LeagueWindowHandle, &rect);
-	windowPos.x = rect.left;
-	windowPos.y = rect.top;
-
 	__try {
 		memcpy(&viewMatrix, (void*)(baseAddr + Offsets::ViewMatrix), 16 * sizeof(float));
 		memcpy(&projMatrix, (void*)(baseAddr + Offsets::ProjectionMatrix), 16 * sizeof(float));
@@ -39,7 +33,7 @@ void GameRenderer::MultiplyMatrices(float * out, float * a, int row1, int col1, 
 
 Vector2 GameRenderer::WorldToScreen(const Vector3& pos) const {
 
-	Vector2 out = windowPos;
+	Vector2 out = { 0.f, 0.f };
 	Vector2 screen = { (float)width, (float)height };
 	static Vector4 clipCoords;
 	clipCoords.x = pos.x * viewProjMatrix[0] + pos.y * viewProjMatrix[4] + pos.z * viewProjMatrix[8] + viewProjMatrix[12];

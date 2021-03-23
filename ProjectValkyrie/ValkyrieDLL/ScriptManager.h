@@ -19,6 +19,8 @@ private:
 	void ExecuteScripts(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
 	void DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
 
+	void ScriptMenuFooter(std::shared_ptr<Script>& script);
+
 public:
 	ScriptRepository                    repository;
 

@@ -71,6 +71,13 @@ public:
 	bool casting;
 };
 
+class QConditionHasTag : public QCondition {
+public:
+	virtual bool Check(const GameObject* obj);
+	
+	UnitTag tag;
+};
+
 class QueryException : public std::exception {
 public:
 	using std::exception::exception;
@@ -95,12 +102,14 @@ public:
 	void                         Update(const GameState* state);
 				                 
 	void                         NewQuery(QueryKey key);
-	list                         GetResultsPy();	         
+	list                         GetResultsPy();	
+	int                          Count();
 						         
 	ObjectQuery*                 AllyTo(const GameObject& obj);
 	ObjectQuery*                 EnemyTo(const GameObject& obj);
 	ObjectQuery*                 NearObj(const GameObject& obj, float distance);
 	ObjectQuery*                 NearPoint(const Vector3& pt, float distance);
+	ObjectQuery*                 HasTag(UnitTag tag);
 	ObjectQuery*                 Targetable();
 	ObjectQuery*                 Untargetable();
 	ObjectQuery*                 Visible();
@@ -120,6 +129,9 @@ protected:
 	template <class T>
 	list MakePyList(const std::vector<object>& pyObjs, const std::vector<std::shared_ptr<T>>& objs);
 
+	template <class T>
+	int  CountQuery(const std::vector<object>& pyObjs, const std::vector<std::shared_ptr<T>>& objs);
+
 private:
 	QueryKey                 qkey;
 	std::vector<QCondition*> conditions;
@@ -133,6 +145,7 @@ private:
 	QConditionClone          cloneCondition;
 	QConditionVisibility     visibilityCondition;
 	QConditionCasting        castingCondition;
+	QConditionHasTag         conditionHasTag;
 
 	const GameState*         state;
 };
@@ -167,4 +180,25 @@ inline list ObjectQuery::MakePyList(const std::vector<object>& pyObjs, const std
 	}
 
 	return l;
+}
+
+template<class T>
+inline int ObjectQuery::CountQuery(const std::vector<object>& pyObjs, const std::vector<std::shared_ptr<T>>& objs)
+{
+	int count = 0;
+	for (size_t i = 0; i < objs.size(); ++i) {
+
+		bool belongs = true;
+		for (auto& c : conditions) {
+			if (!c->Check(objs[i].get())) {
+				belongs = false;
+				break;
+			}
+		}
+
+		if (belongs)
+			count += 1;
+	}
+
+	return count;
 }

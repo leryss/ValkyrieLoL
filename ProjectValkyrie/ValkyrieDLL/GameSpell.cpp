@@ -42,7 +42,7 @@ float GameSpell::GetRemainingCooldown() const
 {
 	float time = Valkyrie::CurrentGameState->time;
 	float cd = 0.0f;
-	if (readyAtCharge == 0 || charges > 0)
+	if (readyAt > readyAtCharge)
 		cd = readyAt - time;
 	else
 		cd = readyAtCharge - time;

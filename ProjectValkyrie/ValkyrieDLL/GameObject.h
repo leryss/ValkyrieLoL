@@ -37,6 +37,8 @@ public:
 	/// Checks if two game objects are equal by checking their network id
 	bool           EqualsTo(const GameObject& other);
 
+	bool           InFrontOf(const GameObject& other);
+
 	virtual void   ImGuiDraw();
 
 public:

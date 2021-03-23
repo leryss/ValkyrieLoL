@@ -29,6 +29,9 @@ public:
 	object    GetStaticData();
 	object    GetCastingSpell();
 
+	bool      HasBuff(const char* buff);
+	int       BuffStackCount(const char* buff);
+
 public:
 
 	bool        isCasting = false;

@@ -21,14 +21,14 @@ delay_percent = 0.1
 class OrbwalkKite:
 	type = Orbwalker.ModeKite
 	
-	def get_target(self, ctx):
-		possible_targets = ctx.champs.targetable().enemy_to(ctx.player).near(ctx.player, ctx.player.atk_range + ctx.player.static.gameplay_radius).get()
+	def get_target(self, ctx, distance):
+		possible_targets = ctx.champs.targetable().enemy_to(ctx.player).near(ctx.player, distance).get()
 		return target_selector.get_target(ctx, possible_targets)
 
 class OrbwalkLastHit:
 	type = Orbwalker.ModeKite
 	
-	def get_target(self, ctx):
+	def get_target(self, ctx, distance):
 		lasthits = predict_minions_lasthit(ctx, ctx.minions.alive().enemy_to(ctx.player).on_screen().get(), ctx.minions.alive().ally_to(ctx.player).on_screen().get())
 		if len(lasthits) == 0:
 			return None
@@ -44,16 +44,16 @@ class OrbwalkLanePush:
 	type = Orbwalker.ModeKite
 	allow_champ = False
 	
-	def get_target(self, ctx):
+	def get_target(self, ctx, distance):
 		player			  = ctx.player
 		
 		if self.allow_champ:
-			target = kite_mode.get_target(ctx)
+			target = kite_mode.get_target(ctx, distance)
 			if target:
 				return target
 		
 		# Try getting jungle mob
-		jungle_target = target_selector_monster.get_target(ctx, ctx.jungle.targetable().near(player, player.atk_range + player.static.gameplay_radius).get())
+		jungle_target = target_selector_monster.get_target(ctx, ctx.jungle.targetable().near(player, distance).get())
 		if jungle_target:
 			return jungle_target
 			
@@ -84,7 +84,7 @@ class OrbwalkLanePush:
 					return minion
 		
 		# Get turret / other entities
-		possible_targets = ctx.turrets.targetable().enemy_to(player).near(player, player.atk_range + player.static.gameplay_radius).get() + ctx.others.targetable().enemy_to(player).near(player, player.atk_range + player.static.gameplay_radius).get()
+		possible_targets = ctx.turrets.targetable().enemy_to(player).near(player, distance).get() + ctx.others.targetable().enemy_to(player).near(player, distance).get()
 		return target_selector.get_target(ctx, possible_targets)
 		
 kite_mode	    = OrbwalkKite()
@@ -188,7 +188,7 @@ def valkyrie_exec(ctx):
 	dt = now - last_attacked
 	
 	if dt > c_atk_time:
-		target = Orbwalker.CurrentMode.get_target(ctx)
+		target = Orbwalker.CurrentMode.get_target(ctx, player.atk_range + player.static.gameplay_radius)
 		if target:
 			Orbwalker.Attacking = True
 			ctx.attack(target)

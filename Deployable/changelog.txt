@@ -1,5 +1,26 @@
+[Valkyrie v0.26]
+	* Fixed overlay rendering problem when window is moved
+	* Fixed a bug where cooldown would be calculated wrongly for Syndra R (and potentially other skills with charges)
+	* Fixed bug where orbwalker would not attack Olaf when he was using R
+	* Fixed a crash for ConditionKillable
+	
+[Valkyrie v0.25]
+	* Fixed a bug in menus when the menu popup would close when clicking a checkbox
+	
+	+ Now you can reload / reset configs of scripts directly from the script menu
+	+ Updated damage calculations lib for a couple more champions (ezreal, tristana, syndra)
+	+ Reworked champion scripting system. Now its much more customizable and easier to write scripts. Also in the future there will be support for drag & drop script logic
+	+ vk_indicators: Now spells that arent castable arent included in damage calculations
+	+ vk_cassiopeia:
+		+ Fixed E damage calculations
+		+ Now ults when stunnable
+
+	Remarks: Since damage lib and champion scripts were reworked if you made scripts using those sadly they will break
+
 [Valkyrie v0.24]
 	* Fixed an mouse click emulation issue when league window was windowed and moved from default position
+	* Fixed champion script crashes
+	* Fixed range bugs for champion scripts
 
 [Valkyrie v0.23]
 	* Fixed a bug where menu would open while outside league window

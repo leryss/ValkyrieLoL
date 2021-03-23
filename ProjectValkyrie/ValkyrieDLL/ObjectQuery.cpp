@@ -42,6 +42,26 @@ list ObjectQuery::GetResultsPy()
 	}
 }
 
+int ObjectQuery::Count()
+{
+	switch (qkey) {
+	case QKEY_MINION:
+		return CountQuery(pyObjects[QKEY_MINION], state->minions);
+	case QKEY_TURRET:
+		return CountQuery(pyObjects[QKEY_TURRET], state->turrets);
+	case QKEY_JUNGLE:
+		return CountQuery(pyObjects[QKEY_JUNGLE], state->jungle);
+	case QKEY_MISSILE:
+		return CountQuery(pyObjects[QKEY_MISSILE], state->missiles);
+	case QKEY_CHAMP:
+		return CountQuery(pyObjects[QKEY_CHAMP], state->champions);
+	case QKEY_OTHERS:
+		return CountQuery(pyObjects[QKEY_OTHERS], state->others);
+	default:
+		return 0;
+	}
+}
+
 ObjectQuery* ObjectQuery::AllyTo(const GameObject & obj)
 {
 	teamCondition.team      = obj.team;
@@ -74,6 +94,16 @@ ObjectQuery * ObjectQuery::NearPoint(const Vector3 & pt, float distance)
 	nearbyPointCondition.distance = distance;
 	conditions.push_back(&nearbyPointCondition);
 
+	return this;
+}
+
+ObjectQuery * ObjectQuery::HasTag(UnitTag tag)
+{
+	if (qkey == QKEY_MISSILE)
+		throw new QueryException("Can't query WithUnitTag for missiles");
+	
+	conditionHasTag.tag = tag;
+	conditions.push_back(&conditionHasTag);
 	return this;
 }
 
@@ -183,7 +213,7 @@ bool QConditionNearbyPoint::Check(const GameObject * obj)
 bool QConditionTargetable::Check(const GameObject * obj)
 {
 	const GameUnit* unit = (const GameUnit*)obj;
-	return targetable == (unit->isVisible && !unit->isDead && unit->targetable && !unit->invulnerable);
+	return targetable == (unit->isVisible && !unit->isDead && unit->targetable);
 }
 
 bool QConditionDeath::Check(const GameObject * obj)
@@ -207,4 +237,13 @@ bool QConditionCasting::Check(const GameObject * obj)
 {
 	const GameUnit* unit = (const GameUnit*)obj;
 	return (unit->isCasting && unit->castingSpell.RemainingCastTime() > 0.f) == casting;
+}
+
+bool QConditionHasTag::Check(const GameObject * obj)
+{
+	const GameUnit* unit = (const GameUnit*)obj;
+	if (unit->staticData == nullptr)
+		return false;
+
+	return (unit->staticData->HasTag(tag));
 }

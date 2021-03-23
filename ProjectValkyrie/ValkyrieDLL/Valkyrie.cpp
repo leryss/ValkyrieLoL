@@ -25,6 +25,7 @@ WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL
 LPDIRECT3DDEVICE9                  Valkyrie::DxDevice                     = NULL;
 std::mutex                         Valkyrie::DxDeviceMutex;
 HWND                               Valkyrie::LeagueWindowHandle;
+RECT                               Valkyrie::WindowRect;
 
 ValkyrieAPI*                       Valkyrie::Api = ValkyrieAPI::Get();
 UserInfo                           Valkyrie::LoggedUser;
@@ -194,6 +195,7 @@ void Valkyrie::InitializeOverlay()
 	ImGui::GetIO().IniFilename = Paths::ImguiConfig.c_str();
 	ValkyrieShared::ImGuiSetupSizesAndFont();
 	LoadConfigs();
+	GetWindowRect(LeagueWindowHandle, &WindowRect);
 }
 
 void Valkyrie::InitializePython()
@@ -528,6 +530,9 @@ LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM 
 
 	switch (msg)
 	{
+	case WM_MOVE:
+		GetWindowRect(Valkyrie::LeagueWindowHandle, &Valkyrie::WindowRect);
+		return 0;
 	case WM_SIZE:
 		return 0;
 	case WM_SYSCOMMAND:

@@ -218,13 +218,13 @@ def draw_potential_dmg(ctx):
 			continue
 			
 		spell = player.spells[i]
-		if spell.cd == 0.0 and spell.lvl > 0:
+		if player.can_cast_spell(spell):
 			dmgs.append(calculate_raw_spell_dmg(player, spell))
 	
 	for target in ctx.champs.enemy_to(player).targetable().on_screen().get():
 		total_dmg = 0.0
 		for dmg in dmgs:
-			total_dmg += dmg.calc_against(player, target)
+			total_dmg += dmg.calc_against(ctx, player, target)
 		ctx.hp_dmg_indicator(target, total_dmg, Col(1.0, 0.5, 0.1, 0.5))
 		
 	

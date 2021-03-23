@@ -39,6 +39,13 @@ bool GameObject::EqualsTo(const GameObject& other)
 	return this->networkId == other.networkId;
 }
 
+bool GameObject::InFrontOf(const GameObject & other)
+{
+	auto diff = pos.sub(other.pos);
+
+	return diff.dot(other.dir) > 0.f;
+}
+
 void GameObject::ImGuiDraw()
 {
 	int idx = index;

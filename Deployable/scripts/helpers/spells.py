@@ -1,3 +1,5 @@
+from valkyrie import *
+
 import os, json
 from enum import Enum
 from time import time
@@ -30,6 +32,7 @@ class BuffType:
 	Mastery = 1
 	CC      = 2
 	Potion  = 4
+	Poison  = 8
 
 class Buff:
 	
@@ -68,7 +71,10 @@ class Buffs:
 		# Potions
 		Buff('DarkCrystalFlask',     'ItemDarkCrystalFlask',        BuffType.Potion),
 		Buff('CrystalFlask',         'ItemCrystalFlask',            BuffType.Potion),
-		Buff('RedPot',               'Item2003',                    BuffType.Potion)
+		Buff('RedPot',               'Item2003',                    BuffType.Potion),
+		
+		Buff('CassiopeiaQPoison',    'cassiopeiaqdebuff',           BuffType.Poison),
+		Buff('CassiopeiaWPoison',    'cassiopeiawbuff',             BuffType.Poison),
 	]
 	
 	AllBuffsDict = { buff.pretty_name : buff for buff in AllBuffs } | { buff.name : buff for buff in AllBuffs }
@@ -83,6 +89,17 @@ class Buffs:
 			return False
 			
 		return champ.has_buff(buff_obj.name)
+	
+	@classmethod
+	def has_buff_type(self, champ, buff_type):
+		if type(champ) != ChampionObj:
+			return False
+			
+		for buff in champ.buffs:
+			b = Buffs.get(buff.name)
+			if b.type == buff_type:
+				return True
+		return False
 	
 	@classmethod
 	def get(self, buff_name):
@@ -101,77 +118,119 @@ class Slot:
 	R = 3
 	D = 4
 	F = 5
+	
+	SlotToStr = ['Q', 'W', 'E', 'R', 'D', 'F']
+	
+	@classmethod
+	def to_str(self, slot):
+		return self.SlotToStr[slot]
 
 class RSpell:
-	''' 
-		Rotation Spell info. 
-		condition argument must be a function with arguments (ctx=Context, player=ChampionObj, target=UnitObj, spell=GameSpell).
-		condition function must return a boolean if spell should be cast
-	'''
+	
 	def __init__(self, slot, condition = None):
 		self.slot = slot
 		self.condition = condition
+	
+	def ui(self, ctx, ui):
+		if not self.condition:
+			return
+		
+		if ui.treenode('Trigger Condition'):
+			ui.pushid(id(self.condition))
+			self.condition.ui(ctx, ui)
+			ui.separator()
+			ui.popid()
+			
+			ui.treepop()
+		ui.help('A trigger condition is logic that applies before casting the spell. For example a simple trigger would be "Target health trigger" that would check if the target HP is below a certain %, if the trigger is True then the spell is cast.')
+		
+	def check_condition(self, ctx, player, target, spell):
+		if not self.condition:
+			return True
+			
+		return self.condition.check(ctx, player, target, spell)
+		
+class SpellCondition:
+	
+	def __init__(self, enabled = True):
+		self.enabled = enabled
+
+	def check(self, ctx, player, target, spell):
+		if self.enabled:
+			return self._check(ctx, player, target, spell)
+		return True
+
+	def _check(self, ctx, player, target, spell):
+		return True
+		
+	def _get_name(self):
+		return 'Base Condition'
+	
+	def _get_help(self):
+		return 'Condition help text'
+	
+	def ui(self, ctx, ui, depth = 0):
+		
+		self.enabled = ui.checkbox(self._get_name(), self.enabled)
+		ui.help(self._get_help())
+		if self.enabled:
+			self._ui(ctx, ui)
+		
+	def _ui(self, ctx, ui):
+		pass
 		
 class SpellRotation:
 	'''
 		Represents a rotation of spells
 	'''
 	
-	def __init__(self, rotation_spells):
+	def __init__(self, rotation_spells, mask = None):
 		'''
-			rotation_spells must be an array of RSpell's
+			rotation_spells: must be an array of RSpell's
+			mask: must be an array of booleans
 		'''
 		self.rotation_spells = rotation_spells
-	
-	def get_spell(self, ctx, target):
+		if mask == None or len(rotation_spells) != len(mask):
+			self.mask = [True for i in range(len(rotation_spells))]
+		else:
+			self.mask = mask
+				
+	def find_spell(self, ctx, target):
 		'''
 			Gets the next castable spell in the rotation. Returns None if nothing found
 		'''
 		player = ctx.player
 		spells = player.spells
 		
-		for rspell in self.rotation_spells:
+		for i, rspell in enumerate(self.rotation_spells):
+			if not self.mask[i]:
+				continue
+				
 			spell = spells[rspell.slot]
 			if not spell.static:
 				continue
-			if rspell.condition and not rspell.condition(ctx, player, target, spell):
+				
+			if not rspell.check_condition(ctx, player, target, spell):
 				continue
 				
-			if player.can_cast_spell(spell) and target.pos.distance(player.pos) < spell.static.cast_range:
-				return spell
+			if not player.can_cast_spell(spell):
+				continue
+				
+			if not spell.static.has_flag(Spell.CastAnywhere) and target.pos.distance(player.pos) > spell.static.cast_range:
+				continue
+				
+			return spell
 		
 		return None
 		
-class SpellKiter:
-	'''
-		Similar to orbwalker but instead of attacks it casts spells from a SpellRotation
-	'''
-	
-	cooldown_move = 0.08
-	
-	def __init__(self, rotation, target_distance):
-		self.rotation = rotation
-		self.target_distance = target_distance
-		self.last_moved = 0
-		
-	def kite(self, ctx, target):
-		player = ctx.player
-
-		spell, point = self.get_spell(ctx, player, target)
-		if spell:
-			ctx.cast_spell(spell, point)
-		
 	def get_spell(self, ctx, player, target):
-		'''
-			Gets next spell to cast from the rotation along with the cast point
-		'''
 		if player.curr_casting and player.curr_casting.remaining > 0.0:
 			return None, None
 		
 		if not target:
 			return None, None
 			
-		spell = self.rotation.get_spell(ctx, target)
+		spell = self.find_spell(ctx, target)
 		if not spell:
 			return None, None
 		
@@ -180,3 +239,23 @@ class SpellKiter:
 			return None, None
 		
 		return spell, point
+		
+	def cast(self, ctx, target):
+		player = ctx.player
+
+		spell, point = self.get_spell(ctx, player, target)
+		if spell:
+			ctx.cast_spell(spell, point)
+	
+	def ui(self, ctx, ui):
+		for i in range(len(self.mask)):
+			slot = self.rotation_spells[i].slot
+			slot_str = Slot.to_str(slot)
+			
+			spell = ctx.player.spells[slot]
+			ui.image(spell.static.icon if spell.static else 'None', Vec2(16, 16), Col.White)
+			ui.sameline()
+			if ui.beginmenu(slot_str + ' ' + spell.name):
+				self.mask[i] = ui.checkbox('Use spell', self.mask[i])
+				self.rotation_spells[i].ui(ctx, ui)
+				ui.endmenu()

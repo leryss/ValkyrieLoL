@@ -33,6 +33,6 @@ def valkyrie_exec(ctx) :
 	
 	raw_dmg = calculate_raw_spell_dmg(player, spell)
 	for champ in ctx.champs.enemy_to(player).targetable().near(player, 1200.0).get():
-		if champ.health - raw_dmg.calc_against(player, champ) <= 0.0:
+		if champ.health - raw_dmg.calc_against(ctx, player, champ) <= 0.0:
 			ctx.cast_spell(spell, None)
 			break

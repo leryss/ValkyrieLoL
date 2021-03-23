@@ -113,6 +113,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("dir",               &GameObject::dir,                 "Direction the object is facing as a normalized Vec3")
 		.def_readonly("moving",            &GameObject::isMoving,            "True if object is moving")
 		
+		.def("in_front_of",                &GameObject::InFrontOf,           "Checks if object is in front of")
 		.def("ally_to",                    &GameObject::IsAllyTo,            "Checks if two objects are allied")
 		.def("enemy_to",                   &GameObject::IsEnemyTo,           "Checks if two objects are enemies")
 		.def("__eq__",                     &GameObject::EqualsTo,            "Checks if two object are identical by checking their network id")
@@ -211,7 +212,11 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	class_<PyImGui>("UI", "Used to draw imgui backed UIs. Each method is more or less the equivalent of the original imgui method. Check imgui documentation for more info")
 		.def("begin",                    &PyImGui::Begin)
 		.def("begin",                    &PyImGui::BeginWithFlags)
+		.def("beginchild",               &PyImGui::BeginChild)
+		.def("endchild",                 &PyImGui::EndChild)
 		.def("end",                      &PyImGui::End)
+		.def("pushvar",                  &PyImGui::PushStyleV)
+		.def("popvar",                   &PyImGui::PopStyleV)
 				
 		.def("help",                     &PyImGui::Help)
 		.def("button",                   &PyImGui::Button)
@@ -261,11 +266,14 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 		.def("pushid",                   &PyImGui::PushId)
 		.def("popid",                    &PyImGui::PopId)
+		.def("indent",                   &PyImGui::Indent)
 		;
 
 	class_<ObjectQuery>("ObjectQuery", "Used to query game objects by avoiding python to C++ call overhead.")
 		.def("get",                      &ObjectQuery::GetResultsPy)
+		.def("count",                    &ObjectQuery::Count)
 
+		.def("has_tag",                  &ObjectQuery::HasTag,         return_value_policy<reference_existing_object>(),     "Query units with specified tag")
 		.def("ally_to",                  &ObjectQuery::AllyTo,         return_value_policy<reference_existing_object>(),     "Query allies")
 		.def("enemy_to",                 &ObjectQuery::EnemyTo,        return_value_policy<reference_existing_object>(),     "Query enemies")
 		.def("near",                     &ObjectQuery::NearObj,        return_value_policy<reference_existing_object>(),     "Query objects within distance of another object")
@@ -406,6 +414,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("rotate_z",                 &Vector3::rotate_z, "Rotates the vector along the z axis")
 		.def("__add__",                  &Vector3::add)
 		.def("__sub__",                  &Vector3::sub)
+		.def("angle",                    &Vector3::angle,    "Angle between two vectors")
+		.def("dot",                      &Vector3::dot)
 		.def("clone",                    &Vector3::clone)
 		;
 
@@ -447,6 +457,33 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("NoNav",                     ImGuiWindowFlags_NoNav)
 		.value("NoDecoration",              ImGuiWindowFlags_NoDecoration)
 		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
+		;
+
+	enum_<ImGuiStyleVar>("StyleVar")
+		.value("Alpha", ImGuiStyleVar_Alpha)
+		.value("WindowPadding", ImGuiStyleVar_WindowPadding)
+		.value("WindowRounding", ImGuiStyleVar_WindowRounding)
+		.value("WindowBorderSize", ImGuiStyleVar_WindowBorderSize)
+		.value("WindowMinSize", ImGuiStyleVar_WindowMinSize)
+		.value("WindowTitleAlign", ImGuiStyleVar_WindowTitleAlign)
+		.value("ChildRounding", ImGuiStyleVar_ChildRounding)
+		.value("ChildBorderSize", ImGuiStyleVar_ChildBorderSize)
+		.value("PopupRounding", ImGuiStyleVar_PopupRounding)
+		.value("PopupBorderSize", ImGuiStyleVar_PopupBorderSize)
+		.value("FramePadding", ImGuiStyleVar_FramePadding)
+		.value("FrameRounding", ImGuiStyleVar_FrameRounding)
+		.value("FrameBorderSize", ImGuiStyleVar_FrameBorderSize)
+		.value("ItemSpacing", ImGuiStyleVar_ItemSpacing)
+		.value("ItemInnerSpacing", ImGuiStyleVar_ItemInnerSpacing)
+		.value("IndentSpacing", ImGuiStyleVar_IndentSpacing)
+		.value("CellPadding", ImGuiStyleVar_CellPadding)
+		.value("ScrollbarSize", ImGuiStyleVar_ScrollbarSize)
+		.value("ScrollbarRounding", ImGuiStyleVar_ScrollbarRounding)
+		.value("GrabMinSize", ImGuiStyleVar_GrabMinSize)
+		.value("GrabRounding", ImGuiStyleVar_GrabRounding)
+		.value("TabRounding", ImGuiStyleVar_TabRounding)
+		.value("ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign)
+		.value("SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign)
 		;
 
 	enum_<SpellFlags>("Spell", "Spell flags that specify behaviour and type of a spell")

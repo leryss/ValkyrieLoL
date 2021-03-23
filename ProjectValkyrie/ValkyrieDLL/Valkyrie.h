@@ -91,6 +91,7 @@ private:
 	static InputController             InputController;
 
 public:
+	static RECT                        WindowRect;
 	static HWND                        LeagueWindowHandle;
 	static std::mutex                  DxDeviceMutex;
 	static LPDIRECT3DDEVICE9           DxDevice;

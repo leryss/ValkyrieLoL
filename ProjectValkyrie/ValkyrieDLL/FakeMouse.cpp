@@ -1,4 +1,5 @@
 #include "FakeMouse.h"
+#include "Valkyrie.h"
 #include "detours.h"
 
 bool                      FakeMouse::Enabled = false;
@@ -20,8 +21,8 @@ BOOL __stdcall FakeMouse::HookedGetCursorPos(LPPOINT lpPoint)
 {
 	if (lpPoint != NULL && FakeMouse::Enabled) {
 		Vector2 v = FakeMouse::FakePositionGetter();
-		lpPoint->x = (LONG)v.x;
-		lpPoint->y = (LONG)v.y;
+		lpPoint->x = (LONG)v.x + Valkyrie::WindowRect.left;
+		lpPoint->y = (LONG)v.y + Valkyrie::WindowRect.top;
 
 		return TRUE;
 	}

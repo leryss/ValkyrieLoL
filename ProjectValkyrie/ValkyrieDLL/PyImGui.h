@@ -107,6 +107,34 @@ public:
 		ImGui::Text(text);
 	}
 
+	bool BeginChild(int id, bool border, ImGuiWindowFlags flags) {
+		return ImGui::BeginChild(id, ImVec2(0, 0), border, flags);
+	}
+
+	void PushStyleV(ImGuiStyleVar style, const Vector2& vals) {
+		ImGui::PushStyleVar(style, ImVec2(vals.x, vals.y));
+	}
+
+	void Indent(float indent) {
+		ImGui::Indent(indent);
+	}
+
+	void PopStyleV() {
+		ImGui::PopStyleVar();
+	}
+
+	void EndChild() {
+		ImGui::EndChild();
+	}
+
+	void BeginFrame(int id){
+		ImGui::BeginChildFrame(id, ImVec2(0, 0), 0);
+	}
+
+	void EndFrame() {
+		ImGui::EndChildFrame();
+	}
+
 	void TextColored(const char* text, const ImVec4& color) {
 		ImGui::TextColored(color, text);
 	}
