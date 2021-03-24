@@ -174,7 +174,7 @@ void AdminPanel::DrawUserManager()
 	ImGui::TextColored(Color::PURPLE, "All users");
 
 	DrawUserManagerFilter();
-	ImGui::BeginTable("UsersTable", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable , ImVec2(0.f, 250.f));
+	ImGui::BeginTable("UsersTable", 9, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable);
 	ImGui::TableSetupColumn("Name",         ImGuiTableColumnFlags_None,                                         0, UserColumnName);
 	ImGui::TableSetupColumn("Discord",      ImGuiTableColumnFlags_None,                                         0, UserColumnDiscord);
 	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None,                                         0, UserColumnStatus);

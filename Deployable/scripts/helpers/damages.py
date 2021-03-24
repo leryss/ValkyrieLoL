@@ -119,6 +119,31 @@ class TristanaEDamage(MagicDamage):
 		
 		return super().calc_against(ctx, attacker, target)
 		
+class DianaRDamage(MagicDamage):
+	def __init__(self, base, bonus_per_champ):
+		self.base = base
+		self.bonus_per_champ = bonus_per_champ
+	
+	def calc_against(self, ctx, attacker, target):
+		num_champs = len(ctx.champs.enemy_to(attacker).targetable().near(attacker, 475).get())
+		self.raw_dmg = self.base + num_champs * self.bonus_per_champ
+		return super().calc_against(ctx, attacker, target)
+		
+class JinxRDmage(PhysDamage):
+	
+	missing_hp = [0.25, 0.30, 0.35]
+	def __init__(self, base):
+		self.base = base
+		
+	def calc_against(self, ctx, attacker, target):
+		
+		lvl = max(0, attacker.spells[3].lvl - 1)
+		mhp = self.missing_hp[lvl]
+		multi = min(1.0, 0.1 + 0.06 * attacker.pos.distance(target.pos) / 100.0)
+		
+		self.raw_dmg = self.base*multi + mhp*(target.max_health - target.health)
+		return super().calc_against(ctx, attacker, target)
+		
 		
 DamageExtractors = {
 	
@@ -133,6 +158,12 @@ DamageExtractors = {
 	'dariusnoxiantacticsonh' : lambda calc, champ, skill: PhysDamage(calc.empoweredattackdamage(champ, skill)),
 	'dariusexecute'          : lambda calc, champ, skill: DariusRDamage(calc.damage(champ, skill)),
 	
+	# Diana
+	'dianaq'                 : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'dianaorbs'              : lambda calc, champ, skill: MagicDamage(calc.totalmaxdamage(champ, skill)),
+	'dianateleport'          : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'dianar'                 : lambda calc, champ, skill: DianaRDamage(calc.rexplosiondamage(champ, skill), calc.rmultihitamplification(champ, skill)),
+	
 	# Ezreal
 	'ezrealq'                : lambda calc, champ, skill: PhysDamage(calc.damage(champ, skill)),
 	'ezrealw'                : lambda calc, champ, skill: MagicDamage(calc.damage(champ, skill)),
@@ -144,6 +175,11 @@ DamageExtractors = {
 	'ireliaw'                : lambda calc, champ, skill: PhysDamage(calc.maxdamagecalc(champ, skill)),
 	'ireliae'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
 	'ireliar'                : lambda calc, champ, skill: MagicDamage(calc.missiledamage(champ, skill)),
+	
+	# Jinx
+	'jinxw'                  : lambda calc, champ, skill: PhysDamage(calc.totaldamage(champ, skill)),
+	'jinxe'                  : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'jinxr'                  : lambda calc, champ, skill: JinxRDmage(calc.damagemax(champ, skill)),
 	
 	# Cassiopeia
 	'cassiopeiaq'            : lambda calc, champ, skill: MagicDamage(calc.tooltiptotaldamage(champ, skill)),
@@ -162,18 +198,44 @@ DamageExtractors = {
 	'samirae'                : lambda calc, champ, skill: MagicDamage(calc.dashdamage(champ, skill)),
 	'samirar'                : lambda calc, champ, skill: PhysDamage(11.0 * calc.damagecalc(champ, skill)),
 	
+	# Soraka
+	'sorakaq'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'sorakae'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)*2.0),
+	
 	# Syndra
 	'syndraq'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
 	'syndraw'                : lambda calc, champ, skill: MagicDamage(calc.throwdamage(champ, skill)),
 	'syndrae'                : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
 	'syndrar'                : lambda calc, champ, skill: SyndraRDamage(calc.damagecalc(champ, skill)),
 	
+	# Teemo
+	'blindingdart'           : lambda calc, champ, skill: MagicDamage(calc.calculateddamage(champ, skill)),
+	'teemorcast'             : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	
+	# Tristana
 	'tristanaw'              : lambda calc, champ, skill: MagicDamage(calc.landingdamage(champ, skill)),
 	'tristanae'              : lambda calc, champ, skill: TristanaEDamage(calc.activedamage(champ, skill), calc.activemaxdamage(champ, skill)),
 	'tristanar'              : lambda calc, champ, skill: MagicDamage(calc.damagecalc(champ, skill)),
 	
 	# Twitch
 	'twitchexpunge'          : lambda calc, champ, skill: TwitchExpungeDamage(PhysDamage(calc.basedamage[skill.lvl - 1]), PhysDamage(calc.physicaldamageperstack(champ, skill)), MagicDamage(calc.magicdamageperstack(champ, skill))),
+	
+	# Urgot
+	'urgotq'                 : lambda calc, champ, skill: PhysDamage(calc.totaldamage(champ, skill)),
+	'urgotw'                 : lambda calc, champ, skill: PhysDamage(12.0 * calc.damagepershot(champ, skill)),
+	'urgote'                 : lambda calc, champ, skill: PhysDamage(calc.edamage(champ, skill)),
+	'urgotr'                 : lambda calc, champ, skill: PhysDamage(calc.rcalculateddamage(champ, skill)),
+	
+	# Yasuo
+	'yasuoq1wrapper'         : lambda calc, champ, skill: PhysDamage(calc.totaldamagecrit(champ, skill)),
+	'yasuoq2wrapper'         : lambda calc, champ, skill: PhysDamage(calc.totaldamagecrit(champ, skill)),
+	'yasuoq3wrapper'         : lambda calc, champ, skill: PhysDamage(calc.totaldamagecrit(champ, skill)),
+	'yasuoe'                 : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'yasuor'                 : lambda calc, champ, skill: PhysDamage(calc.damage(champ, skill)),
+}
+
+DuplicateMap = {
+	'yasuoq1wrapper': ['yasuoq2wrapper', 'yasuoq3wrapper'],
 }
 
 def load_spell_calcs(path):
@@ -185,6 +247,7 @@ def load_spell_calcs(path):
 
 	
 	for name, vdict in j.items():
+		lname = name.lower()
 		
 		obj_dict = {}
 		for dval_name, dval_values in vdict['data_vals'].items():
@@ -195,7 +258,11 @@ def load_spell_calcs(path):
 				exec(f'def {formula_name}(self, champ, skill): return {formula_str}')
 				obj_dict[formula_name] = eval(formula_name)
 			
-		Calculations[name.lower()] = type('Spell' + name, (object, ), obj_dict)()
+		obj = type('spell_' + lname, (object, ), obj_dict)()
+		Calculations[lname] = obj
+		if lname in DuplicateMap:
+			for name in DuplicateMap[lname]:
+				Calculations[name] = obj
 
 def calculate_raw_spell_dmg(champ, skill):
 	calculations = Calculations.get(skill.name, None)

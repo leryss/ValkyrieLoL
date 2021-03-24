@@ -47,7 +47,7 @@ def valkyrie_on_save(ctx) :
 	cfg.set_str('samira', str(samira))
 	
 def valkyrie_exec(ctx) :
-	ctx.ui.demo()
+	
 	if ctx.player.dead:
 		return
 	samira.exec(ctx)

@@ -218,7 +218,7 @@ class SpellRotation:
 			if not spell.static or not player.can_cast_spell(spell):
 				continue
 				
-			target = target_selector.get_target(ctx, ctx.champs.enemy_to(player).near(player, spell.static.cast_range).get())
+			target = target_selector.get_target(ctx, ctx.champs.enemy_to(player).targetable().near(player, spell.static.cast_range).get())
 			if not target:
 				continue
 				

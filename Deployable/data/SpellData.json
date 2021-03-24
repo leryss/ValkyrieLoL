@@ -36575,7 +36575,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "sorakaq",
@@ -36623,7 +36623,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "sruap_magecrystalbasicattack",
@@ -40879,7 +40879,7 @@
         "speed": 1000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint", "Area", "AffectAll"]
     },
     {
         "name": "blindingdart",
@@ -40895,7 +40895,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "toxicshotparticle",
@@ -41023,7 +41023,7 @@
         "speed": 943.7999877929688,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "bantamtrapshort",
@@ -47333,17 +47333,17 @@
         "name": "yasuoq3wrapper",
         "parent": "",
         "icon": "yasuo_q3",
-        "castTime": 0.125,
-        "castRange": 1000.0,
-        "castRadius": 300.0,
+        "castTime": 0.25,
+        "castRange": 1100.0,
+        "castRadius": 210.0,
         "castConeAngle": 0.0,
         "castConeDistance": 100.0,
         "width": 90.0,
-        "height": 0.0,
-        "speed": 1500.0,
+        "height": 100.0,
+        "speed": 1200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Line", "CollideWindwall", "AffectAll"]
     },
     {
         "name": "odysseyaugments_yasuoedash",
@@ -47567,7 +47567,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection"]
     },
     {
         "name": "yasuowindwalltimermis1",
@@ -47711,7 +47711,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "odysseyaugments_yasuow_visualmis_burst",
@@ -47807,7 +47807,7 @@
         "speed": 20.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "odysseyaugments_yasuow_visualmis",
@@ -47887,7 +47887,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "yasuocritattack5",
@@ -48191,7 +48191,7 @@
         "speed": 1500.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastDirection", "Line", "AffectAll"]
     },
     {
         "name": "odysseyaugments_yasuoq3mis_growing",

@@ -196,11 +196,11 @@ void ScriptRepository::DrawTable(bool showLocal)
 	}
 
 	ImGui::TextColored(Color::PURPLE, "Scripts");
-	ImGui::BeginTable("TableScripts", 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2(0.f, 400.f));
+	ImGui::BeginTable("TableScripts", 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable);
 	ImGui::TableSetupColumn("Id",           ImGuiTableColumnFlags_None, 0, REPO_COLUMN_ID);
 	ImGui::TableSetupColumn("Name",         ImGuiTableColumnFlags_None, 0, REPO_COLUMN_NAME);
 	ImGui::TableSetupColumn("Author",       ImGuiTableColumnFlags_None, 0, REPO_COLUMN_AUTHOR);
-	ImGui::TableSetupColumn("Champion",     ImGuiTableColumnFlags_None, 0, REPO_COLUMN_CHAMP);
+	ImGui::TableSetupColumn("Champion",     ImGuiTableColumnFlags_DefaultSort, 0, REPO_COLUMN_CHAMP);
 	ImGui::TableSetupColumn("Description",  ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Last Update",  ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None, 0);
