@@ -31,13 +31,12 @@ void GameChampion::ReadSpells(int numToRead)
 {
 	int spellBook = address + Offsets::ObjSpellBook;
 	int spellSlots = spellBook + Offsets::SpellBookSpellSlots;
+	int castableMask = ReadInt(spellBook + Offsets::SpellBookCastableMask);
+
 	for (int i = 0; i < numToRead; ++i) {
 		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
-	}
-
-	char castableMask = ReadChar(spellBook + Offsets::SpellBookCastableMask);
-	for (int i = 0; i < 4; ++i)
 		spells[i].castableBit = castableMask & (1 << i);
+	}
 }
 
 void GameChampion::ReadBuffs()

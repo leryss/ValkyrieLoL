@@ -125,7 +125,7 @@
         "speed": 0.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastPoint"]
     },
 	{
         "name": "summonerflashperkshextechflashtraptionv2",

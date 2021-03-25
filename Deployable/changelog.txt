@@ -1,3 +1,12 @@
+[Valkyrie v0.27]
+	* Fixed a bug where items and summoner spells were not being cast by valkyrie
+	
+	+ Now loader has sorting in scripts tables & also a search functionality
+	+ Updated damage libs and spell db for a couple more champions
+	+ vk_evade:
+		+ Now evade has wall collisions checks (only summoners rift), it will not try to evade blindly in walls anymore
+		+ Now evade has also flash support based on spell priority which u can set for each spell
+
 [Valkyrie v0.26]
 	* Fixed overlay rendering problem when window is moved
 	* Fixed a bug where cooldown would be calculated wrongly for Syndra R (and potentially other skills with charges)

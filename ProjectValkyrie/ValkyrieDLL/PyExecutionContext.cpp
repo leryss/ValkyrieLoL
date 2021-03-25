@@ -29,6 +29,11 @@ bool PyExecutionContext::WasKeyPressed(int key)
 	return currentScript->input.WasPressed((HKey)key);
 }
 
+bool PyExecutionContext::IsWallAt(const Vector3 & pos)
+{
+	return GameData::IsWallAt(pos);
+}
+
 list PyExecutionContext::GetCollisionsForUnit(const GameUnit & unit)
 {
 	return collisionEngine.GetCollisionsForUnit(&unit);

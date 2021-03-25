@@ -2,6 +2,7 @@ from valkyrie import *
 from helpers.flags import EvadeFlags
 from helpers.templates import Enabler
 from helpers.inputs import KeyInput
+from helpers.spells import Slot
 import time, json
 
 RADIANS_90_DEG = 1.57079633
@@ -70,6 +71,7 @@ class EvadeSettings:
 enabler            = Enabler(True, KeyInput(0, False))
 always_evade       = False
 extra_evade_length = 50.0
+flash_for_prio     = EvadePriority.Highest
 
 Settings = {
 	'aatrox' : [
@@ -539,12 +541,13 @@ NameToSettings = {}
 #EvadeSettings(name = '',  cast_names = [''], missile_names = [''])
 
 def valkyrie_menu(ctx) :		 
-	global always_evade, enabler, extra_evade_length
+	global always_evade, enabler, extra_evade_length, flash_for_prio
 	ui = ctx.ui	
 
 	ui.text('Global settings', Col.Purple)
 	enabler.ui(ui)
 	always_evade       = ui.checkbox('Always try to dodge', always_evade)
+	flash_for_prio     = ui.sliderenum('Flash for priority atleast', EvadeSettings.PriorityNames[flash_for_prio], flash_for_prio, EvadePriority.Highest)
 	ui.separator()
 	
 	ui.text('Champions settings', Col.Purple)
@@ -566,18 +569,19 @@ def valkyrie_menu(ctx) :
 		ui.text('Most of these will be fixed')
 		ui.text('1. Orbwalker + Evade not fully compatible with all spells')
 		ui.text('2. Currently not evading cones')
-		ui.text('3. Currently only sidesteps skillshots no dahes/flash')
+		ui.text('3. Currently no dash support')
 		ui.text('4. Since it simulates clicks it might click an minion. Dont tank the wave and expect evades.')
 		ui.text('5. Doesnt check for walls so it might evade in walls')
 		ui.treepop()
 		
 def valkyrie_on_load(ctx) :	 
-	global always_evade, enabler, extra_evade_length
+	global always_evade, enabler, extra_evade_length, flash_for_prio
 	global Settings, NameToSettings
 	cfg = ctx.cfg
 	
-	enabler      = Enabler.from_str(cfg.get_str('_enabler', str(enabler)))
-	always_evade = cfg.get_bool('_always_evade', always_evade)
+	enabler        = Enabler.from_str(cfg.get_str('_enabler', str(enabler)))
+	always_evade   = cfg.get_bool('_always_evade', always_evade)
+	flash_for_prio = cfg.get_int('_flash_for_prio', flash_for_prio)
 	for champ, settings in Settings.items():
 		for i, default_setting in enumerate(settings):
 			setting = EvadeSettings.from_str(cfg.get_str(default_setting.name, str(default_setting)))
@@ -588,12 +592,12 @@ def valkyrie_on_load(ctx) :
 			for mis in setting.missile_names:
 				NameToSettings[mis] = setting
 	
-	
 def valkyrie_on_save(ctx) :	 
 	cfg = ctx.cfg
 	
 	cfg.set_str('_enabler', str(enabler))
 	cfg.set_bool('_always_evade', always_evade)
+	cfg.set_int('_flash_for_prio', flash_for_prio)
 	for champ, settings in Settings.items():
 		for setting in settings:
 			cfg.set_str(setting.name, str(setting))
@@ -620,9 +624,6 @@ def perpedincular_dist_to_segment(p, s1, s2):
 	return (dx*dx + dy*dy)**.5
 	
 def check_sidestepable(ctx, col, distance, player):
-	if always_evade:
-		return True
-		
 	time_evade = distance/player.move_speed
 	time_impact = col.time_until_impact + extra_evade_length / player.move_speed
 	
@@ -630,7 +631,7 @@ def check_sidestepable(ctx, col, distance, player):
 		#ctx.pill("Unavoidable", Col.Black, Col.Red)
 		return False
 	
-	ctx.info(f"{col.spell.name} : evade in {time_evade:.2f}, impact in {time_impact:.2f}")
+	#ctx.info(f"{col.spell.name} : evade in {time_evade:.2f}, impact in {time_impact:.2f}")
 	return True
 	
 def get_area_evade_point(ctx, player, col):
@@ -639,12 +640,17 @@ def get_area_evade_point(ctx, player, col):
 	threshold = extra_evade_length + col.spell.static.cast_radius + player.static.gameplay_radius
 	dist_to_center = col.spell.end_pos.distance(player.pos)
 	if dist_to_center > threshold:
-		
 		return player.pos
 		
 	distance  = threshold - dist_to_center
 		
-	return player.pos + (evade_dir * distance)
+	point = player.pos + (evade_dir * distance)
+	if ctx.is_wall_at(point):
+		point = player.pos + (evade_dir * -(distance + threshold))
+		if ctx.is_wall_at(point):
+			return None
+			
+	return point
 	
 def get_line_evade_point(ctx, player, col):
 	
@@ -667,12 +673,14 @@ def get_line_evade_point(ctx, player, col):
 	distance = dist_threshold - pdist
 		
 	# Check if player is on left or right of the line
-	if determinant < 0.0:
-		return unit_curr_pos + (spell_dir.rotate_y(RADIANS_90_DEG) * distance)
-	else:
-		return unit_curr_pos + (spell_dir.rotate_y(-RADIANS_90_DEG) * distance)
-	
-	return None
+	angle = RADIANS_90_DEG if determinant < 0.0 else -RADIANS_90_DEG
+	point = unit_curr_pos + (spell_dir.rotate_y(angle) * distance)
+	if ctx.is_wall_at(point):
+		point = unit_curr_pos + (spell_dir.rotate_y(-angle) * distance)
+		if ctx.is_wall_at(point):
+			return None
+			
+	return point
 	
 	
 def find_collision_to_evade(ctx, collisions):
@@ -699,10 +707,18 @@ def find_collision_to_evade(ctx, collisions):
 	
 	# Check if we are already evading a more important spell
 	if EvadeFlags.EvadeEndTime > time.time() and EvadeFlags.CurrentEvadePriority >= best_col_prio:
-		return None
+		return None, 0
 	
 	EvadeFlags.CurrentEvadePriority = best_col_prio
-	return best_col
+	return best_col, best_col_prio
+	
+def get_flash_spell(player):
+	if player.spells[Slot.D].name == 'summonerflash':
+		return player.spells[Slot.D]
+	elif player.spells[Slot.F].name == 'summonerflash':
+		return player.spells[Slot.F]
+	else:
+		return None
 	
 def move(ctx, timenow):
 	global last_moved
@@ -711,7 +727,43 @@ def move(ctx, timenow):
 		ctx.move(EvadeFlags.EvadePoint)
 		last_moved = timenow
 	
-def valkyrie_exec(ctx) :	     
+def evade_flash(ctx, player, evade_point, prio):
+	if prio >= flash_for_prio:
+		flash = get_flash_spell(player)
+		if flash and player.can_cast_spell(flash):
+			new_evade_point = player.pos + ((evade_point - player.pos).normalize() * player.pos.distance(evade_point)*2.0)
+			ctx.cast_spell(flash, new_evade_point)
+			EvadeFlags.EvadeEndTime = time.time() + 0.1
+			EvadeFlags.EvadePoint = new_evade_point 
+			return True
+	return False
+	
+def try_evade(ctx, player, evade_point, col, prio):
+	if not check_sidestepable(ctx, col, player.pos.distance(evade_point), player):
+		if evade_flash(ctx, player, evade_point, prio):
+			return
+
+		if not always_evade:
+			return
+	
+	if not evade_point:
+		return
+	
+	now = time.time()
+	EvadeFlags.EvadeEndTime = now + (evade_point.distance(player.pos) / player.move_speed) 
+	EvadeFlags.EvadePoint = evade_point
+	move(ctx, now)
+
+def debug_show_walls(ctx):
+	for i in range(-50, 50):
+		for j in range(-50, 50):
+			pos = ctx.player.pos + Vec3(i*15.0, 0.0, j*15.0)
+			w2s = ctx.w2s(pos)
+			
+			ctx.text(w2s, '*', Col.Black if ctx.is_wall_at(pos) else Col.White)
+			
+def valkyrie_exec(ctx):
+	
 	if not enabler.check(ctx):
 		return
 	
@@ -728,7 +780,7 @@ def valkyrie_exec(ctx) :
 	if len(collisions) == 0:
 		return
 		
-	col = find_collision_to_evade(ctx, collisions)
+	col, prio = find_collision_to_evade(ctx, collisions)
 	if not col:
 		return
 		
@@ -738,13 +790,4 @@ def valkyrie_exec(ctx) :
 	elif col.spell.static.has_flag(Spell.TypeArea):
 		evade_point = get_area_evade_point(ctx, player, col)
 	
-	if not check_sidestepable(ctx, col, player.pos.distance(evade_point), player):
-		return None
-
-	if not evade_point:
-		return
-	
-	EvadeFlags.EvadeEndTime = now + (evade_point.distance(player.pos) / player.move_speed) 
-	EvadeFlags.EvadePoint = evade_point
-	move(ctx, now)
-	
+	try_evade(ctx, player, evade_point, col, prio)

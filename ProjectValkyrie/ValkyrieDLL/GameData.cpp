@@ -17,6 +17,7 @@ using json = nlohmann::json;
 namespace fs = std::experimental::filesystem;
 
 const char*                       GameData::FolderData = "data";
+bool*                             GameData::WallMask = new bool[512 * 512];
 std::shared_ptr<LoadDataProgress> GameData::LoadProgress(new LoadDataProgress());
 
 std::map<std::string, UnitInfo*>              GameData::Units;
@@ -55,6 +56,23 @@ std::vector<SkinInfo*>& GameData::GetSkins(std::string & name)
 
 	auto find = Skins.find(name);
 	return (find == Skins.end() ? EmptyVec : find->second);
+}
+
+bool GameData::IsWallAt(const Vector3 & worldPos)
+{
+	/// Ghetto way of checking if we are on summoners rift
+	/// TODO: Make wall detection for all maps
+	if (Valkyrie::CurrentGameState->turrets[0]->name.find("sruap_") == std::string::npos)
+		return false;
+
+	static const float ratio = 512.f / 14900.f;
+	int x = (int)ceil(worldPos.x * ratio);
+	int y = (int)ceil(worldPos.z * ratio);
+
+	if (x < 0 || x >= 512 || y < 0 || y >= 512)
+		return false;
+
+	return WallMask[x*512 + y];
 }
 
 void GameData::ImGuiDrawLoader()
@@ -107,6 +125,17 @@ void GameData::ImGuiDrawObjects()
 			}
 		}
 	}
+}
+
+void GameData::LoadWallMask(const char * filename, float & percentValue, float percentEnd)
+{
+	fs::path path = Paths::Root;
+	path.append(FolderData).append(filename);
+	std::ifstream file(path.generic_string().c_str(), std::ifstream::binary);
+
+	file.read((char*)WallMask, 512 * 512);
+
+	percentValue = percentEnd;
 }
 
 void GameData::LoadSpells(const char* fileName, float& percentValue, float percentEnd)
@@ -366,6 +395,9 @@ void GameDataEssentialsLoad::Perform()
 	try {
 		percentDone = 0.f;
 		currentStep = "Load static game data";
+		GameData::LoadWallMask("WallMask.bin", percentDone, 0.1f);
+		Logger::Info("Loaded wall mask");
+
 		GameData::LoadSpells("SpellData.json", percentDone, 0.25f);
 		Logger::Info("Loaded spells");
 

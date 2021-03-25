@@ -37,6 +37,23 @@ class TrueDamage(Damage):
 
 	def _color(self):
 		return Col.White
+		
+class WrapMaxHP(Damage):
+	def __init__(self, dmg_applied):
+		self.dmg_applied = dmg_applied
+	
+	def calc_against(self, ctx, attacker, target):
+		old_dmg = self.dmg_applied.raw_dmg
+		
+		self.dmg_applied.raw_dmg *= target.max_health
+		result = self.dmg_applied.calc_against(ctx, attacker, target)
+		
+		self.dmg_applied.raw_dmg = old_dmg
+		
+		return result
+
+	def _color(self):
+		return self.dmg_applied._color()
 
 class MixedDamage(Damage):
 	def __init__(self, dmg_list):
@@ -144,7 +161,6 @@ class JinxRDmage(PhysDamage):
 		self.raw_dmg = self.base*multi + mhp*(target.max_health - target.health)
 		return super().calc_against(ctx, attacker, target)
 		
-		
 DamageExtractors = {
 	
 	# Ahri
@@ -170,6 +186,11 @@ DamageExtractors = {
 	'ezreale'                : lambda calc, champ, skill: MagicDamage(calc.damage(champ, skill)),
 	'ezrealr'                : lambda calc, champ, skill: MagicDamage(calc.damage(champ, skill)),
 	
+	# Fiora
+	'fioraq'                 : lambda calc, champ, skill: PhysDamage(calc.totaldamage(champ, skill)),
+	'fioraw'                 : lambda calc, champ, skill: MagicDamage(calc.stabdamage(champ, skill)),
+	'fiorar'                 : lambda calc, champ, skill: WrapMaxHP(TrueDamage(4.0 * Calculations['fiorapassive'].passivedamagetotal(champ, skill))),
+	
 	# Irelia
 	'ireliaq'                : lambda calc, champ, skill: PhysDamage(calc.championdamage(champ, skill)),
 	'ireliaw'                : lambda calc, champ, skill: PhysDamage(calc.maxdamagecalc(champ, skill)),
@@ -180,6 +201,10 @@ DamageExtractors = {
 	'jinxw'                  : lambda calc, champ, skill: PhysDamage(calc.totaldamage(champ, skill)),
 	'jinxe'                  : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
 	'jinxr'                  : lambda calc, champ, skill: JinxRDmage(calc.damagemax(champ, skill)),
+	
+	# Kayle
+	'kayleq'                 : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
+	'kayler'                 : lambda calc, champ, skill: MagicDamage(calc.totaldamage(champ, skill)),
 	
 	# Cassiopeia
 	'cassiopeiaq'            : lambda calc, champ, skill: MagicDamage(calc.tooltiptotaldamage(champ, skill)),

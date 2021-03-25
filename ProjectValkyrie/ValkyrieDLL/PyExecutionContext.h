@@ -59,6 +59,7 @@ public:
 	void    MoveMouse(const Vector3& worldLocation);
 	void    AttackUnit(const GameUnit& unit);
 
+	bool    IsWallAt(const Vector3& pos);
 	list    GetCollisionsForUnit(const GameUnit& unit);
 	list    GetCollisionsForCast(const SpellCast& cast);
 	object  GetSpellInfo(const char* label);

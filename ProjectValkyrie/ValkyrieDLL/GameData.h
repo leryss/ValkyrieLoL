@@ -49,9 +49,13 @@ public:
 	/// Gets a list of skins for a champion, returns an empty vector on failure
 	static std::vector<SkinInfo*>& GetSkins(std::string& name);
 
+	/// Checks if there is a wall at the specified position
+	static bool                    IsWallAt(const Vector3& worldPos);
+
 	static void                    ImGuiDrawLoader();
 	static void                    ImGuiDrawObjects();
 
+	static void                    LoadWallMask(const char* filename, float& percentValue, float percentEnd);
 	static void                    LoadSpells(const char* fileName, float& percentValue, float percentEnd);
 	static void                    LoadItems(const char* fileName, float& percentValue, float percentEnd);
 	static void                    LoadUnits(const char* fileName, float& percentValue, float percentEnd);
@@ -62,6 +66,7 @@ public:
 	static std::shared_ptr<LoadDataProgress>     LoadProgress;
 
 private:
+	static bool*                                          WallMask;
 	static const char*                                    FolderData;
 	static std::map<std::string, UnitInfo*>               Units;
 	static std::map<std::string, std::vector<SkinInfo*>>  Skins;

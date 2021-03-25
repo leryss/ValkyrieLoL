@@ -310,6 +310,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Returns jungle monster query builder")
 		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Returns other uncategorized objects query builder")
 
+		.def("is_wall_at",               &PyExecutionContext::IsWallAt,             "Checks if there is a wall at the specified position")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit, "Gets a list of future collisions for a unit")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast, "Gets a list of future collisions for a spell cast")
 		.def("attack",                   &PyExecutionContext::AttackUnit,        "Makes the player attack the given unit")
