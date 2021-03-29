@@ -12,10 +12,13 @@
 #include "GameMinion.h"
 #include "GameJungle.h"
 
+#include "Debug.h"
+
 #include <windows.h>
 
 GameState* GameReader::GetNextState()
 {
+	DBG_INFO("GameReader::GetNextState")
 	benchmark.sehExceptions.value = 0;
 	benchmark.cacheHits.value     = 0;
 	benchmark.blacklistHits.value = 0;
@@ -54,7 +57,7 @@ GameState* GameReader::GetNextState()
 			}
 		}
 	}
-	
+
 	return &state;
 }
 
@@ -70,6 +73,7 @@ BenchmarkGameReader& GameReader::GetBenchmarks()
 
 void GameReader::ReadLocalChampion()
 {
+	DBG_INFO("GameReader::ReadLocalChampion")
 	int addr = ReadInt(baseAddr + Offsets::LocalPlayer);
 
 	/// In Spectator/Replays the local champion is nullptr so we just choose the first champion
@@ -84,6 +88,7 @@ void GameReader::ReadLocalChampion()
 
 void GameReader::ReadHoveredObject()
 {
+	DBG_INFO("GameReader::ReadHoveredObject")
 	int addr = ReadInt(baseAddr + Offsets::UnderMouseObject);
 
 	if (!CantRead(addr)) {
@@ -95,6 +100,7 @@ void GameReader::ReadHoveredObject()
 
 void GameReader::ReadObjectTree() {
 
+	DBG_INFO("GameReader::ReadObjectTree")
 	static const int      NUM_MAX_READS = 500; /// Used to prevent infinite loops due to race conditions
 	static std::set<int>  ObjectPointers;
 
@@ -148,6 +154,7 @@ void GameReader::ReadObjectTree() {
 	}
 	
 	benchmark.readObjects.End();
+	DBG_INFO("Read %d pointers", benchmark.numObjPointers.value);
 }
 
 int GameReader::ReadTreeNodes(std::queue<int>& nodesToVisit, int node)
@@ -174,6 +181,7 @@ int GameReader::ReadTreeNodes(std::queue<int>& nodesToVisit, int node)
 	__except (EXCEPTION_EXECUTE_HANDLER) {
 		benchmark.sehExceptions.value += 1;
 	}
+
 	return NULL;
 }
 
@@ -183,6 +191,7 @@ void GameReader::AddToCache(GameObject* obj) {
 
 GameObject* GameReader::CreateObject(int addr)
 {
+	DBG_INFO("GameReader::CreateObject")
 	std::string name;
 
 	/// Try to read unit name

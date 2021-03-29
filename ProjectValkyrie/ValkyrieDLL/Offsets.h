@@ -48,6 +48,8 @@ public:
 	static int ObjAbilityHaste;
 	static int ObjBonusArmor;
 	static int ObjBonusMagicRes;
+	static int ObjBasicAttack;
+	static int ObjBasicAttackSpellInfo;
 
 	static int ObjMagicPen;
 	static int ObjMagicPenMulti;

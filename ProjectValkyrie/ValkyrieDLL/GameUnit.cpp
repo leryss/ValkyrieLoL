@@ -14,6 +14,7 @@ GameUnit::GameUnit(std::string name)
 void GameUnit::ReadFromBaseAddress(int addr)
 {
 	GameObject::ReadFromBaseAddress(addr);
+
 	mana          = ReadFloat(addr + Offsets::ObjMana);
 	health        = ReadFloat(addr + Offsets::ObjHealth);
 	maxHealth     = ReadFloat(addr + Offsets::ObjMaxHealth);
@@ -63,6 +64,8 @@ void GameUnit::ReadFromBaseAddress(int addr)
 			staticData = GameData::GetUnit(name);
 		}
 	}
+
+	basicAttack = staticData->basicAttack;
 }
 
 void GameUnit::ImGuiDraw()
@@ -71,6 +74,9 @@ void GameUnit::ImGuiDraw()
 	ImGui::Separator();
 
 	ImGui::LabelText("Transformed name", nameTransformed.c_str());
+	if(basicAttack != nullptr)
+		ImGui::LabelText("Basic attack",  basicAttack->name.c_str());
+
 	ImGui::DragFloat("Mana",          &mana);
 	ImGui::DragFloat("Health",        &health);
 	ImGui::DragFloat("MaxHealth",     &maxHealth);

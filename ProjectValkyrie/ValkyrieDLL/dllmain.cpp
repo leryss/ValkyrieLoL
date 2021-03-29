@@ -10,7 +10,7 @@
 
 
 DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
-
+	
 	auto pathFileLogger = Paths::Root;
 	pathFileLogger.append("\\");
 	pathFileLogger.append("logs.txt");

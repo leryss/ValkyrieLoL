@@ -27,8 +27,34 @@ GameChampion::GameChampion(std::string name)
 	spells[12].castKey = HKey::N_4;
 }
 
+void GameChampion::ReadBasicAttack()
+{
+	int basic = address + Offsets::ObjBasicAttack;
+	if (CantRead(basic))
+		return;
+
+	int basicSpellInfo = ReadInt(basic + Offsets::ObjBasicAttackSpellInfo);
+	if (CantRead(basicSpellInfo))
+		return;
+
+	int basicSpellData = ReadInt(basicSpellInfo + Offsets::SpellInfoSpellData);
+	if (CantRead(basicSpellData))
+		return;
+
+	int basicNameAddr = ReadInt(basicSpellData + Offsets::SpellDataSpellName);
+	if (CantRead(basicNameAddr))
+		return;
+
+	auto name = Memory::ReadString(basicNameAddr);
+	basicAttack = GameData::GetSpell(name);
+
+	if(basicAttack == nullptr)
+		basicAttack = staticData->basicAttack;
+}
+
 void GameChampion::ReadSpells(int numToRead)
 {
+	DBG_INFO("Reading %d spells for %s", numToRead, name.c_str());
 	int spellBook = address + Offsets::ObjSpellBook;
 	int spellSlots = spellBook + Offsets::SpellBookSpellSlots;
 	int castableMask = ReadInt(spellBook + Offsets::SpellBookCastableMask);
@@ -41,13 +67,15 @@ void GameChampion::ReadSpells(int numToRead)
 
 void GameChampion::ReadBuffs()
 {
+	DBG_INFO("Reading buffs for %s", name.c_str());
 	buffs.clear();
 
 	int buffManager = address + Offsets::ObjBuffManager;
 	int buffArray = ReadInt(buffManager + Offsets::BuffManagerEntriesArray);
 
-	if (CantRead(buffArray))
+	if (CantRead(buffArray)) {
 		return;
+	}
 
 	int i = 0;
 	while (true) {
@@ -69,6 +97,7 @@ void GameChampion::ReadBuffs()
 
 void GameChampion::ReadItems()
 {
+	DBG_INFO("Reading items for %s", name.c_str());
 	int itemList = address + Offsets::ObjItemList;
 
 	for (int i = 0; i < NUM_ITEMS; ++i) {

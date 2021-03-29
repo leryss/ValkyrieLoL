@@ -43,7 +43,6 @@ private:
 	GameObject* CreateObject(int addr);
 
 private:
-
 	BenchmarkGameReader      benchmark;
 
 	GameState                state;

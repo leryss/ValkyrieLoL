@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "Paths.h"
 #include "PyExecutionContext.h"
+#include "Debug.h"
 
 void ScriptManager::LoadAllScripts(const GameState* gameState)
 {
@@ -72,6 +73,7 @@ void ScriptManager::LoadScript(std::shared_ptr<ScriptInfo> & info, std::deque<st
 void ScriptManager::ExecuteScripts(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList)
 {
 	for (auto script : scriptList) {
+		DBG_INFO("ScriptManager: Executing script %s", script->info->id.c_str())
 		if (script->error.empty()) {
 			ctx.SetScript(script.get());
 			if (script->neverExecuted)
@@ -97,6 +99,7 @@ void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::s
 			if (!errored) {
 				ctx.SetScript(script.get());
 
+				DBG_INFO("ScriptManager: Drawing UI for script %s", script->info->id.c_str())
 				script->Execute(ctx, ON_MENU);
 				if (script->config.IsTimeToSave()) {
 					script->Execute(ctx, ON_SAVE);

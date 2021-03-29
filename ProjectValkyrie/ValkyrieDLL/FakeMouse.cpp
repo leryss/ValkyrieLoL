@@ -20,12 +20,23 @@ void FakeMouse::Init() {
 BOOL __stdcall FakeMouse::HookedGetCursorPos(LPPOINT lpPoint)
 {
 	if (lpPoint != NULL && FakeMouse::Enabled) {
-		Vector2 v = FakeMouse::FakePositionGetter();
-		lpPoint->x = (LONG)v.x + Valkyrie::WindowRect.left;
-		lpPoint->y = (LONG)v.y + Valkyrie::WindowRect.top;
-
-		return TRUE;
+		__try {
+			return SpoofedGetCursorPos(lpPoint);
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER) {
+			Logger::Error("Error trying to get fake cursor position");
+			return TRUE;
+		}
 	}
 	else
 		return TrueGetCursorPos(lpPoint);
+}
+
+BOOL __stdcall FakeMouse::SpoofedGetCursorPos(LPPOINT lpPoint)
+{
+	Vector2 v = FakeMouse::FakePositionGetter();
+	lpPoint->x = (LONG)v.x + Valkyrie::WindowRect.left;
+	lpPoint->y = (LONG)v.y + Valkyrie::WindowRect.top;
+
+	return TRUE;
 }

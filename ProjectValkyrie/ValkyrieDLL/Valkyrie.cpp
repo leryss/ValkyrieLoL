@@ -80,6 +80,7 @@ void Valkyrie::Run()
 
 void Valkyrie::ShowMenu()
 {
+	DBG_INFO("Valkyrie::ShowMenu")
 	static std::string IconDev("menu-dev");
 	static std::string IconSkinChanger("menu-cloth");
 	static std::string IconSettings("menu-settings");
@@ -273,6 +274,7 @@ void Valkyrie::SaveConfigs()
 
 void Valkyrie::ExecuteScripts()
 {
+	DBG_INFO("Executing scripts")
 	if (!LoadedScripts) {
 		ScriptManager.LoadAllScripts(CurrentGameState);
 		LoadedScripts = true;
@@ -282,6 +284,7 @@ void Valkyrie::ExecuteScripts()
 
 void Valkyrie::SetupScripts()
 {
+	DBG_INFO("Setting up scripts")
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::Begin("##Overlay", nullptr,
@@ -362,6 +365,7 @@ void Valkyrie::DrawBenchmarkWindow()
 
 void Valkyrie::Update()
 {
+	DBG_INFO("Valkyrie::Update")
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -381,7 +385,8 @@ void Valkyrie::Update()
 		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER) {
-		Logger::Error("SEH exception occured in main loop. This shouldn't happen.");
+		Logger::Error("SEH exception occured in main loop.");
+		DBG_DUMP()
 	}
 
 	ImGui::EndFrame();
@@ -390,6 +395,7 @@ void Valkyrie::Update()
 	DxDeviceMutex.lock();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	DxDeviceMutex.unlock();
+	DBG_CLEAR()
 }
 
 void Valkyrie::HookDirectX()

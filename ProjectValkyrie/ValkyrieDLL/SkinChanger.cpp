@@ -54,8 +54,9 @@ void SkinChanger::Refresh()
 	static auto UpdateSkin = reinterpret_cast<void(__thiscall*)(void*, bool)>((int)GetModuleHandle(NULL) + Offsets::FnCharacterDataStackUpdate);
 
 	/// If champ is dead no need to check or change skin
-	if (CurrentSkinId == -1 || Valkyrie::CurrentGameState->player->isDead)
+	if (CurrentSkinId == -1 || Valkyrie::CurrentGameState->player->isDead) {
 		return;
+	}
 
 	/// Check if skin id was changed in memory
 	int charDataStack = Valkyrie::CurrentGameState->player->address + Offsets::CharacterDataStack;
@@ -63,6 +64,7 @@ void SkinChanger::Refresh()
 
 	/// Update skin if necessary
 	if (*charSkinId != CurrentSkinId) {
+		DBG_INFO("Changing skin from %d to %d", *charSkinId, CurrentSkinId);
 		*charSkinId = CurrentSkinId;
 		UpdateSkin((void*)charDataStack, true);
 		Logger::Info("[skin_changer] Changed skin to %d", CurrentSkinId);

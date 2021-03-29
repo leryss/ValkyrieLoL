@@ -164,6 +164,7 @@
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="Collidable.h" />
     <ClInclude Include="CollisionEngine.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameBuff.h" />
     <ClInclude Include="GameChampion.h" />

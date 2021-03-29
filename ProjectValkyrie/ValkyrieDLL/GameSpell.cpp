@@ -2,21 +2,24 @@
 #include "GameData.h"
 #include "Strings.h"
 #include "Valkyrie.h"
+#include "Debug.h"
 
 void GameSpell::ReadFromBaseAddress(int addr)
 {
-	lvl           = ReadInt(addr + Offsets::SpellSlotLevel);
-	readyAt       = ReadFloat(addr + Offsets::SpellSlotTime);
-	value         = ReadFloat(addr + Offsets::SpellSlotValue);
-	charges       = ReadShort(addr + Offsets::SpellSlotCharges);
+	lvl = ReadInt(addr + Offsets::SpellSlotLevel);
+	readyAt = ReadFloat(addr + Offsets::SpellSlotTime);
+	value = ReadFloat(addr + Offsets::SpellSlotValue);
+	charges = ReadShort(addr + Offsets::SpellSlotCharges);
 	readyAtCharge = ReadFloat(addr + Offsets::SpellSlotTimeCharge);
 
 	int spellInfo = ReadInt(addr + Offsets::SpellSlotSpellInfo);
-	if (CantRead(spellInfo))
+	if (CantRead(spellInfo)) {
 		return;
+	}
 	int spellData = ReadInt(spellInfo + Offsets::SpellInfoSpellData);
-	if (CantRead(spellData))
+	if (CantRead(spellData)) {
 		return;
+	}
 
 	if (lvl > 0 && lvl < 6)
 		mana = ReadFloat(spellData + Offsets::SpellDataManaArray + sizeof(float)*(lvl - 1));

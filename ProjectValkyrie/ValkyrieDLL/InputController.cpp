@@ -118,7 +118,7 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 		if (find == Valkyrie::CurrentGameState->objectCache.end())
 			return Vector2(0.f, 0.f);
 		auto& unit = find->second;
-
+		
 		return Valkyrie::CurrentGameState->renderer.WorldToScreen(unit->pos);
 	};
 
@@ -126,7 +126,7 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 		auto find = Valkyrie::CurrentGameState->objectCache.find(unitNetId);
 		if (find == Valkyrie::CurrentGameState->objectCache.end())
 			return false;
-		auto unit = std::static_pointer_cast<GameUnit>(find->second);
+		auto unit = std::dynamic_pointer_cast<GameUnit>(find->second);
 		return unit != nullptr && unit->targetable && !unit->isDead && unit->isVisible;
 	};
 

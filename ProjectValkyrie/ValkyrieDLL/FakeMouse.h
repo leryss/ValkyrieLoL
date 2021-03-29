@@ -15,4 +15,5 @@ public:
 private:
 	static GetCursorPosFunc  TrueGetCursorPos;
 	static BOOL __stdcall    HookedGetCursorPos(LPPOINT lpPoint);
+	static BOOL __stdcall    SpoofedGetCursorPos(LPPOINT lpPoint);
 };

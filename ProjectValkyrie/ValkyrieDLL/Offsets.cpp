@@ -57,6 +57,9 @@ int Offsets::ObjMagicPen                     = 0x1198;
 int Offsets::ObjMagicPenMulti                = 0x11A0; /// 1.0 when to percent magic pen is applied othrwise its below 1.0 depending on the percent applied
 int Offsets::ObjAdditionalApMulti            = 0x1204; /// I use this for rabadon, its 0.35 when rabadon is in inventory
 
+int Offsets::ObjBasicAttack                  = 0x2Ee8;
+int Offsets::ObjBasicAttackSpellInfo         = 0x0;
+
 int Offsets::ObjBuffManager                  = 0x2178;
 int Offsets::BuffManagerEntriesArray         = 0x10;
 int Offsets::BuffEntryBuff                   = 0x8;
@@ -66,8 +69,6 @@ int Offsets::BuffEntryBuffCount              = 0x74;
 int Offsets::BuffName                        = 0x8;
 int Offsets::BuffEntryBuffNodeStart          = 0x20;
 int Offsets::BuffEntryBuffNodeCurrent        = 0x24;
-//oObjIsMoving = 363B;
-//oObjDirection = 0x1B80;
 //oObjActionState = 0x1054;
 
 int Offsets::ObjSpellBook                    = 0x2720;

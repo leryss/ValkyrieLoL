@@ -204,6 +204,9 @@
     <ClInclude Include="GameItemSlot.h">
       <Filter>Source Files\Game\GameObjects\Spells</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

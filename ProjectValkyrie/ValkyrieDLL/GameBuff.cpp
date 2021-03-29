@@ -1,20 +1,23 @@
 #include "GameBuff.h"
 #include "imgui/imgui.h"
 #include "Color.h"
+#include "Debug.h"
 
 void GameBuff::ReadFromBaseAddress(int addr)
 {
 	static float* GameTime = (float*)((int)GetModuleHandle(NULL) + Offsets::GameTime);
-	
+
 	address = addr;
 	endTime = ReadFloat(addr + Offsets::BuffEntryBuffEndTime);
-	if (endTime < *GameTime)
+	if (endTime < *GameTime) {
 		return;
+	}
 
 	int buff = ReadInt(addr + Offsets::BuffEntryBuff);
-	if (CantRead(buff))
+	if (CantRead(buff)) {
 		return;
-	
+	}
+
 	name = Memory::ReadString(buff + Offsets::BuffName, 100);
 	startTime = ReadFloat(addr + Offsets::BuffEntryBuffStartTime);
 	count     = ReadInt(addr + Offsets::BuffEntryBuffCount);

@@ -1,4 +1,5 @@
 #include "PyExecutionContext.h"
+#include "Debug.h"
 #include "Script.h"
 
 template <class T>
@@ -65,6 +66,7 @@ bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLoc
 
 bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocation) {
 	
+	DBG_INFO("Casting spell %s", spell->name.c_str())
 	auto now = steady_clock::now();
 	duration<float, std::milli> diff = now - spell->lastCastTimestamp;
 	if (diff.count() < 100.f)
@@ -245,6 +247,7 @@ void PyExecutionContext::SetScript(Script * script)
 
 void PyExecutionContext::SetGameState(GameState * state)
 {
+	DBG_INFO("PyExecutionContext::SetGameState")
 	this->state = state;
 
 	pillPosition = state->renderer.WorldToScreen(state->player->pos);

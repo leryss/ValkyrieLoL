@@ -3,6 +3,7 @@
 #include <fstream>
 #include <mutex>
 #include <list>
+#include <deque>
 
 enum LogType {
 
@@ -23,6 +24,7 @@ class Logger {
 
 private:
 	static std::shared_ptr<std::fstream>      FileStream;
+	static std::deque<std::string>            BufferDebug;
 	static std::mutex                         LoggerMutex;
 
 	static void IncrementBufferIndices();
@@ -39,4 +41,8 @@ public:
 	static void   Info(const char* str, ...);
 	static void   Warn(const char* str, ...);
 	static void   Error(const char* str, ...);
+
+	static void   PushDebug(const char* str, ...);
+	static void   DumpDebug();
+	static void   ClearDebug();
 };

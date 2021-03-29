@@ -16,6 +16,7 @@ GameObject::GameObject(std::string name)
 
 void GameObject::ReadFromBaseAddress(int baseAddr)
 {
+	DBG_INFO("Reading game object %s", name.c_str());
 	address   = baseAddr;
 	networkId = ReadInt(baseAddr + Offsets::ObjNetworkID);
 

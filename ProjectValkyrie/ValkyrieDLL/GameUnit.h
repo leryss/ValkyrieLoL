@@ -63,6 +63,7 @@ public:
 	
 	SpellCast   castingSpell;
 	UnitInfo*   staticData;
+	SpellInfo*  basicAttack;
 
 	std::string nameTransformed;
 };

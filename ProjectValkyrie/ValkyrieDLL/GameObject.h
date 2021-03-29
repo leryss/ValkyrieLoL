@@ -6,6 +6,7 @@
 #include "Offsets.h"
 #include "Memory.h"
 #include "Logger.h"
+#include "Debug.h"
 
 #include <string>
 #include <windows.h>

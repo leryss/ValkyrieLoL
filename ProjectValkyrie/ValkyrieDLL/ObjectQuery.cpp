@@ -1,5 +1,6 @@
 #include "ObjectQuery.h"
 #include "Valkyrie.h"
+#include "Debug.h"
 
 ObjectQuery::ObjectQuery()
 {
@@ -7,6 +8,7 @@ ObjectQuery::ObjectQuery()
 
 void ObjectQuery::Update(const GameState * state)
 {
+	DBG_INFO("ObjectQuery::Update")
 	this->state = state;
 	MakePyObjects(QueryKey::QKEY_MINION,  state->minions);
 	MakePyObjects(QueryKey::QKEY_TURRET,  state->turrets);

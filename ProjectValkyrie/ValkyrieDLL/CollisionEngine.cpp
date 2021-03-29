@@ -1,7 +1,9 @@
 #include "CollisionEngine.h"
+#include "Debug.h"
 
 void CollisionEngine::Update(const GameState & state)
 {
+	DBG_INFO("CollisionEngine::Update")
 	updateTimeMs.Start();
 
 	this->state = &state;
@@ -83,6 +85,9 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 
 void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
 {
+	if (castStatic->width == 0.f)
+		return;
+
 	float UnitDelta = 1.0 + castStatic->width/3.f;
 
 	Vector2 spellStart = Vector2(spell_start.x, spell_start.z);
@@ -258,6 +263,7 @@ bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const
 
 bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const GameUnit& target, const SpellInfo & spell, Vector3 & out)
 {
+	DBG_INFO("CollisionEngine::PredictPointForCollision(%s)", spell.name.c_str())
 	if (target.staticData == nullptr)
 		return false;
 

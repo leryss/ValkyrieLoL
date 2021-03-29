@@ -7,6 +7,7 @@ int                                Logger::BufferStart   = 0;
 int                                Logger::BufferEnd = 0;
 std::mutex                         Logger::LoggerMutex;
 LogEntry                           Logger::Buffer[SIZE_LINE_BUFFER];
+std::deque<std::string>            Logger::BufferDebug;
 
 void Logger::IncrementBufferIndices()
 {
@@ -96,6 +97,37 @@ void Logger::Error(const char * str, ...)
 	FileStream->write("\n", 1);
 	FileStream->flush(); // We flush when we get errors to make sure we got them on logs.txt
 
+	LoggerMutex.unlock();
+}
+
+void Logger::PushDebug(const char * str, ...)
+{
+	LoggerMutex.lock();
+	char msg[512];
+	va_list va;
+	va_start(va, str);
+	vsprintf_s(msg, str, va);
+	va_end(va);
+
+	BufferDebug.push_back(std::string(msg));
+	LoggerMutex.unlock();
+}
+
+void Logger::DumpDebug()
+{
+	LoggerMutex.lock();
+	for (auto msg : BufferDebug) {
+		FileStream->write("[debug] ", 8);
+		FileStream->write(msg.c_str(), msg.size());
+		FileStream->write("\n", 1);
+	}
+	LoggerMutex.unlock();
+}
+
+void Logger::ClearDebug()
+{
+	LoggerMutex.lock();
+	BufferDebug.clear();
 	LoggerMutex.unlock();
 }
 
