@@ -23,23 +23,45 @@ public:
 	virtual bool Update() = 0;
 };
 
+/// Input controller. One instance of this utility is intended for each entity because of functions like WasPressed that are limited to one caller only.
 class InputController {
 
 public:
 
+	/// Checks if the key is held down
 	bool    IsDown(HKey key);
+
+	/// Checks if key was pressed in the last `lastMillis` milliseconds. This can have only one caller
 	bool    WasPressed(HKey key, float lastMillis = 250.f);
+
+	/// Gets cursor mouse cursor position
 	Vector2 GetMouseCursor();
+
+	/// Sets the mouse cursor position
 	void    SetMouseCursor(const Vector2& position);
 
+	/// The user of this InputController can queue up async input operations for performance purposes but the user also has to update these operations manually by calling this function.
 	void UpdateIssuedOperations();
+
+	/// Issues a io operation to press a specific key
 	void IssuePressKey(HKey key);
+
+	/// Issues a io operation to press a specific key at a specific screen location (mouse position will be reverted after key is pressed)
 	void IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter);
+
+	/// Issues a mouse click operation
 	void IssueClick(ClickType type);
+
+	/// Issues a mouse click operation at a screen position
 	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter);
+
+	/// Issues a click operation on a game unit
 	void IssueClickUnit(ClickType type, const GameUnit& unit);
+	
+	/// Issues a hold down key operation
 	void IssueHoldKey(HKey key);
 
+	/// Imgui utility to display a key selector
 	static int ImGuiKeySelect(const char* label, int key);
 
 public:

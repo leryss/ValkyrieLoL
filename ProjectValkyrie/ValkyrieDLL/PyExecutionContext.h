@@ -12,6 +12,8 @@
 using namespace boost::python;
 
 class Script;
+
+/// Python script execution context provided to scripts when they are executed. Documentation for methods can be found in PyStructs.h
 class PyExecutionContext {
 
 public:

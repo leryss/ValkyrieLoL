@@ -9,7 +9,10 @@ public:
 	BenchmarkTiming();
 	BenchmarkTiming(const char* name);
 
+	/// Starts the timer
 	void Start();
+
+	/// Ends the timer and updates all values (lastMs, avgMs etc)
 	void End();
 
 	const char*                       name;

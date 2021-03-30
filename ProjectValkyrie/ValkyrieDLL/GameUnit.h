@@ -22,14 +22,22 @@ public:
 	float     GetBonusMoveSpeed();
 	float     GetBonusAttackSpeed();
 
+	/// Get the physical damage after armor/lethality modifiers have been applied
 	float     EffectivePhysicalDamage(const GameUnit& target, float dmg) const;
+
+	/// Get the magical damage after magic armor/magic pen modifiers have been applied
 	float     EffectiveMagicalDamage(const GameUnit target, float dmg) const;
 
+	/// Check if the unit is a ranged unit
 	bool      IsRanged();
+
 	object    GetStaticData();
 	object    GetCastingSpell();
 
+	/// Check if unit has a named buff
 	bool      HasBuff(const char* buff);
+
+	/// Check the number of stacks the named buff has
 	int       BuffStackCount(const char* buff);
 
 public:

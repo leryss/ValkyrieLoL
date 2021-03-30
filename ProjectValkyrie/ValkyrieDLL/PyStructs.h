@@ -23,6 +23,7 @@
 
 using namespace boost::python;
 
+/// Interfacing module between C++ & python
 BOOST_PYTHON_MODULE(valkyrie) {
 
 	register_exception_translator<QueryException>([](QueryException const& exc) { 

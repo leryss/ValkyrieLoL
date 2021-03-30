@@ -22,15 +22,20 @@ class Script {
 public:
 	                   Script();
 				       ~Script();
+
+	/// Loads the script from the scripts folder using the script index info provided
 	bool               Load(std::shared_ptr<ScriptInfo> info);
+
+	/// Executes a specific script function
 	void               Execute(PyExecutionContext& ctx, ScriptFunction func);
 
+	/// Exctracts the python error from CPython
 	static std::string GetPyError();
 				 
 public:
 	bool               loaded;
 	bool               neverExecuted;
-				       
+	
 	std::string        error;
 	std::shared_ptr<ScriptInfo> info;
 
@@ -39,6 +44,7 @@ public:
 	BenchmarkTiming    executionTimes[4];
 
 private:		 
+	/// Attempts to load function with name funcName from the script code
 	bool         LoadFunc(PyObject** loadInto, const char* funcName);
 
 	PyObject*    moduleObj;

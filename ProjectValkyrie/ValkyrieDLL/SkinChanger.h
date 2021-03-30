@@ -5,7 +5,7 @@
 #include <vector>
 #include <set>
 
-
+/// Performs skin changing for league champion characters
 class SkinChanger {
 
 public:

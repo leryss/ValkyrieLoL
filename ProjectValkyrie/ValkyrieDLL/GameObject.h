@@ -23,6 +23,7 @@ enum GameObjectType {
 	OBJ_MISSILE
 };
 
+/// Base league of legends game object
 class GameObject : public MemoryReadable {
 
 public:
@@ -39,6 +40,7 @@ public:
 	/// Checks if two game objects are equal by checking their network id
 	bool           EqualsTo(const GameObject& other);
 
+	/// Checks if the object is in front of another one. The calculations are performed at a 180 degree angle
 	bool           InFrontOf(const GameObject& other);
 
 	virtual void   ImGuiDraw();

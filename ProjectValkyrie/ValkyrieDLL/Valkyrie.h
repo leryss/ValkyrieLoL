@@ -32,7 +32,8 @@ class Valkyrie {
 
 public:
 
-	static void   Run();
+	/// Starts up valkyrie. Initializes necessary modules, hooks DX functions and performs necessary authentications.
+	static void                        Run();
 
 private:
 	static void                        ShowMenu();
