@@ -1,3 +1,10 @@
+[Valkyrie v0.28]
+	* Fixed a bug where valkyrie would cast spells while chat was open
+	* Fixed a bug where orbwalker would move the player right after chat was closed
+
+	+ Now valkyrie reads keybinds automatically from game config files
+	+ Valkyrie movement commands now auto toggle "Target champs only" key, that means evade/orbwalker wont attack minions anymore
+
 [Valkyrie v0.27]
 	* Fixed a bug where items and summoner spells were not being cast by valkyrie
 	

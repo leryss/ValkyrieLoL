@@ -7,4 +7,9 @@ class ObjectExplorer {
 
 public:
 	static void ImGuiDraw(GameState& state);
+
+private:
+	static void DrawObjects(GameState& state);
+	static void DrawOffsetAdjuster();
+	static void DrawOffset(const char* label, int& offset);
 };

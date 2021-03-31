@@ -10,6 +10,7 @@
 #include "OffsetScanner.h"
 #include "SkinChanger.h"
 #include "ValkyrieShared.h"
+#include "GameKeybind.h"
 
 #include "FakeMouse.h"
 #include "D3DX9Shader.h"
@@ -69,6 +70,7 @@ void Valkyrie::Run()
 	try {
 		DxDeviceMutex.lock();
 
+		GameKeybind::InitFromGameConfigs();
 		FakeMouse::Init();
 		HookDirectX();
 		LoginAndLoadData();
@@ -309,6 +311,8 @@ void Valkyrie::DrawDevMenu()
 	ImGui::SameLine();
 	if (ImGui::Button("Reload Essentials")) {
 		EssentialsLoaded = false;
+
+		GameKeybind::InitFromGameConfigs();
 		TaskPool->DispatchTask(
 			"Load Essentials",
 			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),

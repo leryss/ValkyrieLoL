@@ -32,7 +32,23 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 {
 	ImGui::Begin("Object Explorer");
 
-	ImGui::DragFloat("Ping",      &state.ping);
+	ImGui::BeginTabBar("ObjExplorerTabBar");
+	if (ImGui::BeginTabItem("Objects")) {
+		DrawObjects(state);
+		ImGui::EndTabItem();
+	}
+	if (ImGui::BeginTabItem("Offsets")) {
+		DrawOffsetAdjuster();
+		ImGui::EndTabItem();
+	}
+	ImGui::End();
+
+	ImGui::End();
+}
+
+void ObjectExplorer::DrawObjects(GameState & state)
+{
+	ImGui::DragFloat("Ping", &state.ping);
 	ImGui::DragFloat("Game Time", &state.time);
 	if (state.player != nullptr) {
 		if (ImGui::TreeNode("Player")) {
@@ -45,29 +61,29 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 
 	auto& renderer = state.renderer;
 	if (ImGui::TreeNode("Renderer")) {
-		
+
 		ImGui::DragInt("Width", &renderer.width);
 		ImGui::DragInt("Height", &renderer.height);
 
 		ImGui::Text("View Matrix");
 		DrawMatrix(renderer.viewMatrix, 4, 4);
-		
+
 		ImGui::Text("Projection Matrix");
 		DrawMatrix(renderer.projMatrix, 4, 4);
-		
+
 		ImGui::TreePop();
 	}
 
 	auto& hud = state.hud;
 	if (ImGui::TreeNode("HUD")) {
-		
+
 		ImGui::Checkbox("Is chat open", &hud.isChatOpen);
 		hud.minimapPosition.ImGuiDraw("Minimap Position");
 		hud.minimapSize.ImGuiDraw("Minimap Size");
 
 		ImGui::TreePop();
 	}
-	
+
 	if (ImGui::TreeNode("Champions")) {
 		for (auto& obj : state.champions) DrawGameObject(obj.get());
 		ImGui::TreePop();
@@ -101,7 +117,7 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 	if (ImGui::TreeNode("Static")) {
 		GameData::ImGuiDrawObjects();
 	}
-	
+
 	ImGui::Separator();
 	if (state.hovered != nullptr) {
 		state.hovered->ImGuiDraw();
@@ -109,6 +125,46 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 	}
 	else
 		ImGui::TextColored(Color::RED, "Nothing hovered");
+}
 
-	ImGui::End();
+void ObjectExplorer::DrawOffsetAdjuster()
+{
+	ImGui::PushItemWidth(150);
+	DrawOffset("ObjMissileSpellCast", Offsets::ObjMissileSpellCast);
+	ImGui::PopItemWidth();
+}
+
+void ObjectExplorer::DrawOffset(const char* label, int& offset)
+{
+	if (ImGui::Button("-1")) {
+		offset -= 1;
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("-2")) {
+		offset -= 2;
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("-4")) {
+		offset -= 4;
+	}
+
+	ImGui::SameLine();
+	ImGui::DragInt(label, &Offsets::ObjMissileSpellCast, 1.f, 0, 0, "%#10x");
+
+	ImGui::SameLine();
+	if (ImGui::Button("+1")) {
+		offset += 1;
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("+2")) {
+		offset += 2;
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("+4")) {
+		offset += 4;
+	}
 }

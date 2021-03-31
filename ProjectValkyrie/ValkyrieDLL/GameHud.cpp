@@ -8,6 +8,8 @@ void GameHud::ReadFromBaseAddress(int baseAddr)
 	__try {
 		int chat = ReadInt(baseAddr + Offsets::Chat);
 		isChatOpen = ReadBool(chat + Offsets::ChatIsOpen);
+		if (isChatOpen)
+			chatLastOpenTimestamp = GetTickCount();
 
 		int minimapObject = ReadInt(baseAddr + Offsets::MinimapObject);
 		int minimapHud = ReadInt(minimapObject + Offsets::MinimapObjectHud);
@@ -16,4 +18,9 @@ void GameHud::ReadFromBaseAddress(int baseAddr)
 		memcpy(&minimapPosition, AsPtr(minimapHud + Offsets::MinimapHudPos), sizeof(Vector2));
 	}
 	__except (1) {}
+}
+
+bool GameHud::WasChatOpenMillisAgo(int millis)
+{
+	return (GetTickCount() - chatLastOpenTimestamp) < millis;
 }

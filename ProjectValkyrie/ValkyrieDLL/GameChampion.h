@@ -16,7 +16,6 @@ public:
 	          GameChampion();
 	          GameChampion(std::string name);
 		      
-	void      ReadBasicAttack();
 	void      ReadSpells(int numToRead);
 	void      ReadBuffs();
 	void      ReadItems();

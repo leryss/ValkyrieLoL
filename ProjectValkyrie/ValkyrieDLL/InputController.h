@@ -61,6 +61,12 @@ public:
 	/// Issues a hold down key operation
 	void IssueHoldKey(HKey key);
 
+	/// Issues a unhold key operation
+	void IssueUnholdKey(HKey key);
+
+	/// Issues a delay of N milliseconds
+	void IssueDelay(float millis);
+
 	/// Imgui utility to display a key selector
 	static int ImGuiKeySelect(const char* label, int key);
 

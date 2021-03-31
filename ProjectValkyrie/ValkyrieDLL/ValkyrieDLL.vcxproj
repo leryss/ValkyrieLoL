@@ -172,6 +172,7 @@
     <ClInclude Include="GameHud.h" />
     <ClInclude Include="GameItemSlot.h" />
     <ClInclude Include="GameJungle.h" />
+    <ClInclude Include="GameKeybind.h" />
     <ClInclude Include="GameMinion.h" />
     <ClInclude Include="GameMissile.h" />
     <ClInclude Include="GameObject.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="GameHud.cpp" />
     <ClCompile Include="GameItemSlot.cpp" />
     <ClCompile Include="GameJungle.cpp" />
+    <ClCompile Include="GameKeybind.cpp" />
     <ClCompile Include="GameMinion.cpp" />
     <ClCompile Include="GameMissile.cpp" />
     <ClCompile Include="GameObject.cpp" />

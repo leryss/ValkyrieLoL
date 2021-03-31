@@ -335,6 +335,14 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("w2m",                      &PyExecutionContext::World2Minimap,     "Converts a world space point to minimap space")
 		.def("d2m",                      &PyExecutionContext::DistanceOnMinimap, "Converts a distance value from world space to minimap space")
 		
+		.def("ping_normal",              &PyExecutionContext::PingNormal,        "Issues a `normal` ping at the target location. For this ping type riot moves the cursor position to the ping location after ping has been issued")
+		.def("ping_warn",                &PyExecutionContext::PingWarn,          "Issues a `back` ping at the target location. For this ping type riot moves the cursor position to the ping location after ping has been issued")
+		.def("ping_danger",              &PyExecutionContext::PingDanger,        "Issues a `danger` ping at the target location")
+		.def("ping_mia",                 &PyExecutionContext::PingMia,           "Issues a `enemy missing` ping at the target location")
+		.def("ping_omw",                 &PyExecutionContext::PingOmw,           "Issues a `on my way` ping at the target location")
+		.def("ping_vision",              &PyExecutionContext::PingVision,        "Issues a `warded` ping at the target location")
+		.def("ping_assist",              &PyExecutionContext::PingAssist,        "Issues a `help` ping at the target location")
+
 		.def("hp_dmg_indicator",         &PyExecutionContext::DrawHpBarDamageIndicator, "Draws an damage indicator with a specified color for an amount of damage on a champion hp bar.")
 		.def("line",                     &PyExecutionContext::DrawLine)
 		.def("line",                     &PyExecutionContext::DrawLineWorld)

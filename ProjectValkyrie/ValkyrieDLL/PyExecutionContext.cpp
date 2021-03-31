@@ -1,5 +1,6 @@
 #include "PyExecutionContext.h"
 #include "Debug.h"
+#include "GameKeybind.h"
 #include "Script.h"
 
 template <class T>
@@ -30,6 +31,41 @@ bool PyExecutionContext::WasKeyPressed(int key)
 	return currentScript->input.WasPressed((HKey)key);
 }
 
+void PyExecutionContext::PingDanger(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		PressKeyAt(GameKeybind::PingDanger, position);
+	}
+}
+
+void PyExecutionContext::PingVision(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		PressKeyAt(GameKeybind::PingVision, position);
+	}
+}
+
+void PyExecutionContext::PingMia(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		PressKeyAt(GameKeybind::PingMia, position);
+	}
+}
+
+void PyExecutionContext::PingOmw(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		PressKeyAt(GameKeybind::PingOmw, position);
+	}
+}
+
+void PyExecutionContext::PingAssist(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		PressKeyAt(GameKeybind::PingAssist, position);
+	}
+}
+
 bool PyExecutionContext::IsWallAt(const Vector3 & pos)
 {
 	return GameData::IsWallAt(pos);
@@ -52,6 +88,9 @@ object PyExecutionContext::GetSpellInfo(const char* label) {
 
 bool PyExecutionContext::StartChannel(GameSpell * spell)
 {
+	if (state->hud.WasChatOpenMillisAgo(100))
+		return false;
+
 	/// Check if castable
 	if (spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
 		return false;
@@ -67,6 +106,9 @@ bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLoc
 bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocation) {
 	
 	DBG_INFO("Casting spell %s", spell->name.c_str())
+	if (state->hud.WasChatOpenMillisAgo(100))
+		return false;
+
 	auto now = steady_clock::now();
 	duration<float, std::milli> diff = now - spell->lastCastTimestamp;
 	if (diff.count() < 100.f)
@@ -104,22 +146,23 @@ object PyExecutionContext::PredictCastPoint(const GameUnit & caster, const GameU
 }
 
 void PyExecutionContext::MoveToMouse() {
-	if (!state->hud.isChatOpen) {
-		if (state->hovered != nullptr && state->hovered->IsEnemyTo(*state->player.get()))
-			return;
-		currentScript->input.IssueClick(CT_RIGHT_CLICK);
-	}
+	if (state->hud.WasChatOpenMillisAgo(100))
+		return;
+
+	currentScript->input.IssueHoldKey(GameKeybind::TargetChampionsOnly);
+	currentScript->input.IssueClick(CT_RIGHT_CLICK);
+	currentScript->input.IssueUnholdKey(GameKeybind::TargetChampionsOnly);
 }
 
 void PyExecutionContext::MoveToLocation(const Vector3 & location)
 {
-	if (!state->hud.isChatOpen) {
-		if (state->hovered != nullptr && state->hovered->IsEnemyTo(*state->player.get()))
-			return;
-
-		Vector2 screenPos = state->renderer.WorldToScreen(location);
-		currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [screenPos] { return screenPos; });
-	}
+	if (state->hud.WasChatOpenMillisAgo(100))
+		return;
+	
+	Vector2 screenPos = state->renderer.WorldToScreen(location);
+	currentScript->input.IssueHoldKey(GameKeybind::TargetChampionsOnly);
+	currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [screenPos] { return screenPos; });
+	currentScript->input.IssueUnholdKey(GameKeybind::TargetChampionsOnly);
 }
 
 void PyExecutionContext::MoveMouse(const Vector3 & worldLocation)
@@ -129,8 +172,27 @@ void PyExecutionContext::MoveMouse(const Vector3 & worldLocation)
 
 void PyExecutionContext::AttackUnit(const GameUnit & unit)
 {
-	if (!state->hud.isChatOpen)
-		currentScript->input.IssueClickUnit(CT_RIGHT_CLICK, unit);
+	if (state->hud.WasChatOpenMillisAgo(100))
+		return;
+	currentScript->input.IssueClickUnit(CT_RIGHT_CLICK, unit);
+}
+
+void PyExecutionContext::PingNormal(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		Vector2 screenPos = state->renderer.WorldToScreen(position);
+		currentScript->input.IssuePressKey(GameKeybind::PingNormal);
+		currentScript->input.IssueClickAt(CT_LEFT_CLICK, [screenPos] { return screenPos; });
+	}
+}
+
+void PyExecutionContext::PingWarn(const Vector3 & position)
+{
+	if (!state->hud.isChatOpen) {
+		Vector2 screenPos = state->renderer.WorldToScreen(position);
+		currentScript->input.IssuePressKey(GameKeybind::PingWarn);
+		currentScript->input.IssueClickAt(CT_LEFT_CLICK, [screenPos] { return screenPos; });
+	}
 }
 
 void PyExecutionContext::LogInfo(const char * msg)
@@ -387,5 +449,11 @@ object PyExecutionContext::Query(QueryKey key)
 {
 	queryEngine.NewQuery(key);
 	return queryEnginePy;
+}
+
+void PyExecutionContext::PressKeyAt(HKey key, const Vector3 & location)
+{
+	Vector2 screenPos = state->renderer.WorldToScreen(location);
+	currentScript->input.IssuePressKeyAt(key, [screenPos] { return screenPos; });
 }
 

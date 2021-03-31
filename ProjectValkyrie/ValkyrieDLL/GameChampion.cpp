@@ -1,6 +1,7 @@
 #include "GameChampion.h"
 #include "GameData.h"
 #include "Valkyrie.h"
+#include "GameKeybind.h"
 
 GameChampion::GameChampion()
 {
@@ -10,46 +11,21 @@ GameChampion::GameChampion(std::string name)
 	:GameUnit(name)
 {
 	type = OBJ_CHAMPION;
-	spells[0].castKey  = HKey::Q;
-	spells[1].castKey  = HKey::W;
-	spells[2].castKey  = HKey::E;
-	spells[3].castKey  = HKey::R;
+	spells[0].castKey  = GameKeybind::CastSpellQ;
+	spells[1].castKey  = GameKeybind::CastSpellW;
+	spells[2].castKey  = GameKeybind::CastSpellE;
+	spells[3].castKey  = GameKeybind::CastSpellR;
 					   
-	spells[4].castKey  = HKey::D;
-	spells[5].castKey  = HKey::F;
+	spells[4].castKey  = GameKeybind::CastSpellD;
+	spells[5].castKey  = GameKeybind::CastSpellF;
 					   
-	spells[6].castKey  = HKey::N_1;
-	spells[7].castKey  = HKey::N_2;
-	spells[8].castKey  = HKey::N_3;
-	spells[9].castKey  = HKey::N_5;
-	spells[10].castKey = HKey::N_6;
-	spells[11].castKey = HKey::N_7;
-	spells[12].castKey = HKey::N_4;
-}
-
-void GameChampion::ReadBasicAttack()
-{
-	int basic = address + Offsets::ObjBasicAttack;
-	if (CantRead(basic))
-		return;
-
-	int basicSpellInfo = ReadInt(basic + Offsets::ObjBasicAttackSpellInfo);
-	if (CantRead(basicSpellInfo))
-		return;
-
-	int basicSpellData = ReadInt(basicSpellInfo + Offsets::SpellInfoSpellData);
-	if (CantRead(basicSpellData))
-		return;
-
-	int basicNameAddr = ReadInt(basicSpellData + Offsets::SpellDataSpellName);
-	if (CantRead(basicNameAddr))
-		return;
-
-	auto name = Memory::ReadString(basicNameAddr);
-	basicAttack = GameData::GetSpell(name);
-
-	if(basicAttack == nullptr)
-		basicAttack = staticData->basicAttack;
+	spells[6].castKey  = GameKeybind::UseItem1;
+	spells[7].castKey  = GameKeybind::UseItem2;
+	spells[8].castKey  = GameKeybind::UseItem3;
+	spells[9].castKey  = GameKeybind::UseItem4;
+	spells[10].castKey = GameKeybind::UseItem5;
+	spells[11].castKey = GameKeybind::UseItem6;
+	spells[12].castKey = GameKeybind::UseItemTrinket;
 }
 
 void GameChampion::ReadSpells(int numToRead)

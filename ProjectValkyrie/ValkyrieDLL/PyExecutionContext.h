@@ -61,6 +61,14 @@ public:
 	void    MoveMouse(const Vector3& worldLocation);
 	void    AttackUnit(const GameUnit& unit);
 
+	void    PingNormal(const Vector3& position);
+	void    PingWarn(const Vector3& position);
+	void    PingDanger(const Vector3& position);
+	void    PingVision(const Vector3& position);
+	void    PingMia(const Vector3& position);
+	void    PingOmw(const Vector3& position);
+	void    PingAssist(const Vector3& position);
+
 	bool    IsWallAt(const Vector3& pos);
 	list    GetCollisionsForUnit(const GameUnit& unit);
 	list    GetCollisionsForCast(const SpellCast& cast);
@@ -104,4 +112,5 @@ public:
 
 private:
 	object  Query(QueryKey key);
+	void    PressKeyAt(HKey key, const Vector3& location);
 };

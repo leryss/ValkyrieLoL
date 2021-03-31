@@ -144,6 +144,16 @@ void InputController::IssueHoldKey(HKey key)
 	ioQueue.push(new IoPressKey(key));
 }
 
+void InputController::IssueUnholdKey(HKey key)
+{
+	ioQueue.push(new IoReleaseKey(key));
+}
+
+void InputController::IssueDelay(float millis)
+{
+	ioQueue.push(new IoDelay(N));
+}
+
 void DrawButton(HKey key, HKey& clickedBtn, bool& wasClicked) {
 	if (ImGui::Button(HKeyNames[key])) {
 		clickedBtn = key;

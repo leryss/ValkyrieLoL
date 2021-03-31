@@ -38,18 +38,14 @@ public:
 	static int ObjAtkRange;
 	static int ObjItemList;
 	static int ObjMissileSpellCast;
-	static int ObjMissileName;
 	static int ObjBuffManager;
 	static int ObjInvulnerable;
 	static int ObjTargetable;
-	static int ObjIsMoving;
 	static int ObjDirection;
 	static int ObjLethality;
 	static int ObjAbilityHaste;
 	static int ObjBonusArmor;
 	static int ObjBonusMagicRes;
-	static int ObjBasicAttack;
-	static int ObjBasicAttackSpellInfo;
 
 	static int ObjMagicPen;
 	static int ObjMagicPenMulti;
