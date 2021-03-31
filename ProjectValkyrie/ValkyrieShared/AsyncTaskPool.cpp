@@ -48,13 +48,13 @@ bool AsyncTaskPool::IsWaiting(std::string taskId)
 
 void AsyncTaskPool::ImGuiDraw()
 {
+	mtxTasks.lock();
 
-	if (runningTasks.empty() && doneTasks.empty())
-		return;
+	ImGui::SetNextWindowPos(ImVec2(GetSystemMetrics(SM_CXSCREEN) - 160, 60));
+	ImGui::SetNextWindowSize(ImVec2(150, 0));
+	ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
-	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-
+	ImGui::SameLine(ImGui::GetWindowSize().x / 2 -ImGui::CalcTextSize("Valkyrie").x / 2);
 	ImGui::TextColored(Color::YELLOW, "Valkyrie");
 
 	for (auto& pair : runningTasks) {
@@ -81,6 +81,8 @@ void AsyncTaskPool::ImGuiDraw()
 	}
 
 	ImGui::End();
+
+	mtxTasks.unlock();
 }
 
 AsyncTaskPool * AsyncTaskPool::Get()
@@ -96,27 +98,13 @@ AsyncTaskPool::AsyncTaskPool()
 
 void AsyncTaskPool::TaskWorkerLoop()
 {
-
 	while (!stopThreads) {
-
-		
-		std::shared_ptr<AsyncTask> task = nullptr;
-
 		mtxTasks.lock();
-		/// Find first task that is not started
-		for (auto& pair : waitingTasks) {
-			if (pair.second->GetStatus() == ASYNC_NOT_STARTED) {
-				task = pair.second;
-				break;
-			}
-		}
 
-		/// Start waiting task
-		if (task != nullptr) {
-			waitingTasks.erase(task->taskId);
-			runningTasks[task->taskId] = task;
-			task->SetStatus(ASYNC_RUNNING);
-		}
+		std::shared_ptr<AsyncTask> task = GetNextWaitingTask();
+		if (task != nullptr)
+			StartTask(task);
+
 		mtxTasks.unlock();
 
 		if (task != nullptr) {
@@ -146,4 +134,22 @@ void AsyncTaskPool::TaskWorkerLoop()
 
 		Sleep(10);
 	}
+}
+
+std::shared_ptr<AsyncTask> AsyncTaskPool::GetNextWaitingTask()
+{
+	for (auto& pair : waitingTasks) {
+		if (pair.second->GetStatus() == ASYNC_NOT_STARTED) {
+			return pair.second;
+		}
+	}
+
+	return nullptr;
+}
+
+void AsyncTaskPool::StartTask(std::shared_ptr<AsyncTask> task)
+{
+	waitingTasks.erase(task->taskId);
+	runningTasks[task->taskId] = task;
+	task->SetStatus(ASYNC_RUNNING);
 }

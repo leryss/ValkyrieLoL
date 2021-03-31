@@ -61,13 +61,13 @@ void GameChampion::ReadBuffs()
 		if (CantRead(buffEntry))
 			break;
 
-		auto buff = new GameBuff();
+		auto buff = std::shared_ptr<GameBuff>(new GameBuff());
 		buff->ReadFromBaseAddress(buffEntry);
 
 		if (buff->name.empty())
 			continue;
 
-		buffs[buff->name] = std::shared_ptr<GameBuff>(buff);
+		buffs[buff->name] = buff;
 	}
 }
 

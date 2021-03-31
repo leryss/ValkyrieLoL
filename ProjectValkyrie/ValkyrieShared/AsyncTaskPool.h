@@ -28,8 +28,10 @@ public:
 	static AsyncTaskPool* Get();
 
 private:
-	     AsyncTaskPool();
-	void TaskWorkerLoop();
+	                           AsyncTaskPool();
+	void                       TaskWorkerLoop();
+	std::shared_ptr<AsyncTask> GetNextWaitingTask();
+	void                       StartTask(std::shared_ptr<AsyncTask> task);
 
 	static AsyncTaskPool*                                Instance;
 
