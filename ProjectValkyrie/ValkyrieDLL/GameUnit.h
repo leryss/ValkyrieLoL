@@ -33,12 +33,22 @@ public:
 
 	object    GetStaticData();
 	object    GetCastingSpell();
+	object    GetPathPy();
 
 	/// Check if unit has a named buff
 	bool      HasBuff(const char* buff);
 
 	/// Check the number of stacks the named buff has
 	int       BuffStackCount(const char* buff);
+
+	/// Predicts position of this unit in N seconds
+	Vector3   PredictPosition(float millisFuture) const;
+
+	/// Calculates path length;
+	float     CalculatePathLength();
+
+private:
+	void       ReadAiManager();
 
 public:
 
@@ -72,6 +82,14 @@ public:
 	SpellCast   castingSpell;
 	UnitInfo*   staticData;
 	SpellInfo*  basicAttack;
+
+	int         aiManagerAddress;
+	bool        isMoving;
+	bool        isDashing;
+	float       dashSpeed;
+	Vector3     destination;
+	int         pathSize;
+	Vector3     path[10];
 
 	std::string nameTransformed;
 };

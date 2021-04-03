@@ -66,6 +66,9 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	}
 
 	basicAttack = staticData->basicAttack;
+
+	if(type != OBJ_TURRET)
+		ReadAiManager();
 }
 
 void GameUnit::ImGuiDraw()
@@ -73,6 +76,7 @@ void GameUnit::ImGuiDraw()
 	GameObject::ImGuiDraw();
 	ImGui::Separator();
 
+	destination.ImGuiDraw("Navigation destination");
 	ImGui::LabelText("Transformed name", nameTransformed.c_str());
 	if(basicAttack != nullptr)
 		ImGui::LabelText("Basic attack",  basicAttack->name.c_str());
@@ -97,11 +101,15 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragFloat("Haste",         &haste);
 	ImGui::DragFloat("Magic Pen",     &magicPen);
 	ImGui::DragFloat("Enemy MagicRes Multi", &magicPenMulti);
-
+	
 	ImGui::Checkbox("IsDead",         &isDead);
 	ImGui::Checkbox("Targetable",     &targetable);
 	ImGui::Checkbox("Invulnerable",   &invulnerable);
+	ImGui::Checkbox("Moving",         &isMoving);
+	ImGui::Checkbox("Dashing",        &isDashing);
+	ImGui::DragFloat("Dash Speed",    &dashSpeed);
 	ImGui::DragInt("Level",           &lvl);
+	ImGui::DragInt("AiManager Address", &aiManagerAddress, 1.f, 0, 0, "%#10x");
 
 	ImGui::Separator();
 	if (ImGui::TreeNode("Static Data")) {
@@ -191,6 +199,14 @@ object GameUnit::GetCastingSpell()
 		return object();
 }
 
+object GameUnit::GetPathPy()
+{
+	list l;
+	for (int i = 0; i < pathSize; ++i)
+		l.append(object(path[i]));
+	return l;
+}
+
 bool GameUnit::HasBuff(const char * buff)
 {
 	return false;
@@ -199,4 +215,62 @@ bool GameUnit::HasBuff(const char * buff)
 int GameUnit::BuffStackCount(const char * buff)
 {
 	return 0;
+}
+
+Vector3 GameUnit::PredictPosition(float secsFuture) const
+{
+	if(pathSize > 1) {
+		float unitsPerSec = isDashing ? dashSpeed : moveSpeed;
+
+		for (int i = 0; i < pathSize - 1; ++i) {
+			float segmentDistance = path[i].distance(path[i + 1]);
+			float secsToFinishSegment = segmentDistance / unitsPerSec;
+
+			if (secsToFinishSegment < secsFuture) {
+				secsFuture -= secsToFinishSegment;
+			}
+			else {
+				Vector3 delta = path[i + 1].sub(path[i]).normalize().scale(secsFuture * unitsPerSec);
+				return Vector3(path[i].x + delta.x, path[i].y, path[i].z + delta.z);
+			}
+
+		}
+
+		Vector3 lastNode = path[pathSize - 1];
+		Vector3 delta = lastNode.sub(path[pathSize - 2]).normalize().scale(secsFuture * unitsPerSec);
+		return Vector3(lastNode.x + delta.x, lastNode.y, lastNode.z + delta.z);
+	}
+
+	return pos;
+}
+
+float GameUnit::CalculatePathLength()
+{
+	float distance = 0.f;
+	for (int i = 0; i < pathSize - 1; ++i) {
+		distance += path[i].distance(path[i + 1]);
+	}
+
+	return distance;
+}
+
+void GameUnit::ReadAiManager()
+{
+	static auto GetAiManager = AsFunc(ReadVTable(address, 148), int, void*);
+	if(aiManagerAddress == 0)
+		aiManagerAddress = GetAiManager((void*)address);
+
+	isMoving  = ReadBool(aiManagerAddress + Offsets::AiManagerIsMoving);
+	dashSpeed = ReadFloat(aiManagerAddress + Offsets::AiManagerDashSpeed);
+	isDashing = (dashSpeed > 0.0 && ReadBool(aiManagerAddress + Offsets::AiManagerIsDashing));
+
+	int startPath = ReadInt(aiManagerAddress + Offsets::AiManagerStartPath);
+	int endPath = ReadInt(aiManagerAddress + Offsets::AiManagerEndPath);
+	int currentSegment = ReadInt(aiManagerAddress + Offsets::AiManagerCurrentSegment);
+
+	pathSize = min(10, (endPath - startPath) / sizeof(Vector3)) - currentSegment + 1;
+
+	memcpy(&destination, AsPtr(aiManagerAddress + Offsets::AiManagerTargetPosition), sizeof(Vector3));
+	memcpy(&path[1], AsPtr(startPath + currentSegment * sizeof(Vector3)), sizeof(Vector3)*pathSize);
+	path[0] = pos;
 }

@@ -55,16 +55,8 @@ public:
 	short          team;
 	Vector3        pos;
 	Vector3        dir;
-	bool           isMoving;
 	bool           isVisible;
 
 	float          firstSeen;
 	float          lastSeen;
-
-private:
-	
-	static const int    numPastPositions = 5;
-	static const int    pastMilliInterval = 5;
-	int                 pastMilliBegin;
-	std::deque<Vector3> pastPositions;
 };

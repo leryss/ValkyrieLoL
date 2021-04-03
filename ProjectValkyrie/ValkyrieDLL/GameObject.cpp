@@ -10,8 +10,6 @@ GameObject::GameObject(std::string name)
 {
 	this->name = name;
 	this->type = OBJ_UNKNOWN;
-	for(int i = 0; i < numPastPositions; ++i)
-		pastPositions.push_back(Vector3(0.f, 0.f, 0.f));
 }
 
 void GameObject::ReadFromBaseAddress(int baseAddr)
@@ -26,14 +24,6 @@ void GameObject::ReadFromBaseAddress(int baseAddr)
 
 	memcpy(&pos, AsPtr(baseAddr + Offsets::ObjPos), sizeof(Vector3));
 	memcpy(&dir, AsPtr(baseAddr + Offsets::ObjDirection), sizeof(Vector3));
-	isMoving = pastPositions.front().x != pos.x;
-
-	auto now = GetTickCount();
-	if (now > pastMilliBegin + pastMilliInterval) {
-		pastMilliBegin = now;
-		pastPositions.pop_front();
-		pastPositions.push_back(pos);
-	}
 }
 
 bool GameObject::IsAllyTo(const GameObject& other)
@@ -73,5 +63,4 @@ void GameObject::ImGuiDraw()
 	ImGui::DragFloat("LastSeen", &lastSeen);
 	ImGui::DragFloat("FirstSeen", &firstSeen);
 	ImGui::Checkbox("Visible",   &isVisible);
-	ImGui::Checkbox("Moving",    &isMoving);
 }

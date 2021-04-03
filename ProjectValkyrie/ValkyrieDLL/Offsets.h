@@ -50,7 +50,14 @@ public:
 	static int ObjMagicPen;
 	static int ObjMagicPenMulti;
 	static int ObjAdditionalApMulti;
-
+	static int ObjVTableGetAiManager;
+	static int AiManagerStartPath;
+	static int AiManagerEndPath;
+	static int AiManagerTargetPosition;
+	static int AiManagerIsMoving;
+	static int AiManagerIsDashing;
+	static int AiManagerCurrentSegment;
+	static int AiManagerDashSpeed;
 
 	static int BuffManagerEntriesArray;
 	static int BuffEntryBuff;

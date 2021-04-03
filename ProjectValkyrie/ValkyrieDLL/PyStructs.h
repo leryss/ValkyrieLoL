@@ -112,7 +112,6 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("last_seen",         &GameObject::lastSeen,            "Timestamp in game time for when the object was last visible")
 		.def_readonly("first_seen",        &GameObject::firstSeen,           "When the object was first seen")
 		.def_readonly("dir",               &GameObject::dir,                 "Direction the object is facing as a normalized Vec3")
-		.def_readonly("moving",            &GameObject::isMoving,            "True if object is moving")
 		
 		.def("in_front_of",                &GameObject::InFrontOf,           "Checks if object is in front of")
 		.def("ally_to",                    &GameObject::IsAllyTo,            "Checks if two objects are allied")
@@ -186,6 +185,13 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 		.def("has_tags",                   &GameUnit::HasTags,               "Checks if the unit has unit tags (see Unit class)")
 
+		.def_readonly("moving",            &GameUnit::isMoving,              "True if unit is moving")
+		.def_readonly("dashing",           &GameUnit::isDashing,             "True if unit is dashing")
+		.def_readonly("dash_speed",        &GameUnit::dashSpeed,             "Similar to move speed but when dashing")
+		.def_readonly("path",              &GameUnit::GetPathPy,             "Navigation path of the unit")
+		.def_readonly("destination",       &GameUnit::destination,           "Navigation destination of the unit")
+		.def("path_distance",              &GameUnit::CalculatePathLength,   "Calculates navigation path distance in game units")
+		.def("predict_position",           &GameUnit::PredictPosition,       "Predicts position of unit in X seconds")
 		;
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")

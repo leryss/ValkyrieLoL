@@ -108,27 +108,14 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 			continue;
 		}
 
-		Vector2 targetPos = Vector2(target->pos.x, target->pos.z);
-		float deltaX = 0.f;
-		float deltaY = 0.f;
-
-		if (target->isMoving) {
-			if (castTime > 0.f) {
-				targetPos.x += target->dir.x*target->moveSpeed*castTime;
-				targetPos.y += target->dir.z*target->moveSpeed*castTime;
-			}
-
-			deltaX += target->dir.x*target->moveSpeed*timePerIter;
-			deltaY += target->dir.z*target->moveSpeed*timePerIter;
-		}
-
-		
 		Vector2 spellPos = spellStart;
-
 		for (int i = 0; i < iterations; ++i) {
-			if (targetPos.distance(spellPos) < target->staticData->gameplayRadius + castStatic->width) {
+			Vector3 targetPos3D = target->PredictPosition(i*timePerIter + castTime);
+			Vector2 targetPos2D = Vector2(targetPos3D.x, targetPos3D.z);
+
+			if (targetPos2D.distance(spellPos) < target->staticData->gameplayRadius + castStatic->width) {
 				
-				AddCollisionEntry(new FutureCollision(target, cast, targetPos, spellPos, pair.second, castTime + timePerIter*i));
+				AddCollisionEntry(new FutureCollision(target, cast, targetPos2D, spellPos, pair.second, castTime + timePerIter*i));
 				if (pair.second)
 					return;
 				break;
@@ -136,9 +123,6 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 
 			spellPos.x += deltaXSpell;
 			spellPos.y += deltaYSpell;
-
-			targetPos.x += deltaX;
-			targetPos.y += deltaY;
 		}
 	}
 }
@@ -166,13 +150,7 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 			secsUntilSpellHits = spellCurrentPos.distance(spellEnd) / castStatic->speed;
 		secsUntilSpellHits += cast->RemainingCastTime();
 		
-		Vector3 targetFuturePos = targetPos;
-		targetFuturePos.y = 0.f;
-
-		if (target->isMoving) {
-			targetFuturePos = targetFuturePos.add(target->dir.scale(target->moveSpeed * secsUntilSpellHits));
-		}
-		
+		Vector3 targetFuturePos = target->PredictPosition(secsUntilSpellHits);
 		if (targetFuturePos.distance(cast->end) < (castStatic->castRadius + target->staticData->gameplayRadius)) {
 			AddCollisionEntry(new FutureCollision(target, cast, Vector2(targetFuturePos.x, targetFuturePos.z), Vector2(cast->end.x, cast->end.z), false, secsUntilSpellHits));
 		}
@@ -214,13 +192,10 @@ bool CollisionEngine::PredictPointForAreaCollision(const GameUnit& caster, const
 {
 	float secsUntilSpellHits = spell.castTime + spell.delay;
 	if (spell.delay == 0.0f) {
-		secsUntilSpellHits = caster.pos.distance(obj.pos) / spell.speed;
+		secsUntilSpellHits = spell.castTime + caster.pos.distance(obj.pos) / spell.speed;
 	}
 
-	Vector3 pos = obj.isMoving ? obj.pos.add(obj.dir.scale(obj.moveSpeed*secsUntilSpellHits)) : obj.pos;
-	out.x = pos.x;
-	out.y = pos.y;
-	out.z = pos.z;
+	out = obj.PredictPosition(secsUntilSpellHits);
 
 	return true;
 }
@@ -233,27 +208,25 @@ bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const
 	int   iterations = spell.castRange / UnitDelta;
 	float timePerIter = UnitDelta / spell.speed;
 
-	Vector2 objPos    = Vector2(obj.pos.x, obj.pos.z);
 	Vector2 spellInitialPos = Vector2(caster.pos.x, caster.pos.z);
 	Vector2 deltaObj = Vector2(obj.dir.x, obj.dir.z).scale(obj.moveSpeed*timePerIter);
 
-	if (obj.isMoving && spell.castTime > 0.f) {
-		objPos = objPos.add(Vector2(obj.dir.x, obj.dir.z).scale(obj.moveSpeed*(spell.castTime + spell.delay)));
+	float secsUntilSpellHits = spell.castTime + spell.delay;
+	if (spell.delay == 0.0f) {
+		secsUntilSpellHits = spell.castTime + caster.pos.distance(obj.pos) / spell.speed;
 	}
 
 	for (int i = 0; i < iterations; ++i) {
-		if (obj.isMoving) {
-			objPos.x += deltaObj.x;
-			objPos.y += deltaObj.y;
-		}
+		Vector3 objPos3D = obj.PredictPosition(timePerIter * i + secsUntilSpellHits);
+		Vector2 objPos2D = Vector2(objPos3D.x, objPos3D.z);
 
-		Vector2 spellDirection = objPos.sub(spellInitialPos).normalize();
+		Vector2 spellDirection = objPos2D.sub(spellInitialPos).normalize();
 		Vector2 spellPos = spellInitialPos.add(spellDirection.scale(i*UnitDelta));
 
-		if (spellPos.distance(objPos) < Threshold) {
-			out.x = objPos.x;
+		if (spellPos.distance(objPos2D) < Threshold) {
+			out.x = objPos2D.x;
 			out.y = obj.pos.y;
-			out.z = objPos.y;
+			out.z = objPos2D.y;
 			return true;
 		}
 	}

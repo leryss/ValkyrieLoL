@@ -401,18 +401,43 @@ void PyExecutionContext::DrawLineWorld(const Vector3 & start, const Vector3 & en
 
 void PyExecutionContext::DrawImage(const char * img, const Vector2 & start, const Vector2 & size, const ImVec4 & color)
 {
-	static ImVec2 zero = ImVec2(0.f, 0.f);
-	static ImVec2 one = ImVec2(1.f, 1.f);
+	static const ImVec2 zero = ImVec2(0.f, 0.f);
+	static const ImVec2 one = ImVec2(1.f, 1.f);
 
 	std::string imageName(img);
 
 	overlay->AddImage(GameData::GetImage(imageName), ImVec2(start.x - size.x / 2.f, start.y - size.y / 2.f), ImVec2(start.x + size.x / 2.f, start.y + size.y / 2.f), zero, one, ImColor(color));
 }
 
+/*void PyExecutionContext::DrawImageWorld(const char * img, const Vector3& origin, const Vector2& size, const Vector2& uv1, const Vector2& uv2, const Vector2& uv3, const Vector2& uv4, const ImVec4& color) {
+	
+	//static const ImVec2 uv1 = ImVec2(0.f, 0.f);
+	//static const ImVec2 uv2 = ImVec2(1.f, 0.f);
+	//static const ImVec2 uv3 = ImVec2(1.f, 1.f);
+	//static const ImVec2 uv4 = ImVec2(0.f, 1.f);
+
+	std::string imageName(img);
+
+	Vector2 p1 = state->renderer.WorldToScreen(origin.add(Vector3(-size.x, 0.f, size.y)));
+	Vector2 p2 = state->renderer.WorldToScreen(origin.add(Vector3(size.x, 0.f, size.y)));
+	Vector2 p3 = state->renderer.WorldToScreen(origin.add(Vector3(size.x, 0.f, -size.y)));
+	Vector2 p4 = state->renderer.WorldToScreen(origin.add(Vector3(-size.x, 0.f, -size.y)));
+
+	Vector2 v[4] = { p1, p2, p3, p4 };
+	overlay->AddPolyline((ImVec2*)v, 4, ImColor(Color::WHITE), true, 2.f);
+
+	overlay->AddImageQuad(
+		GameData::GetImage(imageName), 
+		(ImVec2&)p1, (ImVec2&)p2, (ImVec2&)p3, (ImVec2&)p4, 
+		(ImVec2&)uv1, (ImVec2&)uv2, (ImVec2&)uv3, (ImVec2&)uv4,
+		ImColor(color));
+
+}*/
+
 void PyExecutionContext::DrawImageRounded(const char * img, const Vector2 & start, const Vector2 & size, const ImVec4 & color, float rounding)
 {
-	static ImVec2 zero = ImVec2(0.f, 0.f);
-	static ImVec2 one = ImVec2(1.f, 1.f);
+	static const ImVec2 zero = ImVec2(0.f, 0.f);
+	static const ImVec2 one = ImVec2(1.f, 1.f);
 
 	std::string imageName(img);
 	overlay->AddImageRounded(GameData::GetImage(imageName), ImVec2(start.x - size.x/2.f, start.y - size.y/2.f), ImVec2(start.x + size.x/2.f, start.y + size.y/2.f), zero, one, ImColor(color), rounding);

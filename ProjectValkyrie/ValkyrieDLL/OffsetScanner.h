@@ -10,6 +10,12 @@ enum ScanStatus {
 	SCAN_NOT_FOUND
 };
 
+enum OffsetExtractLocation {
+	AddressInPattern,
+	AddressIsPatternLocation,
+	AddressInPatternPlusLocation
+};
+
 /// Byte like signature for a game memory offset
 class OffsetSignature {
 
@@ -19,7 +25,7 @@ public:
 	     /// pattern: Byte like pattern of the offset ex: "3B 9C ? ? A9"
 	     /// extractIndex: The position in the pattern at which the offset resides
 	     /// offsetInAddress: Set this True if you want the offset to be calculated from the address where the pattern was found and not from the pattern itself
-	     OffsetSignature(const char* name, const char* pattern, int extractIndex, bool offsetIsAddress = false);
+	     OffsetSignature(const char* name, const char* pattern, int extractIndex, OffsetExtractLocation offsetLocation = AddressInPattern);
 	void Scan(int startAddr, int size);
 	
 	const char* name         = "";
@@ -27,7 +33,7 @@ public:
 	ScanStatus  status       = SCAN_NOT_STARTED;
 	int         offset       = 0;
 	int         extractIndex = 0;
-	bool        offsetIsAddress = false;
+	OffsetExtractLocation offsetLocation;
 
 private:
 	std::vector<int> values;

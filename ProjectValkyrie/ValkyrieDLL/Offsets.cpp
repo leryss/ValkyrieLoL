@@ -113,3 +113,12 @@ int Offsets::MinimapHudSize                  = 0x68;          // has values betw
 										    
 int Offsets::CharacterDataStack              = 0x2F80;
 int Offsets::CharacterDataStackSkinId        = 0x18;
+
+int Offsets::ObjVTableGetAiManager           = 148;
+int Offsets::AiManagerStartPath              = 0x1bc;
+int Offsets::AiManagerEndPath                = 0x1c0;
+int Offsets::AiManagerTargetPosition         = 0x10;
+int Offsets::AiManagerIsMoving               = 0x198;
+int Offsets::AiManagerIsDashing              = 0x398;
+int Offsets::AiManagerCurrentSegment         = 0x19C;
+int Offsets::AiManagerDashSpeed              = 0x1D0;

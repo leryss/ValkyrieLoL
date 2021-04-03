@@ -1,3 +1,11 @@
+[Valkyrie v0.29]
+	* Fixed the way some objects are read this should yield slightly better performance
+	* Fixed a bug where cast time and spell delays wouldnt be considered in some skillshot predictions
+
+	+ Now spell prediction is done using walking path resulting in much better prediction than before
+	+ Now spell prediction works against dashes too
+	+ Added vk_path_tracker which tracks enemy walking paths and displays it on map and ground
+
 [Valkyrie v0.28]
 	* Fixed a bug where valkyrie would cast spells while chat was open
 	* Fixed a bug where orbwalker would move the player right after chat was closed

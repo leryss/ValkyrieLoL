@@ -35,7 +35,6 @@ private:
 	void        ReadLocalChampion();
 	void        ReadHoveredObject();
 	void        ReadObjectTree();
-	int         ReadTreeNodes(std::queue<int>& nodesToVisit, int node);
 	void        ReadGameObject(int address);
 	void        SieveObjects();
 
