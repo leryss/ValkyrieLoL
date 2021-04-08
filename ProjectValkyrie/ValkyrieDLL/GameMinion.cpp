@@ -16,3 +16,9 @@ Vector2 GameMinion::GetHpBarPosition()
 	w2s.x -= 32.f;
 	return w2s;
 }
+
+void GameMinion::ReadFromBaseAddress(int addr)
+{
+	GameUnit::ReadFromBaseAddress(addr);
+	ReadAiManager();
+}

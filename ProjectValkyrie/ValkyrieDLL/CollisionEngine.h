@@ -35,6 +35,7 @@ public:
 
 private:
 
+	float   GetSecsUntilSpellHits(const GameUnit& caster, const GameUnit& target, const SpellInfo& spell);
 	void    AddCollisionEntry(FutureCollision* collision);
 	Vector2 LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius);
 

@@ -66,9 +66,6 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	}
 
 	basicAttack = staticData->basicAttack;
-
-	if(type != OBJ_TURRET)
-		ReadAiManager();
 }
 
 void GameUnit::ImGuiDraw()
@@ -221,6 +218,8 @@ Vector3 GameUnit::PredictPosition(float secsFuture) const
 {
 	if(pathSize > 1) {
 		float unitsPerSec = isDashing ? dashSpeed : moveSpeed;
+		if (unitsPerSec == 0.0)
+			return pos;
 
 		for (int i = 0; i < pathSize - 1; ++i) {
 			float segmentDistance = path[i].distance(path[i + 1]);
@@ -257,14 +256,20 @@ float GameUnit::CalculatePathLength()
 void GameUnit::ReadAiManager()
 {
 	static auto GetAiManager = AsFunc(ReadVTable(address, 148), int, void*);
-	if(aiManagerAddress == 0)
+	if (aiManagerAddress == 0) {
 		aiManagerAddress = GetAiManager((void*)address);
+	}
+	if (CantRead(aiManagerAddress))
+		return;
 
 	isMoving  = ReadBool(aiManagerAddress + Offsets::AiManagerIsMoving);
 	dashSpeed = ReadFloat(aiManagerAddress + Offsets::AiManagerDashSpeed);
 	isDashing = (dashSpeed > 0.0 && ReadBool(aiManagerAddress + Offsets::AiManagerIsDashing));
 
 	int startPath = ReadInt(aiManagerAddress + Offsets::AiManagerStartPath);
+	if (CantRead(startPath))
+		return;
+
 	int endPath = ReadInt(aiManagerAddress + Offsets::AiManagerEndPath);
 	int currentSegment = ReadInt(aiManagerAddress + Offsets::AiManagerCurrentSegment);
 

@@ -1,3 +1,7 @@
+[Valkyrie v0.30]
+	+ Added default key bindings in case valkyrie fails to read inputs.ini game file
+	+ Improved orbwalker prediction (thanks to csmit195 for the contribution)
+
 [Valkyrie v0.29]
 	* Fixed the way some objects are read this should yield slightly better performance
 	* Fixed a bug where cast time and spell delays wouldnt be considered in some skillshot predictions

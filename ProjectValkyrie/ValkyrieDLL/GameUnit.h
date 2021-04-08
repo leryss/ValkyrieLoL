@@ -47,7 +47,7 @@ public:
 	/// Calculates path length;
 	float     CalculatePathLength();
 
-private:
+protected:
 	void       ReadAiManager();
 
 public:

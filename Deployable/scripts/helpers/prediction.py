@@ -1,5 +1,6 @@
 from valkyrie  import *
 from .		   import items
+import math
 
 def predict_minions_lasthit(ctx, enemy_minions, ally_minions, delay_percent = 0.0):
 	'''
@@ -31,7 +32,7 @@ def predict_minion_health(ctx, enemy_minion, ally_minions, t_future, delay_perce
 		Predicts the minion health of `enemy_minion` after `t_future` seconds elapse.
 		It accomplishes this by checking the basic attacks of minions that are enemy to `enemy_minion`.
 	'''
-	enemy_minion_hp = enemy_minion.health
+	enemy_minion_hp = math.ceil(enemy_minion.health)
 	for ally_minion in ally_minions:
 		
 		casting = ally_minion.curr_casting
@@ -40,6 +41,6 @@ def predict_minion_health(ctx, enemy_minion, ally_minions, t_future, delay_perce
 			t_until_ally_hits *= (1.0 - delay_percent)
 			
 			if t_until_ally_hits > 0.0 and t_until_ally_hits < t_future:
-				enemy_minion_hp -= enemy_minion.base_atk
+				enemy_minion_hp -= math.floor(enemy_minion.base_atk)
  
 	return enemy_minion_hp

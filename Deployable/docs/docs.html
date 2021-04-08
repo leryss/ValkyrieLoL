@@ -275,7 +275,7 @@ Gets a float from the config file</p>
 <span>def <span class="ident">get_int</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>get_int( (Config)arg1, (str)arg2, (WindowFlag)arg3) -&gt; int :
+<div class="desc"><p>get_int( (Config)arg1, (str)arg2, (StyleVar)arg3) -&gt; int :
 Gets an integer from the config file</p>
 <pre><code>C++ signature :
     int get_int(class ConfigSet {lvalue},char const *,int)
@@ -315,7 +315,7 @@ Saves a float to the config file</p>
 <span>def <span class="ident">set_int</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>set_int( (Config)arg1, (str)arg2, (WindowFlag)arg3) -&gt; None :
+<div class="desc"><p>set_int( (Config)arg1, (str)arg2, (StyleVar)arg3) -&gt; None :
 Saves an integer to the config file</p>
 <pre><code>C++ signature :
     void set_int(class ConfigSet {lvalue},char const *,int)
@@ -428,11 +428,11 @@ Casts a spell on a location. If second argument is None, it will cast at the cur
 <span>def <span class="ident">circle</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>circle( (Context)arg1, (Vec2)arg2, (float)arg3, (WindowFlag)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
+<div class="desc"><p>circle( (Context)arg1, (Vec2)arg2, (float)arg3, (StyleVar)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
 <pre><code>C++ signature :
     void circle(class PyExecutionContext {lvalue},struct Vector2,float,int,float,struct ImVec4)
 </code></pre>
-<p>circle( (Context)arg1, (Vec3)arg2, (float)arg3, (WindowFlag)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
+<p>circle( (Context)arg1, (Vec3)arg2, (float)arg3, (StyleVar)arg4, (float)arg5, (Col)arg6) -&gt; None :</p>
 <pre><code>C++ signature :
     void circle(class PyExecutionContext {lvalue},struct Vector3,float,int,float,struct ImVec4)
 </code></pre></div>
@@ -441,11 +441,11 @@ Casts a spell on a location. If second argument is None, it will cast at the cur
 <span>def <span class="ident">circle_fill</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>circle_fill( (Context)arg1, (Vec2)arg2, (float)arg3, (WindowFlag)arg4, (Col)arg5) -&gt; None :</p>
+<div class="desc"><p>circle_fill( (Context)arg1, (Vec2)arg2, (float)arg3, (StyleVar)arg4, (Col)arg5) -&gt; None :</p>
 <pre><code>C++ signature :
     void circle_fill(class PyExecutionContext {lvalue},struct Vector2,float,int,struct ImVec4)
 </code></pre>
-<p>circle_fill( (Context)arg1, (Vec3)arg2, (float)arg3, (WindowFlag)arg4, (Col)arg5) -&gt; None :</p>
+<p>circle_fill( (Context)arg1, (Vec3)arg2, (float)arg3, (StyleVar)arg4, (Col)arg5) -&gt; None :</p>
 <pre><code>C++ signature :
     void circle_fill(class PyExecutionContext {lvalue},struct Vector3,float,int,struct ImVec4)
 </code></pre></div>
@@ -552,7 +552,7 @@ Checks if the object is in the fountain of his team</p>
 <span>def <span class="ident">is_held</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>is_held( (Context)arg1, (WindowFlag)arg2) -&gt; bool :
+<div class="desc"><p>is_held( (Context)arg1, (StyleVar)arg2) -&gt; bool :
 Checks if key is held down</p>
 <pre><code>C++ signature :
     bool is_held(class PyExecutionContext {lvalue},int)
@@ -579,6 +579,16 @@ Checks if key is held down</p>
 True if the game object is under tower</p>
 <pre><code>C++ signature :
     bool is_under_tower(class PyExecutionContext {lvalue},class GameUnit)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.is_wall_at"><code class="name flex">
+<span>def <span class="ident">is_wall_at</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>is_wall_at( (Context)arg1, (Vec3)arg2) -&gt; bool :
+Checks if there is a wall at the specified position</p>
+<pre><code>C++ signature :
+    bool is_wall_at(class PyExecutionContext {lvalue},struct Vector3)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.Context.line"><code class="name flex">
@@ -627,6 +637,76 @@ Moves the mouse location to the specified game world coordinate</p>
 Draws a pill with a text under the player. Pill positions are automatically managed each frame so that they dont overlap.</p>
 <pre><code>C++ signature :
     void pill(class PyExecutionContext {lvalue},char const *,struct ImVec4,struct ImVec4)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_assist"><code class="name flex">
+<span>def <span class="ident">ping_assist</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_assist( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>help</code> ping at the target location</p>
+<pre><code>C++ signature :
+    void ping_assist(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_danger"><code class="name flex">
+<span>def <span class="ident">ping_danger</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_danger( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>danger</code> ping at the target location</p>
+<pre><code>C++ signature :
+    void ping_danger(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_mia"><code class="name flex">
+<span>def <span class="ident">ping_mia</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_mia( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>enemy missing</code> ping at the target location</p>
+<pre><code>C++ signature :
+    void ping_mia(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_normal"><code class="name flex">
+<span>def <span class="ident">ping_normal</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_normal( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>normal</code> ping at the target location. For this ping type riot moves the cursor position to the ping location after ping has been issued</p>
+<pre><code>C++ signature :
+    void ping_normal(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_omw"><code class="name flex">
+<span>def <span class="ident">ping_omw</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_omw( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>on my way</code> ping at the target location</p>
+<pre><code>C++ signature :
+    void ping_omw(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_vision"><code class="name flex">
+<span>def <span class="ident">ping_vision</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_vision( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>warded</code> ping at the target location</p>
+<pre><code>C++ signature :
+    void ping_vision(class PyExecutionContext {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Context.ping_warn"><code class="name flex">
+<span>def <span class="ident">ping_warn</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ping_warn( (Context)arg1, (Vec3)arg2) -&gt; None :
+Issues a <code>back</code> ping at the target location. For this ping type riot moves the cursor position to the ping location after ping has been issued</p>
+<pre><code>C++ signature :
+    void ping_warn(class PyExecutionContext {lvalue},struct Vector3)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.Context.predict_cast_point"><code class="name flex">
@@ -732,7 +812,7 @@ Logs a warning message to the console &amp; file log</p>
 <span>def <span class="ident">was_pressed</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>was_pressed( (Context)arg1, (WindowFlag)arg2) -&gt; bool :
+<div class="desc"><p>was_pressed( (Context)arg1, (StyleVar)arg2) -&gt; bool :
 Checks if key was pressed</p>
 <pre><code>C++ signature :
     bool was_pressed(class PyExecutionContext {lvalue},int)
@@ -987,10 +1067,6 @@ Checks if key was pressed</p>
 <dd>
 <div class="desc"><p>Timestamp in game time for when the object was last visible</p></div>
 </dd>
-<dt id="valkyrie.Obj.moving"><code class="name">var <span class="ident">moving</span></code></dt>
-<dd>
-<div class="desc"><p>True if object is moving</p></div>
-</dd>
 <dt id="valkyrie.Obj.name"><code class="name">var <span class="ident">name</span></code></dt>
 <dd>
 <div class="desc"><p>Name of the object in lower case</p></div>
@@ -1032,6 +1108,16 @@ Checks if two objects are allied</p>
 Checks if two objects are enemies</p>
 <pre><code>C++ signature :
     bool enemy_to(class GameObject {lvalue},class GameObject)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Obj.in_front_of"><code class="name flex">
+<span>def <span class="ident">in_front_of</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>in_front_of( (Obj)arg1, (Obj)arg2) -&gt; bool :
+Checks if object is in front of</p>
+<pre><code>C++ signature :
+    bool in_front_of(class GameObject {lvalue},class GameObject)
 </code></pre></div>
 </dd>
 </dl>
@@ -1092,6 +1178,15 @@ Query clone objects</p>
     class ObjectQuery * clone(class ObjectQuery {lvalue})
 </code></pre></div>
 </dd>
+<dt id="valkyrie.ObjectQuery.count"><code class="name flex">
+<span>def <span class="ident">count</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>count( (ObjectQuery)arg1) -&gt; int :</p>
+<pre><code>C++ signature :
+    int count(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
 <dt id="valkyrie.ObjectQuery.dead"><code class="name flex">
 <span>def <span class="ident">dead</span></span>(<span>...)</span>
 </code></dt>
@@ -1119,6 +1214,16 @@ Query enemies</p>
 <div class="desc"><p>get( (ObjectQuery)arg1) -&gt; list :</p>
 <pre><code>C++ signature :
     class boost::python::list get(class ObjectQuery {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.ObjectQuery.has_tag"><code class="name flex">
+<span>def <span class="ident">has_tag</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>has_tag( (ObjectQuery)arg1, (Unit)arg2) -&gt; ObjectQuery :
+Query units with specified tag</p>
+<pre><code>C++ signature :
+    class ObjectQuery * has_tag(class ObjectQuery {lvalue},enum UnitTag)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.ObjectQuery.invisible"><code class="name flex">
@@ -1476,6 +1581,142 @@ Checks if the spell has the specified Spell flag</p>
 </dd>
 </dl>
 </dd>
+<dt id="valkyrie.StyleVar"><code class="flex name class">
+<span>class <span class="ident">StyleVar</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer</p>
+<p>Convert a number or string to an integer, or return 0 if no arguments
+are given.
+If x is a number, return x.<strong>int</strong>().
+For floating point
+numbers, this truncates towards zero.</p>
+<p>If x is not a number or if base is given, then x must be a string,
+bytes, or bytearray instance representing an integer literal in the
+given base.
+The literal can be preceded by '+' or '-' and be surrounded
+by whitespace.
+The base defaults to 10.
+Valid bases are 0 and 2-36.
+Base 0 means to interpret the base from the string as an integer literal.</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; int('0b100', base=0)
+4
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Boost.Python.enum</li>
+<li>builtins.int</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="valkyrie.StyleVar.Alpha"><code class="name">var <span class="ident">Alpha</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ButtonTextAlign"><code class="name">var <span class="ident">ButtonTextAlign</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.CellPadding"><code class="name">var <span class="ident">CellPadding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ChildBorderSize"><code class="name">var <span class="ident">ChildBorderSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ChildRounding"><code class="name">var <span class="ident">ChildRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.FrameBorderSize"><code class="name">var <span class="ident">FrameBorderSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.FramePadding"><code class="name">var <span class="ident">FramePadding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.FrameRounding"><code class="name">var <span class="ident">FrameRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.GrabMinSize"><code class="name">var <span class="ident">GrabMinSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.GrabRounding"><code class="name">var <span class="ident">GrabRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.IndentSpacing"><code class="name">var <span class="ident">IndentSpacing</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ItemInnerSpacing"><code class="name">var <span class="ident">ItemInnerSpacing</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ItemSpacing"><code class="name">var <span class="ident">ItemSpacing</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.PopupBorderSize"><code class="name">var <span class="ident">PopupBorderSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.PopupRounding"><code class="name">var <span class="ident">PopupRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ScrollbarRounding"><code class="name">var <span class="ident">ScrollbarRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.ScrollbarSize"><code class="name">var <span class="ident">ScrollbarSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.SelectableTextAlign"><code class="name">var <span class="ident">SelectableTextAlign</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.TabRounding"><code class="name">var <span class="ident">TabRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.WindowBorderSize"><code class="name">var <span class="ident">WindowBorderSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.WindowMinSize"><code class="name">var <span class="ident">WindowMinSize</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.WindowPadding"><code class="name">var <span class="ident">WindowPadding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.WindowRounding"><code class="name">var <span class="ident">WindowRounding</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.WindowTitleAlign"><code class="name">var <span class="ident">WindowTitleAlign</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.names"><code class="name">var <span class="ident">names</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="valkyrie.StyleVar.values"><code class="name">var <span class="ident">values</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="valkyrie.TurretObj"><code class="flex name class">
 <span>class <span class="ident">TurretObj</span></span>
 <span>(</span><span>...)</span>
@@ -1517,9 +1758,18 @@ Checks if the spell has the specified Spell flag</p>
 <pre><code>C++ signature :
     void begin(class PyImGui {lvalue},char const *)
 </code></pre>
-<p>begin( (UI)arg1, (str)arg2, (WindowFlag)arg3) -&gt; None :</p>
+<p>begin( (UI)arg1, (str)arg2, (StyleVar)arg3) -&gt; None :</p>
 <pre><code>C++ signature :
     void begin(class PyImGui {lvalue},char const *,int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.beginchild"><code class="name flex">
+<span>def <span class="ident">beginchild</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>beginchild( (UI)arg1, (StyleVar)arg2, (bool)arg3, (StyleVar)arg4) -&gt; bool :</p>
+<pre><code>C++ signature :
+    bool beginchild(class PyImGui {lvalue},int,bool,int)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.UI.begingroup"><code class="name flex">
@@ -1562,7 +1812,7 @@ Checks if the spell has the specified Spell flag</p>
 <span>def <span class="ident">begintbl</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>begintbl( (UI)arg1, (str)arg2, (WindowFlag)arg3) -&gt; bool :</p>
+<div class="desc"><p>begintbl( (UI)arg1, (str)arg2, (StyleVar)arg3) -&gt; bool :</p>
 <pre><code>C++ signature :
     bool begintbl(class PyImGui {lvalue},char const *,int)
 </code></pre></div>
@@ -1611,7 +1861,7 @@ Checks if the spell has the specified Spell flag</p>
 <span>def <span class="ident">combo</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>combo( (UI)arg1, (str)arg2, (list)arg3, (WindowFlag)arg4) -&gt; int :</p>
+<div class="desc"><p>combo( (UI)arg1, (str)arg2, (list)arg3, (StyleVar)arg4) -&gt; int :</p>
 <pre><code>C++ signature :
     int combo(class PyImGui {lvalue},char const *,class boost::python::list,int)
 </code></pre></div>
@@ -1639,7 +1889,7 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">dragint</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>dragint( (UI)arg1, (str)arg2, (WindowFlag)arg3 [, (WindowFlag)arg4 [, (WindowFlag)arg5 [, (WindowFlag)arg6]]]) -&gt; int :</p>
+<div class="desc"><p>dragint( (UI)arg1, (str)arg2, (StyleVar)arg3 [, (StyleVar)arg4 [, (StyleVar)arg5 [, (StyleVar)arg6]]]) -&gt; int :</p>
 <pre><code>C++ signature :
     int dragint(class PyImGui {lvalue},char const *,int [,int [,int [,int]]])
 </code></pre></div>
@@ -1651,6 +1901,15 @@ Shows the famous imgui demo</p>
 <div class="desc"><p>end( (UI)arg1) -&gt; None :</p>
 <pre><code>C++ signature :
     void end(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.endchild"><code class="name flex">
+<span>def <span class="ident">endchild</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>endchild( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void endchild(class PyImGui {lvalue})
 </code></pre></div>
 </dd>
 <dt id="valkyrie.UI.endgroup"><code class="name flex">
@@ -1698,6 +1957,15 @@ Shows the famous imgui demo</p>
     bool header(class PyImGui {lvalue},char const *)
 </code></pre></div>
 </dd>
+<dt id="valkyrie.UI.help"><code class="name flex">
+<span>def <span class="ident">help</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>help( (UI)arg1, (str)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void help(class PyImGui {lvalue},char const *)
+</code></pre></div>
+</dd>
 <dt id="valkyrie.UI.image"><code class="name flex">
 <span>def <span class="ident">image</span></span>(<span>...)</span>
 </code></dt>
@@ -1705,6 +1973,15 @@ Shows the famous imgui demo</p>
 <div class="desc"><p>image( (UI)arg1, (str)arg2, (Vec2)arg3 [, (Col)arg4]) -&gt; None :</p>
 <pre><code>C++ signature :
     void image(class PyImGui {lvalue},char const *,struct Vector2 [,struct ImVec4])
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.indent"><code class="name flex">
+<span>def <span class="ident">indent</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>indent( (UI)arg1, (float)arg2) -&gt; None :</p>
+<pre><code>C++ signature :
+    void indent(class PyImGui {lvalue},float)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.UI.inputtext"><code class="name flex">
@@ -1720,7 +1997,7 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">keyselect</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>keyselect( (UI)arg1, (str)arg2, (WindowFlag)arg3) -&gt; int :</p>
+<div class="desc"><p>keyselect( (UI)arg1, (str)arg2, (StyleVar)arg3) -&gt; int :</p>
 <pre><code>C++ signature :
     int keyselect(class PyImGui {lvalue},char const *,int)
 </code></pre></div>
@@ -1742,7 +2019,7 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">listbox</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>listbox( (UI)arg1, (str)arg2, (list)arg3, (WindowFlag)arg4) -&gt; int :</p>
+<div class="desc"><p>listbox( (UI)arg1, (str)arg2, (list)arg3, (StyleVar)arg4) -&gt; int :</p>
 <pre><code>C++ signature :
     int listbox(class PyImGui {lvalue},char const *,class boost::python::list,int)
 </code></pre></div>
@@ -1774,6 +2051,15 @@ Shows the famous imgui demo</p>
     void popid(class PyImGui {lvalue})
 </code></pre></div>
 </dd>
+<dt id="valkyrie.UI.popvar"><code class="name flex">
+<span>def <span class="ident">popvar</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>popvar( (UI)arg1) -&gt; None :</p>
+<pre><code>C++ signature :
+    void popvar(class PyImGui {lvalue})
+</code></pre></div>
+</dd>
 <dt id="valkyrie.UI.progressbar"><code class="name flex">
 <span>def <span class="ident">progressbar</span></span>(<span>...)</span>
 </code></dt>
@@ -1787,9 +2073,18 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">pushid</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>pushid( (UI)arg1, (WindowFlag)arg2) -&gt; None :</p>
+<div class="desc"><p>pushid( (UI)arg1, (StyleVar)arg2) -&gt; None :</p>
 <pre><code>C++ signature :
     void pushid(class PyImGui {lvalue},int)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UI.pushvar"><code class="name flex">
+<span>def <span class="ident">pushvar</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>pushvar( (UI)arg1, (StyleVar)arg2, (Vec2)arg3) -&gt; None :</p>
+<pre><code>C++ signature :
+    void pushvar(class PyImGui {lvalue},int,struct Vector2)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.UI.sameline"><code class="name flex">
@@ -1823,7 +2118,7 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">sliderenum</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>sliderenum( (UI)arg1, (str)arg2, (str)arg3, (WindowFlag)arg4, (WindowFlag)arg5) -&gt; int :</p>
+<div class="desc"><p>sliderenum( (UI)arg1, (str)arg2, (str)arg3, (StyleVar)arg4, (StyleVar)arg5) -&gt; int :</p>
 <pre><code>C++ signature :
     int sliderenum(class PyImGui {lvalue},char const *,char const *,int,int)
 </code></pre></div>
@@ -1841,7 +2136,7 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">sliderint</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>sliderint( (UI)arg1, (str)arg2, (WindowFlag)arg3, (WindowFlag)arg4, (WindowFlag)arg5) -&gt; int :</p>
+<div class="desc"><p>sliderint( (UI)arg1, (str)arg2, (StyleVar)arg3, (StyleVar)arg4, (StyleVar)arg5) -&gt; int :</p>
 <pre><code>C++ signature :
     int sliderint(class PyImGui {lvalue},char const *,int,int,int)
 </code></pre></div>
@@ -1850,7 +2145,7 @@ Shows the famous imgui demo</p>
 <span>def <span class="ident">tblcolumn</span></span>(<span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>tblcolumn( (UI)arg1, (WindowFlag)arg2) -&gt; None :</p>
+<div class="desc"><p>tblcolumn( (UI)arg1, (StyleVar)arg2) -&gt; None :</p>
 <pre><code>C++ signature :
     void tblcolumn(class PyImGui {lvalue},int)
 </code></pre></div>
@@ -2220,9 +2515,21 @@ Shows the famous imgui demo</p>
 <dd>
 <div class="desc"><p>Currently casting spell by the unit</p></div>
 </dd>
+<dt id="valkyrie.UnitObj.dash_speed"><code class="name">var <span class="ident">dash_speed</span></code></dt>
+<dd>
+<div class="desc"><p>Similar to move speed but when dashing</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.dashing"><code class="name">var <span class="ident">dashing</span></code></dt>
+<dd>
+<div class="desc"><p>True if unit is dashing</p></div>
+</dd>
 <dt id="valkyrie.UnitObj.dead"><code class="name">var <span class="ident">dead</span></code></dt>
 <dd>
 <div class="desc"><p>Used to check if unit is dead</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.destination"><code class="name">var <span class="ident">destination</span></code></dt>
+<dd>
+<div class="desc"><p>Navigation destination of the unit</p></div>
 </dd>
 <dt id="valkyrie.UnitObj.expiry"><code class="name">var <span class="ident">expiry</span></code></dt>
 <dd>
@@ -2268,6 +2575,14 @@ Shows the famous imgui demo</p>
 <dd>
 <div class="desc"><p>Movement speed of the unit</p></div>
 </dd>
+<dt id="valkyrie.UnitObj.moving"><code class="name">var <span class="ident">moving</span></code></dt>
+<dd>
+<div class="desc"><p>True if unit is moving</p></div>
+</dd>
+<dt id="valkyrie.UnitObj.path"><code class="name">var <span class="ident">path</span></code></dt>
+<dd>
+<div class="desc"><p>Navigation path of the unit</p></div>
+</dd>
 <dt id="valkyrie.UnitObj.static"><code class="name">var <span class="ident">static</span></code></dt>
 <dd>
 <div class="desc"><p>Static data loaded at runtime of the unit. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev</p></div>
@@ -2307,6 +2622,26 @@ Calculates effective physical damage against target considering armor and armor 
 Checks if the unit has unit tags (see Unit class)</p>
 <pre><code>C++ signature :
     bool has_tags(class GameUnit {lvalue},enum UnitTag)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UnitObj.path_distance"><code class="name flex">
+<span>def <span class="ident">path_distance</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>path_distance( (UnitObj)arg1) -&gt; float :
+Calculates navigation path distance in game units</p>
+<pre><code>C++ signature :
+    float path_distance(class GameUnit {lvalue})
+</code></pre></div>
+</dd>
+<dt id="valkyrie.UnitObj.predict_position"><code class="name flex">
+<span>def <span class="ident">predict_position</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>predict_position( (UnitObj)arg1, (float)arg2) -&gt; Vec3 :
+Predicts position of unit in X seconds</p>
+<pre><code>C++ signature :
+    struct Vector3 predict_position(class GameUnit {lvalue},float)
 </code></pre></div>
 </dd>
 </dl>
@@ -2471,6 +2806,16 @@ Checks if the unit has unit tags (see Unit class)</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="valkyrie.Vec3.angle"><code class="name flex">
+<span>def <span class="ident">angle</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>angle( (Vec3)arg1, (Vec3)arg2) -&gt; float :
+Angle between two vectors</p>
+<pre><code>C++ signature :
+    float angle(struct Vector3 {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
 <dt id="valkyrie.Vec3.clone"><code class="name flex">
 <span>def <span class="ident">clone</span></span>(<span>...)</span>
 </code></dt>
@@ -2487,6 +2832,15 @@ Checks if the unit has unit tags (see Unit class)</p>
 <div class="desc"><p>distance( (Vec3)arg1, (Vec3)arg2) -&gt; float :</p>
 <pre><code>C++ signature :
     float distance(struct Vector3 {lvalue},struct Vector3)
+</code></pre></div>
+</dd>
+<dt id="valkyrie.Vec3.dot"><code class="name flex">
+<span>def <span class="ident">dot</span></span>(<span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>dot( (Vec3)arg1, (Vec3)arg2) -&gt; float :</p>
+<pre><code>C++ signature :
+    float dot(struct Vector3 {lvalue},struct Vector3)
 </code></pre></div>
 </dd>
 <dt id="valkyrie.Vec3.l1"><code class="name flex">
@@ -2833,6 +3187,7 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.Context.is_held" href="#valkyrie.Context.is_held">is_held</a></code></li>
 <li><code><a title="valkyrie.Context.is_on_screen" href="#valkyrie.Context.is_on_screen">is_on_screen</a></code></li>
 <li><code><a title="valkyrie.Context.is_under_tower" href="#valkyrie.Context.is_under_tower">is_under_tower</a></code></li>
+<li><code><a title="valkyrie.Context.is_wall_at" href="#valkyrie.Context.is_wall_at">is_wall_at</a></code></li>
 <li><code><a title="valkyrie.Context.jungle" href="#valkyrie.Context.jungle">jungle</a></code></li>
 <li><code><a title="valkyrie.Context.line" href="#valkyrie.Context.line">line</a></code></li>
 <li><code><a title="valkyrie.Context.minions" href="#valkyrie.Context.minions">minions</a></code></li>
@@ -2842,6 +3197,13 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.Context.others" href="#valkyrie.Context.others">others</a></code></li>
 <li><code><a title="valkyrie.Context.pill" href="#valkyrie.Context.pill">pill</a></code></li>
 <li><code><a title="valkyrie.Context.ping" href="#valkyrie.Context.ping">ping</a></code></li>
+<li><code><a title="valkyrie.Context.ping_assist" href="#valkyrie.Context.ping_assist">ping_assist</a></code></li>
+<li><code><a title="valkyrie.Context.ping_danger" href="#valkyrie.Context.ping_danger">ping_danger</a></code></li>
+<li><code><a title="valkyrie.Context.ping_mia" href="#valkyrie.Context.ping_mia">ping_mia</a></code></li>
+<li><code><a title="valkyrie.Context.ping_normal" href="#valkyrie.Context.ping_normal">ping_normal</a></code></li>
+<li><code><a title="valkyrie.Context.ping_omw" href="#valkyrie.Context.ping_omw">ping_omw</a></code></li>
+<li><code><a title="valkyrie.Context.ping_vision" href="#valkyrie.Context.ping_vision">ping_vision</a></code></li>
+<li><code><a title="valkyrie.Context.ping_warn" href="#valkyrie.Context.ping_warn">ping_warn</a></code></li>
 <li><code><a title="valkyrie.Context.player" href="#valkyrie.Context.player">player</a></code></li>
 <li><code><a title="valkyrie.Context.predict_cast_point" href="#valkyrie.Context.predict_cast_point">predict_cast_point</a></code></li>
 <li><code><a title="valkyrie.Context.rect" href="#valkyrie.Context.rect">rect</a></code></li>
@@ -2919,9 +3281,9 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.Obj.dir" href="#valkyrie.Obj.dir">dir</a></code></li>
 <li><code><a title="valkyrie.Obj.enemy_to" href="#valkyrie.Obj.enemy_to">enemy_to</a></code></li>
 <li><code><a title="valkyrie.Obj.first_seen" href="#valkyrie.Obj.first_seen">first_seen</a></code></li>
+<li><code><a title="valkyrie.Obj.in_front_of" href="#valkyrie.Obj.in_front_of">in_front_of</a></code></li>
 <li><code><a title="valkyrie.Obj.index" href="#valkyrie.Obj.index">index</a></code></li>
 <li><code><a title="valkyrie.Obj.last_seen" href="#valkyrie.Obj.last_seen">last_seen</a></code></li>
-<li><code><a title="valkyrie.Obj.moving" href="#valkyrie.Obj.moving">moving</a></code></li>
 <li><code><a title="valkyrie.Obj.name" href="#valkyrie.Obj.name">name</a></code></li>
 <li><code><a title="valkyrie.Obj.net_id" href="#valkyrie.Obj.net_id">net_id</a></code></li>
 <li><code><a title="valkyrie.Obj.pos" href="#valkyrie.Obj.pos">pos</a></code></li>
@@ -2936,9 +3298,11 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.ObjectQuery.ally_to" href="#valkyrie.ObjectQuery.ally_to">ally_to</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.casting" href="#valkyrie.ObjectQuery.casting">casting</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.clone" href="#valkyrie.ObjectQuery.clone">clone</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.count" href="#valkyrie.ObjectQuery.count">count</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.dead" href="#valkyrie.ObjectQuery.dead">dead</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.enemy_to" href="#valkyrie.ObjectQuery.enemy_to">enemy_to</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.get" href="#valkyrie.ObjectQuery.get">get</a></code></li>
+<li><code><a title="valkyrie.ObjectQuery.has_tag" href="#valkyrie.ObjectQuery.has_tag">has_tag</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.invisible" href="#valkyrie.ObjectQuery.invisible">invisible</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.near" href="#valkyrie.ObjectQuery.near">near</a></code></li>
 <li><code><a title="valkyrie.ObjectQuery.not_clone" href="#valkyrie.ObjectQuery.not_clone">not_clone</a></code></li>
@@ -3019,12 +3383,44 @@ Rotates the vector along the z axis</p>
 </ul>
 </li>
 <li>
+<h4><code><a title="valkyrie.StyleVar" href="#valkyrie.StyleVar">StyleVar</a></code></h4>
+<ul class="two-column">
+<li><code><a title="valkyrie.StyleVar.Alpha" href="#valkyrie.StyleVar.Alpha">Alpha</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ButtonTextAlign" href="#valkyrie.StyleVar.ButtonTextAlign">ButtonTextAlign</a></code></li>
+<li><code><a title="valkyrie.StyleVar.CellPadding" href="#valkyrie.StyleVar.CellPadding">CellPadding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ChildBorderSize" href="#valkyrie.StyleVar.ChildBorderSize">ChildBorderSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ChildRounding" href="#valkyrie.StyleVar.ChildRounding">ChildRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.FrameBorderSize" href="#valkyrie.StyleVar.FrameBorderSize">FrameBorderSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.FramePadding" href="#valkyrie.StyleVar.FramePadding">FramePadding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.FrameRounding" href="#valkyrie.StyleVar.FrameRounding">FrameRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.GrabMinSize" href="#valkyrie.StyleVar.GrabMinSize">GrabMinSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.GrabRounding" href="#valkyrie.StyleVar.GrabRounding">GrabRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.IndentSpacing" href="#valkyrie.StyleVar.IndentSpacing">IndentSpacing</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ItemInnerSpacing" href="#valkyrie.StyleVar.ItemInnerSpacing">ItemInnerSpacing</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ItemSpacing" href="#valkyrie.StyleVar.ItemSpacing">ItemSpacing</a></code></li>
+<li><code><a title="valkyrie.StyleVar.PopupBorderSize" href="#valkyrie.StyleVar.PopupBorderSize">PopupBorderSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.PopupRounding" href="#valkyrie.StyleVar.PopupRounding">PopupRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ScrollbarRounding" href="#valkyrie.StyleVar.ScrollbarRounding">ScrollbarRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.ScrollbarSize" href="#valkyrie.StyleVar.ScrollbarSize">ScrollbarSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.SelectableTextAlign" href="#valkyrie.StyleVar.SelectableTextAlign">SelectableTextAlign</a></code></li>
+<li><code><a title="valkyrie.StyleVar.TabRounding" href="#valkyrie.StyleVar.TabRounding">TabRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.WindowBorderSize" href="#valkyrie.StyleVar.WindowBorderSize">WindowBorderSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.WindowMinSize" href="#valkyrie.StyleVar.WindowMinSize">WindowMinSize</a></code></li>
+<li><code><a title="valkyrie.StyleVar.WindowPadding" href="#valkyrie.StyleVar.WindowPadding">WindowPadding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.WindowRounding" href="#valkyrie.StyleVar.WindowRounding">WindowRounding</a></code></li>
+<li><code><a title="valkyrie.StyleVar.WindowTitleAlign" href="#valkyrie.StyleVar.WindowTitleAlign">WindowTitleAlign</a></code></li>
+<li><code><a title="valkyrie.StyleVar.names" href="#valkyrie.StyleVar.names">names</a></code></li>
+<li><code><a title="valkyrie.StyleVar.values" href="#valkyrie.StyleVar.values">values</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="valkyrie.TurretObj" href="#valkyrie.TurretObj">TurretObj</a></code></h4>
 </li>
 <li>
 <h4><code><a title="valkyrie.UI" href="#valkyrie.UI">UI</a></code></h4>
 <ul class="two-column">
 <li><code><a title="valkyrie.UI.begin" href="#valkyrie.UI.begin">begin</a></code></li>
+<li><code><a title="valkyrie.UI.beginchild" href="#valkyrie.UI.beginchild">beginchild</a></code></li>
 <li><code><a title="valkyrie.UI.begingroup" href="#valkyrie.UI.begingroup">begingroup</a></code></li>
 <li><code><a title="valkyrie.UI.beginmenu" href="#valkyrie.UI.beginmenu">beginmenu</a></code></li>
 <li><code><a title="valkyrie.UI.beginmodal" href="#valkyrie.UI.beginmodal">beginmodal</a></code></li>
@@ -3039,12 +3435,15 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.UI.dragfloat" href="#valkyrie.UI.dragfloat">dragfloat</a></code></li>
 <li><code><a title="valkyrie.UI.dragint" href="#valkyrie.UI.dragint">dragint</a></code></li>
 <li><code><a title="valkyrie.UI.end" href="#valkyrie.UI.end">end</a></code></li>
+<li><code><a title="valkyrie.UI.endchild" href="#valkyrie.UI.endchild">endchild</a></code></li>
 <li><code><a title="valkyrie.UI.endgroup" href="#valkyrie.UI.endgroup">endgroup</a></code></li>
 <li><code><a title="valkyrie.UI.endmenu" href="#valkyrie.UI.endmenu">endmenu</a></code></li>
 <li><code><a title="valkyrie.UI.endpopup" href="#valkyrie.UI.endpopup">endpopup</a></code></li>
 <li><code><a title="valkyrie.UI.endtbl" href="#valkyrie.UI.endtbl">endtbl</a></code></li>
 <li><code><a title="valkyrie.UI.header" href="#valkyrie.UI.header">header</a></code></li>
+<li><code><a title="valkyrie.UI.help" href="#valkyrie.UI.help">help</a></code></li>
 <li><code><a title="valkyrie.UI.image" href="#valkyrie.UI.image">image</a></code></li>
+<li><code><a title="valkyrie.UI.indent" href="#valkyrie.UI.indent">indent</a></code></li>
 <li><code><a title="valkyrie.UI.inputtext" href="#valkyrie.UI.inputtext">inputtext</a></code></li>
 <li><code><a title="valkyrie.UI.keyselect" href="#valkyrie.UI.keyselect">keyselect</a></code></li>
 <li><code><a title="valkyrie.UI.labeltext" href="#valkyrie.UI.labeltext">labeltext</a></code></li>
@@ -3052,8 +3451,10 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.UI.opennext" href="#valkyrie.UI.opennext">opennext</a></code></li>
 <li><code><a title="valkyrie.UI.openpopup" href="#valkyrie.UI.openpopup">openpopup</a></code></li>
 <li><code><a title="valkyrie.UI.popid" href="#valkyrie.UI.popid">popid</a></code></li>
+<li><code><a title="valkyrie.UI.popvar" href="#valkyrie.UI.popvar">popvar</a></code></li>
 <li><code><a title="valkyrie.UI.progressbar" href="#valkyrie.UI.progressbar">progressbar</a></code></li>
 <li><code><a title="valkyrie.UI.pushid" href="#valkyrie.UI.pushid">pushid</a></code></li>
+<li><code><a title="valkyrie.UI.pushvar" href="#valkyrie.UI.pushvar">pushvar</a></code></li>
 <li><code><a title="valkyrie.UI.sameline" href="#valkyrie.UI.sameline">sameline</a></code></li>
 <li><code><a title="valkyrie.UI.selectable" href="#valkyrie.UI.selectable">selectable</a></code></li>
 <li><code><a title="valkyrie.UI.separator" href="#valkyrie.UI.separator">separator</a></code></li>
@@ -3146,7 +3547,10 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.UnitObj.crit" href="#valkyrie.UnitObj.crit">crit</a></code></li>
 <li><code><a title="valkyrie.UnitObj.crit_multi" href="#valkyrie.UnitObj.crit_multi">crit_multi</a></code></li>
 <li><code><a title="valkyrie.UnitObj.curr_casting" href="#valkyrie.UnitObj.curr_casting">curr_casting</a></code></li>
+<li><code><a title="valkyrie.UnitObj.dash_speed" href="#valkyrie.UnitObj.dash_speed">dash_speed</a></code></li>
+<li><code><a title="valkyrie.UnitObj.dashing" href="#valkyrie.UnitObj.dashing">dashing</a></code></li>
 <li><code><a title="valkyrie.UnitObj.dead" href="#valkyrie.UnitObj.dead">dead</a></code></li>
+<li><code><a title="valkyrie.UnitObj.destination" href="#valkyrie.UnitObj.destination">destination</a></code></li>
 <li><code><a title="valkyrie.UnitObj.effective_magic_dmg" href="#valkyrie.UnitObj.effective_magic_dmg">effective_magic_dmg</a></code></li>
 <li><code><a title="valkyrie.UnitObj.effective_phys_dmg" href="#valkyrie.UnitObj.effective_phys_dmg">effective_phys_dmg</a></code></li>
 <li><code><a title="valkyrie.UnitObj.expiry" href="#valkyrie.UnitObj.expiry">expiry</a></code></li>
@@ -3161,6 +3565,10 @@ Rotates the vector along the z axis</p>
 <li><code><a title="valkyrie.UnitObj.mana" href="#valkyrie.UnitObj.mana">mana</a></code></li>
 <li><code><a title="valkyrie.UnitObj.max_health" href="#valkyrie.UnitObj.max_health">max_health</a></code></li>
 <li><code><a title="valkyrie.UnitObj.move_speed" href="#valkyrie.UnitObj.move_speed">move_speed</a></code></li>
+<li><code><a title="valkyrie.UnitObj.moving" href="#valkyrie.UnitObj.moving">moving</a></code></li>
+<li><code><a title="valkyrie.UnitObj.path" href="#valkyrie.UnitObj.path">path</a></code></li>
+<li><code><a title="valkyrie.UnitObj.path_distance" href="#valkyrie.UnitObj.path_distance">path_distance</a></code></li>
+<li><code><a title="valkyrie.UnitObj.predict_position" href="#valkyrie.UnitObj.predict_position">predict_position</a></code></li>
 <li><code><a title="valkyrie.UnitObj.static" href="#valkyrie.UnitObj.static">static</a></code></li>
 <li><code><a title="valkyrie.UnitObj.targetable" href="#valkyrie.UnitObj.targetable">targetable</a></code></li>
 </ul>
@@ -3196,8 +3604,10 @@ Rotates the vector along the z axis</p>
 <li>
 <h4><code><a title="valkyrie.Vec3" href="#valkyrie.Vec3">Vec3</a></code></h4>
 <ul class="two-column">
+<li><code><a title="valkyrie.Vec3.angle" href="#valkyrie.Vec3.angle">angle</a></code></li>
 <li><code><a title="valkyrie.Vec3.clone" href="#valkyrie.Vec3.clone">clone</a></code></li>
 <li><code><a title="valkyrie.Vec3.distance" href="#valkyrie.Vec3.distance">distance</a></code></li>
+<li><code><a title="valkyrie.Vec3.dot" href="#valkyrie.Vec3.dot">dot</a></code></li>
 <li><code><a title="valkyrie.Vec3.l1" href="#valkyrie.Vec3.l1">l1</a></code></li>
 <li><code><a title="valkyrie.Vec3.length" href="#valkyrie.Vec3.length">length</a></code></li>
 <li><code><a title="valkyrie.Vec3.normalize" href="#valkyrie.Vec3.normalize">normalize</a></code></li>

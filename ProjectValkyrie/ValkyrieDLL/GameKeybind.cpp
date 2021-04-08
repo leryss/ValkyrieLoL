@@ -112,20 +112,20 @@ void GameKeybind::InitFromGameConfigs()
 		gameKeyCfgs[line.substr(0, eqPos)] = line.substr(eqPos + 1, line.size());
 	}
 
-	CastSpellQ     = GetKeyForConfig("evtCastSpell1");
-	CastSpellW     = GetKeyForConfig("evtCastSpell2");
-	CastSpellE     = GetKeyForConfig("evtCastSpell3");
-	CastSpellR     = GetKeyForConfig("evtCastSpell4");
-	CastSpellD     = GetKeyForConfig("evtCastAvatarSpell1");
-	CastSpellF     = GetKeyForConfig("evtCastAvatarSpell2");
+	CastSpellQ     = GetKeyForConfig("evtCastSpell1", HKey::Q);
+	CastSpellW     = GetKeyForConfig("evtCastSpell2", HKey::W);
+	CastSpellE     = GetKeyForConfig("evtCastSpell3", HKey::E);
+	CastSpellR     = GetKeyForConfig("evtCastSpell4", HKey::R);
+	CastSpellD     = GetKeyForConfig("evtCastAvatarSpell1", HKey::D);
+	CastSpellF     = GetKeyForConfig("evtCastAvatarSpell2", HKey::F);
 
-	UseItem1       = GetKeyForConfig("evtUseItem1");
-	UseItem2       = GetKeyForConfig("evtUseItem2");
-	UseItem3       = GetKeyForConfig("evtUseItem3");
-	UseItem4       = GetKeyForConfig("evtUseItem4");
-	UseItem5       = GetKeyForConfig("evtUseItem5");
-	UseItem6       = GetKeyForConfig("evtUseItem6");
-	UseItemTrinket = GetKeyForConfig("evtUseVisionItem");
+	UseItem1       = GetKeyForConfig("evtUseItem1", HKey::N_1);
+	UseItem2       = GetKeyForConfig("evtUseItem2", HKey::N_2);
+	UseItem3       = GetKeyForConfig("evtUseItem3", HKey::N_3);
+	UseItem4       = GetKeyForConfig("evtUseItem4", HKey::N_5);
+	UseItem5       = GetKeyForConfig("evtUseItem5", HKey::N_6);
+	UseItem6       = GetKeyForConfig("evtUseItem6", HKey::N_7);
+	UseItemTrinket = GetKeyForConfig("evtUseVisionItem", HKey::N_4);
 
 	PingNormal          = GetKeyForConfig("evntPlayerPingCursor");
 	PingWarn            = GetKeyForConfig("evntPlayerPingCursorDanger");
@@ -134,22 +134,22 @@ void GameKeybind::InitFromGameConfigs()
 	PingMia             = GetKeyForConfig("evtPlayerPingMIA");
 	PingOmw             = GetKeyForConfig("evtPlayerPingOMW");
 	PingAssist          = GetKeyForConfig("evtPlayerPingComeHere");
-	Recall              = GetKeyForConfig("evtUseItem7");
+	Recall              = GetKeyForConfig("evtUseItem7", HKey::B);
 	TargetChampionsOnly = GetKeyForConfig("evtChampionOnly");
 }
 
-HKey GameKeybind::GetKeyForConfig(std::string cfg)
+HKey GameKeybind::GetKeyForConfig(std::string cfg, HKey defaultKey)
 {
 	auto findCfg = gameKeyCfgs.find(cfg);
 	if (findCfg == gameKeyCfgs.end()) {
 		Logger::Warn("Did not find game cfg %s", cfg.c_str());
-		return HKey::NO_KEY;
+		return defaultKey;
 	}
 
 	auto findKey = keyConvert.find(findCfg->second);
 	if (findKey == keyConvert.end()) {
 		Logger::Warn("Unreconizable game key cfg %s for %s", findCfg->second.c_str(), cfg.c_str());
-		return HKey::NO_KEY;
+		return defaultKey;
 	}
 
 	return findKey->second;

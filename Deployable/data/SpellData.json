@@ -10,7 +10,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -26,7 +26,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -42,7 +42,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -58,7 +58,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -74,7 +74,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -90,7 +90,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastAnywhere" ]
@@ -106,7 +106,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -122,7 +122,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint"]
@@ -138,7 +138,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -154,7 +154,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastDirection" ]
@@ -170,7 +170,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastAnywhere" ]
@@ -186,7 +186,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -202,7 +202,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastAnywhere" ]
@@ -218,7 +218,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastTarget" ]
@@ -234,7 +234,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 0.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastAnywhere" ]
@@ -476,7 +476,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastDirection", "Dash"]
@@ -1436,7 +1436,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -1548,7 +1548,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -1612,7 +1612,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere", "Area"]
@@ -1676,7 +1676,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint"]
@@ -1772,7 +1772,7 @@
         "castConeDistance": 100.0,
         "width": 150.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -2028,7 +2028,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -3196,7 +3196,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -3980,7 +3980,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -4076,7 +4076,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint"]
@@ -4316,7 +4316,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -4348,7 +4348,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -4492,7 +4492,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -4668,7 +4668,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -4780,7 +4780,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -4908,7 +4908,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.627,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -5356,7 +5356,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -5580,10 +5580,10 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 1450.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
-        "delay": 0.0,
-        "flags": ["CastPoint"]
+        "delay": 1.0,
+        "flags": ["CastPoint", "Area", "AffectChampion"]
     },
     {
         "name": "caitlynentrapmentmissile",
@@ -5788,7 +5788,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -5900,7 +5900,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -6108,7 +6108,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -6428,7 +6428,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -6460,7 +6460,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.627,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -6572,7 +6572,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -6764,7 +6764,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -6844,7 +6844,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -7100,7 +7100,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -7452,7 +7452,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -7804,7 +7804,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -7820,7 +7820,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -8268,7 +8268,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -8348,7 +8348,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -8380,7 +8380,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -8396,7 +8396,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -8428,7 +8428,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -8604,7 +8604,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -9372,7 +9372,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -9388,7 +9388,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -9420,7 +9420,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -9740,7 +9740,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -9772,7 +9772,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -9836,7 +9836,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint", "Dash"]
@@ -9884,7 +9884,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -9948,7 +9948,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -10412,7 +10412,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -10972,7 +10972,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -12060,7 +12060,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -12172,7 +12172,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -13836,7 +13836,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -14108,7 +14108,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -14412,7 +14412,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -14652,7 +14652,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -14796,7 +14796,7 @@
         "castConeDistance": 100.0,
         "width": 80.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -14908,7 +14908,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -14988,7 +14988,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -16748,7 +16748,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 100.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -16956,7 +16956,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -17004,7 +17004,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17148,7 +17148,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint"]
@@ -17276,7 +17276,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17292,7 +17292,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17308,7 +17308,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17356,7 +17356,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -17452,7 +17452,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17468,7 +17468,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17548,7 +17548,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": [ "CastPoint", "Area", "AffectAll" ]
@@ -17612,7 +17612,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17628,7 +17628,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17644,7 +17644,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17692,7 +17692,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17708,7 +17708,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -17724,7 +17724,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.6,
         "flags": [ "CastPoint", "Area", "AffectAll" ]
@@ -19372,7 +19372,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -19404,7 +19404,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -19436,7 +19436,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -19484,7 +19484,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -19660,7 +19660,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -19708,7 +19708,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint", "Dash"]
@@ -19756,7 +19756,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -19836,7 +19836,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint", "Dash"]
@@ -20012,7 +20012,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20076,7 +20076,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20124,7 +20124,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20220,7 +20220,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20300,7 +20300,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -20364,7 +20364,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20380,7 +20380,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20396,7 +20396,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -20540,7 +20540,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -21388,7 +21388,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -21468,7 +21468,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -21996,7 +21996,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -22156,7 +22156,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -22188,7 +22188,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.625,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -24188,7 +24188,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -24236,7 +24236,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -24780,7 +24780,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -25132,7 +25132,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -25276,7 +25276,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -25292,7 +25292,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -25516,7 +25516,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -25596,7 +25596,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -26956,7 +26956,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -26972,7 +26972,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -27452,7 +27452,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastTarget"]
@@ -28124,7 +28124,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -28188,7 +28188,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 100.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -28204,7 +28204,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 4.45,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -28332,7 +28332,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -28444,7 +28444,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29295,7 +29295,7 @@
         "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "quinnr",
@@ -29311,7 +29311,7 @@
         "speed": 2200.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "quinnrreturntoquinn",
@@ -29404,7 +29404,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29420,10 +29420,10 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastAnywhere"]
     },
     {
         "name": "quinnq",
@@ -29452,10 +29452,10 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
-        "flags": []
+        "flags": ["CastTarget"]
     },
     {
         "name": "quinnwinflight",
@@ -29468,7 +29468,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29612,7 +29612,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29708,7 +29708,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29756,7 +29756,7 @@
         "castConeDistance": 0.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29852,7 +29852,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -29868,7 +29868,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -30828,7 +30828,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -30892,7 +30892,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -30924,7 +30924,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -30972,7 +30972,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33836,7 +33836,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33852,7 +33852,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33884,7 +33884,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33900,7 +33900,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33932,7 +33932,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33948,7 +33948,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -33964,7 +33964,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34476,7 +34476,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34492,7 +34492,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34540,7 +34540,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34636,7 +34636,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34684,7 +34684,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34748,7 +34748,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -34812,7 +34812,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -35724,7 +35724,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -36988,7 +36988,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -37516,7 +37516,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -38332,7 +38332,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -38412,7 +38412,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -38476,7 +38476,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -38572,7 +38572,7 @@
         "castConeDistance": 0.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -38972,7 +38972,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -39244,7 +39244,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 100.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -39532,7 +39532,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 100.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -41580,7 +41580,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -41756,7 +41756,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastPoint"]
@@ -41772,7 +41772,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -42252,7 +42252,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -42268,7 +42268,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -42284,7 +42284,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -42700,7 +42700,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -43692,7 +43692,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -43772,7 +43772,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -44044,7 +44044,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -44156,7 +44156,7 @@
         "castConeDistance": 100.0,
         "width": 50.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["Dash", "CastDirection"]
@@ -44284,7 +44284,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -44380,7 +44380,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.5,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -44412,7 +44412,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -44428,7 +44428,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 1.0,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -45100,7 +45100,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -45116,7 +45116,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -45212,7 +45212,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -46220,7 +46220,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -46252,7 +46252,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -46268,7 +46268,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -46300,7 +46300,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -46444,7 +46444,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -46933,7 +46933,7 @@
         "name": "xerathmagespear",
         "parent": "",
         "icon": "xerath_e1",
-        "castTime": 0.5,
+        "castTime": 0.25,
         "castRange": 1125.0,
         "castRadius": 210.0,
         "castConeAngle": 0.0,
@@ -46956,7 +46956,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.5,
         "flags": ["CastPoint", "Area", "AffectAll"]
@@ -47004,7 +47004,7 @@
         "castConeDistance": 100.0,
         "width": 150.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47068,7 +47068,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47180,7 +47180,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47356,7 +47356,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47452,7 +47452,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47468,7 +47468,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47484,7 +47484,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47500,7 +47500,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47516,7 +47516,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47548,7 +47548,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47692,7 +47692,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47740,7 +47740,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47756,7 +47756,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -47804,7 +47804,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": ["CastAnywhere"]
@@ -47836,7 +47836,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -48060,7 +48060,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -48140,7 +48140,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -48380,7 +48380,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -48428,7 +48428,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -48492,7 +48492,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -48540,7 +48540,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51356,7 +51356,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51388,7 +51388,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51404,7 +51404,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51516,7 +51516,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51532,7 +51532,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51548,7 +51548,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51580,7 +51580,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51596,7 +51596,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -51996,7 +51996,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -52300,7 +52300,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -52524,7 +52524,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -52572,7 +52572,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []
@@ -52588,7 +52588,7 @@
         "castConeDistance": 100.0,
         "width": 0.0,
         "height": 0.0,
-        "speed": 20.0,
+        "speed": 100000.0,
         "travelTime": 0.0,
         "delay": 0.0,
         "flags": []

@@ -33,7 +33,7 @@ public:
 	static HKey TargetChampionsOnly;
 
 private:
-	static HKey GetKeyForConfig(std::string cfg);
+	static HKey GetKeyForConfig(std::string cfg, HKey defaultKey = HKey::NO_KEY);
 
 	static std::map<std::string, std::string> gameKeyCfgs;
 	static std::map<std::string, HKey>        keyConvert;

@@ -5,6 +5,7 @@ from helpers.inputs import KeyInput
 from helpers.spells import Buffs
 from time import time
 from enum import Enum
+import math
 from helpers.flags import EvadeFlags, Orbwalker
 
 target_selector         = TargetSelector(0, TargetSet.Champion)
@@ -35,7 +36,7 @@ class OrbwalkLastHit:
 			
 		lasthits = sorted(lasthits, key = lambda p: p[0].health - p[1], reverse = True)
 		for minion, predicted_hp, player_dmg in lasthits:
-			if predicted_hp - player_dmg <= 0.0:
+			if predicted_hp - math.floor(player_dmg) <= 0.0:
 				return minion
 			
 		return None
@@ -63,7 +64,7 @@ class OrbwalkLanePush:
 			
 			lasthits = sorted(lasthits, key = lambda p: p[0].health - p[1], reverse = True)
 			for minion, predicted_hp, player_dmg in lasthits:
-				if predicted_hp - player_dmg <= 0.0:
+				if predicted_hp - math.floor(player_dmg) <= 0.0:
 					return minion
 			
 			# No last hit, we try to push or wait for last hit
@@ -77,10 +78,10 @@ class OrbwalkLanePush:
 					return minion
 				
 				# Wait for last hit, this method is heuristic definitely not perfect
-				if predicted_hp - player_dmg < player_dmg + predicted_dmg:
+				if predicted_hp - math.floor(player_dmg) < math.floor(player_dmg) + predicted_dmg:
 					break
 				
-				if predicted_hp - player_dmg > predicted_dmg:
+				if predicted_hp - math.floor(player_dmg) > predicted_dmg:
 					return minion
 		
 		# Get turret / other entities

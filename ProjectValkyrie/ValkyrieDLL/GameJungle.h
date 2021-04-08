@@ -11,4 +11,6 @@ public:
 		
 		type = OBJ_JUNGLE;
 	}
+
+	void    ReadFromBaseAddress(int addr);
 };

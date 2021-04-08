@@ -85,7 +85,7 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 
 void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
 {
-	if (castStatic->width == 0.f)
+	if (castStatic->width == 0.f || castStatic->speed == 0.f)
 		return;
 
 	float UnitDelta = 1.0 + castStatic->width/3.f;
@@ -134,6 +134,10 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 	spellEnd.y = 0.f;
 	spellStart.y = 0.f;
 
+	float distanceTotal = spellEnd.distance(spellStart);
+	if (distanceTotal == 0.0)
+		return;
+
 	for (auto& pair : objects) {
 		auto target = pair.first;
 		Vector3 targetPos = target->pos;
@@ -142,12 +146,14 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 		float secsUntilSpellHits = 0.f;
 		if (castStatic->delay > 0) {
 			float distanceLeft = spellCurrentPos.distance(spellEnd);
-			float distanceTotal = spellEnd.distance(spellStart);
-
 			secsUntilSpellHits = (castStatic->delay * (distanceLeft / distanceTotal));
 		}
-		else 
+		else {
+			if (castStatic->speed == 0.0)
+				return;
+
 			secsUntilSpellHits = spellCurrentPos.distance(spellEnd) / castStatic->speed;
+		}
 		secsUntilSpellHits += cast->RemainingCastTime();
 		
 		Vector3 targetFuturePos = target->PredictPosition(secsUntilSpellHits);
@@ -190,11 +196,7 @@ void CollisionEngine::GetNearbyEnemies(const GameState& state, const GameObject&
 
 bool CollisionEngine::PredictPointForAreaCollision(const GameUnit& caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
-	float secsUntilSpellHits = spell.castTime + spell.delay;
-	if (spell.delay == 0.0f) {
-		secsUntilSpellHits = spell.castTime + caster.pos.distance(obj.pos) / spell.speed;
-	}
-
+	float secsUntilSpellHits = GetSecsUntilSpellHits(caster, obj, spell);
 	out = obj.PredictPosition(secsUntilSpellHits);
 
 	return true;
@@ -202,31 +204,27 @@ bool CollisionEngine::PredictPointForAreaCollision(const GameUnit& caster, const
 
 bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
+	if (spell.speed == 0.0)
+		return false;
+
 	float UnitDelta = 1.0 + spell.width / 3.f;
 	float Threshold = 1.0 + spell.width / 2.f;
 
 	int   iterations = spell.castRange / UnitDelta;
-	float timePerIter = UnitDelta / spell.speed;
+	float travelPerIter = UnitDelta / spell.speed;
 
 	Vector2 spellInitialPos = Vector2(caster.pos.x, caster.pos.z);
-	Vector2 deltaObj = Vector2(obj.dir.x, obj.dir.z).scale(obj.moveSpeed*timePerIter);
-
-	float secsUntilSpellHits = spell.castTime + spell.delay;
-	if (spell.delay == 0.0f) {
-		secsUntilSpellHits = spell.castTime + caster.pos.distance(obj.pos) / spell.speed;
-	}
+	float castTime = spell.castTime + spell.delay;
 
 	for (int i = 0; i < iterations; ++i) {
-		Vector3 objPos3D = obj.PredictPosition(timePerIter * i + secsUntilSpellHits);
+		Vector3 objPos3D = obj.PredictPosition(travelPerIter * i + castTime);
 		Vector2 objPos2D = Vector2(objPos3D.x, objPos3D.z);
 
 		Vector2 spellDirection = objPos2D.sub(spellInitialPos).normalize();
 		Vector2 spellPos = spellInitialPos.add(spellDirection.scale(i*UnitDelta));
 
 		if (spellPos.distance(objPos2D) < Threshold) {
-			out.x = objPos2D.x;
-			out.y = obj.pos.y;
-			out.z = objPos2D.y;
+			out = objPos3D;
 			return true;
 		}
 	}
@@ -267,6 +265,16 @@ bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const Gam
 		return false;
 
 	return true;
+}
+
+float CollisionEngine::GetSecsUntilSpellHits(const GameUnit & caster, const GameUnit & target, const SpellInfo & spell)
+{
+	float secsUntilSpellHits = spell.castTime + spell.delay;
+	if (spell.delay == 0.0f && spell.speed > 0.0) {
+		secsUntilSpellHits += caster.pos.distance(target.pos) / spell.speed;
+	}
+
+	return secsUntilSpellHits;
 }
 
 void CollisionEngine::AddCollisionEntry(FutureCollision* collision)

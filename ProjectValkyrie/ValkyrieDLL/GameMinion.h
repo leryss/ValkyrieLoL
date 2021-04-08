@@ -11,5 +11,7 @@ public:
 		type = OBJ_MINION;
 	}
 
+	void    ReadFromBaseAddress(int addr);
+
 	Vector2 GetHpBarPosition();
 };
