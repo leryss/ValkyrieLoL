@@ -41,7 +41,6 @@ void GameUnit::ReadFromBaseAddress(int addr)
 
 	targetable    = ReadBool(addr + Offsets::ObjTargetable);
 	invulnerable  = ReadBool(addr + Offsets::ObjInvulnerable);
-	isDead        = ReadInt(addr + Offsets::ObjSpawnCount) % 2;
 	lvl           = ReadInt(addr + Offsets::ObjLvl);
 
 	/// Read spell being cast
@@ -99,7 +98,6 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragFloat("Magic Pen",     &magicPen);
 	ImGui::DragFloat("Enemy MagicRes Multi", &magicPenMulti);
 	
-	ImGui::Checkbox("IsDead",         &isDead);
 	ImGui::Checkbox("Targetable",     &targetable);
 	ImGui::Checkbox("Invulnerable",   &invulnerable);
 	ImGui::Checkbox("Moving",         &isMoving);
@@ -120,6 +118,13 @@ void GameUnit::ImGuiDraw()
 			castingSpell.ImGuiDraw();
 		ImGui::TreePop();
 	}
+}
+
+float GameUnit::GetRadius()
+{
+	if (staticData == nullptr)
+		return 0.f;
+	return staticData->gameplayRadius;
 }
 
 bool GameUnit::HasTags(UnitTag tag)

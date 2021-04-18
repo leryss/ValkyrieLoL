@@ -197,6 +197,7 @@
     <ClInclude Include="PyExecutionContext.h" />
     <ClInclude Include="PyImGui.h" />
     <ClInclude Include="PyStructs.h" />
+    <ClInclude Include="Raycast.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="SkinChanger.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="OffsetScanner.cpp" />
     <ClCompile Include="PyExecutionContext.cpp" />
+    <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="SkinChanger.cpp" />

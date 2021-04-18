@@ -51,7 +51,7 @@ int Offsets::ObjMagicPen                     = 0x11C0;
 int Offsets::ObjMagicPenMulti                = 0x11C8; /// 1.0 when to percent magic pen is applied othrwise its below 1.0 depending on the percent applied
 int Offsets::ObjAdditionalApMulti            = 0x122C; /// I use this for rabadon, its 0.35 when rabadon is in inventory
 
-int Offsets::ObjDirection                    = 0x1B88;
+int Offsets::ObjDirection                    = 0x1BA8;
 
 int Offsets::ObjTransformation               = 0x2f80;
 int Offsets::ObjName                         = 0x2F8C;

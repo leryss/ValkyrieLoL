@@ -5,6 +5,7 @@ import json
 import time
 from pprint import pprint
 
+SUB_EXPIRATION_THRESHOLD = 1296000.0 # 15 DAYS
 DISCORD_TOKEN = 'ODMyOTk3MzQ4MDMxNTk0NTA4.YHr7PA.48nwQqHXQurU1UIKHSFVvXAhgRc'
 AWS_ACCESS_KEY = 'AKIAU6GDVTT2BO5OFOE5'
 AWS_SECRET_KEY = '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'
@@ -56,7 +57,7 @@ async def add_membership(member):
 
 async def remove_membership(member):
 	await member.remove_roles(role_member)
-	await log_message(f"Demoting <@{member.id}> (subscription expired)")
+	await log_message(f"Demoting <@{member.id}> (hasnt resubbed in 15 days)")
 
 async def sync_roles_with_valkyrie():
 	
@@ -81,11 +82,11 @@ async def sync_roles_with_valkyrie():
 			continue
 		
 		is_discord_member = has_member_role(duser)
-		is_sub_active = ((vuser['expiry'] - time.time()) > 0.0)
-		if is_discord_member and not is_sub_active:
+		valid_sub = ((vuser['expiry'] - time.time()) > -SUB_EXPIRATION_THRESHOLD)
+		if is_discord_member and not valid_sub:
 			print(f'Removing membership for {discord_name}')
 			await remove_membership(duser)
-		elif not is_discord_member and is_sub_active:
+		elif not is_discord_member and valid_sub:
 			print(f'Adding membership for {discord_name}')
 			await add_membership(duser)
 			
@@ -103,6 +104,6 @@ async def on_ready():
 		print('Starting Role Synchronizer')
 		await sync_roles_with_valkyrie()
 		print('Role synchronization over. Sleeping...')
-		time.sleep(120)
+		time.sleep(3600)
 	
 discord_client.run(DISCORD_TOKEN)

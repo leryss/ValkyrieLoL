@@ -21,6 +21,7 @@ void GameObject::ReadFromBaseAddress(int baseAddr)
 	index     = ReadShort(baseAddr + Offsets::ObjIndex);
 	team      = ReadShort(baseAddr + Offsets::ObjTeam);
 	isVisible = ReadBool(baseAddr + Offsets::ObjVisibility);
+	isDead    = ReadInt(baseAddr + Offsets::ObjSpawnCount) % 2;
 
 	memcpy(&pos, AsPtr(baseAddr + Offsets::ObjPos), sizeof(Vector3));
 	memcpy(&dir, AsPtr(baseAddr + Offsets::ObjDirection), sizeof(Vector3));
@@ -48,6 +49,11 @@ bool GameObject::InFrontOf(const GameObject & other)
 	return diff.dot(other.dir) > 0.f;
 }
 
+float GameObject::GetRadius()
+{
+	return 0.0f;
+}
+
 void GameObject::ImGuiDraw()
 {
 	int idx = index;
@@ -63,4 +69,5 @@ void GameObject::ImGuiDraw()
 	ImGui::DragFloat("LastSeen", &lastSeen);
 	ImGui::DragFloat("FirstSeen", &firstSeen);
 	ImGui::Checkbox("Visible",   &isVisible);
+	ImGui::Checkbox("IsDead",    &isDead);
 }

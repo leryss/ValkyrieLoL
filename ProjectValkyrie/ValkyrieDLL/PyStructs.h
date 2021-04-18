@@ -30,6 +30,11 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		PyErr_SetString(PyExc_RuntimeError, Strings::Format("Object Query Exception: %s", exc.what()).c_str());
 	});
 
+	class_<RaycastResult>("RaycastResult", "Represents the result of a raycast")
+		.def_readonly("point",               &RaycastResult::point,       "Point of raycast collision")
+		.def_readonly("obj",                 &RaycastResult::GetObjectPy, "Object that the raycast collided with. None if it was a wall")
+		;
+
 	class_<FutureCollision>("FutureCollision", "Information about a future collision between a spell and a unit")
 		.def_readonly("spell",               &FutureCollision::GetCastPy,          "The spell in the collision")
 		.def_readonly("unit",                &FutureCollision::GetUnitPy,          "The unit in the collision")
@@ -317,6 +322,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Returns jungle monster query builder")
 		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Returns other uncategorized objects query builder")
 
+		.def("raycast",                  &PyExecutionContext::Raycast,           "Launches a ray that stops on the first object specified by RayLayer")
+		
 		.def("is_wall_at",               &PyExecutionContext::IsWallAt,             "Checks if there is a wall at the specified position")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit, "Gets a list of future collisions for a unit")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast, "Gets a list of future collisions for a spell cast")
@@ -473,6 +480,20 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("NoNav",                     ImGuiWindowFlags_NoNav)
 		.value("NoDecoration",              ImGuiWindowFlags_NoDecoration)
 		.value("NoInputs",                  ImGuiWindowFlags_NoInputs)
+		;
+
+	enum_<RaycastLayer>("RayLayer", "Represents the objects that a raycast can intercept")
+		.value("Champion",                  RayChampion)
+		.value("Minion",                    RayMinion)
+		.value("Turret",                    RayTurret)
+		.value("Jungle",                    RayJungle)
+		.value("Missile",                   RayMissile)
+		.value("Other",                     RayOther)
+		.value("Wall",                      RayWall)
+		.value("Unit",                      RayUnit)
+		.value("All",                       RayAll)
+		.value("Enemy",                     RayEnemy)
+		.value("Ally",                      RayAlly)
 		;
 
 	enum_<ImGuiStyleVar>("StyleVar")

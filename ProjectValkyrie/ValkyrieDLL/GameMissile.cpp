@@ -24,6 +24,14 @@ void GameMissile::ImGuiDraw()
 	spell.ImGuiDraw();
 }
 
+float GameMissile::GetRadius()
+{
+	if (spell.staticData == nullptr)
+		return 0.f;
+
+	return spell.staticData->width;
+}
+
 object GameMissile::GetSpell()
 {
 	return object(boost::ref(spell));

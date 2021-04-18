@@ -13,7 +13,9 @@ public:
 	          GameUnit(std::string name);
 		      
 	void      ReadFromBaseAddress(int addr);
-	void      ImGuiDraw();
+	void      ImGuiDraw() override;
+	float     GetRadius() override;
+
 	bool      HasTags(UnitTag tag);
 
 	float     GetAttackSpeed();
@@ -55,7 +57,6 @@ public:
 	bool        isCasting = false;
 	bool        targetable;
 	bool        invulnerable;
-	bool        isDead;
 	float       mana;
 	float       health;
 	float       maxHealth;

@@ -10,7 +10,9 @@ public:
 	       GameMissile();
 	       GameMissile(std::string name);
 	void   ReadFromBaseAddress(int addr);
-	void   ImGuiDraw();
+	void   ImGuiDraw() override;
+	float  GetRadius() override;
+
 	object GetSpell();
 
 public:

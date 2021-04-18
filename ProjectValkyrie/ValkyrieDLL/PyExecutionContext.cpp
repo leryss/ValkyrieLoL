@@ -66,6 +66,14 @@ void PyExecutionContext::PingAssist(const Vector3 & position)
 	}
 }
 
+object PyExecutionContext::Raycast(const Vector3 & begin, const Vector3 & dir, float length, float halfWidth, RaycastLayer layers)
+{
+	std::shared_ptr<RaycastResult> result = Raycast::Cast(state, begin, dir, length, halfWidth, layers);
+	if(result != nullptr)
+		return object(*result);
+	return object();
+}
+
 bool PyExecutionContext::IsWallAt(const Vector3 & pos)
 {
 	return GameData::IsWallAt(pos);

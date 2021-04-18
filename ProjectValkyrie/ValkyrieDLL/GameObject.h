@@ -43,6 +43,7 @@ public:
 	/// Checks if the object is in front of another one. The calculations are performed at a 180 degree angle
 	bool           InFrontOf(const GameObject& other);
 
+	virtual float  GetRadius();
 	virtual void   ImGuiDraw();
 
 public:
@@ -56,6 +57,7 @@ public:
 	Vector3        pos;
 	Vector3        dir;
 	bool           isVisible;
+	bool           isDead;
 
 	float          firstSeen;
 	float          lastSeen;

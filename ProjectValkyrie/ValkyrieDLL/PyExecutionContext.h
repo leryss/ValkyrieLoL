@@ -5,6 +5,7 @@
 #include "ConfigSet.h"
 #include "CollisionEngine.h"
 #include "ObjectQuery.h"
+#include "Raycast.h"
 
 #include "imgui/imgui.h"
 #include <boost/python.hpp>
@@ -69,6 +70,7 @@ public:
 	void    PingOmw(const Vector3& position);
 	void    PingAssist(const Vector3& position);
 
+	object  Raycast(const Vector3& begin, const Vector3& dir, float length, float halfWidth, RaycastLayer layers);
 	bool    IsWallAt(const Vector3& pos);
 	list    GetCollisionsForUnit(const GameUnit& unit);
 	list    GetCollisionsForCast(const SpellCast& cast);
