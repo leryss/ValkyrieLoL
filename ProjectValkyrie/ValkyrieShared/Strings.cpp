@@ -29,7 +29,7 @@ std::string Strings::ToLower(const std::string& str)
 }
 
 std::string Strings::Format(const char* c, ...) {
-	char buff[200];
+	char buff[1024];
 	va_list va;
 	va_start(va, c);
 	vsprintf_s(buff, c, va);

@@ -26,10 +26,10 @@ void SpellCast::ReadFromBaseAddress(int address)
 		}
 	}
 
-	srcIndex   = ReadShort(address + Offsets::SpellCastSrcIdx);
-	destIndex  = ReadShort(address + Offsets::SpellCastDestIdx);
 	timeBegin  = ReadFloat(address + Offsets::SpellCastStartTime);
 	castTime   = ReadFloat(address + Offsets::SpellCastCastTime);
+	srcIndex   = ReadShort(address + Offsets::SpellCastSrcIdx);
+	destIndex  = ReadShort(address + Offsets::SpellCastDestIdx);
 }
 
 void SpellCast::ImGuiDraw()

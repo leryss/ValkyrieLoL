@@ -35,8 +35,8 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	haste         = ReadFloat(addr + Offsets::ObjAbilityHaste);
 
 	magicPenMulti = ReadFloat(addr + Offsets::ObjMagicPenMulti);
-	magicPen           = ReadFloat(addr + Offsets::ObjMagicPen);
-	abilityPower       += abilityPower*ReadFloat(addr + Offsets::ObjAdditionalApMulti);
+	magicPen      = ReadFloat(addr + Offsets::ObjMagicPen);
+	abilityPower  += abilityPower*ReadFloat(addr + Offsets::ObjAdditionalApMulti);
 	
 
 	targetable    = ReadBool(addr + Offsets::ObjTargetable);
@@ -58,7 +58,7 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	if (transformAddr != NULL) {
 		nameTransformed = Memory::ReadString(ReadInt(transformAddr));
 		nameTransformed = Strings::ToLower(nameTransformed);
-
+	
 		staticData = GameData::GetUnit(nameTransformed);
 		if (staticData == nullptr) {
 			staticData = GameData::GetUnit(name);

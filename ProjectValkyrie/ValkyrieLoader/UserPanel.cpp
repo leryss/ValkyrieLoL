@@ -90,6 +90,9 @@ void UserPanel::DrawHome()
 	float hours = (days - int(days)) * 24.f;
 
 	ImGui::TextColored((days < 5.f ? Color::YELLOW : Color::GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
+	ImGui::TextColored(Color::RED, "DISCORD HAS BEEN CHANGED BECAUSE OF SOME BUSINESS ISSUES PLEASE USE THE INVITE BELOW TO JOIN THE NEW DISCORD");
+	static char discord[255] = "https://discord.gg/favaHJuDp8";
+	ImGui::InputText("New discord server", discord, 255, ImGuiInputTextFlags_ReadOnly);
 
 	if (ImGui::Button("Force Update")) {
 		loader->cheatVersionHash = "";

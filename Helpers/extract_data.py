@@ -175,7 +175,7 @@ def perform_spell_calculations(spell):
 		
 	# Read calculations
 	calcs = {}
-	jcalcs = spell.get('{94572284}', {})
+	jcalcs = spell.get('mSpellCalculations', {})
 	post_process = []
 	for name, jcalc in jcalcs.items():
 		name = name.lower()
@@ -292,6 +292,7 @@ def extract_unit_info(folder):
 			print(key)
 			s = val["mSpell"]
 			calcs = perform_spell_calculations(s)
+			
 			if len(calcs['data_vals']) > 0 or len(calcs['calcs']) > 0:
 				spell_calculations[val['mScriptName']] = calcs
 			

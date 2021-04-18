@@ -17,6 +17,7 @@
 
 #include "Models.h"
 #include "AsyncTask.h"
+#include "Strings.h"
 
 
 using namespace Aws::Lambda;
@@ -97,7 +98,8 @@ public:
 
 		if (!outcome.IsSuccess()) {
 			SetStatus(ASYNC_FAILED);
-			error = "Failed to invoke lambda";
+			auto err = outcome.GetError();
+			error = Strings::Format("Lambda failed (%s) %s", err.GetExceptionName().c_str(), err.GetMessage().c_str());
 		}
 		else {
 			rawJson = Aws::Utils::Json::JsonValue(outcome.GetResult().GetPayload());

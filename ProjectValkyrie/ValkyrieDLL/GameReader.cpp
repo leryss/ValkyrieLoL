@@ -104,7 +104,7 @@ void GameReader::ReadObjectTree()
 	static const int OBJ_NET_ID_END = OBJ_NET_ID_START + 0x100000;
 
 	int objManager = ReadInt(baseAddr + Offsets::ObjectManager);
-	std::map<int, int>* objMap = (std::map<int, int>*)(objManager + 0x28);
+	std::map<int, int>* objMap = (std::map<int, int>*)(objManager + Offsets::ObjectMapRoot);
 
 	benchmark.readObjects.Start();
 	updatedObjects.clear();

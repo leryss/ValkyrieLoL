@@ -205,7 +205,7 @@ object GameChampion::ItemsToPy()
 
 bool GameChampion::CanCast(const GameSpell * spell)
 {
-	return mana > spell->mana && spell->GetRemainingCooldown() == 0.0f && spell->castableBit;
+	return mana >= spell->mana && spell->GetRemainingCooldown() == 0.0f && spell->castableBit;
 }
 
 bool GameChampion::HasBuff(const char * buff)

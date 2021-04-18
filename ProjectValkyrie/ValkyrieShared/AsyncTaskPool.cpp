@@ -50,11 +50,8 @@ void AsyncTaskPool::ImGuiDraw()
 {
 	mtxTasks.lock();
 
-	ImGui::SetNextWindowPos(ImVec2(GetSystemMetrics(SM_CXSCREEN) - 160, 60));
-	ImGui::SetNextWindowSize(ImVec2(150, 0));
-	ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-
-	ImGui::SameLine(ImGui::GetWindowSize().x / 2 -ImGui::CalcTextSize("Valkyrie").x / 2);
+	ImGui::SetNextWindowPos(ImVec2(10.f, 10.f));
+	ImGui::Begin("Tasks", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::TextColored(Color::YELLOW, "Valkyrie");
 
 	for (auto& pair : runningTasks) {
