@@ -56,6 +56,20 @@ std::shared_ptr<RaycastResult> Raycast::Cast(const GameState * state, Vector3 be
 	return nullptr;
 }
 
+RaycastLayer Raycast::FindLayersFromSpell(const SpellInfo & info)
+{
+	int result;
+
+	if (info.HasFlag(SpellFlags::CollideChampion))
+		result |= RayChampion;
+	if (info.HasFlag(SpellFlags::CollideMinion))
+		result |= RayMinion;
+	if (info.HasFlag(SpellFlags::CollideMonster))
+		result |= RayJungle;
+
+	return (RaycastLayer)(result);
+}
+
 object RaycastResult::GetObjectPy()
 {
 	return object(ptr(obj));

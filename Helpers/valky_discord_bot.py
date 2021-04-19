@@ -57,7 +57,7 @@ async def add_membership(member):
 
 async def remove_membership(member):
 	await member.remove_roles(role_member)
-	await log_message(f"Demoting <@{member.id}> (hasnt resubbed in 15 days)")
+	await log_message(f"Demoting <@{member.id}> (sub expired for more than 15 days)")
 
 async def sync_roles_with_valkyrie():
 	

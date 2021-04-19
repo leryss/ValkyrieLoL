@@ -1,5 +1,6 @@
 #include "CollisionEngine.h"
 #include "Debug.h"
+#include "Raycast.h"
 
 void CollisionEngine::Update(const GameState & state)
 {
@@ -246,17 +247,30 @@ bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const Gam
 		return true;
 	}
 
+	std::shared_ptr<RaycastResult> ray = nullptr;
+	RaycastLayer layers;
+	Vector3 dir;
+
 	switch (spell.GetSpellType()) {
-	case TypeLine:
-		result = PredictPointForLineCollision(caster, target, spell, out);
-		break;
-	case TypeArea:
-		result = PredictPointForAreaCollision(caster, target, spell, out);
-		break;
-	default:
-		result = true;
-		out = target.pos;
-		break;
+		case TypeLine:
+			result = PredictPointForLineCollision(caster, target, spell, out);
+
+			/// Check for obstacles with a simple raycast
+			dir = out.sub(caster.pos).normalize();
+			layers = (RaycastLayer)(Raycast::FindLayersFromSpell(spell) | (caster.team == state->player->team ? RayEnemy : RayAlly));
+			ray = Raycast::Cast(state, caster.pos, dir, spell.castRange, spell.width, layers);
+			result = !(ray != nullptr && ray->obj->type != target.type);
+
+			break;
+
+		case TypeArea:
+			result = PredictPointForAreaCollision(caster, target, spell, out);
+			break;
+
+		default:
+			result = true;
+			out = target.pos;
+			break;
 	}
 
 	if (!result)
