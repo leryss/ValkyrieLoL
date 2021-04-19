@@ -38,6 +38,7 @@ GameState* GameReader::GetNextState()
 		SieveObjects();
 		ReadLocalChampion();
 		ReadHoveredObject();
+		ReadFocusedObject();
 
 		/// Read everything for local player, dont read buffs for enemies, dont read buffs, items & item actives for allies (performance reasons)
 		for (auto& champ : state.champions) {
@@ -95,6 +96,13 @@ void GameReader::ReadHoveredObject()
 		int netId = ReadInt(addr + Offsets::ObjNetworkID);
 		auto find = state.objectCache.find(netId);
 		state.hovered = (find == state.objectCache.end() ? nullptr : find->second);
+	}
+}
+
+void GameReader::ReadFocusedObject()
+{
+	if ((GetKeyState(VK_LBUTTON) & 0x8000) != 0) {
+		state.focused = state.hovered;
 	}
 }
 

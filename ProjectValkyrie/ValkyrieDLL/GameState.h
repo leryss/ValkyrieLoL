@@ -31,4 +31,5 @@ struct GameState {
 
 	std::shared_ptr<GameChampion>               player;
 	std::shared_ptr<GameObject>                 hovered;
+	std::shared_ptr<GameObject>                 focused;
 };

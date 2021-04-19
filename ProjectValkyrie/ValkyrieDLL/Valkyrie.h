@@ -78,7 +78,6 @@ private:
 
 	/// Background Tasks
 	static AsyncTaskPool*              TaskPool;
-	static bool                        EssentialsLoaded;
 
 	/// Menu stuff
 	static bool                        ShowBenchmarkWindow;

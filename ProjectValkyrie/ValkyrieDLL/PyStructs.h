@@ -117,6 +117,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("last_seen",         &GameObject::lastSeen,            "Timestamp in game time for when the object was last visible")
 		.def_readonly("first_seen",        &GameObject::firstSeen,           "When the object was first seen")
 		.def_readonly("dir",               &GameObject::dir,                 "Direction the object is facing as a normalized Vec3")
+		.def_readonly("bounding_radius",   &GameObject::GetRadius,           "The bounding radius of the object a.k.a the hitbox (but its actually a circle)")
 		
 		.def("in_front_of",                &GameObject::InFrontOf,           "Checks if object is in front of")
 		.def("ally_to",                    &GameObject::IsAllyTo,            "Checks if two objects are allied")
@@ -197,6 +198,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("destination",       &GameUnit::destination,           "Navigation destination of the unit")
 		.def("path_distance",              &GameUnit::CalculatePathLength,   "Calculates navigation path distance in game units")
 		.def("predict_position",           &GameUnit::PredictPosition,       "Predicts position of unit in X seconds")
+		.def("reskin",                     &GameUnit::Reskin,                "Changes the skin of the unit")
 		;
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
@@ -307,6 +309,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("info",                     &PyExecutionContext::LogInfo,           "Logs an info message to the console & file log")
 		.def("warn",                     &PyExecutionContext::LogWarning,        "Logs a warning message to the console & file log")
 		.def("error",                    &PyExecutionContext::LogError,          "Logs a error message to the console & file log. The file log will be flushed. Use this in absolute worse cases")
+		.def_readonly("resources_loaded",&PyExecutionContext::everythingLoaded,  "True if all valkyrie resources are loaded (images/jsons etc)")
 		.def_readonly("ui",              &PyExecutionContext::GetImGuiInterface, "UI interface for drawing menus based on imgui")
 		.def_readonly("cfg",             &PyExecutionContext::GetConfig,         "The script config interface. Used to load/save settings")
 		.def_readonly("time",            &PyExecutionContext::time,              "Current game duration in seconds")
@@ -314,6 +317,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("cursor_pos",      &PyExecutionContext::GetMousePosition,  "Gets the current position of the mouse")
 
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Gets the game object under the mouse")
+		.def_readonly("focused",         &PyExecutionContext::focused,           "Gets the game object focused (the object that was last clicked). None if last click was not on a object")
 		.def_readonly("player",          &PyExecutionContext::player,            "The champion used by the local player. In replays this will be a random champion")
 		.def_readonly("champs",          &PyExecutionContext::GetChampions,      "Returns champion query builder")
 		.def_readonly("turrets",         &PyExecutionContext::GetTurrets,        "Returns turrets query builder")

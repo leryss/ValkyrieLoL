@@ -73,6 +73,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 			ImGui::NewFrame();
 
 			ui.ImGuiShow();
+			//ImGui::ShowStyleEditor();
 
 			// Rendering
 			ImGui::EndFrame();

@@ -179,6 +179,7 @@
     <ClInclude Include="GameSpell.h" />
     <ClInclude Include="GameTurret.h" />
     <ClInclude Include="GameUnit.h" />
+    <ClInclude Include="GridMap.h" />
     <ClInclude Include="HKey.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="ItemInfo.h" />
@@ -200,7 +201,6 @@
     <ClInclude Include="Raycast.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptManager.h" />
-    <ClInclude Include="SkinChanger.h" />
     <ClInclude Include="SkinInfo.h" />
     <ClInclude Include="SpellCast.h" />
     <ClInclude Include="SpellInfo.h" />
@@ -229,6 +229,7 @@
     <ClCompile Include="GameSpell.cpp" />
     <ClCompile Include="GameTurret.cpp" />
     <ClCompile Include="GameUnit.cpp" />
+    <ClCompile Include="GridMap.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="GameReader.cpp" />
@@ -241,7 +242,6 @@
     <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
-    <ClCompile Include="SkinChanger.cpp" />
     <ClCompile Include="SpellCast.cpp" />
     <ClCompile Include="SpellInfo.cpp" />
     <ClCompile Include="UnitInfo.cpp" />

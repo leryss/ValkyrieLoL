@@ -16,15 +16,48 @@
 using json = nlohmann::json;
 namespace fs = std::experimental::filesystem;
 
+AsyncTaskPool*                    GameData::TaskPool = AsyncTaskPool::Get();
 const char*                       GameData::FolderData = "data";
 bool*                             GameData::WallMask = new bool[512 * 512];
-std::shared_ptr<LoadDataProgress> GameData::LoadProgress(new LoadDataProgress());
+
+bool                              GameData::EssentialsLoaded = false;
+bool                              GameData::EverythingLoaded = false;
 
 std::map<std::string, UnitInfo*>              GameData::Units;
 std::map<std::string, SpellInfo*>             GameData::Spells;
 std::map<std::string, PDIRECT3DTEXTURE9>      GameData::Images;
 std::map<std::string, std::vector<SkinInfo*>> GameData::Skins;
 std::map<int, ItemInfo*>                      GameData::Items;
+
+void GameData::LoadEverything()
+{
+	TaskPool->DispatchTask(
+		"Load Essentials",
+		std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
+
+		[](std::shared_ptr<AsyncTask> response) {
+			EssentialsLoaded = true;
+			TaskPool->DispatchTask(
+				"Load Extras", std::shared_ptr<GameDataImagesLoad>(new GameDataImagesLoad()), [](std::shared_ptr<AsyncTask> response) {
+					EverythingLoaded = true;
+				}
+			);
+		}
+	);
+}
+
+void GameData::LoadEssentials()
+{
+	EssentialsLoaded = false;
+	TaskPool->DispatchTask(
+		"Load Essentials",
+		std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
+
+		[](std::shared_ptr<AsyncTask> response) {
+			EssentialsLoaded = true;
+		}
+	);
+}
 
 UnitInfo * GameData::GetUnit(std::string & str)
 {
@@ -73,18 +106,6 @@ bool GameData::IsWallAt(const Vector3 & worldPos)
 		return false;
 
 	return WallMask[x*512 + y];
-}
-
-void GameData::ImGuiDrawLoader()
-{
-	ImGui::SetNextWindowSize(ImVec2(200, 200));
-	ImGui::Begin("Valkyrie Loader", NULL, ImGuiWindowFlags_NoResize);
-	ImGui::Text("Essentials Database");
-	ImGui::ProgressBar(LoadProgress->essentialsPercent);
-
-	ImGui::Text("Image Database");
-	ImGui::ProgressBar(LoadProgress->imagesLoadPercent);
-	ImGui::End();
 }
 
 void GameData::ImGuiDrawObjects()
@@ -277,58 +298,6 @@ void GameData::LoadUnits(const char* fileName, float& percentValue, float percen
 	}
 }
 
-std::vector<SkinChroma> GetChromas(json& jchromas) {
-	std::vector<SkinChroma> chromas;
-
-	for (auto jchroma : jchromas) {
-		SkinChroma chroma;
-
-		chroma.id    = jchroma["id"].get<int>();
-		int color    = jchroma["color"].get<int>();
-		float r = (float)((color >> 16) & 255) / 255.f;
-		float g = (float)((color >> 8)  & 255) / 255.f;
-		float b = (float)((color)       & 255) / 255.f;
-
-		chroma.color = ImVec4(r, g, b, 1.f);
-		chromas.push_back(chroma);
-	}
-
-	return chromas;
-}
-
-void GameData::LoadSkins(const char * fileName, float & percentValue, float percentEnd)
-{
-	fs::path path = Paths::Root;
-	path.append(FolderData).append(fileName);
-	std::ifstream file(path.generic_string().c_str());
-
-	if (!file.is_open()) {
-		Logger::Error("Couldn't open file %s", path.generic_string().c_str());
-		return;
-	}
-
-	json j;
-	file >> j;
-
-	float step = (percentEnd - percentValue) / j.size();
-	for (auto& pair : j.items()) {
-
-		std::vector<SkinInfo*> skins;
-
-		auto jskins = j.find(pair.key()).value();
-		for (auto jskininfo : jskins) {
-			SkinInfo* info = new SkinInfo();
-			info->name    = jskininfo["name"].get<std::string>();
-			info->id      = jskininfo["id"].get<int>();
-			info->chromas = GetChromas(jskininfo["chromas"]);
-			skins.push_back(info);
-		}
-		
-		Skins[pair.key()] = skins;
-		percentValue += step;
-	}
-}
-
 bool LoadTextureFromHeap(void* heap, size_t heapSize, PDIRECT3DTEXTURE9* outTexture) {
 	PDIRECT3DTEXTURE9 texture;
 
@@ -401,14 +370,10 @@ void GameDataEssentialsLoad::Perform()
 		GameData::LoadSpells("SpellData.json", percentDone, 0.25f);
 		Logger::Info("Loaded spells");
 
-		GameData::LoadUnits("UnitData.json", percentDone, 0.5f);
+		GameData::LoadUnits("UnitData.json", percentDone, 0.6f);
 		Logger::Info("Loaded units");
 
-		GameData::LoadItems("ItemData.json", percentDone, 0.8f);
-		Logger::Info("Loaded items");
-
-		GameData::LoadSkins("SkinInfo.json", percentDone, 1.f);
-		Logger::Info("Loaded skins");
+		GameData::LoadItems("ItemData.json", percentDone, 0.1f);
 	}
 	catch (std::exception& exc) {
 		SetError(exc.what());

@@ -258,6 +258,21 @@ float GameUnit::CalculatePathLength()
 	return distance;
 }
 
+void GameUnit::Reskin(int id)
+{
+	static auto UpdateSkin = reinterpret_cast<void(__thiscall*)(void*, bool)>((int)GetModuleHandle(NULL) + Offsets::FnCharacterDataStackUpdate);
+
+	int charDataStack = address + Offsets::CharacterDataStack;
+	int* charSkinId = (int*)(charDataStack + Offsets::CharacterDataStackSkinId);
+
+	/// Update skin only if id differs
+	if (*charSkinId != id) {
+		*charSkinId = id;
+		UpdateSkin((void*)charDataStack, true);
+		Logger::Info("[skin_changer] Changed skin to %d", id);
+	}
+}
+
 void GameUnit::ReadAiManager()
 {
 	static auto GetAiManager = AsFunc(ReadVTable(address, 148), int, void*);

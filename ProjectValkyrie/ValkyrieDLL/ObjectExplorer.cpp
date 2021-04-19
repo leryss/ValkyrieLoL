@@ -120,11 +120,18 @@ void ObjectExplorer::DrawObjects(GameState & state)
 
 	ImGui::Separator();
 	if (state.hovered != nullptr) {
-		state.hovered->ImGuiDraw();
+		ImGui::Text("Hovered: %s (Addr: %#10x)", state.hovered->name.c_str(), state.hovered->address);
 		ImGui::TreePop();
 	}
 	else
-		ImGui::TextColored(Color::RED, "Nothing hovered");
+		ImGui::TextColored(Color::RED, "Hovered: nothing");
+
+	if (state.focused != nullptr) {
+		ImGui::Text("Focused: %s (Addr: %#10x)", state.focused->name.c_str(), state.focused->address);
+		ImGui::TreePop();
+	}
+	else
+		ImGui::TextColored(Color::RED, "Focused: nothing");
 }
 
 void ObjectExplorer::DrawOffsetAdjuster()

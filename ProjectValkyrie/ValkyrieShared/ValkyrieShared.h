@@ -91,16 +91,30 @@ public:
 
 	static void ImGuiSetupSizesAndFont() {
 		ImGuiStyle* style = &ImGui::GetStyle();
-		style->FramePadding      = { 14.f, 5.f };
-		style->WindowPadding     = { 14.f, 11.f };
-		style->ItemSpacing       = { 11.f, 4.f };
-		style->CellPadding       = { 4.f, 4.f};
-		style->ScrollbarSize     = 20.f;
-		style->GrabMinSize       = 20.f;
-		style->ScrollbarRounding = 0.f;
-		style->TabRounding       = 0.f;
-		style->FrameBorderSize   = 1.f;
+		style->WindowPadding    = { 16.f, 11.f };
+		style->FramePadding     = { 16.f, 5.f };
+		style->CellPadding      = { 10.f, 1.f };
+		style->ItemSpacing      = { 8.f, 4.f };
+		style->ItemInnerSpacing = { 4.f, 7.f };
+		style->IndentSpacing    = 20.f;
+		style->ScrollbarSize    = 20.f;
+		style->GrabMinSize      = 20.f;
 
+		style->WindowBorderSize = 1.5f;
+		style->ChildBorderSize = 1.5f;
+		style->PopupBorderSize = 1.5f;
+		style->FrameBorderSize = 1.5f;
+		style->TabBorderSize = 1.5f;
+
+		style->WindowRounding = 4.f;
+		style->ChildRounding = 4.f;
+		style->FrameRounding = 6.f;
+		style->PopupRounding = 6.f;
+		style->ScrollbarRounding = 6.f;
+		style->GrabRounding = 6.f;
+		style->LogSliderDeadzone = 0.f;
+		style->TabRounding = 8.f;
+		
 		std::string fontPath = Paths::Root + "\\vfont.ttf";
 		if (Paths::FileExists(fontPath))
 			ImGui::GetIO().Fonts->AddFontFromFileTTF(fontPath.c_str(), 13);
@@ -111,10 +125,10 @@ public:
 		ImVec4* colors = style->Colors;
 		colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
 		colors[ImGuiCol_TextDisabled]           = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
-		colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.06f, 0.88f);
+		colors[ImGuiCol_WindowBg]               = ImVec4(0.08f, 0.08f, 0.08f, 0.88f);
 		colors[ImGuiCol_ChildBg]                = ImVec4(0.07f, 0.07f, 0.07f, 0.94f);
 		colors[ImGuiCol_PopupBg]                = ImVec4(0.09f, 0.09f, 0.09f, 0.88f);
-		colors[ImGuiCol_Border]                 = ImVec4(0.26f, 0.26f, 0.30f, 0.50f);
+		colors[ImGuiCol_Border]                 = ImVec4(0.72f, 0.72f, 0.72f, 0.50f);
 		colors[ImGuiCol_BorderShadow]           = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
 		colors[ImGuiCol_FrameBg]                = ImVec4(0.03f, 0.03f, 0.03f, 0.54f);
 		colors[ImGuiCol_FrameBgHovered]         = ImVec4(0.16f, 0.16f, 0.16f, 0.40f);
@@ -128,7 +142,7 @@ public:
 		colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
 		colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
 		colors[ImGuiCol_CheckMark]              = ImVec4(0.26f, 1.00f, 0.00f, 1.00f);
-		colors[ImGuiCol_SliderGrab]             = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+		colors[ImGuiCol_SliderGrab]             = ImVec4(0.23f, 0.23f, 0.23f, 1.00f);
 		colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.24f, 0.24f, 0.24f, 1.00f);
 		colors[ImGuiCol_Button]                 = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
 		colors[ImGuiCol_ButtonHovered]          = ImVec4(0.24f, 0.24f, 0.24f, 1.00f);
@@ -163,4 +177,4 @@ public:
 		colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
 		colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 	}
-};
+}; 

@@ -8,7 +8,6 @@
 #include "Paths.h"
 #include "PyStructs.h"
 #include "OffsetScanner.h"
-#include "SkinChanger.h"
 #include "ValkyrieShared.h"
 #include "GameKeybind.h"
 
@@ -31,7 +30,6 @@ RECT                               Valkyrie::WindowRect;
 ValkyrieAPI*                       Valkyrie::Api = ValkyrieAPI::Get();
 UserInfo                           Valkyrie::LoggedUser;
 AsyncTaskPool*                     Valkyrie::TaskPool = AsyncTaskPool::Get();
-bool                               Valkyrie::EssentialsLoaded = false;
 bool                               Valkyrie::LoadedScripts = false;
 
 GameReader                         Valkyrie::Reader;
@@ -107,13 +105,6 @@ void Valkyrie::ShowMenu()
 		ImGui::SameLine();
 		if (ImGui::BeginMenu("Menu Settings")) {
 			DrawUIMenu();
-			ImGui::EndMenu();
-		}
-
-		ImGui::Image(GameData::GetImage(IconSkinChanger), ImVec2(15, 15));
-		ImGui::SameLine();
-		if (ImGui::BeginMenu("Skin Changer")) {
-			SkinChanger::ImGuiDraw();
 			ImGui::EndMenu();
 		}
 
@@ -227,17 +218,7 @@ void Valkyrie::LoginAndLoadData()
 
 		[](std::shared_ptr<AsyncTask> response) {
 		LoggedUser = ((UserResultAsync*)response.get())->user;
-		TaskPool->DispatchTask(
-			"Load Essentials",
-			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
-
-			[](std::shared_ptr<AsyncTask> response) {
-			EssentialsLoaded = true;
-			TaskPool->DispatchTask(
-				"Load Extras", std::shared_ptr<GameDataImagesLoad>(new GameDataImagesLoad()), [](std::shared_ptr<AsyncTask> response) {}
-			);
-		}
-		);
+		GameData::LoadEverything();
 	}
 	);
 }
@@ -310,19 +291,9 @@ void Valkyrie::DrawDevMenu()
 
 	ImGui::SameLine();
 	if (ImGui::Button("Reload Essentials")) {
-		EssentialsLoaded = false;
-
 		GameKeybind::InitFromGameConfigs();
-		TaskPool->DispatchTask(
-			"Load Essentials",
-			std::shared_ptr<GameDataEssentialsLoad>(new GameDataEssentialsLoad()),
-
-			[](std::shared_ptr<AsyncTask> response) {
-				EssentialsLoaded = true;
-			}
-		);
+		GameData::LoadEssentials();
 	}
-
 
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
 	ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
@@ -376,12 +347,11 @@ void Valkyrie::Update()
 
 	__try {
 		TaskPool->ImGuiDraw();
-		if (EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
+		if (GameData::EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
 			
 			CurrentGameState = Reader.GetNextState();
 			//ShowMenu();
 			if (CurrentGameState->gameStarted) {
-				SkinChanger::Refresh();
 				SetupScripts();
 				ShowMenu();
 				ExecuteScripts();

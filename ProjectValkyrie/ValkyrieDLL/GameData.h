@@ -8,16 +8,7 @@
 #include "SkinInfo.h"
 
 #include "AsyncTask.h"
-
-class LoadDataProgress {
-
-public:
-	float       essentialsPercent = 0.0f;
-	float       imagesLoadPercent = 0.0f;
-
-	bool        essentialsLoaded  = false;
-	bool        allLoaded         = false;
-};
+#include "AsyncTaskPool.h"
 
 class GameDataEssentialsLoad : public AsyncTask {
 
@@ -34,6 +25,10 @@ public:
 class GameData {
 
 public:
+
+	static void                    LoadEverything();
+	static void                    LoadEssentials();
+
 	/// Gets static info about a game unit, returns nullptr if no info is found
 	static UnitInfo*               GetUnit(std::string& str);
 
@@ -52,18 +47,17 @@ public:
 	/// Checks if there is a wall at the specified position
 	static bool                    IsWallAt(const Vector3& worldPos);
 
-	static void                    ImGuiDrawLoader();
 	static void                    ImGuiDrawObjects();
 
 	static void                    LoadWallMask(const char* filename, float& percentValue, float percentEnd);
 	static void                    LoadSpells(const char* fileName, float& percentValue, float percentEnd);
 	static void                    LoadItems(const char* fileName, float& percentValue, float percentEnd);
 	static void                    LoadUnits(const char* fileName, float& percentValue, float percentEnd);
-	static void                    LoadSkins(const char* fileName, float& percentValue, float percentEnd);
 	static void                    LoadImagesFromZip(const char* zipPath, float& percentValue, float percentEnd);
 
 public:
-	static std::shared_ptr<LoadDataProgress>     LoadProgress;
+	static bool                    EssentialsLoaded;
+	static bool                    EverythingLoaded;
 
 private:
 	static bool*                                          WallMask;
@@ -73,5 +67,7 @@ private:
 	static std::map<std::string, SpellInfo*>              Spells;
 	static std::map<int, ItemInfo*>                       Items;
 	static std::map<std::string, PDIRECT3DTEXTURE9>       Images;
+
+	static AsyncTaskPool*                                 TaskPool;
 };
 

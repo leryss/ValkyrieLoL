@@ -49,6 +49,9 @@ public:
 	/// Calculates path length;
 	float     CalculatePathLength();
 
+	/// Changes skin of the unit
+	void      Reskin(int id);
+
 protected:
 	void       ReadAiManager();
 

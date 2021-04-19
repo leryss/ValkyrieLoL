@@ -29,8 +29,10 @@ public:
 public:
 	Vector2 pillPosition;
 
+	bool    everythingLoaded;
 	float   ping;
 	float   time;
+	object  focused;
 	object  hovered;
 	object  player;
 	object  queryEnginePy;

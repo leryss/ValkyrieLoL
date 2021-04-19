@@ -34,6 +34,7 @@ public:
 private:
 	void        ReadLocalChampion();
 	void        ReadHoveredObject();
+	void        ReadFocusedObject();
 	void        ReadObjectTree();
 	void        ReadGameObject(int address);
 	void        SieveObjects();

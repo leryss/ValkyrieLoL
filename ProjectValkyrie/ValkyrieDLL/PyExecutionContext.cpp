@@ -2,6 +2,7 @@
 #include "Debug.h"
 #include "GameKeybind.h"
 #include "Script.h"
+#include "Valkyrie.h"
 
 template <class T>
 std::shared_ptr<list> MakePyList(std::vector<std::shared_ptr<T>>& cList) {
@@ -322,12 +323,14 @@ void PyExecutionContext::SetGameState(GameState * state)
 
 	pillPosition = state->renderer.WorldToScreen(state->player->pos);
 
-	ping          = state->ping;
-	time          = state->time;
-	hovered       = object(ptr(state->hovered.get()));
-	player        = object(ptr(state->player.get()));
-	queryEnginePy = object(ptr(&queryEngine));
-	selfPy        = object(ptr(this));
+	ping             = state->ping;
+	time             = state->time;
+	hovered          = object(ptr(state->hovered.get()));
+	focused          = object(ptr(state->focused.get()));
+	player           = object(ptr(state->player.get()));
+	queryEnginePy    = object(ptr(&queryEngine));
+	selfPy           = object(ptr(this));
+	everythingLoaded = GameData::EverythingLoaded;
 	queryEngine.Update(state);
 	collisionEngine.Update(*state);
 }
