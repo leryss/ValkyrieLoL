@@ -40,6 +40,7 @@ public:
 
 	/// Gets a image, returns nullptr if not found
 	static PDIRECT3DTEXTURE9       GetImage(std::string& str);
+	static PDIRECT3DTEXTURE9       GetImage(const char* str);
 
 	/// Gets a list of skins for a champion, returns an empty vector on failure
 	static std::vector<SkinInfo*>& GetSkins(std::string& name);

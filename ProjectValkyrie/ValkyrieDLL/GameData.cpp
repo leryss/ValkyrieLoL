@@ -83,6 +83,13 @@ PDIRECT3DTEXTURE9 GameData::GetImage(std::string & str)
 	return (find == Images.end() ? nullptr : find->second);
 }
 
+PDIRECT3DTEXTURE9 GameData::GetImage(const char* str)
+{
+	std::string key(str);
+	auto find = Images.find(key);
+	return (find == Images.end() ? nullptr : find->second);
+}
+
 std::vector<SkinInfo*>& GameData::GetSkins(std::string & name)
 {
 	static std::vector<SkinInfo*> EmptyVec;

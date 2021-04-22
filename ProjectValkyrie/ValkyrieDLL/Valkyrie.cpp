@@ -355,6 +355,9 @@ void Valkyrie::Update()
 				SetupScripts();
 				ShowMenu();
 				ExecuteScripts();
+
+				if(GameData::EverythingLoaded)
+					CurrentGameState->renderer.DrawOverlay(DxDevice);
 			}
 		}
 	}
@@ -367,6 +370,7 @@ void Valkyrie::Update()
 	ImGui::Render();
 
 	DxDeviceMutex.lock();
+
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	DxDeviceMutex.unlock();
 	DBG_CLEAR()

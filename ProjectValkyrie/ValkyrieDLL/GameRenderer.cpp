@@ -79,6 +79,111 @@ bool GameRenderer::IsWorldPointOnScreen(const Vector3& point, float offsetX, flo
 	return IsScreenPointOnScreen(WorldToScreen(point), offsetX, offsetY);
 }
 
+void GameRenderer::AddDrawCommand(std::shared_ptr<DrawCommand> cmd)
+{
+	drawCommands.push_back(cmd);
+}
+
+void GameRenderer::DrawOverlay(LPDIRECT3DDEVICE9 dxDevice)
+{
+	/// Backup dx state
+	IDirect3DStateBlock9* dxStateBlock = NULL;
+	if (dxDevice->CreateStateBlock(D3DSBT_ALL, &dxStateBlock) < 0)
+		return;
+
+	D3DMATRIX last_world, last_view, last_projection;
+	dxDevice->GetTransform(D3DTS_WORLD, &last_world);
+	dxDevice->GetTransform(D3DTS_VIEW, &last_view);
+	dxDevice->GetTransform(D3DTS_PROJECTION, &last_projection);
+	
+	/// Write our state
+	D3DVIEWPORT9 vp;
+	vp.X = vp.Y = 0;
+	vp.Width = width;
+	vp.Height = height;
+	vp.MinZ = 0.0f;
+	vp.MaxZ = 1.0f;
+	dxDevice->SetViewport(&vp);
+
+	/// Setup render state: fixed-pipeline, alpha-blending, no face culling, no depth testing, shade mode (for gradient)
+	dxDevice->SetPixelShader(NULL);
+	dxDevice->SetVertexShader(NULL);
+	dxDevice->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
+	dxDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	dxDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	dxDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	dxDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	dxDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	dxDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	dxDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	dxDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	dxDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+	dxDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+	dxDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	dxDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	dxDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	dxDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+	dxDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	dxDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	dxDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+	dxDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	dxDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+
+	static const D3DMATRIX identityMatrix = { { { 1.0f, 0.0f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f, 0.0f,  0.0f, 0.0f, 0.0f, 1.0f } } };
+
+	dxDevice->SetTransform(D3DTS_WORLD, &identityMatrix);
+	dxDevice->SetTransform(D3DTS_VIEW, (D3DMATRIX*)&viewMatrix[0]);
+	dxDevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX*)&projMatrix[0]);
+
+	if (!vertexBuff) {
+		if (dxDevice->CreateVertexBuffer(VertexBuffSize * sizeof(Vertex), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1), D3DPOOL_DEFAULT, &vertexBuff, NULL) < 0) {
+			Logger::Error("Failed to create vtx buff");
+			return;
+		}
+	}
+
+	Vertex* vtx;
+	ImDrawIdx* idx_dst;
+	if (vertexBuff->Lock(0, (UINT)(VertexBuffSize), (void**)&vtx, D3DLOCK_DISCARD) < 0) {
+		Logger::Error("Failed to lock vtx buff");
+		return;
+	}
+
+	for (auto cmd : drawCommands) {
+		cmd->WriteVertices(vtx);
+		vtx += cmd->GetVertexCount();
+	}
+
+	vertexBuff->Unlock();
+	dxDevice->SetStreamSource(0, vertexBuff, 0, sizeof(Vertex));
+	dxDevice->SetFVF((D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1));
+
+	RECT scissor = { 0, 0, width, height };
+	dxDevice->SetScissorRect(&scissor);
+
+	PDIRECT3DTEXTURE9 currentTexture = (PDIRECT3DTEXTURE9)1;
+	int vertexOffset = 0;
+	for (auto cmd : drawCommands) {
+		if (currentTexture != cmd->texture) {
+			dxDevice->SetTexture(0, cmd->texture);
+			currentTexture = cmd->texture;
+		}
+		
+		cmd->Draw(dxDevice, vertexOffset);
+		vertexOffset += cmd->GetVertexCount();
+	}
+
+	drawCommands.clear();
+
+	/// Restore dx state
+	dxDevice->SetTransform(D3DTS_WORLD, &last_world);
+	dxDevice->SetTransform(D3DTS_VIEW, &last_view);
+	dxDevice->SetTransform(D3DTS_PROJECTION, &last_projection);
+
+	dxStateBlock->Apply();
+	dxStateBlock->Release();
+}
+
 void GameRenderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, int numPoints, ImColor color, float thickness) const {
 
 	if (numPoints >= 200)
@@ -124,4 +229,154 @@ void GameRenderer::DrawCircleAtFilled(ImDrawList* canvas, const Vector3& worldPo
 	}
 
 	canvas->AddConvexPolyFilled(points, numPoints, color);
+}
+
+void DrawCommandImage::WriteVertices(Vertex * vtx)
+{
+	vtx->col = color;
+	vtx->pos[0] = p1.x;
+	vtx->pos[1] = p1.y;
+	vtx->pos[2] = p1.z;
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 0.f;
+
+	vtx++;
+	vtx->col = color;
+	vtx->pos[0] = p2.x;
+	vtx->pos[1] = p2.y;
+	vtx->pos[2] = p2.z;
+	vtx->uv[0] = 1.f;
+	vtx->uv[1] = 0.f;
+
+	vtx++;
+	vtx->col = color;
+	vtx->pos[0] = p4.x;
+	vtx->pos[1] = p4.y;
+	vtx->pos[2] = p4.z;
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 1.f;
+
+	vtx++;
+	vtx->col = color;
+	vtx->pos[0] = p4.x;
+	vtx->pos[1] = p4.y;
+	vtx->pos[2] = p4.z;
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 1.f;
+
+	vtx++;
+	vtx->col = color;
+	vtx->pos[0] = p3.x;
+	vtx->pos[1] = p3.y;
+	vtx->pos[2] = p3.z;
+	vtx->uv[0] = 1.f;
+	vtx->uv[1] = 1.f;
+
+	vtx++;
+	vtx->col = color;
+	vtx->pos[0] = p2.x;
+	vtx->pos[1] = p2.y;
+	vtx->pos[2] = p2.z;
+	vtx->uv[0] = 1.f;
+	vtx->uv[1] = 0.f;
+}
+
+int DrawCommandImage::GetVertexCount()
+{
+	return 6;
+}
+
+void DrawCommandImage::Draw(LPDIRECT3DDEVICE9 device, int vtxOffset)
+{
+	device->DrawPrimitive(D3DPRIMITIVETYPE::D3DPT_TRIANGLELIST, vtxOffset, 2);
+}
+
+void DrawCommandCircle::WriteVertices(Vertex * vtx)
+{
+	float step = 6.2831f / numPoints;
+	float theta = 0.f;
+
+	for (int i = 0; i < numPoints; i++, theta += step) {
+		vtx->col = color;
+		vtx->pos[0] = pos.x + radius*cos(theta);
+		vtx->pos[1] = pos.y;
+		vtx->pos[2] = pos.z - radius*sin(theta);
+		vtx->uv[0] = 0.f;
+		vtx->uv[1] = 0.f;
+		vtx++;
+
+		vtx->col = color;
+		vtx->pos[0] = pos.x + (radius - thickness) * cos(theta);
+		vtx->pos[1] = pos.y;
+		vtx->pos[2] = pos.z - (radius - thickness) * sin(theta);
+		vtx->uv[0] = 0.f;
+		vtx->uv[1] = 0.f;
+		vtx++;
+	}
+
+	vtx->col = color;
+	vtx->pos[0] = pos.x + radius * cos(0);
+	vtx->pos[1] = pos.y;
+	vtx->pos[2] = pos.z - radius * sin(0);
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 0.f;
+	vtx++;
+
+	vtx->col = color;
+	vtx->pos[0] = pos.x + (radius - thickness) * cos(0);
+	vtx->pos[1] = pos.y;
+	vtx->pos[2] = pos.z - (radius - thickness) * sin(0);
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 0.f;
+}
+
+int DrawCommandCircle::GetVertexCount()
+{
+	return 2*(numPoints + 1);
+}
+
+void DrawCommandCircle::Draw(LPDIRECT3DDEVICE9 device, int vtxOffset)
+{
+	device->DrawPrimitive(D3DPRIMITIVETYPE::D3DPT_TRIANGLESTRIP, vtxOffset, 2*numPoints);
+}
+
+void DrawCommandCircleFilled::WriteVertices(Vertex * vtx)
+{
+	float step = 6.2831f / numPoints;
+	float theta = 0.f;
+
+	vtx->col = D3DCOLOR_ARGB(0, 255, 255, 255);
+	vtx->pos[0] = pos.x;
+	vtx->pos[1] = pos.y;
+	vtx->pos[2] = pos.z;
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 0.f;
+	vtx++;
+
+	for (int i = 0; i < numPoints; i++, theta += step) {
+		vtx->col = color;
+		vtx->pos[0] = pos.x + radius * cos(theta);
+		vtx->pos[1] = pos.y;
+		vtx->pos[2] = pos.z - radius * sin(theta);
+		vtx->uv[0] = 0.f;
+		vtx->uv[1] = 0.f;
+		vtx++;
+	}
+
+	vtx->col = color;
+	vtx->pos[0] = pos.x + radius * cos(0);
+	vtx->pos[1] = pos.y;
+	vtx->pos[2] = pos.z - radius * sin(0);
+	vtx->uv[0] = 0.f;
+	vtx->uv[1] = 0.f;
+}
+
+int DrawCommandCircleFilled::GetVertexCount()
+{
+	return numPoints + 2;
+}
+
+void DrawCommandCircleFilled::Draw(LPDIRECT3DDEVICE9 device, int vtxOffset)
+{
+	device->DrawPrimitive(D3DPRIMITIVETYPE::D3DPT_TRIANGLEFAN, vtxOffset, numPoints);
 }

@@ -91,14 +91,14 @@ public:
 
 	static void ImGuiSetupSizesAndFont() {
 		ImGuiStyle* style = &ImGui::GetStyle();
-		style->WindowPadding    = { 16.f, 11.f };
-		style->FramePadding     = { 16.f, 5.f };
-		style->CellPadding      = { 10.f, 1.f };
-		style->ItemSpacing      = { 8.f, 4.f };
+		style->WindowPadding = { 16.f, 11.f };
+		style->FramePadding = { 16.f, 5.f };
+		style->CellPadding = { 10.f, 1.f };
+		style->ItemSpacing = { 8.f, 4.f };
 		style->ItemInnerSpacing = { 4.f, 7.f };
-		style->IndentSpacing    = 20.f;
-		style->ScrollbarSize    = 20.f;
-		style->GrabMinSize      = 20.f;
+		style->IndentSpacing = 20.f;
+		style->ScrollbarSize = 20.f;
+		style->GrabMinSize = 20.f;
 
 		style->WindowBorderSize = 1.5f;
 		style->ChildBorderSize = 1.5f;
@@ -114,10 +114,20 @@ public:
 		style->GrabRounding = 6.f;
 		style->LogSliderDeadzone = 0.f;
 		style->TabRounding = 8.f;
-		
+
 		std::string fontPath = Paths::Root + "\\vfont.ttf";
-		if (Paths::FileExists(fontPath))
-			ImGui::GetIO().Fonts->AddFontFromFileTTF(fontPath.c_str(), 13);
+		if (Paths::FileExists(fontPath)) {
+			auto fontAtlas = ImGui::GetIO().Fonts;
+
+			static const ImWchar ranges[] =
+			{
+				0x0020, 0x00FF, // Basic Latin + Latin Supplement
+				0x2000, 0x3000,
+				0,
+			};
+
+			fontAtlas->AddFontFromFileTTF(fontPath.c_str(), 13, 0, ranges);
+		}
 	}
 
 	static void ImGuiStyleValkyrie() {

@@ -89,7 +89,7 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 	if (castStatic->width == 0.f || castStatic->speed == 0.f)
 		return;
 
-	float UnitDelta = 1.0 + castStatic->width/3.f;
+	float UnitDelta = 1.f + castStatic->width/3.f;
 
 	Vector2 spellStart = Vector2(spell_start.x, spell_start.z);
 	Vector2 spellEnd = Vector2(cast->end.x, cast->end.z);
@@ -208,8 +208,8 @@ bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const
 	if (spell.speed == 0.0)
 		return false;
 
-	float UnitDelta = 1.0 + spell.width / 3.f;
-	float Threshold = 1.0 + spell.width / 2.f;
+	float UnitDelta = 1.f + spell.width / 3.f;
+	float Threshold = 1.f + spell.width / 2.f;
 
 	int   iterations = spell.castRange / UnitDelta;
 	float travelPerIter = UnitDelta / spell.speed;

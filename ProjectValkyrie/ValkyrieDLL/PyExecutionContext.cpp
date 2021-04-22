@@ -343,12 +343,12 @@ void PyExecutionContext::SetImGuiOverlay(ImDrawList * overlay)
 void PyExecutionContext::DrawHpBarDamageIndicator(const GameChampion & champ, float dmg, ImVec4 color)
 {
 	Vector2 hpbar_pos = champ.GetHpBarPosition();
-	Vector2 pos_start = hpbar_pos.add(Vector2(24.0, -18.0));
-	Vector2 pos_end = pos_start.add(Vector2((champ.health / champ.maxHealth) * 105.0, 0.0));
-	Vector2 pos_start2 = pos_end.add(Vector2(-105.0 * dmg / champ.maxHealth, 0.0));
+	Vector2 pos_start = hpbar_pos.add(Vector2(24.f, -18.f));
+	Vector2 pos_end = pos_start.add(Vector2((champ.health / champ.maxHealth) * 105.f, 0.f));
+	Vector2 pos_start2 = pos_end.add(Vector2(-105.f * dmg / champ.maxHealth, 0.f));
 	if (pos_start2.x < pos_start.x)
 		pos_start2.x = pos_start.x;
-	DrawLine(pos_start2, pos_end, 12.0, color);
+	DrawLine(pos_start2, pos_end, 12.f, color);
 }
 
 void PyExecutionContext::DrawRectWorld(const Vector3 & p1, const Vector3 & p2, const Vector3 & p3, const Vector3 & p4, float thickness, const ImVec4 & color)
@@ -390,12 +390,25 @@ void PyExecutionContext::DrawCircleFilled(const Vector2 & center, float radius, 
 
 void PyExecutionContext::DrawCircleWorld(const Vector3 & center, float radius, int numPoints, float thickness, const ImVec4 & color)
 {
-	state->renderer.DrawCircleAt(overlay, center, radius, numPoints, ImColor(color), thickness);
+	DrawCommandCircle* circle = new DrawCommandCircle();
+	circle->pos = center;
+	circle->radius = radius;
+	circle->numPoints = numPoints;
+	circle->thickness = thickness;
+	circle->color = COL_TO_D3COL(color);
+
+	state->renderer.AddDrawCommand(std::shared_ptr<DrawCommand>(circle));
 }
 
 void PyExecutionContext::DrawCircleWorldFilled(const Vector3 & center, float radius, int numPoints, const ImVec4 & color)
 {
-	state->renderer.DrawCircleAtFilled(overlay, center, radius, numPoints, ImColor(color));
+	DrawCommandCircleFilled* circle = new DrawCommandCircleFilled();
+	circle->pos = center;
+	circle->radius = radius;
+	circle->numPoints = numPoints;
+	circle->color = COL_TO_D3COL(color);
+
+	state->renderer.AddDrawCommand(std::shared_ptr<DrawCommand>(circle));
 }
 
 void PyExecutionContext::DrawLine(const Vector2 & start, const Vector2 & end, float thickness, const ImVec4 & color)
@@ -420,30 +433,35 @@ void PyExecutionContext::DrawImage(const char * img, const Vector2 & start, cons
 	overlay->AddImage(GameData::GetImage(imageName), ImVec2(start.x - size.x / 2.f, start.y - size.y / 2.f), ImVec2(start.x + size.x / 2.f, start.y + size.y / 2.f), zero, one, ImColor(color));
 }
 
-/*void PyExecutionContext::DrawImageWorld(const char * img, const Vector3& origin, const Vector2& size, const Vector2& uv1, const Vector2& uv2, const Vector2& uv3, const Vector2& uv4, const ImVec4& color) {
+void PyExecutionContext::DrawImageWorld(const char * img, const Vector3 & pos, const Vector2 & size, const ImVec4 & color) {
 	
-	//static const ImVec2 uv1 = ImVec2(0.f, 0.f);
-	//static const ImVec2 uv2 = ImVec2(1.f, 0.f);
-	//static const ImVec2 uv3 = ImVec2(1.f, 1.f);
-	//static const ImVec2 uv4 = ImVec2(0.f, 1.f);
+	DrawCommandImage* cmd = new DrawCommandImage();
 
-	std::string imageName(img);
+	float halfX = size.x / 2.f;
+	float halfY = size.y / 2.f;
+	cmd->color = COL_TO_D3COL(color);
+	cmd->p1    = Vector3(pos.x - halfX, pos.y, pos.z - halfY);
+	cmd->p2    = Vector3(pos.x + halfX, pos.y, pos.z - halfY);
+	cmd->p3    = Vector3(pos.x + halfX, pos.y, pos.z + halfY);
+	cmd->p4    = Vector3(pos.x - halfX, pos.y, pos.z + halfY);
+	cmd->texture = GameData::GetImage(img);
 
-	Vector2 p1 = state->renderer.WorldToScreen(origin.add(Vector3(-size.x, 0.f, size.y)));
-	Vector2 p2 = state->renderer.WorldToScreen(origin.add(Vector3(size.x, 0.f, size.y)));
-	Vector2 p3 = state->renderer.WorldToScreen(origin.add(Vector3(size.x, 0.f, -size.y)));
-	Vector2 p4 = state->renderer.WorldToScreen(origin.add(Vector3(-size.x, 0.f, -size.y)));
+	state->renderer.AddDrawCommand(std::shared_ptr<DrawCommand>(cmd));
+}
 
-	Vector2 v[4] = { p1, p2, p3, p4 };
-	overlay->AddPolyline((ImVec2*)v, 4, ImColor(Color::WHITE), true, 2.f);
+void PyExecutionContext::DrawImageWorldPoints(const char * img, const Vector3 & p1, const Vector3 & p2, const Vector3 & p3, const Vector3 & p4, const ImVec4 & color)
+{
+	DrawCommandImage* cmd = new DrawCommandImage();
 
-	overlay->AddImageQuad(
-		GameData::GetImage(imageName), 
-		(ImVec2&)p1, (ImVec2&)p2, (ImVec2&)p3, (ImVec2&)p4, 
-		(ImVec2&)uv1, (ImVec2&)uv2, (ImVec2&)uv3, (ImVec2&)uv4,
-		ImColor(color));
+	cmd->color = COL_TO_D3COL(color);
+	cmd->p1 = p1;
+	cmd->p2 = p2;
+	cmd->p3 = p3;
+	cmd->p4 = p4;
+	cmd->texture = GameData::GetImage(img);
 
-}*/
+	state->renderer.AddDrawCommand(std::shared_ptr<DrawCommand>(cmd));
+}
 
 void PyExecutionContext::DrawImageRounded(const char * img, const Vector2 & start, const Vector2 & size, const ImVec4 & color, float rounding)
 {

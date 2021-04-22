@@ -210,9 +210,6 @@
     <ClInclude Include="Raycast.h">
       <Filter>Source Files\Game\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="GridMap.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -316,9 +313,6 @@
     </ClCompile>
     <ClCompile Include="Raycast.cpp">
       <Filter>Source Files\Game\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="GridMap.cpp">
-      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

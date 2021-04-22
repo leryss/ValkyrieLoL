@@ -1,4 +1,4 @@
-#include "ScriptRepository.h"
+﻿#include "ScriptRepository.h"
 #include "Strings.h"
 #include "Paths.h"
 
@@ -190,7 +190,6 @@ void ScriptRepository::RemoveEntry(std::string id, bool isLocal, bool isBoth)
 void ScriptRepository::DrawTable(bool showLocal)
 {
 	static const float SECS_IN_DAY = 24.f * 60.f * 60.f;
-
 	if (ImGui::InputText("Search", searchStr, 50)) {
 		SortEntries();
 	}
@@ -203,6 +202,7 @@ void ScriptRepository::DrawTable(bool showLocal)
 	ImGui::TableSetupColumn("Champion",     ImGuiTableColumnFlags_DefaultSort, 0, REPO_COLUMN_CHAMP);
 	ImGui::TableSetupColumn("Description",  ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Last Update",  ImGuiTableColumnFlags_None, 0);
+	ImGui::TableSetupColumn("Rating",       ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None, 0);
 	
 	if (ImGuiTableSortSpecs* specs = ImGui::TableGetSortSpecs()) {

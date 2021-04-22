@@ -375,6 +375,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("triangle_fill",            &PyExecutionContext::DrawTriangleWorldFilled)
 		.def("image",                    &PyExecutionContext::DrawImage)
 		.def("image",                    &PyExecutionContext::DrawImageRounded)
+		.def("image",                    &PyExecutionContext::DrawImageWorld)
+		.def("image",                    &PyExecutionContext::DrawImageWorldPoints)
 		.def("pill",                     &PyExecutionContext::Pill,             "Draws a pill with a text under the player. Pill positions are automatically managed each frame so that they dont overlap.")
 		;
 

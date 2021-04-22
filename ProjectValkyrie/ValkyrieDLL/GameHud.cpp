@@ -22,5 +22,5 @@ void GameHud::ReadFromBaseAddress(int baseAddr)
 
 bool GameHud::WasChatOpenMillisAgo(int millis)
 {
-	return (GetTickCount() - chatLastOpenTimestamp) < millis;
+	return ((int)GetTickCount() - chatLastOpenTimestamp) < millis;
 }

@@ -107,6 +107,8 @@ public:
 	void    DrawLineWorld(const Vector3 & start, const Vector3 & end, float thickness, const ImVec4 & color);
 	void    DrawImage(const char* img, const Vector2& start, const Vector2& size, const ImVec4& color);
 	void    DrawImageRounded(const char* img, const Vector2& start, const Vector2& size, const ImVec4& color, float rounding);
+	void    DrawImageWorld(const char * img, const Vector3 & pos, const Vector2 & size, const ImVec4 & color);
+	void    DrawImageWorldPoints(const char * img, const Vector3 & p1, const Vector3 & p2, const Vector3 & p3, const Vector3 & p4, const ImVec4 & color);
 	void    DrawTxt(const Vector2& pos, const char* text, const ImVec4& color);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectOverloads, DrawRect, 3, 5);
 	void    DrawRect(const Vector2& start, const Vector2& size, const ImVec4& color, float rounding = 0, float thickness = 1.0);

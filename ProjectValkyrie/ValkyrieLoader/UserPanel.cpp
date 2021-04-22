@@ -90,7 +90,7 @@ void UserPanel::DrawHome()
 	float hours = (days - int(days)) * 24.f;
 
 	ImGui::TextColored((days < 5.f ? Color::YELLOW : Color::GREEN), "Your subscription will expire in %d days %d hours", int(days), int(hours));
-	ImGui::TextColored(Color::RED, "DISCORD HAS BEEN CHANGED BECAUSE OF SOME BUSINESS ISSUES PLEASE USE THE INVITE BELOW TO JOIN THE NEW DISCORD");
+	ImGui::TextColored(Color::RED, "If you didn't join the new discord yet, please do or you will get banned! (if you cant get in contact me accountjpeg#7110)");
 	static char discord[255] = "https://discord.gg/favaHJuDp8";
 	ImGui::InputText("New discord server", discord, 255, ImGuiInputTextFlags_ReadOnly);
 
