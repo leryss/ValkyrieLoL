@@ -446,10 +446,10 @@ void PyExecutionContext::DrawImageWorld(const char * img, const Vector3 & pos, c
 	float halfX = size.x / 2.f;
 	float halfY = size.y / 2.f;
 	cmd->color = COL_TO_D3COL(color);
-	cmd->p1    = Vector3(pos.x - halfX, pos.y, pos.z - halfY);
-	cmd->p2    = Vector3(pos.x + halfX, pos.y, pos.z - halfY);
-	cmd->p3    = Vector3(pos.x + halfX, pos.y, pos.z + halfY);
-	cmd->p4    = Vector3(pos.x - halfX, pos.y, pos.z + halfY);
+	cmd->p1    = Vector3(pos.x - halfX, pos.y, pos.z + halfY);
+	cmd->p2    = Vector3(pos.x + halfX, pos.y, pos.z + halfY);
+	cmd->p3    = Vector3(pos.x + halfX, pos.y, pos.z - halfY);
+	cmd->p4    = Vector3(pos.x - halfX, pos.y, pos.z - halfY);
 	cmd->texture = GameData::GetImage(img);
 
 	state->renderer.AddDrawCommand(std::shared_ptr<DrawCommand>(cmd));

@@ -111,7 +111,7 @@ def by_level_breakpoint_translator(part):
 	CurrentDataVals[key] = vals
 	PrecalculatedIndex += 1
 	
-	return f'self.{key}[{ChampLevel}]'
+	return f'self.{key}[{ChampLevel} - 1]'
 	
 def product_of_subparts_translator(part):
 	part1 = part['mPart1']
