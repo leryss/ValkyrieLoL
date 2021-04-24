@@ -330,6 +330,7 @@ void PyExecutionContext::SetGameState(GameState * state)
 	player           = object(ptr(state->player.get()));
 	queryEnginePy    = object(ptr(&queryEngine));
 	selfPy           = object(ptr(this));
+	gameHud          = object(boost::ref(state->hud));
 	everythingLoaded = GameData::EverythingLoaded;
 	queryEngine.Update(state);
 	collisionEngine.Update(*state);
@@ -429,8 +430,13 @@ void PyExecutionContext::DrawImage(const char * img, const Vector2 & start, cons
 	static const ImVec2 one = ImVec2(1.f, 1.f);
 
 	std::string imageName(img);
-
 	overlay->AddImage(GameData::GetImage(imageName), ImVec2(start.x - size.x / 2.f, start.y - size.y / 2.f), ImVec2(start.x + size.x / 2.f, start.y + size.y / 2.f), zero, one, ImColor(color));
+}
+
+void PyExecutionContext::DrawImageUVs(const char * img, const Vector2 & start, const Vector2& size, const Vector2 & uv1, const Vector2 & uv2, const ImVec4 & color)
+{
+	std::string imageName(img);
+	overlay->AddImage(GameData::GetImage(imageName), ImVec2(start.x - size.x / 2.f, start.y - size.y / 2.f), ImVec2(start.x + size.x / 2.f, start.y + size.y / 2.f), (ImVec2&)uv1, (ImVec2&)uv2, ImColor(color));
 }
 
 void PyExecutionContext::DrawImageWorld(const char * img, const Vector3 & pos, const Vector2 & size, const ImVec4 & color) {

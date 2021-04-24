@@ -19,6 +19,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <functional>
+#include <dxva2api.h>
 
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
@@ -341,38 +342,36 @@ void Valkyrie::DrawBenchmarkWindow()
 void Valkyrie::Update()
 {
 	DBG_INFO("Valkyrie::Update")
-	ImGui_ImplDX9_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
 	__try {
+		ImGui_ImplDX9_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+
 		TaskPool->ImGuiDraw();
 		if (GameData::EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
 			
 			CurrentGameState = Reader.GetNextState();
-			//ShowMenu();
 			if (CurrentGameState->gameStarted) {
 				SetupScripts();
 				ShowMenu();
 				ExecuteScripts();
-
-				if(GameData::EverythingLoaded)
-					CurrentGameState->renderer.DrawOverlay(DxDevice);
 			}
 		}
+
+		ImGui::EndFrame();
+		ImGui::Render();
+
+		/// Render
+		DxDeviceMutex.lock();
+		if (GameData::EverythingLoaded && CurrentGameState != nullptr)
+			CurrentGameState->renderer.DrawOverlay(DxDevice);
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+		DxDeviceMutex.unlock();
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER) {
 		Logger::Error("SEH exception occured in main loop.");
 		DBG_DUMP()
 	}
-
-	ImGui::EndFrame();
-	ImGui::Render();
-
-	DxDeviceMutex.lock();
-
-	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-	DxDeviceMutex.unlock();
 	DBG_CLEAR()
 }
 

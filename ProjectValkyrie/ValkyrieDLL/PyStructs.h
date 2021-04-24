@@ -30,6 +30,12 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		PyErr_SetString(PyExc_RuntimeError, Strings::Format("Object Query Exception: %s", exc.what()).c_str());
 	});
 
+	class_<GameHud>("GameHud", "Contains info about the hud in the game")
+		.def_readonly("minimap_pos",         &GameHud::minimapPosition,   "Position of the minimap on the screen")
+		.def_readonly("minimap_size",        &GameHud::minimapSize,       "Size of the minimap on the screen")
+		.def_readonly("chat_open",           &GameHud::isChatOpen,        "True if chat is open")
+		;
+
 	class_<RaycastResult>("RaycastResult", "Represents the result of a raycast")
 		.def_readonly("point",               &RaycastResult::point,       "Point of raycast collision")
 		.def_readonly("obj",                 &RaycastResult::GetObjectPy, "Object that the raycast collided with. None if it was a wall")
@@ -316,6 +322,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("ping",            &PyExecutionContext::ping,              "Current ping of the game")
 		.def_readonly("cursor_pos",      &PyExecutionContext::GetMousePosition,  "Gets the current position of the mouse")
 
+		.def_readonly("hud",             &PyExecutionContext::gameHud,           "Gets the game HUD")
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Gets the game object under the mouse")
 		.def_readonly("focused",         &PyExecutionContext::focused,           "Gets the game object focused (the object that was last clicked). None if last click was not on a object")
 		.def_readonly("player",          &PyExecutionContext::player,            "The champion used by the local player. In replays this will be a random champion")
@@ -374,6 +381,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("triangle",                 &PyExecutionContext::DrawTriangleWorld)
 		.def("triangle_fill",            &PyExecutionContext::DrawTriangleWorldFilled)
 		.def("image",                    &PyExecutionContext::DrawImage)
+		.def("image",                    &PyExecutionContext::DrawImageUVs)
 		.def("image",                    &PyExecutionContext::DrawImageRounded)
 		.def("image",                    &PyExecutionContext::DrawImageWorld)
 		.def("image",                    &PyExecutionContext::DrawImageWorldPoints)

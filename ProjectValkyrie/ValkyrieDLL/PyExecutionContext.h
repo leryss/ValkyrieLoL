@@ -36,6 +36,7 @@ public:
 	object  hovered;
 	object  player;
 	object  queryEnginePy;
+	object  gameHud;
 	object  selfPy;
 
 public:
@@ -106,6 +107,7 @@ public:
 	void    DrawLine(const Vector2& start, const Vector2& end, float thickness, const ImVec4& color);
 	void    DrawLineWorld(const Vector3 & start, const Vector3 & end, float thickness, const ImVec4 & color);
 	void    DrawImage(const char* img, const Vector2& start, const Vector2& size, const ImVec4& color);
+	void    DrawImageUVs(const char* img, const Vector2& start, const Vector2& size, const Vector2& uv1, const Vector2& uv2, const ImVec4& color);
 	void    DrawImageRounded(const char* img, const Vector2& start, const Vector2& size, const ImVec4& color, float rounding);
 	void    DrawImageWorld(const char * img, const Vector3 & pos, const Vector2 & size, const ImVec4 & color);
 	void    DrawImageWorldPoints(const char * img, const Vector3 & p1, const Vector3 & p2, const Vector3 & p3, const Vector3 & p4, const ImVec4 & color);

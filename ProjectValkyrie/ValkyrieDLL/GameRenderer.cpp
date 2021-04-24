@@ -88,8 +88,10 @@ void GameRenderer::DrawOverlay(LPDIRECT3DDEVICE9 dxDevice)
 {
 	/// Backup dx state
 	IDirect3DStateBlock9* dxStateBlock = NULL;
-	if (dxDevice->CreateStateBlock(D3DSBT_ALL, &dxStateBlock) < 0)
+	if (dxDevice->CreateStateBlock(D3DSBT_ALL, &dxStateBlock) < 0) {
+		drawCommands.clear();
 		return;
+	}
 
 	D3DMATRIX last_world, last_view, last_projection;
 	dxDevice->GetTransform(D3DTS_WORLD, &last_world);
@@ -108,7 +110,6 @@ void GameRenderer::DrawOverlay(LPDIRECT3DDEVICE9 dxDevice)
 	/// Setup render state: fixed-pipeline, alpha-blending, no face culling, no depth testing, shade mode (for gradient)
 	dxDevice->SetPixelShader(NULL);
 	dxDevice->SetVertexShader(NULL);
-	dxDevice->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
 	dxDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	dxDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	dxDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
@@ -138,14 +139,15 @@ void GameRenderer::DrawOverlay(LPDIRECT3DDEVICE9 dxDevice)
 	if (!vertexBuff) {
 		if (dxDevice->CreateVertexBuffer(VertexBuffSize * sizeof(Vertex), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1), D3DPOOL_DEFAULT, &vertexBuff, NULL) < 0) {
 			Logger::Error("Failed to create vtx buff");
+			drawCommands.clear();
 			return;
 		}
 	}
 
 	Vertex* vtx;
-	ImDrawIdx* idx_dst;
 	if (vertexBuff->Lock(0, (UINT)(VertexBuffSize), (void**)&vtx, D3DLOCK_DISCARD) < 0) {
 		Logger::Error("Failed to lock vtx buff");
+		drawCommands.clear();
 		return;
 	}
 
@@ -173,8 +175,6 @@ void GameRenderer::DrawOverlay(LPDIRECT3DDEVICE9 dxDevice)
 		vertexOffset += cmd->GetVertexCount();
 	}
 
-	drawCommands.clear();
-
 	/// Restore dx state
 	dxDevice->SetTransform(D3DTS_WORLD, &last_world);
 	dxDevice->SetTransform(D3DTS_VIEW, &last_view);
@@ -182,6 +182,8 @@ void GameRenderer::DrawOverlay(LPDIRECT3DDEVICE9 dxDevice)
 
 	dxStateBlock->Apply();
 	dxStateBlock->Release();
+
+	drawCommands.clear();
 }
 
 void GameRenderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, int numPoints, ImColor color, float thickness) const {
