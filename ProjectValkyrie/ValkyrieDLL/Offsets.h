@@ -118,6 +118,7 @@ public:
 
 	static int SpellCastSpellInfo;
 	static int SpellCastStartTime;
+	static int SpellCastStartTimeAlt;
 	static int SpellCastCastTime;
 	static int SpellCastEnd;
 	static int SpellCastStart;

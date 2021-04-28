@@ -189,6 +189,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryReadable.h" />
+    <ClInclude Include="MenuDrawer.h" />
     <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="ObjectQuery.h" />
     <ClInclude Include="Offsets.h" />

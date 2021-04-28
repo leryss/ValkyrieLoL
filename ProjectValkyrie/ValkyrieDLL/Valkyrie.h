@@ -39,8 +39,9 @@ private:
 	static void                        ShowMenu();
 	static void                        ShowConsole();
 
-	static void                        DrawDevMenu();
-	static void                        DrawUIMenu();
+	static void                        DrawSettings();
+	static void                        DrawDevelopmentSettings();
+	static void                        DrawMenuSettings();
 	static void                        DrawBenchmarkWindow();
 
 	static void                        Update();
@@ -85,6 +86,7 @@ private:
 	static bool                        ShowObjectExplorerWindow;
 	static bool                        ShowOffsetScanner;
 	static HKey                        ShowMenuKey;
+	static bool                        ShowMenuKeyShouldHold;
 	static int                         MenuStyle;
 	static float                       AveragePing;
 

@@ -45,6 +45,7 @@ bool                               Valkyrie::ShowObjectExplorerWindow;
 bool                               Valkyrie::ShowOffsetScanner;
 bool                               Valkyrie::ShowBenchmarkWindow;
 HKey                               Valkyrie::ShowMenuKey;
+bool                               Valkyrie::ShowMenuKeyShouldHold = true;
 int                                Valkyrie::MenuStyle;
 float                              Valkyrie::AveragePing;
 
@@ -82,43 +83,20 @@ void Valkyrie::Run()
 void Valkyrie::ShowMenu()
 {
 	DBG_INFO("Valkyrie::ShowMenu")
-	static std::string IconDev("menu-dev");
-	static std::string IconSkinChanger("menu-cloth");
-	static std::string IconSettings("menu-settings");
+	static bool IsMenuToggled = false;
 
-	if (InputController.IsDown(ShowMenuKey) && ImGui::Begin("Valkyrie", nullptr,
-		ImGuiWindowFlags_NoScrollbar |
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_AlwaysAutoResize)) {
+	if (ShowMenuKeyShouldHold) {
+		if (InputController.IsDown(ShowMenuKey))
+			DrawSettings();
+	}
+	else {
+		if (InputController.WasPressed(ShowMenuKey))
+			IsMenuToggled = !IsMenuToggled;
 
-		/// Currently avg ping must be set manually since I didn't find how to get it from memory
-		ImGui::SliderFloat("Average Ping", &AveragePing, 0.f, 150.f);
-		ScriptContext.ping = AveragePing;
-
-		ImGui::Image(GameData::GetImage(IconDev), ImVec2(15, 15));
-		ImGui::SameLine();
-		if (ImGui::BeginMenu("Development")) {
-			DrawDevMenu();
-			ImGui::EndMenu();
-		}
-
-		ImGui::Image(GameData::GetImage(IconSettings), ImVec2(15, 15));
-		ImGui::SameLine();
-		if (ImGui::BeginMenu("Menu Settings")) {
-			DrawUIMenu();
-			ImGui::EndMenu();
-		}
-
-		ImGui::Separator();
-		ScriptManager.ImGuiDrawMenu(ScriptContext);
-
-		ImGui::End();
-
-		if (Configs.IsTimeToSave())
-			SaveConfigs();
+		if (IsMenuToggled)
+			DrawSettings();
 	}
 
-	//ImGui::ShowDemoWindow();
 
 	if (ShowConsoleWindow)
 		ShowConsole();
@@ -239,6 +217,7 @@ void Valkyrie::LoadConfigs()
 	ShowBenchmarkWindow      = Configs.GetBool("show_benchmarks", false);
 
 	ShowMenuKey              = (HKey)Configs.GetInt("show_key", HKey::Tab);
+	ShowMenuKeyShouldHold    = Configs.GetBool("show_key_hold", ShowMenuKeyShouldHold);
 	MenuStyle                = SetStyle(Configs.GetInt("menu_style", 3));
 	AveragePing              = Configs.GetFloat("ping", 60.0f);
 }
@@ -250,6 +229,7 @@ void Valkyrie::SaveConfigs()
 	Configs.SetBool("show_obj_explorer", ShowConsoleWindow);
 	Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
 
+	Configs.SetBool("show_key_hold", ShowMenuKeyShouldHold);
 	Configs.SetInt("show_key", ShowMenuKey);
 	Configs.SetInt("menu_style", MenuStyle);
 	Configs.SetFloat("ping", AveragePing);
@@ -285,7 +265,41 @@ void Valkyrie::SetupScripts()
 	ImGui::End();
 }
 
-void Valkyrie::DrawDevMenu()
+void Valkyrie::DrawSettings()
+{
+	static std::string IconDev("menu-dev");
+	static std::string IconSettings("menu-settings");
+
+	ImGui::Begin("Valkyrie", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
+
+	/// Currently avg ping must be set manually since I didn't find how to get it from memory
+	ImGui::SliderFloat("Average Ping", &AveragePing, 0.f, 150.f);
+	ScriptContext.ping = AveragePing;
+
+	ImGui::Image(GameData::GetImage(IconDev), ImVec2(15, 15));
+	ImGui::SameLine();
+	if (ImGui::BeginMenu("Development")) {
+		DrawDevelopmentSettings();
+		ImGui::EndMenu();
+	}
+
+	ImGui::Image(GameData::GetImage(IconSettings), ImVec2(15, 15));
+	ImGui::SameLine();
+	if (ImGui::BeginMenu("Menu Settings")) {
+		DrawMenuSettings();
+		ImGui::EndMenu();
+	}
+
+	ImGui::Separator();
+	ScriptManager.ImGuiDrawMenu(ScriptContext);
+
+	ImGui::End();
+
+	if (Configs.IsTimeToSave())
+		SaveConfigs();
+}
+
+void Valkyrie::DrawDevelopmentSettings()
 {
 	if (ImGui::Button("Reload Scripts"))
 		LoadedScripts = false;
@@ -303,11 +317,12 @@ void Valkyrie::DrawDevMenu()
 	ImGui::Checkbox("Show Benchmarks",      &ShowBenchmarkWindow);
 }
 
-void Valkyrie::DrawUIMenu()
+void Valkyrie::DrawMenuSettings()
 {
 	if (ChooseMenuStyle("Menu Style", MenuStyle))
 		SetStyle(MenuStyle);
 	ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
+	ImGui::Checkbox("Must Hold Menu Key", &ShowMenuKeyShouldHold);
 }
 
 void Valkyrie::DrawBenchmarkWindow()

@@ -275,7 +275,7 @@ void GameUnit::Reskin(int id)
 
 void GameUnit::ReadAiManager()
 {
-	static auto GetAiManager = AsFunc(ReadVTable(address, 148), int, void*);
+	static auto GetAiManager = AsFunc(ReadVTable(address, Offsets::ObjVTableGetAiManager), int, void*);//148
 	if (aiManagerAddress == 0) {
 		aiManagerAddress = GetAiManager((void*)address);
 	}
