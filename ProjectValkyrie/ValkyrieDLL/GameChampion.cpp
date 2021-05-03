@@ -38,7 +38,7 @@ void GameChampion::ReadSpells(int numToRead)
 	for (int i = 0; i < numToRead; ++i) {
 		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
 		spells[i].castableBit = castableMask & (1 << i);
-	}
+	}	
 }
 
 void GameChampion::ReadItems()

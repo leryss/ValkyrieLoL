@@ -164,6 +164,7 @@
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="Collidable.h" />
     <ClInclude Include="CollisionEngine.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameBuff.h" />
@@ -189,7 +190,6 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryReadable.h" />
-    <ClInclude Include="MenuDrawer.h" />
     <ClInclude Include="ObjectExplorer.h" />
     <ClInclude Include="ObjectQuery.h" />
     <ClInclude Include="Offsets.h" />
@@ -213,6 +213,7 @@
   <ItemGroup>
     <ClCompile Include="Benchmark.cpp" />
     <ClCompile Include="CollisionEngine.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FakeMouse.cpp" />
     <ClCompile Include="GameBuff.cpp" />

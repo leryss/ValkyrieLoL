@@ -210,7 +210,7 @@
     <ClInclude Include="Raycast.h">
       <Filter>Source Files\Game\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="MenuDrawer.h">
+    <ClInclude Include="Console.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -316,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="Raycast.cpp">
       <Filter>Source Files\Game\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

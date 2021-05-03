@@ -332,7 +332,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("minions",         &PyExecutionContext::GetMinions,        "Returns minions query builder")
 		.def_readonly("jungle",          &PyExecutionContext::GetJungle,         "Returns jungle monster query builder")
 		.def_readonly("others",          &PyExecutionContext::GetOthers,         "Returns other uncategorized objects query builder")
-
+		
+		.def("obj_by_net_id",            &PyExecutionContext::GetObjectWithNetworkId, "Returns the objects with the specified network id or None")
 		.def("raycast",                  &PyExecutionContext::Raycast,           "Launches a ray that stops on the first object specified by RayLayer")
 		
 		.def("is_wall_at",               &PyExecutionContext::IsWallAt,             "Checks if there is a wall at the specified position")

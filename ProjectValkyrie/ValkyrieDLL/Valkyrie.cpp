@@ -10,6 +10,7 @@
 #include "OffsetScanner.h"
 #include "ValkyrieShared.h"
 #include "GameKeybind.h"
+#include "Console.h"
 
 #include "FakeMouse.h"
 #include "D3DX9Shader.h"
@@ -48,6 +49,8 @@ HKey                               Valkyrie::ShowMenuKey;
 bool                               Valkyrie::ShowMenuKeyShouldHold = true;
 int                                Valkyrie::MenuStyle;
 float                              Valkyrie::AveragePing;
+HHOOK                              Valkyrie::KeyboardHook;
+HMODULE                            Valkyrie::ValkyrieDLLHandle;
 
 bool ChooseMenuStyle(const char* label, int& currentStyle)
 {
@@ -73,7 +76,9 @@ void Valkyrie::Run()
 		GameKeybind::InitFromGameConfigs();
 		FakeMouse::Init();
 		HookDirectX();
+		HookKeyboard();
 		LoginAndLoadData();
+		
 	}
 	catch (std::exception& error) {
 		Logger::Error("Failed starting up Valkyrie %s", error.what());
@@ -97,9 +102,16 @@ void Valkyrie::ShowMenu()
 			DrawSettings();
 	}
 
+	if (InputController.WasPressed(HKey::F3)) {
+		ShowConsoleWindow = !ShowConsoleWindow;
+	}
 
-	if (ShowConsoleWindow)
+	if (ShowConsoleWindow) {
+		static Console console;
+
+		console.ImDraw(ScriptContext);
 		ShowConsole();
+	}
 
 	if (ShowObjectExplorerWindow)
 		ObjectExplorer::ImGuiDraw(*CurrentGameState);
@@ -434,6 +446,14 @@ void Valkyrie::HookDirectX()
 	Logger::Info("Successfully hooked DirectX");
 }
 
+void __declspec(dllexport) __stdcall Valkyrie::HookKeyboard()
+{
+	KeyboardHook = SetWindowsHookExA(WH_KEYBOARD, (HOOKPROC)HookedKeyboard, ValkyrieDLLHandle, NULL);
+	if(KeyboardHook == NULL) {
+		Logger::Warn("SetWindowsHookExA failed error code %d", GetLastError());
+	}
+}
+
 void Valkyrie::UnhookDirectX()
 {
 	Logger::Info("Unhooking DirectX");
@@ -506,11 +526,11 @@ LRESULT ImGuiWindowMessageHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 		io.MousePos.y = (signed short)(lParam >> 16);
 		return true;
 	case WM_KEYDOWN:
-		if (wParam > 31 && wParam < 127)
+		if (wParam > 0 && wParam < 500)
 			io.KeysDown[wParam] = 1;
 		return true;
 	case WM_KEYUP:
-		if (wParam > 31 && wParam < 127)
+		if (wParam > 0 && wParam < 500)
 			io.KeysDown[wParam] = 0;
 		return true;
 	case WM_CHAR:
@@ -533,14 +553,16 @@ LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM 
 		return 0;
 	case WM_SIZE:
 		return 0;
-	case WM_SYSCOMMAND:
-		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
-			return 0;
-		break;
 	case WM_DESTROY:
 		::PostQuitMessage(0);
 		return 0;
 	}
-	
+
 	return CallWindowProcA(OriginalWindowMessageHandler, hWnd, msg, wParam, lParam);
+}
+
+LRESULT __declspec(dllexport) __stdcall Valkyrie::HookedKeyboard(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	Logger::Info("input");
+	return CallNextHookEx(KeyboardHook, nCode, wParam, lParam);
 }

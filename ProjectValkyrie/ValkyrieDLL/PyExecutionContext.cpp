@@ -154,6 +154,15 @@ object PyExecutionContext::PredictCastPoint(const GameUnit & caster, const GameU
 	return object(point);
 }
 
+object PyExecutionContext::GetObjectWithNetworkId(int netId)
+{
+	auto find = state->objectCache.find(netId);
+	if (find != state->objectCache.end())
+		return object(ptr(find->second.get()));
+
+	return object();
+}
+
 void PyExecutionContext::MoveToMouse() {
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return;

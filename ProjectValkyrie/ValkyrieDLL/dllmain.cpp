@@ -18,7 +18,7 @@ DWORD WINAPI OverlayThreadEntryPoint(LPVOID lpParam) {
 
 	Logger::Info("Starting up Valkyrie");
 	Valkyrie::Run();
-
+	
 	return 0;
 }
 
@@ -29,6 +29,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 {
 	UnlinkModuleFromPEB(hModule);
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+		Valkyrie::ValkyrieDLLHandle = hModule;
 		CreateThread(NULL, 0, &OverlayThreadEntryPoint, NULL, 0, NULL);
 	}
 	return TRUE;
