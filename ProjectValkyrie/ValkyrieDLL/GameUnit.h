@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "UnitInfo.h"
 #include "SpellCast.h"
+#include "GameBuff.h"
 
 #include <boost/python.hpp>
 using namespace boost::python;
@@ -52,6 +53,10 @@ public:
 	/// Changes skin of the unit
 	void      Reskin(int id);
 
+	list      BuffsToPy();
+
+	void      ReadBuffs();
+
 protected:
 	void       ReadAiManager();
 
@@ -96,4 +101,6 @@ public:
 	Vector3     path[10];
 
 	std::string nameTransformed;
+	std::map<std::string, std::shared_ptr<GameBuff>> buffs;
+	std::vector<BuffEntryWrap>* buffEntries;
 };

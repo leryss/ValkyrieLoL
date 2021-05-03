@@ -11,13 +11,12 @@ class BenchmarkGameReader {
 public:
 	BenchmarkTiming readTree    = BenchmarkTiming("Read Obj Tree");
 	BenchmarkTiming readObjects = BenchmarkTiming("Read Game Objects");
+	BenchmarkTiming readState   = BenchmarkTiming("Read Game State");
 	
 	BenchmarkValue<int> sehExceptions  = BenchmarkValue<int>("SEH Exceptions");
-	BenchmarkValue<int> readsPerformed = BenchmarkValue<int>("Obj Tree Node Reads");
 	
 	BenchmarkValue<int> cacheHits      = BenchmarkValue<int>("Cache Hits");
 	BenchmarkValue<int> blacklistHits  = BenchmarkValue<int>("Blacklist Hits");
-	BenchmarkValue<int> numObjPointers = BenchmarkValue<int>("Obj Pointers Read");
 
 	void ImGuiDraw();
 };

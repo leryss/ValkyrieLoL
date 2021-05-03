@@ -64,6 +64,8 @@ void GameUnit::ReadFromBaseAddress(int addr)
 		}
 	}
 
+	ReadBuffs();
+
 	basicAttack = staticData->basicAttack;
 }
 
@@ -116,6 +118,16 @@ void GameUnit::ImGuiDraw()
 	if (ImGui::TreeNode("Currently casting")) {
 		if (isCasting)
 			castingSpell.ImGuiDraw();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Buffs")) {
+		for (auto& pair : buffs) {
+			if (ImGui::TreeNode(pair.first.c_str())) {
+				pair.second->ImGuiDraw();
+				ImGui::TreePop();
+			}
+		}
 		ImGui::TreePop();
 	}
 }
@@ -211,12 +223,51 @@ object GameUnit::GetPathPy()
 
 bool GameUnit::HasBuff(const char * buff)
 {
-	return false;
+	return buffs.find(std::string(buff)) != buffs.end();
 }
 
 int GameUnit::BuffStackCount(const char * buff)
 {
+	std::string buffName = buff;
+	for (auto& buff : buffs)
+		if (buff.second->name == buffName)
+			return buff.second->count;
+
 	return 0;
+}
+
+list GameUnit::BuffsToPy()
+{
+	list l = list();
+	for (auto& pair : buffs) {
+		l.append(ptr(pair.second.get()));
+	}
+
+	return l;
+}
+
+void GameUnit::ReadBuffs()
+{
+	DBG_INFO("Reading buffs for %s", name.c_str());
+	buffs.clear();
+
+	int buffManager = address + Offsets::ObjBuffManager;
+	int buffArray = ReadInt(buffManager + Offsets::BuffManagerEntriesArray);
+	buffEntries = (std::vector<BuffEntryWrap>*)(buffManager + Offsets::BuffManagerEntriesArray);
+	
+	for(auto& wrap : *buffEntries) {
+		Buff* rawBuff = wrap.entry->buff;
+		if (rawBuff == NULL)
+			continue;
+
+		std::shared_ptr<GameBuff> buff = std::shared_ptr<GameBuff>(new GameBuff());
+		buff->name = rawBuff->buffName;
+		buff->count = wrap.entry->GetCount();
+		buff->startTime = wrap.entry->startTime;
+		buff->endTime = wrap.entry->endTime;
+		
+		buffs[buff->name] = buff;
+	}
 }
 
 Vector3 GameUnit::PredictPosition(float secsFuture) const

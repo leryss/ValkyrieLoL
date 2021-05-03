@@ -17,20 +17,16 @@ public:
 	          GameChampion(std::string name);
 		      
 	void      ReadSpells(int numToRead);
-	void      ReadBuffs();
 	void      ReadItems();
 	void      ReadFromBaseAddress(int addr);
 	void      ImGuiDraw();
 			
 	Vector2   GetHpBarPosition() const;
-			  
-	list      BuffsToPy();
+			 
 	object    SpellsToPy();
 	object    ItemsToPy();
 
 	bool      CanCast(const GameSpell* spell);
-	bool      HasBuff(const char* buff);
-	int       BuffStackCount(const char* buff);
 	bool      IsClone() const;
 
 public:
@@ -41,5 +37,4 @@ public:
 	GameSpell    spells[NUM_SPELLS];
 	GameItemSlot items[NUM_ITEMS];
 
-	std::map<std::string, std::shared_ptr<GameBuff>> buffs;
 };

@@ -23,6 +23,8 @@ GameState* GameReader::GetNextState()
 	benchmark.cacheHits.value     = 0;
 	benchmark.blacklistHits.value = 0;
 
+	benchmark.readState.Start();
+
 	baseAddr = (int)GetModuleHandle(NULL);
 	state.time = ReadFloat(baseAddr + Offsets::GameTime);
 
@@ -45,11 +47,9 @@ GameState* GameReader::GetNextState()
 			if (champ == state.player) {
 				champ->ReadSpells(GameChampion::NUM_SPELLS);
 				champ->ReadItems();
-				champ->ReadBuffs();
 			}
 			else if (champ->IsEnemyTo(*state.player)) {
 				champ->ReadSpells(GameChampion::NUM_SPELLS);
-				champ->ReadBuffs();
 				if(!champ->IsClone())
 					champ->ReadItems();
 			}
@@ -58,6 +58,8 @@ GameState* GameReader::GetNextState()
 			}
 		}
 	}
+
+	benchmark.readState.End();
 
 	return &state;
 }
@@ -271,10 +273,9 @@ void BenchmarkGameReader::ImGuiDraw()
 	ImGui::Text("Game Reader Benchmarks");
 	ImGui::DragFloat(readTree.name,     &readTree.avgMs);
 	ImGui::DragFloat(readObjects.name,  &readObjects.avgMs);
+	ImGui::DragFloat(readState.name,    &readState.avgMs);
 	ImGui::Separator();
 	ImGui::DragInt(sehExceptions.name,  &sehExceptions.value);
-	ImGui::DragInt(readsPerformed.name, &readsPerformed.value);
-	ImGui::DragInt(numObjPointers.name, &numObjPointers.value);
 	ImGui::DragInt(cacheHits.name,      &cacheHits.value);
 	ImGui::DragInt(blacklistHits.name,  &blacklistHits.value);
 }

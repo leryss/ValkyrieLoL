@@ -205,10 +205,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("path_distance",              &GameUnit::CalculatePathLength,   "Calculates navigation path distance in game units")
 		.def("predict_position",           &GameUnit::PredictPosition,       "Predicts position of unit in X seconds")
 		.def("reskin",                     &GameUnit::Reskin,                "Changes the skin of the unit")
+		.def("has_buff",                   &GameChampion::HasBuff,           "Check if champion has buff. The buff name is case sensitive")
 		;
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
-		.def("has_buff",                   &GameChampion::HasBuff,           "Check if champion has buff. The buff name is case sensitive")
 		.def("num_buff_stacks",            &GameChampion::BuffStackCount,    "Gets the number of stacks for the buff given by the name")
 		.def("can_cast_spell",             &GameChampion::CanCast,           "Checks if champion can cast the GameSpell provided")
 		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "List of all the buffs on the champion. Currently buffs are only read for the player champion and enemies due to performance reasons.")

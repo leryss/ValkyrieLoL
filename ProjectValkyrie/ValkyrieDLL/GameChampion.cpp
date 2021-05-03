@@ -41,36 +41,6 @@ void GameChampion::ReadSpells(int numToRead)
 	}
 }
 
-void GameChampion::ReadBuffs()
-{
-	DBG_INFO("Reading buffs for %s", name.c_str());
-	buffs.clear();
-
-	int buffManager = address + Offsets::ObjBuffManager;
-	int buffArray = ReadInt(buffManager + Offsets::BuffManagerEntriesArray);
-
-	if (CantRead(buffArray)) {
-		return;
-	}
-
-	int i = 0;
-	while (true) {
-		int buffEntry = ReadInt(buffArray + i * 0x8);
-		i++;
-
-		if (CantRead(buffEntry))
-			break;
-
-		auto buff = std::shared_ptr<GameBuff>(new GameBuff());
-		buff->ReadFromBaseAddress(buffEntry);
-
-		if (buff->name.empty())
-			continue;
-
-		buffs[buff->name] = buff;
-	}
-}
-
 void GameChampion::ReadItems()
 {
 	DBG_INFO("Reading items for %s", name.c_str());
@@ -127,16 +97,6 @@ void GameChampion::ImGuiDraw()
 	GameUnit::ImGuiDraw();
 	ImGui::Separator();
 
-	if (ImGui::TreeNode("Buffs")) {
-		for (auto& pair : buffs) {
-			if (ImGui::TreeNode(pair.first.c_str())) {
-				pair.second->ImGuiDraw();
-				ImGui::TreePop();
-			}
-		}
-		ImGui::TreePop();
-	}
-
 	if (ImGui::TreeNode("Items")) {
 		for (int i = 0; i < NUM_ITEMS; ++i) {
 			if (items[i].item == nullptr) {
@@ -175,16 +135,6 @@ Vector2 GameChampion::GetHpBarPosition() const
 	return w2s;
 }
 
-list GameChampion::BuffsToPy()
-{
-	list l = list();
-	for (auto& pair : buffs) {
-		l.append(ptr(pair.second.get()));
-	}
-
-	return l;
-}
-
 object GameChampion::SpellsToPy()
 {
 	list l;
@@ -206,21 +156,6 @@ object GameChampion::ItemsToPy()
 bool GameChampion::CanCast(const GameSpell * spell)
 {
 	return mana >= spell->mana && spell->GetRemainingCooldown() == 0.0f && spell->castableBit;
-}
-
-bool GameChampion::HasBuff(const char * buff)
-{
-	return buffs.find(std::string(buff)) != buffs.end();
-}
-
-int GameChampion::BuffStackCount(const char * buff)
-{
-	std::string buffName = buff;
-	for (auto& buff : buffs)
-		if (buff.second->name == buffName)
-			return buff.second->count;
-
-	return 0;
 }
 
 bool GameChampion::IsClone() const
