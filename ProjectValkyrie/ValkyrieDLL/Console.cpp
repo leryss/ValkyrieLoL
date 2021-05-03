@@ -1,4 +1,5 @@
 #include "Console.h"
+#include "Script.h"
 
 void ConsoleStringLine::ImDraw()
 {
@@ -7,6 +8,9 @@ void ConsoleStringLine::ImDraw()
 
 void Console::ImDraw(const PyExecutionContext & ctx)
 {
+	static object mainModule = import("__main__");
+	static object mainNamespace = mainModule.attr("__dict__");
+
 	/// Draw console logs
 	auto& io = ImGui::GetIO();
 	ImVec2 size = io.DisplaySize;
@@ -29,13 +33,32 @@ void Console::ImDraw(const PyExecutionContext & ctx)
 	ImGui::SetNextItemWidth(size.x);
 	if (ImGui::InputText("###CommandLine", &line[0], SizeLine, ImGuiInputTextFlags_EnterReturnsTrue)) {
 
-		std::shared_ptr<ConsoleLine> l;
+		try {
+			
+			exec(Strings::Format(
+				"from io import StringIO\n"
+				"from contextlib import redirect_stdout, redirect_stderr\n"
+				"from code import interact\n"
+				"f = StringIO()\n"
+				"with redirect_stdout(f), redirect_stderr(f):\n"
+				"	interact('%s')\n"
+				"_result = f.getvalue()", line).c_str(),
+				mainNamespace);
 
-		ConsoleStringLine* strLine = new ConsoleStringLine();
-		strLine->text = line;
-		strLine->color = Color::WHITE;
+			object result = mainNamespace["_result"];
+			ConsoleStringLine* strLine = new ConsoleStringLine();
+			strLine->text = extract<std::string>(str(result));
+			strLine->color = Color::WHITE;
 
-		buffer.push_back(std::shared_ptr<ConsoleLine>(strLine));
+			buffer.push_back(std::shared_ptr<ConsoleLine>(strLine));
+		}
+		catch (error_already_set) {
+			ConsoleStringLine* strLine = new ConsoleStringLine();
+			strLine->text = Script::GetPyError();
+			strLine->color = Color::RED;
+
+			buffer.push_back(std::shared_ptr<ConsoleLine>(strLine));
+		}
 
 		memset(line, 0, SizeLine);
 	}
