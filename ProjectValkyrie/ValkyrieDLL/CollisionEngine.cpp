@@ -211,7 +211,7 @@ bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const
 	float UnitDelta = 1.f + spell.width / 3.f;
 	float Threshold = 1.f + spell.width / 2.f;
 
-	int   iterations = spell.castRange / UnitDelta;
+	int   iterations = (spell.castRange / UnitDelta) + 1;
 	float travelPerIter = UnitDelta / spell.speed;
 
 	Vector2 spellInitialPos = Vector2(caster.pos.x, caster.pos.z);
