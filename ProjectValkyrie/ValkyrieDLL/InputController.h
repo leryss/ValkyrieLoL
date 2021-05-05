@@ -4,6 +4,7 @@
 #include "FakeMouse.h"
 #include "GameObject.h"
 #include "GameUnit.h"
+#include "DirectInputHook.h"
 
 #include <queue>
 #include <chrono>
@@ -117,15 +118,16 @@ public:
 	}
 
 	bool Update() {
-		INPUT input = { 0 };
-		input.type = INPUT_KEYBOARD;
-		input.ki.wScan = key;
-		input.ki.time = 0;
-		input.ki.dwExtraInfo = 0;
-		input.ki.wVk = 0;
-		input.ki.dwFlags = KEYEVENTF_SCANCODE;
-		SendInput(1, &input, sizeof(INPUT));
+		//INPUT input = { 0 };
+		//input.type = INPUT_KEYBOARD;
+		//input.ki.wScan = key;
+		//input.ki.time = 0;
+		//input.ki.dwExtraInfo = 0;
+		//input.ki.wVk = 0;
+		//input.ki.dwFlags = KEYEVENTF_SCANCODE;
+		//SendInput(1, &input, sizeof(INPUT));
 
+		DirectInputHook::QueueKey(key, true);
 		return true;
 	}
 
@@ -140,15 +142,16 @@ public:
 	}
 
 	bool Update() {
-		INPUT input = { 0 };
-		input.type = INPUT_KEYBOARD;
-		input.ki.wScan = key;
-		input.ki.time = 0;
-		input.ki.dwExtraInfo = 0;
-		input.ki.wVk = 0;
-		input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
-		SendInput(1, &input, sizeof(INPUT));
+		//INPUT input = { 0 };
+		//input.type = INPUT_KEYBOARD;
+		//input.ki.wScan = key;
+		//input.ki.time = 0;
+		//input.ki.dwExtraInfo = 0;
+		//input.ki.wVk = 0;
+		//input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+		//SendInput(1, &input, sizeof(INPUT));
 
+		DirectInputHook::QueueKey(key, false);
 		return true;
 	}
 

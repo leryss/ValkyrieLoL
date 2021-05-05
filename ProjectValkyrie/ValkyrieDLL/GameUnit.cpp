@@ -333,7 +333,8 @@ void GameUnit::ReadAiManager()
 	if (CantRead(aiManagerAddress))
 		return;
 
-	isMoving  = ReadBool(aiManagerAddress + Offsets::AiManagerIsMoving);
+	Vector3* velocity = (Vector3*)(aiManagerAddress + 0x2C8);
+	isMoving  = ReadBool(aiManagerAddress + Offsets::AiManagerIsMoving) && (velocity->length() > 1.0);
 	dashSpeed = ReadFloat(aiManagerAddress + Offsets::AiManagerDashSpeed);
 	isDashing = (dashSpeed > 0.0 && ReadBool(aiManagerAddress + Offsets::AiManagerIsDashing));
 

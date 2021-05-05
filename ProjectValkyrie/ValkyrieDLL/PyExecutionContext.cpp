@@ -16,6 +16,11 @@ std::shared_ptr<list> MakePyList(std::vector<std::shared_ptr<T>>& cList) {
 	return pyList;
 }
 
+void PyExecutionContext::SetKeyActive(HKey key, bool enabled)
+{
+	DirectInputHook::SetKeyActive(key, enabled);
+}
+
 bool PyExecutionContext::IsKeyDown(int key)
 {
 	if (state->hud.isChatOpen)

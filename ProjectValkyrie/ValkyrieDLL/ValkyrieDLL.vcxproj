@@ -135,7 +135,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;d3d9.lib;detours.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;aws-cpp-sdk-s3.lib;python39.lib;boost_python39-vc141-mt-x32-1_75.lib;d3dx9.lib;d3d9.lib;dinput8.lib;dxguid.lib;detours.lib;wbemuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Commons\Libs;$(SolutionDir)ValkyrieDLL\boost\stage\lib;$(SolutionDir)ValkyrieDLL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -166,6 +166,7 @@
     <ClInclude Include="CollisionEngine.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="DirectInputHook.h" />
     <ClInclude Include="FakeMouse.h" />
     <ClInclude Include="GameBuff.h" />
     <ClInclude Include="GameChampion.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="Benchmark.cpp" />
     <ClCompile Include="CollisionEngine.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="DirectInputHook.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FakeMouse.cpp" />
     <ClCompile Include="GameBuff.cpp" />

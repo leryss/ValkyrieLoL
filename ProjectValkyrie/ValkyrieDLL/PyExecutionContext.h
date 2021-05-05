@@ -6,6 +6,7 @@
 #include "CollisionEngine.h"
 #include "ObjectQuery.h"
 #include "Raycast.h"
+#include "GameKeybind.h"
 
 #include "imgui/imgui.h"
 #include <boost/python.hpp>
@@ -18,6 +19,7 @@ class Script;
 class PyExecutionContext {
 
 public:
+	GameKeybind     keybinds;
 	ObjectQuery     queryEngine;
 
 	CollisionEngine collisionEngine;
@@ -58,6 +60,7 @@ public:
 	void    SetImGuiOverlay(ImDrawList* overlay);
 
 	/* Exposed methods */
+	void    SetKeyActive(HKey key, bool enabled);
 	bool    IsKeyDown(int key);
 	bool    WasKeyPressed(int key);
 	void    MoveToMouse();

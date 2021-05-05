@@ -3,6 +3,8 @@
 
 void ConsoleStringLine::ImDraw()
 {
+	ImGui::Text(">>>");
+	ImGui::SameLine();
 	ImGui::TextColored(color, text.c_str());
 }
 
@@ -14,7 +16,8 @@ void Console::ImDraw(const PyExecutionContext & ctx)
 	/// Draw console logs
 	auto& io = ImGui::GetIO();
 	ImVec2 size = io.DisplaySize;
-	size.y = 0.3*size.y;
+	size.y = size.y - 100;
+	size.x *= 0.3f;
 
 	ImGui::SetNextWindowPos(ImVec2(0.f, 0.f));
 	ImGui::SetNextWindowSize(size);
@@ -33,24 +36,25 @@ void Console::ImDraw(const PyExecutionContext & ctx)
 	ImGui::SetNextItemWidth(size.x);
 	if (ImGui::InputText("###CommandLine", &line[0], SizeLine, ImGuiInputTextFlags_EnterReturnsTrue)) {
 
+		ConsoleStringLine* command = new ConsoleStringLine();
+		command->color = Color::CYAN;
+		command->text = line;
+
+		buffer.push_back(std::shared_ptr<ConsoleLine>(command));
+
 		try {
 			
+			mainNamespace["ctx"] = object(boost::ref(ctx));
 			exec(Strings::Format(
-				"from io import StringIO\n"
-				"from contextlib import redirect_stdout, redirect_stderr\n"
-				"from code import interact\n"
-				"f = StringIO()\n"
-				"with redirect_stdout(f), redirect_stderr(f):\n"
-				"	interact('%s')\n"
-				"_result = f.getvalue()", line).c_str(),
+				"_result = %s", line).c_str(),
 				mainNamespace);
 
 			object result = mainNamespace["_result"];
-			ConsoleStringLine* strLine = new ConsoleStringLine();
-			strLine->text = extract<std::string>(str(result));
-			strLine->color = Color::WHITE;
 
-			buffer.push_back(std::shared_ptr<ConsoleLine>(strLine));
+			ConsolePythonObjectLine* commandResp = new ConsolePythonObjectLine();
+			commandResp->obj = result;
+
+			buffer.push_back(std::shared_ptr<ConsoleLine>(commandResp));
 		}
 		catch (error_already_set) {
 			ConsoleStringLine* strLine = new ConsoleStringLine();
@@ -64,4 +68,44 @@ void Console::ImDraw(const PyExecutionContext & ctx)
 	}
 
 	ImGui::End();
+}
+
+void ConsolePythonObjectLine::ImDraw()
+{
+	ImGui::Text("<");
+	ImGui::SameLine();
+
+	if (PyList_Check(obj.ptr())) {
+		const char* objAsStr = extract<const char*>(str(obj));
+
+		if (ImGui::TreeNode(objAsStr)) {
+			list l = list(obj);
+			for (size_t i = 0; i < len(l); ++i) {
+				object o = l[i];
+				ImDrawObject(o);
+			}
+			ImGui::TreePop();
+		}
+	}
+	else {
+		ImDrawObject(obj);
+	}
+}
+
+void ConsolePythonObjectLine::ImDrawObject(object & obj)
+{
+	std::string objAsStr = extract<std::string>(str(obj));
+
+	if(PyObject_HasAttrString(obj.ptr(), "menu_draw")) {
+		if (ImGui::TreeNode(objAsStr.c_str())) {
+			obj.attr("menu_draw")();
+			ImGui::TreePop();
+		}
+	} else
+		ImGui::TextColored(Color::WHITE, objAsStr.c_str());
+}
+
+void ConsoleSeparatorLine::ImDraw()
+{
+	ImGui::Separator();
 }

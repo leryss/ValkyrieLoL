@@ -20,6 +20,22 @@ public:
 
 };
 
+class ConsoleSeparatorLine : ConsoleLine {
+public:
+	virtual void ImDraw() override;
+};
+
+class ConsolePythonObjectLine : public ConsoleLine {
+
+public:
+	virtual void ImDraw() override;
+private:
+	void ImDrawObject(object& obj);
+
+public:
+	object obj;
+};
+
 class Console {
 
 public:

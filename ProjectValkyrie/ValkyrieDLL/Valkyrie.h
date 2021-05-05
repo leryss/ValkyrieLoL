@@ -3,6 +3,7 @@
 #include <d3d9.h>
 #include <dinput.h>
 #include <windows.h>
+#include <dinput.h>
 
 #include <mutex>
 #include <sstream>
@@ -69,13 +70,10 @@ private:
 	static HRESULT __stdcall           HookedD3DPresent(LPDIRECT3DDEVICE9 Device, CONST RECT* pSrcRect, CONST RECT* pDestRect, HWND hDestWindow, CONST RGNDATA* pDirtyRegion);
 	static LRESULT WINAPI              HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	static void __declspec(dllexport) __stdcall             HookKeyboard();
-	static LRESULT __declspec(dllexport) __stdcall CALLBACK HookedKeyboard(int nCode, WPARAM wParam, LPARAM lParam);
-
 	static SetTransformFunc            OriginalSetTransform;
 	static D3DPresentFunc              OriginalD3DPresent;
 	static WNDPROC                     OriginalWindowMessageHandler;
-	
+
 	/// API
 	static ValkyrieAPI*                Api;
 	static UserInfo                    LoggedUser;
@@ -94,7 +92,6 @@ private:
 	static float                       AveragePing;
 
 	static InputController             InputController;
-	static HHOOK                       KeyboardHook;
 
 public:
 	static RECT                        WindowRect;

@@ -15,12 +15,16 @@
 #include "FakeMouse.h"
 #include "D3DX9Shader.h"
 
+
 #include <boost/exception/diagnostic_information.hpp>
 
 #include <stdexcept>
 #include <iostream>
 #include <functional>
 #include <dxva2api.h>
+#include <TlHelp32.h>
+
+#define MAKEULONGLONG(ldw, hdw) ((ULONGLONG(hdw) << 32) | ((ldw) & 0xFFFFFFFF))
 
 D3DPresentFunc                     Valkyrie::OriginalD3DPresent           = NULL;
 WNDPROC                            Valkyrie::OriginalWindowMessageHandler = NULL;
@@ -49,7 +53,6 @@ HKey                               Valkyrie::ShowMenuKey;
 bool                               Valkyrie::ShowMenuKeyShouldHold = true;
 int                                Valkyrie::MenuStyle;
 float                              Valkyrie::AveragePing;
-HHOOK                              Valkyrie::KeyboardHook;
 HMODULE                            Valkyrie::ValkyrieDLLHandle;
 
 bool ChooseMenuStyle(const char* label, int& currentStyle)
@@ -74,9 +77,9 @@ void Valkyrie::Run()
 		DxDeviceMutex.lock();
 
 		GameKeybind::InitFromGameConfigs();
+		DirectInputHook::Hook();
 		FakeMouse::Init();
 		HookDirectX();
-		HookKeyboard();
 		LoginAndLoadData();
 		
 	}
@@ -167,7 +170,7 @@ void Valkyrie::InitializeOverlay()
 	Logger::Info("Initializing overlay");
 
 	LeagueWindowHandle = FindWindowA("RiotWindowClass", NULL);
-	OriginalWindowMessageHandler = WNDPROC(SetWindowLongA(LeagueWindowHandle, GWL_WNDPROC, LONG_PTR(HookedWindowMessageHandler)));
+	OriginalWindowMessageHandler = (WNDPROC)SetWindowLongPtr(LeagueWindowHandle, GWL_WNDPROC, (LONG)HookedWindowMessageHandler);
 
 	ImGui::CreateContext();
 
@@ -446,14 +449,6 @@ void Valkyrie::HookDirectX()
 	Logger::Info("Successfully hooked DirectX");
 }
 
-void __declspec(dllexport) __stdcall Valkyrie::HookKeyboard()
-{
-	KeyboardHook = SetWindowsHookExA(WH_KEYBOARD, (HOOKPROC)HookedKeyboard, ValkyrieDLLHandle, NULL);
-	if(KeyboardHook == NULL) {
-		Logger::Warn("SetWindowsHookExA failed error code %d", GetLastError());
-	}
-}
-
 void Valkyrie::UnhookDirectX()
 {
 	Logger::Info("Unhooking DirectX");
@@ -526,11 +521,11 @@ LRESULT ImGuiWindowMessageHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 		io.MousePos.y = (signed short)(lParam >> 16);
 		return true;
 	case WM_KEYDOWN:
-		if (wParam > 0 && wParam < 500)
+		if (wParam != 9)
 			io.KeysDown[wParam] = 1;
 		return true;
 	case WM_KEYUP:
-		if (wParam > 0 && wParam < 500)
+		if (wParam != 9)
 			io.KeysDown[wParam] = 0;
 		return true;
 	case WM_CHAR:
@@ -559,10 +554,4 @@ LRESULT WINAPI Valkyrie::HookedWindowMessageHandler(HWND hWnd, UINT msg, WPARAM 
 	}
 
 	return CallWindowProcA(OriginalWindowMessageHandler, hWnd, msg, wParam, lParam);
-}
-
-LRESULT __declspec(dllexport) __stdcall Valkyrie::HookedKeyboard(int nCode, WPARAM wParam, LPARAM lParam)
-{
-	Logger::Info("input");
-	return CallNextHookEx(KeyboardHook, nCode, wParam, lParam);
 }
