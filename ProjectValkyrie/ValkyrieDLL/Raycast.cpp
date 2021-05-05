@@ -58,7 +58,7 @@ std::shared_ptr<RaycastResult> Raycast::Cast(const GameState * state, Vector3 be
 
 RaycastLayer Raycast::FindLayersFromSpell(const SpellInfo & info)
 {
-	int result;
+	int result = 0;
 
 	if (info.HasFlag(SpellFlags::CollideChampion))
 		result |= RayChampion;

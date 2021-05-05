@@ -65,6 +65,9 @@ public:
 	/// Issues a unhold key operation
 	void IssueUnholdKey(HKey key);
 
+	/// Issues a unhold key operation at a position
+	void IssueUnholdKeyAt(HKey key, std::function<Vector2()> posGetter);
+
 	/// Issues a delay of N milliseconds
 	void IssueDelay(float millis);
 

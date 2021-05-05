@@ -270,7 +270,6 @@ void GameReader::SieveObjects()
 
 void BenchmarkGameReader::ImGuiDraw()
 {
-	ImGui::Text("Game Reader Benchmarks");
 	ImGui::DragFloat(readTree.name,     &readTree.avgMs);
 	ImGui::DragFloat(readObjects.name,  &readObjects.avgMs);
 	ImGui::DragFloat(readState.name,    &readState.avgMs);

@@ -16,8 +16,8 @@ enum RaycastLayer {
 	RayAlly       = (1 << 7),
 	RayEnemy      = (1 << 8),
 				  
-	RayUnit       = RayChampion | RayMinion | RayTurret | RayJungle,
-	RayAll        = RayUnit | RayMissile | RayOther | RayWall
+	RayUnit       = RayChampion | RayMinion  | RayTurret | RayJungle,
+	RayAll        = RayUnit     | RayMissile | RayOther  | RayWall
 };
 
 class RaycastResult {

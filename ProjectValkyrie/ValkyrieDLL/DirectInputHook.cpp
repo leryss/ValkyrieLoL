@@ -6,7 +6,8 @@
 bool                                DirectInputHook::DisableGameKeys = false;
 DirectInputGetDeviceData            DirectInputHook::OriginalDirectInputGetDeviceData;
 std::set<HKey>                      DirectInputHook::DisabledGameKeys;
-std::queue<std::pair<DWORD, DWORD>> DirectInputHook::EventQueue;
+std::map<DWORD, InputEventInfo>     DirectInputHook::AdditionalEvents;
+DWORD                               DirectInputHook::SequenceNumber;
 
 void DirectInputHook::Hook()
 {
@@ -42,7 +43,13 @@ void DirectInputHook::Hook()
 
 void DirectInputHook::QueueKey(HKey key, bool pressed)
 {
-	EventQueue.push(std::pair<DWORD, DWORD>({ key, (pressed ? LOBYTE(0x80) : 0) }));
+	AdditionalEvents[key] = { 
+		(DWORD)key, 
+		pressed ? 0x80u : 0u, 
+		GetTickCount(),
+		SequenceNumber++,
+		pressed 
+	};
 }
 
 void DirectInputHook::SetKeyActive(HKey key, bool active)
@@ -59,30 +66,42 @@ HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDe
 	if (result != DI_OK)
 		return result;
 
+	if (DisableGameKeys) {
+		*numElemsPtr = 0;
+		return DI_OK;
+	}
+
+	/// Check disabled keys
 	int numElems = *numElemsPtr;
-	for (int i = 0; i < numElems; ++i) {
-		HKey key = (HKey)data[i].dwOfs;
-		auto find = DisabledGameKeys.find(key);
-		if (find != DisabledGameKeys.end()) {
-			data[i].dwOfs = 0;
+	if (!GetAsyncKeyState(VK_CONTROL)) {
+		for (int i = 0; i < numElems; ++i) {
+			HKey key = (HKey)data[i].dwOfs;
+			auto find = DisabledGameKeys.find(key);
+			if (find != DisabledGameKeys.end()) {
+				data[i].dwOfs = 0;
+			}
 		}
 	}
 
-	while (!EventQueue.empty()) {
-		auto pair = EventQueue.front();
+	/// Update sequence number
+	if (numElems > 0)
+		SequenceNumber = data[numElems - 1].dwSequence + 1;
+	
+	/// Add additional fake inputs
+	auto it = AdditionalEvents.begin();
+	while (it != AdditionalEvents.end()) {
+		auto event = it->second;
 
-		data[numElems].dwData = pair.second;
-		data[numElems].dwOfs = pair.first;
+		data[numElems].dwData = event.data;
+		data[numElems].dwOfs = event.offset;
+		data[numElems].dwSequence = event.sequence;
+		data[numElems].dwTimeStamp = event.timestamp;
 		numElems++;
 
-		EventQueue.pop();
+		it = AdditionalEvents.erase(it);
 	}
 
 	*numElemsPtr = numElems;
 
 	return DI_OK;
-	//if (DisableGameKeys) {
-	//	*numElems = 0;
-	//	return DI_OK;
-	//}
 }

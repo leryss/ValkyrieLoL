@@ -19,21 +19,17 @@ void Console::ImDraw(const PyExecutionContext & ctx)
 	size.y = size.y - 100;
 	size.x *= 0.3f;
 
-	ImGui::SetNextWindowPos(ImVec2(0.f, 0.f));
-	ImGui::SetNextWindowSize(size);
-	ImGui::Begin("ConsoleWindow", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+	ImGui::BeginChild("ConsoleWindow", size, true);
 
 	for (auto l : buffer) {
 		l->ImDraw();
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
 
 	/// Draw command line
-	ImGui::SetNextWindowPos(ImVec2(0.f, size.y));
-	ImGui::Begin("ConsoleCommandLine", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-	
-	ImGui::SetNextItemWidth(size.x);
+	ImGui::BeginChild("ConsoleCommandLine", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+	ImGui::SetNextItemWidth(io.DisplaySize.x);
 	if (ImGui::InputText("###CommandLine", &line[0], SizeLine, ImGuiInputTextFlags_EnterReturnsTrue)) {
 
 		ConsoleStringLine* command = new ConsoleStringLine();
@@ -67,7 +63,12 @@ void Console::ImDraw(const PyExecutionContext & ctx)
 		memset(line, 0, SizeLine);
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
+}
+
+void Console::AddLine(std::shared_ptr<ConsoleLine> line)
+{
+	buffer.push_back(line);
 }
 
 void ConsolePythonObjectLine::ImDraw()

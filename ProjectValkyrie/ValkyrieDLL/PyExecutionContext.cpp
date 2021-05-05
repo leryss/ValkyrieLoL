@@ -106,7 +106,7 @@ bool PyExecutionContext::StartChannel(GameSpell * spell)
 		return false;
 
 	/// Check if castable
-	if (spell->lvl == 0 || spell->GetRemainingCooldown() > 0.01)
+	if (!state->player->CanCast(spell))
 		return false;
 
 	currentScript->input.IssueHoldKey(spell->castKey);
@@ -114,18 +114,38 @@ bool PyExecutionContext::StartChannel(GameSpell * spell)
 
 bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLocation)
 {
-	return CastSpell(spell, targetLocation);
-}
-
-bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocation) {
-	
-	DBG_INFO("Casting spell %s", spell->name.c_str())
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return false;
 
 	auto now = steady_clock::now();
 	duration<float, std::milli> diff = now - spell->lastCastTimestamp;
-	if (diff.count() < 100.f)
+	if (diff.count() < 50.f)
+		return false;
+
+	/// Check if castable
+	if (!state->player->CanCast(spell))
+		return false;
+
+	if (targetLocation != nullptr) {
+		Vector2 screenPos = state->renderer.WorldToScreen(*targetLocation);
+		currentScript->input.IssueUnholdKeyAt(spell->castKey, [screenPos] { return screenPos; });
+	}
+	else
+		currentScript->input.IssueUnholdKey(spell->castKey);
+
+	spell->lastCastTimestamp = steady_clock::now();
+
+	return true;
+}
+
+bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocation) {
+	
+	if (state->hud.WasChatOpenMillisAgo(100))
+		return false;
+
+	auto now = steady_clock::now();
+	duration<float, std::milli> diff = now - spell->lastCastTimestamp;
+	if (diff.count() < 50.f)
 		return false;
 
 	/// Check if castable

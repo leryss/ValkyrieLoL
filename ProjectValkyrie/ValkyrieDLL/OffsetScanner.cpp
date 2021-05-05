@@ -28,7 +28,12 @@ std::vector<OffsetSignature> OffsetScanner::signatures     = std::vector<OffsetS
 
 void OffsetScanner::ImGuiDraw()
 {
-	ImGui::Begin("Valkyrie Signature Scanner");
+	auto size = ImGui::GetIO().DisplaySize;
+	size.y -= 100.f;
+	size.x *= 0.3f;
+
+	ImGui::BeginChild("Valkyrie Signature Scanner", size, true);
+
 	if (ImGui::Button("Scan Signatures") && !Scanning) {
 		Scanning = true;
 		std::thread scanner(Scan);
@@ -72,7 +77,7 @@ void OffsetScanner::ImGuiDraw()
 		ImGui::InputTextMultiline("Code Dump", CodeDump, 2048);
 	}
 
-	ImGui::End();
+	ImGui::EndChild();
 }
 
 void OffsetScanner::Scan()

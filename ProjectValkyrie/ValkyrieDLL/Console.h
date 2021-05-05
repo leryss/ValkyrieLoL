@@ -40,6 +40,7 @@ class Console {
 
 public:
 	void ImDraw(const PyExecutionContext& ctx);
+	void AddLine(std::shared_ptr<ConsoleLine> line);
 
 private:
 

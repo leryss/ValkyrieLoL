@@ -10,7 +10,6 @@
 #include "OffsetScanner.h"
 #include "ValkyrieShared.h"
 #include "GameKeybind.h"
-#include "Console.h"
 
 #include "FakeMouse.h"
 #include "D3DX9Shader.h"
@@ -54,6 +53,7 @@ bool                               Valkyrie::ShowMenuKeyShouldHold = true;
 int                                Valkyrie::MenuStyle;
 float                              Valkyrie::AveragePing;
 HMODULE                            Valkyrie::ValkyrieDLLHandle;
+Console                            Valkyrie::Console;
 
 bool ChooseMenuStyle(const char* label, int& currentStyle)
 {
@@ -109,60 +109,37 @@ void Valkyrie::ShowMenu()
 		ShowConsoleWindow = !ShowConsoleWindow;
 	}
 
+	DirectInputHook::DisableGameKeys = ShowConsoleWindow;
 	if (ShowConsoleWindow) {
-		static Console console;
 
-		console.ImDraw(ScriptContext);
-		ShowConsole();
-	}
+		ImGui::SetNextWindowBgAlpha(0.2f);
+		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+		ImGui::Begin("Dev Panel", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::BeginTabBar("Dev Panel Tabs");
 
-	if (ShowObjectExplorerWindow)
-		ObjectExplorer::ImGuiDraw(*CurrentGameState);
-
-	if (ShowOffsetScanner)
-		OffsetScanner::ImGuiDraw();
-
-	if (ShowBenchmarkWindow)
-		DrawBenchmarkWindow();
-}
-
-void Valkyrie::ShowConsole()
-{
-	ImGui::Begin("Console");
-	
-	int current = Logger::BufferStart;
-	while (current != Logger::BufferEnd) {
-		LogEntry& entry = Logger::Buffer[current];
-
-		bool pushedColor = false;
-		switch (entry.type) {
-		
-			case LOG_ERROR:
-				ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
-				pushedColor = true;
-				ImGui::Text("[error]");
-				ImGui::SameLine();
-				break;
-			case LOG_WARNING:
-				ImGui::PushStyleColor(ImGuiCol_Text, Color::YELLOW);
-				pushedColor = true;
-				ImGui::Text("[warning]");
-				ImGui::SameLine();
-				break;
-			case LOG_INFO:
-				ImGui::Text("[info]");
-				ImGui::SameLine();
-				break;
+		if (ImGui::BeginTabItem("Console")) {
+			Console.ImDraw(ScriptContext);
+			ImGui::EndTabItem();
 		}
 
-		ImGui::Text(entry.message);
-		if (pushedColor)
-			ImGui::PopStyleColor(1);
+		if (ImGui::BeginTabItem("Object Explorer")) {
+			ObjectExplorer::ImGuiDraw(*CurrentGameState);
+			ImGui::EndTabItem();
+		}
 
-		current = Logger::NextIndex(current);
+		if (ImGui::BeginTabItem("Offset Scanner")) {
+			OffsetScanner::ImGuiDraw();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Script Benchmarks")) {
+			DrawBenchmarkWindow();
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+		ImGui::End();
 	}
-	
-	ImGui::End();
 }
 
 void Valkyrie::InitializeOverlay()
@@ -326,10 +303,7 @@ void Valkyrie::DrawDevelopmentSettings()
 	}
 
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
-	ImGui::Checkbox("Show Console",         &ShowConsoleWindow);
-	ImGui::Checkbox("Show Object Explorer", &ShowObjectExplorerWindow);
-	ImGui::Checkbox("Show Offset Scanner",  &ShowOffsetScanner);
-	ImGui::Checkbox("Show Benchmarks",      &ShowBenchmarkWindow);
+	ImGui::Checkbox("Show Dev View",         &ShowConsoleWindow);
 }
 
 void Valkyrie::DrawMenuSettings()
@@ -342,31 +316,27 @@ void Valkyrie::DrawMenuSettings()
 
 void Valkyrie::DrawBenchmarkWindow()
 {
-	ImGui::Begin("Benchmarks");
-	ImGui::BeginTabBar("BenchmarkTabs");
+	auto size = ImGui::GetIO().DisplaySize;
+	size.y -= 100.f;
+	size.x *= 0.3f;
 
-	if (ImGui::BeginTabItem("Core Benchmarks")) {
-		Reader.GetBenchmarks().ImGuiDraw();
-		ImGui::DragFloat("Collision Engine", &ScriptContext.collisionEngine.updateTimeMs.avgMs);
-		ImGui::EndTabItem();
+	ImGui::BeginChild("Benchmarks", size, true);
+
+	ImGui::TextColored(Color::PURPLE, "Core benchmarks");
+	Reader.GetBenchmarks().ImGuiDraw();
+	ImGui::DragFloat("Collision Engine", &ScriptContext.collisionEngine.updateTimeMs.avgMs);
+
+	ImGui::TextColored(Color::PURPLE, "Official scripts");
+	for (auto& script : ScriptManager.coreScripts) {
+		ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
 	}
 
-	if (ImGui::BeginTabItem("Core Scripts")) {
-		for (auto& script : ScriptManager.coreScripts) {
-			ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
-		}
-		ImGui::EndTabItem();
+	ImGui::TextColored(Color::PURPLE, "Community Scripts");
+	for (auto& script : ScriptManager.communityScripts) {
+		ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
 	}
 
-	if (ImGui::BeginTabItem("Community Scripts")) {
-		for (auto& script : ScriptManager.communityScripts) {
-			ImGui::DragFloat(script->info->id.c_str(), &script->executionTimes[ScriptFunction::ON_LOOP].avgMs);
-		}
-		ImGui::EndTabItem();
-	}
-
-	ImGui::EndTabBar();
-	ImGui::End();
+	ImGui::EndChild();
 }
 
 void Valkyrie::Update()

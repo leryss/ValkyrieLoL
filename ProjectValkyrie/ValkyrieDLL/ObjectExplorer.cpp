@@ -30,20 +30,15 @@ void DrawGameObject(GameObject* obj) {
 
 void ObjectExplorer::ImGuiDraw(GameState & state)
 {
-	ImGui::Begin("Object Explorer");
+	auto size = ImGui::GetIO().DisplaySize;
+	size.y -= 100.f;
+	size.x *= 0.3f;
 
-	ImGui::BeginTabBar("ObjExplorerTabBar");
-	if (ImGui::BeginTabItem("Objects")) {
-		DrawObjects(state);
-		ImGui::EndTabItem();
-	}
-	if (ImGui::BeginTabItem("Offsets")) {
-		DrawOffsetAdjuster();
-		ImGui::EndTabItem();
-	}
-	ImGui::End();
+	ImGui::BeginChild("Object Explorer", size, true);
 
-	ImGui::End();
+	DrawObjects(state);
+
+	ImGui::EndChild();
 }
 
 void ObjectExplorer::DrawObjects(GameState & state)

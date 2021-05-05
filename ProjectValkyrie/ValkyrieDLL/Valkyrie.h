@@ -14,6 +14,7 @@
 #include "ScriptManager.h"
 #include "ConfigSet.h"
 #include "InputController.h"
+#include "Console.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
@@ -38,7 +39,6 @@ public:
 
 private:
 	static void                        ShowMenu();
-	static void                        ShowConsole();
 
 	static void                        DrawSettings();
 	static void                        DrawDevelopmentSettings();
@@ -101,4 +101,5 @@ public:
 	static LPDIRECT3DDEVICE9           DxDevice;
 	static GameState*                  CurrentGameState;
 	static ConfigSet                   Configs;
+	static Console                     Console;
 };
