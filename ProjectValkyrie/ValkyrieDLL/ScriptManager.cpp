@@ -40,6 +40,13 @@ void ScriptManager::LoadAllScripts(const GameState* gameState)
 			return (s1->info->id.compare(s2->info->id) < 0 ? false : true);
 		}
 	);
+
+	/// Fill allScripts array
+	allScripts.clear();
+	for (auto script : coreScripts)
+		allScripts.push_back(script);
+	for (auto script : communityScripts)
+		allScripts.push_back(script);
 }
 
 void ScriptManager::ExecuteScripts(PyExecutionContext & ctx)

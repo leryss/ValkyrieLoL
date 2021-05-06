@@ -33,4 +33,5 @@ public:
 
 	std::deque<std::shared_ptr<Script>> communityScripts;
 	std::deque<std::shared_ptr<Script>> coreScripts;
+	std::deque<std::shared_ptr<Script>> allScripts;
 };

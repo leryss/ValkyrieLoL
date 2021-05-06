@@ -44,10 +44,7 @@ GameState*                         Valkyrie::CurrentGameState = NULL;
 
 InputController                    Valkyrie::InputController;
 ConfigSet                          Valkyrie::Configs;
-bool                               Valkyrie::ShowConsoleWindow;
-bool                               Valkyrie::ShowObjectExplorerWindow;
-bool                               Valkyrie::ShowOffsetScanner;
-bool                               Valkyrie::ShowBenchmarkWindow;
+bool                               Valkyrie::ShowDevView;
 HKey                               Valkyrie::ShowMenuKey;
 bool                               Valkyrie::ShowMenuKeyShouldHold = true;
 int                                Valkyrie::MenuStyle;
@@ -106,19 +103,20 @@ void Valkyrie::ShowMenu()
 	}
 
 	if (InputController.WasPressed(HKey::F3)) {
-		ShowConsoleWindow = !ShowConsoleWindow;
+		ShowDevView = !ShowDevView;
 	}
 
-	DirectInputHook::DisableGameKeys = ShowConsoleWindow;
-	if (ShowConsoleWindow) {
+	DirectInputHook::DisableGameKeys = ShowDevView;
+	if (ShowDevView) {
 
 		ImGui::SetNextWindowBgAlpha(0.2f);
+		ImGui::SetNextWindowPos(ImVec2(0.f, 0.f));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 		ImGui::Begin("Dev Panel", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 		ImGui::BeginTabBar("Dev Panel Tabs");
 
 		if (ImGui::BeginTabItem("Console")) {
-			Console.ImDraw(ScriptContext);
+			Console.ImDraw(ScriptContext, ScriptManager);
 			ImGui::EndTabItem();
 		}
 
@@ -203,10 +201,7 @@ void Valkyrie::LoadConfigs()
 	Configs.SetConfigFile(configPath);
 	Configs.Load();
 
-	ShowConsoleWindow        = Configs.GetBool("show_console", false);
-	ShowObjectExplorerWindow = Configs.GetBool("show_obj_explorer", false);
-	ShowOffsetScanner        = Configs.GetBool("show_offset_scanner", false);
-	ShowBenchmarkWindow      = Configs.GetBool("show_benchmarks", false);
+	ShowDevView              = Configs.GetBool("show_dev_view", false);
 
 	ShowMenuKey              = (HKey)Configs.GetInt("show_key", HKey::Tab);
 	ShowMenuKeyShouldHold    = Configs.GetBool("show_key_hold", ShowMenuKeyShouldHold);
@@ -216,10 +211,7 @@ void Valkyrie::LoadConfigs()
 
 void Valkyrie::SaveConfigs()
 {
-	Configs.SetBool("show_benchmarks", ShowBenchmarkWindow);
-	Configs.SetBool("show_console", ShowConsoleWindow);
-	Configs.SetBool("show_obj_explorer", ShowConsoleWindow);
-	Configs.SetBool("show_offset_scanner", ShowOffsetScanner);
+	Configs.SetBool("show_dev_view", ShowDevView);
 
 	Configs.SetBool("show_key_hold", ShowMenuKeyShouldHold);
 	Configs.SetInt("show_key", ShowMenuKey);
@@ -303,7 +295,7 @@ void Valkyrie::DrawDevelopmentSettings()
 	}
 
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
-	ImGui::Checkbox("Show Dev View",         &ShowConsoleWindow);
+	ImGui::Checkbox("Show Dev View",         &ShowDevView);
 }
 
 void Valkyrie::DrawMenuSettings()

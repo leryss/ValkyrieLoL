@@ -212,27 +212,25 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("curr_casting",      &GameUnit::GetCastingSpell,       "Currently casting spell by the unit")
 		.def_readonly("static",            &GameUnit::GetStaticData,         "Static data loaded at runtime of the unit. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
 		.def_readonly("is_ranged",         &GameUnit::IsRanged,              "True if unit is ranged")
-
-		.def("effective_phys_dmg",         &GameUnit::EffectivePhysicalDamage, "Calculates effective physical damage against target considering armor and armor penetration")
-		.def("effective_magic_dmg",        &GameUnit::EffectiveMagicalDamage,  "Calculates effective magic damage against target considering magic res and magic res penetration")
-
-		.def("has_tags",                   &GameUnit::HasTags,               "Checks if the unit has unit tags (see Unit class)")
-
+		.def_readonly("buffs",             &GameUnit::BuffsToPy,             "List of all the buffs on the champion. Currently buffs are only read for the player champion and enemies due to performance reasons.")
 		.def_readonly("moving",            &GameUnit::isMoving,              "True if unit is moving")
 		.def_readonly("dashing",           &GameUnit::isDashing,             "True if unit is dashing")
 		.def_readonly("dash_speed",        &GameUnit::dashSpeed,             "Similar to move speed but when dashing")
 		.def_readonly("path",              &GameUnit::GetPathPy,             "Navigation path of the unit")
 		.def_readonly("destination",       &GameUnit::destination,           "Navigation destination of the unit")
-		.def("path_distance",              &GameUnit::CalculatePathLength,   "Calculates navigation path distance in game units")
-		.def("predict_position",           &GameUnit::PredictPosition,       "Predicts position of unit in X seconds")
-		.def("reskin",                     &GameUnit::Reskin,                "Changes the skin of the unit")
-		.def("has_buff",                   &GameChampion::HasBuff,           "Check if champion has buff. The buff name is case sensitive")
+
+		.def("num_buff_stacks",            &GameUnit::BuffStackCount,          "Gets the number of stacks for the buff given by the name")
+		.def("effective_phys_dmg",         &GameUnit::EffectivePhysicalDamage, "Calculates effective physical damage against target considering armor and armor penetration")
+		.def("effective_magic_dmg",        &GameUnit::EffectiveMagicalDamage,  "Calculates effective magic damage against target considering magic res and magic res penetration")
+		.def("has_tags",                   &GameUnit::HasTags,                 "Checks if the unit has unit tags (see Unit class)")
+		.def("path_distance",              &GameUnit::CalculatePathLength,     "Calculates navigation path distance in game units")
+		.def("predict_position",           &GameUnit::PredictPosition,         "Predicts position of unit in X seconds")
+		.def("reskin",                     &GameUnit::Reskin,                  "Changes the skin of the unit")
+		.def("has_buff",                   &GameUnit::HasBuff,                 "Check if champion has buff. The buff name is case sensitive")
 		;
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
-		.def("num_buff_stacks",            &GameChampion::BuffStackCount,    "Gets the number of stacks for the buff given by the name")
 		.def("can_cast_spell",             &GameChampion::CanCast,           "Checks if champion can cast the GameSpell provided")
-		.def_readonly("buffs",             &GameChampion::BuffsToPy,         "List of all the buffs on the champion. Currently buffs are only read for the player champion and enemies due to performance reasons.")
 		.def_readonly("spells",            &GameChampion::SpellsToPy,        "List of all the champion spells. Remarks: First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them. Only enemies and local player have item actives read for performance reasons")
 		.def_readonly("item_slots",        &GameChampion::ItemsToPy,         "List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons")
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "Height position of the HP bar of the champion")

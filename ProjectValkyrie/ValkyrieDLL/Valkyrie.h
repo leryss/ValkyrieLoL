@@ -82,10 +82,7 @@ private:
 	static AsyncTaskPool*              TaskPool;
 
 	/// Menu stuff
-	static bool                        ShowBenchmarkWindow;
-	static bool                        ShowConsoleWindow;
-	static bool                        ShowObjectExplorerWindow;
-	static bool                        ShowOffsetScanner;
+	static bool                        ShowDevView;
 	static HKey                        ShowMenuKey;
 	static bool                        ShowMenuKeyShouldHold;
 	static int                         MenuStyle;

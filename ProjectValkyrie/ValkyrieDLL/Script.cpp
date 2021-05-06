@@ -101,6 +101,8 @@ bool Script::Load(std::shared_ptr<ScriptInfo> info)
 
 			neverExecuted = true;
 			loaded        = true;
+
+			context = import(info->id.c_str()).attr("__dict__");
 			return true;
 		}
 	}

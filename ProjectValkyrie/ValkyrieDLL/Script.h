@@ -43,6 +43,8 @@ public:
 	InputController    input;
 	BenchmarkTiming    executionTimes[4];
 
+	object             context;
+
 private:		 
 	/// Attempts to load function with name funcName from the script code
 	bool         LoadFunc(PyObject** loadInto, const char* funcName);

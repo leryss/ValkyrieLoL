@@ -1,6 +1,7 @@
 #pragma once
 #include "Color.h"
 #include "PyExecutionContext.h"
+#include "ScriptManager.h"
 #include <string>
 
 class ConsoleLine {
@@ -30,7 +31,7 @@ class ConsolePythonObjectLine : public ConsoleLine {
 public:
 	virtual void ImDraw() override;
 private:
-	void ImDrawObject(object& obj);
+	object ImDrawObject(object& obj, int id);
 
 public:
 	object obj;
@@ -39,7 +40,7 @@ public:
 class Console {
 
 public:
-	void ImDraw(const PyExecutionContext& ctx);
+	void ImDraw(const PyExecutionContext& ctx, const ScriptManager& smanager);
 	void AddLine(std::shared_ptr<ConsoleLine> line);
 
 private:
@@ -47,4 +48,5 @@ private:
 	std::vector<std::shared_ptr<ConsoleLine>> buffer;
 	const static size_t SizeLine = 1024;
 	char line[SizeLine];
+	int  selectedContext = 0;
 };
