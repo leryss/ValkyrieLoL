@@ -43,6 +43,18 @@ void ObjectExplorer::ImGuiDraw(GameState & state)
 
 void ObjectExplorer::DrawObjects(GameState & state)
 {
+	switch (state.map.type) {
+	case GAME_MAP_SRU:
+		ImGui::TextColored(Color::YELLOW, "Summoners Rift");
+		break;
+	case GAME_MAP_HA:
+		ImGui::TextColored(Color::YELLOW, "Howling Abyss");
+		break;
+	default:
+		ImGui::TextColored(Color::RED, "Unknown Map");
+		break;
+	}
+
 	ImGui::DragFloat("Ping", &state.ping);
 	ImGui::DragFloat("Game Time", &state.time);
 	if (state.player != nullptr) {

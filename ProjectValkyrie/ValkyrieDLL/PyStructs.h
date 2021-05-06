@@ -29,6 +29,10 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	register_exception_translator<QueryException>([](QueryException const& exc) { 
 		PyErr_SetString(PyExc_RuntimeError, Strings::Format("Object Query Exception: %s", exc.what()).c_str());
 	});
+
+	class_<GameMap>("Map", "Object representing the current game map")
+		.def_readonly("type",                &GameMap::type,            "A enum value representing the currently played map")
+		;
 	
 	class_<GameKeybind>("Keybind", "Contains game keybinds")
 		.def_readonly("cast_q",              &GameKeybind::CastSpellQ)
@@ -341,6 +345,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("ping",            &PyExecutionContext::ping,              "Current ping of the game")
 		.def_readonly("cursor_pos",      &PyExecutionContext::GetMousePosition,  "Gets the current position of the mouse")
 
+		.def_readonly("map",             &PyExecutionContext::gameMap,           "Currently played map")
 		.def_readonly("keybinds",        &PyExecutionContext::keybinds,          "Keybinds for casting spells/items etc")
 		.def_readonly("hud",             &PyExecutionContext::gameHud,           "Gets the game HUD")
 		.def_readonly("hovered",         &PyExecutionContext::hovered,           "Gets the game object under the mouse")
@@ -672,6 +677,11 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("del",          DEL)                
 		;
 	
+	enum_<MapType>("MapType", "Map type SRU = Summoners Rift, HA = Howling Abyss")
+		.value("SRU",          GAME_MAP_SRU)
+		.value("HA",           GAME_MAP_HA)
+		;
+
 	enum_<UnitTag>("Unit", "Riot unit tags extracted from the game files. These are not compatible with bitwise operations so writing things like Unit.Monster | Unit.Plant will not yield a tag that has both of those.")
 		.value("Champion",                    UnitTag::Unit_Champion)
 		.value("ChampionClone",               UnitTag::Unit_Champion_Clone)

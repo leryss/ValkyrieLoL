@@ -365,6 +365,7 @@ void PyExecutionContext::SetGameState(GameState * state)
 	queryEnginePy    = object(ptr(&queryEngine));
 	selfPy           = object(ptr(this));
 	gameHud          = object(boost::ref(state->hud));
+	gameMap          = object(boost::ref(state->map));
 	everythingLoaded = GameData::EverythingLoaded;
 	queryEngine.Update(state);
 	collisionEngine.Update(*state);

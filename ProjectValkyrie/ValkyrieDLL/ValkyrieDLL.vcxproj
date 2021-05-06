@@ -175,6 +175,7 @@
     <ClInclude Include="GameItemSlot.h" />
     <ClInclude Include="GameJungle.h" />
     <ClInclude Include="GameKeybind.h" />
+    <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameMinion.h" />
     <ClInclude Include="GameMissile.h" />
     <ClInclude Include="GameObject.h" />

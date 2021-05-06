@@ -100,9 +100,8 @@ std::vector<SkinInfo*>& GameData::GetSkins(std::string & name)
 
 bool GameData::IsWallAt(const Vector3 & worldPos)
 {
-	/// Ghetto way of checking if we are on summoners rift
 	/// TODO: Make wall detection for all maps
-	if (Valkyrie::CurrentGameState->turrets[0]->name.find("sruap_") == std::string::npos)
+	if (Valkyrie::CurrentGameState->map.type != GAME_MAP_SRU)
 		return false;
 
 	static const float ratio = 512.f / 14900.f;

@@ -1,5 +1,43 @@
 #include "Console.h"
 #include "Script.h"
+#include <algorithm>
+
+int CommandLineImGuiCallback(ImGuiInputTextCallbackData* data) {
+
+	Console* cons = (Console*)data->UserData;
+	const char* historyLine;
+
+	switch (data->EventFlag) {
+	case ImGuiInputTextFlags_CallbackHistory:
+		if (cons->commandHistory.size() == 0)
+			return 0;
+
+		/// Reset the offset counter if we ask for the first time for a history command
+		if (!data->HasSelection())
+			cons->commandHistoryOffset = cons->commandHistory.size() - 1;
+		
+		/// Increment/decrement history index accordingly
+		else if (data->EventKey == ImGuiKey_DownArrow) {
+			if(cons->commandHistoryOffset < cons->commandHistory.size() - 1)
+				cons->commandHistoryOffset++;
+		}
+		else if (cons->commandHistoryOffset > 0)
+			cons->commandHistoryOffset--;
+
+		/// Copy history line to current line
+		historyLine = cons->commandHistory[cons->commandHistoryOffset].c_str();
+		memcpy(data->Buf, historyLine, strlen(historyLine));
+		data->BufTextLen = strlen(historyLine);
+		data->BufDirty = true;
+		data->SelectAll();
+
+		break;
+	default:
+		break;
+	}
+
+	return 0;
+}
 
 void ConsoleStringLine::ImDraw()
 {
@@ -50,7 +88,9 @@ void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanag
 	/// Draw & process command line
 	ImGui::BeginChild("ConsoleCmd", ImVec2(size.x, 50.f), true, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 	ImGui::SetNextItemWidth(size.x);
-	if (ImGui::InputText("###CommandLine", &line[0], SizeLine, ImGuiInputTextFlags_EnterReturnsTrue)) {
+	if (ImGui::InputText("###CommandLine", &line[0], SizeLine, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackHistory, CommandLineImGuiCallback, this)) {
+
+		ImGui::SetKeyboardFocusHere(0);
 
 		ConsoleStringLine* command = new ConsoleStringLine();
 		command->color = Color::CYAN;
@@ -80,8 +120,10 @@ void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanag
 			buffer.push_back(std::shared_ptr<ConsoleLine>(strLine));
 		}
 
+		commandHistory.push_back(std::string(line));
 		memset(line, 0, SizeLine);
 	}
+
 	ImGui::EndChild();
 }
 

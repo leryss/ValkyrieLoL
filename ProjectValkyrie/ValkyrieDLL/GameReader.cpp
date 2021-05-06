@@ -57,6 +57,8 @@ GameState* GameReader::GetNextState()
 				champ->ReadSpells(GameChampion::NUM_SPELLS - GameChampion::NUM_ITEMS);
 			}
 		}
+
+		state.map.type = (MapType)*(short*)state.turrets[0]->name.c_str();
 	}
 
 	benchmark.readState.End();

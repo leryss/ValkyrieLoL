@@ -13,6 +13,7 @@
 #include <deque>
 #include "Collidable.h"
 
+
 enum GameObjectType {
 
 	OBJ_UNKNOWN,

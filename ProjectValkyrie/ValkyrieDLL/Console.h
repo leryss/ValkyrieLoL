@@ -43,10 +43,15 @@ public:
 	void ImDraw(const PyExecutionContext& ctx, const ScriptManager& smanager);
 	void AddLine(std::shared_ptr<ConsoleLine> line);
 
+	std::vector<std::string> commandHistory;
+	bool                     showHistoryPopup = false;
+	int                      commandHistoryOffset = 0;
+
+	const static size_t SizeLine = 1024;
+	char                line[SizeLine];
+
 private:
 
 	std::vector<std::shared_ptr<ConsoleLine>> buffer;
-	const static size_t SizeLine = 1024;
-	char line[SizeLine];
 	int  selectedContext = 0;
 };

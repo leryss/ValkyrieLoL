@@ -8,6 +8,7 @@
 #include "GameMinion.h"
 #include "GameJungle.h"
 #include "GameTurret.h"
+#include "GameMap.h"
 
 #include <vector>
 #include <map>
@@ -20,6 +21,7 @@ struct GameState {
 				                                
 	GameRenderer                                renderer;
 	GameHud                                     hud;
+	GameMap                                     map;
 	
 	std::map<int, std::shared_ptr<GameObject>>  objectCache;
 	std::vector<std::shared_ptr<GameMinion>>    minions;

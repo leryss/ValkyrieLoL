@@ -89,6 +89,7 @@ void Valkyrie::ShowMenu()
 {
 	DBG_INFO("Valkyrie::ShowMenu")
 	static bool IsMenuToggled = false;
+	DirectInputHook::DisableGameKeys = ImGui::IsAnyItemActive();
 
 	if (ShowMenuKeyShouldHold) {
 		if (InputController.IsDown(ShowMenuKey))
@@ -106,7 +107,6 @@ void Valkyrie::ShowMenu()
 		ShowDevView = !ShowDevView;
 	}
 
-	DirectInputHook::DisableGameKeys = ShowDevView;
 	if (ShowDevView) {
 
 		ImGui::SetNextWindowBgAlpha(0.2f);
@@ -223,10 +223,6 @@ void Valkyrie::SaveConfigs()
 void Valkyrie::ExecuteScripts()
 {
 	DBG_INFO("Executing scripts")
-	if (!LoadedScripts) {
-		ScriptManager.LoadAllScripts(CurrentGameState);
-		LoadedScripts = true;
-	}
 	ScriptManager.ExecuteScripts(ScriptContext);
 }
 
@@ -247,6 +243,12 @@ void Valkyrie::SetupScripts()
 	ScriptContext.SetGameState(CurrentGameState);
 	ScriptContext.SetImGuiOverlay(ImGui::GetWindowDrawList());
 	ImGui::End();
+
+	if (!LoadedScripts) {
+		DBG_INFO("Loading Scripts")
+		ScriptManager.LoadAllScripts(CurrentGameState);
+		LoadedScripts = true;
+	}
 }
 
 void Valkyrie::DrawSettings()

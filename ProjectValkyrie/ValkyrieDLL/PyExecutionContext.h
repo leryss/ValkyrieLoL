@@ -39,6 +39,7 @@ public:
 	object  player;
 	object  queryEnginePy;
 	object  gameHud;
+	object  gameMap;
 	object  selfPy;
 
 public:

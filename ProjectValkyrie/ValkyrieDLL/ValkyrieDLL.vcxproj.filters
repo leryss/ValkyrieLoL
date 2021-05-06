@@ -216,6 +216,9 @@
     <ClInclude Include="DirectInputHook.h">
       <Filter>Source Files\Utils\Input</Filter>
     </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>Source Files\Game\GameObjects\Units</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
