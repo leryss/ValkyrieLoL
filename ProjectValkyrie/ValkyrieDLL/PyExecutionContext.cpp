@@ -110,6 +110,7 @@ bool PyExecutionContext::StartChannel(GameSpell * spell)
 		return false;
 
 	currentScript->input.IssueHoldKey(spell->castKey);
+	return true;
 }
 
 bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLocation)

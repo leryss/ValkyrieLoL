@@ -43,9 +43,12 @@ GameState*                         Valkyrie::CurrentGameState = NULL;
 
 InputController                    Valkyrie::InputController;
 ConfigSet                          Valkyrie::Configs;
-bool                               Valkyrie::ShowDevView;
-HKey                               Valkyrie::ShowMenuKey;
 bool                               Valkyrie::ShowMenuKeyShouldHold = true;
+bool                               Valkyrie::SleepMode      = false;
+bool                               Valkyrie::ShowDevView    = false;
+HKey                               Valkyrie::ShowDevViewKey = F3;
+HKey                               Valkyrie::SleepModeKey   = NO_KEY;
+HKey                               Valkyrie::ShowMenuKey    = Tab;
 int                                Valkyrie::MenuStyle;
 float                              Valkyrie::AveragePing;
 HMODULE                            Valkyrie::ValkyrieDLLHandle;
@@ -102,7 +105,7 @@ void Valkyrie::ShowMenu()
 			DrawSettings();
 	}
 
-	if (InputController.WasPressed(HKey::F3)) {
+	if (InputController.WasPressed(ShowDevViewKey)) {
 		ShowDevView = !ShowDevView;
 	}
 
@@ -207,7 +210,10 @@ void Valkyrie::LoadConfigs()
 
 	ShowDevView              = Configs.GetBool("show_dev_view", false);
 
-	ShowMenuKey              = (HKey)Configs.GetInt("show_key", HKey::Tab);
+	SleepModeKey             = (HKey)Configs.GetInt("sleep_mode_key", SleepModeKey);
+	ShowDevViewKey           = (HKey)Configs.GetInt("show_dev_key", ShowDevViewKey);
+	ShowMenuKey              = (HKey)Configs.GetInt("show_key", ShowMenuKey);
+
 	ShowMenuKeyShouldHold    = Configs.GetBool("show_key_hold", ShowMenuKeyShouldHold);
 	MenuStyle                = SetStyle(Configs.GetInt("menu_style", 3));
 	AveragePing              = Configs.GetFloat("ping", 60.0f);
@@ -219,6 +225,8 @@ void Valkyrie::SaveConfigs()
 
 	Configs.SetBool("show_key_hold", ShowMenuKeyShouldHold);
 	Configs.SetInt("show_key", ShowMenuKey);
+	Configs.SetInt("show_dev_key", ShowDevViewKey);
+	Configs.SetInt("sleep_mode_key", SleepModeKey);
 	Configs.SetInt("menu_style", MenuStyle);
 	Configs.SetFloat("ping", AveragePing);
 	Configs.Save();
@@ -301,13 +309,16 @@ void Valkyrie::DrawDevelopmentSettings()
 	}
 
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
-	ImGui::Checkbox("Show Dev View (F3)", &ShowDevView);
+	ImGui::Checkbox("Show Dev View", &ShowDevView);
+	ShowDevViewKey = (HKey)InputController::ImGuiKeySelect("Show Dev View Key", ShowDevViewKey);
 }
 
 void Valkyrie::DrawMenuSettings()
 {
 	if (ChooseMenuStyle("Menu Style", MenuStyle))
 		SetStyle(MenuStyle);
+	
+	SleepModeKey = (HKey)InputController::ImGuiKeySelect("Kill Switch Key", SleepModeKey);
 	ShowMenuKey = (HKey)InputController::ImGuiKeySelect("Show Menu Key", ShowMenuKey);
 	ImGui::Checkbox("Must Hold Menu Key", &ShowMenuKeyShouldHold);
 }
@@ -340,6 +351,12 @@ void Valkyrie::DrawBenchmarkWindow()
 void Valkyrie::Update()
 {
 	DBG_INFO("Valkyrie::Update")
+	
+	if (InputController.WasPressed(SleepModeKey))
+		SleepMode = !SleepMode;
+	if (SleepMode)
+		return;
+
 	__try {
 		ImGui_ImplDX9_NewFrame();
 		ImGui_ImplWin32_NewFrame();

@@ -83,6 +83,7 @@ void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanag
 		l->ImDraw();
 	}
 
+	ImGui::SetScrollHere(1.f);
 	ImGui::EndChild();
 
 	/// Draw & process command line

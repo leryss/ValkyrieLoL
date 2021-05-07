@@ -82,8 +82,13 @@ private:
 	static AsyncTaskPool*              TaskPool;
 
 	/// Menu stuff
-	static bool                        ShowDevView;
+	
 	static HKey                        ShowMenuKey;
+	static HKey                        ShowDevViewKey;
+	static HKey                        SleepModeKey;
+
+	static bool                        SleepMode;
+	static bool                        ShowDevView;
 	static bool                        ShowMenuKeyShouldHold;
 	static int                         MenuStyle;
 	static float                       AveragePing;
