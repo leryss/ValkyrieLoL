@@ -91,8 +91,8 @@ void InputController::IssuePressKey(HKey key)
 
 void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter) {
 	ioQueue.push(new IoSpoofMouse(posGetter));
-	ioQueue.push(new IoDelay(1.f));
 	IssuePressKey(key);
+	ioQueue.push(new IoDelay(15.f));
 	ioQueue.push(new IoUnspoofMouse());
 }
 
@@ -153,8 +153,8 @@ void InputController::IssueUnholdKey(HKey key)
 void InputController::IssueUnholdKeyAt(HKey key, std::function<Vector2()> posGetter)
 {
 	ioQueue.push(new IoSpoofMouse(posGetter));
-	ioQueue.push(new IoDelay(1.f));
 	ioQueue.push(new IoReleaseKey(key));
+	ioQueue.push(new IoDelay(10.f));
 	ioQueue.push(new IoUnspoofMouse());
 }
 
