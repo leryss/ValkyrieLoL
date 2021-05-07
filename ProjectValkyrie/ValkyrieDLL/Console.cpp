@@ -48,6 +48,8 @@ void ConsoleStringLine::ImDraw()
 
 void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanager)
 {
+	static bool ScrollDownConsole = false;
+
 	auto& io = ImGui::GetIO();
 	ImVec2 size;
 	size.x = io.DisplaySize.x * 0.3f;
@@ -83,7 +85,11 @@ void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanag
 		l->ImDraw();
 	}
 
-	ImGui::SetScrollHere(1.f);
+	if (ScrollDownConsole) {
+		ImGui::SetScrollHere(1.f);
+		ScrollDownConsole = !ScrollDownConsole;
+	}
+
 	ImGui::EndChild();
 
 	/// Draw & process command line
@@ -91,6 +97,7 @@ void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanag
 	ImGui::SetNextItemWidth(size.x);
 	if (ImGui::InputText("###CommandLine", &line[0], SizeLine, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackHistory, CommandLineImGuiCallback, this)) {
 
+		ScrollDownConsole = true;
 		ImGui::SetKeyboardFocusHere(0);
 
 		ConsoleStringLine* command = new ConsoleStringLine();

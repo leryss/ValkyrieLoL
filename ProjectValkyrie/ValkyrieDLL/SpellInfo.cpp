@@ -26,7 +26,8 @@ std::map<std::string, SpellFlags> SpellInfo::FlagMap = {
 	{ "AffectAll",       AffectAllUnits },
 					     
 	{ "Dash",            DashSkill },
-	{ "Channel",         ChannelSkill},
+	{ "Chargeable",      ChargeableSkill },
+	{ "Channel",         ChannelSkill },
 
 };
 

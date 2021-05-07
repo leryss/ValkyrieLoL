@@ -79,6 +79,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("time_begin",          &GameBuff::startTime,   "When the buff was received in game time")
 		.def_readonly("time_end",            &GameBuff::endTime,     "When the buff will end in game time")
 		.def_readonly("count",               &GameBuff::count,       "Number of stacks of the buff")
+		.def_readonly("value",               &GameBuff::value,       "Value of the buff")
 		;
 
 	class_<UnitInfo>("UnitStatic",         "Static data loaded at runtime for an unit")
@@ -223,6 +224,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("path",              &GameUnit::GetPathPy,             "Navigation path of the unit")
 		.def_readonly("destination",       &GameUnit::destination,           "Navigation destination of the unit")
 
+		.def("get_buff",                   &GameUnit::GetBuffPy,               "Gets the buff with the name provided or None if nothing found")
 		.def("num_buff_stacks",            &GameUnit::BuffStackCount,          "Gets the number of stacks for the buff given by the name")
 		.def("effective_phys_dmg",         &GameUnit::EffectivePhysicalDamage, "Calculates effective physical damage against target considering armor and armor penetration")
 		.def("effective_magic_dmg",        &GameUnit::EffectiveMagicalDamage,  "Calculates effective magic damage against target considering magic res and magic res penetration")
@@ -240,6 +242,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "Height position of the HP bar of the champion")
 		.def_readonly("recalling",         &GameChampion::recalling,         "True if champion is recalling")
 		.def_readonly("is_clone",          &GameChampion::IsClone,           "Checks if the champion is a clone")
+		.def_readonly("channeling",        &GameChampion::channeling,        "True if player is channeling a spell")
 		;
 
 	class_<GameTurret, bases<GameUnit>>("TurretObj", "Represents a turret object")
@@ -588,6 +591,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 
 		.value("DashSkill",       DashSkill)
 		.value("ChannelSkill",    ChannelSkill)
+		.value("ChargeableSkill", ChargeableSkill)
 		;
 
 	enum_<HKey>("Key", "Hardware key codes")

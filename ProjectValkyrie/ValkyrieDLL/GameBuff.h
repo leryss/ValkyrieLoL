@@ -13,6 +13,7 @@ public:
 	float       startTime;
 	float       endTime;
 	int         count;
+	int         value;
 	std::string name;
 };
 
@@ -31,8 +32,10 @@ struct BuffEntry {
 	char pad2[0xC];
 	int  buffNodeStart;
 	int  buffNodeEnd;
-	char pad3[0x64];
-	int  count;
+	char pad3[0x4C];
+	int  value;
+	char pad4[0x3C];
+	int  count;//8c
 
 	int GetCount() const;
 };

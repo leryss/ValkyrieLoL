@@ -89,6 +89,8 @@ void GameChampion::ReadFromBaseAddress(int addr)
 
 	/// Check recalling
 	recalling = (ReadInt(addr + Offsets::ObjRecallState) == 6);
+	if (castingSpell.staticData != nullptr)
+		channeling = isCasting && castingSpell.staticData->HasFlag(ChannelSkill);
 	ReadAiManager();
 }
 
@@ -122,6 +124,8 @@ void GameChampion::ImGuiDraw()
 			ImGui::TreePop();
 		}
 	}
+
+	ImGui::Checkbox("Channeling", &channeling);
 }
 
 Vector2 GameChampion::GetHpBarPosition() const

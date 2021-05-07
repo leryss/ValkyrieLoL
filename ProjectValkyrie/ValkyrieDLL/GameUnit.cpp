@@ -229,11 +229,21 @@ bool GameUnit::HasBuff(const char * buff)
 int GameUnit::BuffStackCount(const char * buff)
 {
 	std::string buffName = buff;
-	for (auto& buff : buffs)
-		if (buff.second->name == buffName)
-			return buff.second->count;
+	auto find = buffs.find(buffName);
+	if (find != buffs.end())
+		return find->second->count;
 
 	return 0;
+}
+
+object GameUnit::GetBuffPy(const char * buff)
+{
+	std::string buffName = buff;
+	auto find = buffs.find(buffName);
+	if (find != buffs.end())
+		return object(ptr(find->second.get()));
+
+	return object();
 }
 
 list GameUnit::BuffsToPy()
@@ -255,7 +265,7 @@ void GameUnit::ReadBuffs()
 	int buffArray = ReadInt(buffManager + Offsets::BuffManagerEntriesArray);
 	buffEntries = (std::vector<BuffEntryWrap>*)(buffManager + Offsets::BuffManagerEntriesArray);
 	
-	for(auto& wrap : *buffEntries) {
+	for (auto& wrap : *buffEntries) {
 		Buff* rawBuff = wrap.entry->buff;
 		if (rawBuff == NULL)
 			continue;
@@ -265,8 +275,17 @@ void GameUnit::ReadBuffs()
 		buff->count = wrap.entry->GetCount();
 		buff->startTime = wrap.entry->startTime;
 		buff->endTime = wrap.entry->endTime;
-		
-		buffs[buff->name] = buff;
+		buff->value = wrap.entry->value;
+		buff->address = (int)wrap.entry;
+
+		if (buff->count > 0) {
+			auto find = buffs.find(buff->name);
+			if (find != buffs.end()) {
+				if (buff->startTime > find->second->startTime)
+					buffs[buff->name] = buff;
+			} else
+				buffs[buff->name] = buff;
+		}
 	}
 }
 

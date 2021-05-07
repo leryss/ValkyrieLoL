@@ -31,7 +31,8 @@ enum SpellFlags {
 	AffectMonster    = (1 << 18),
 
 	DashSkill        = (1 << 19),
-	ChannelSkill     = (1 << 20),
+	ChargeableSkill  = (1 << 20),
+	ChannelSkill     = (1 << 21),
 
 	SpellAllTypes   = TypeLine | TypeArea | TypeCone | TypeRect,
 	CollideCommon   = CollideWindwall | CollideMinion | CollideChampion | CollideMonster,

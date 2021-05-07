@@ -10,12 +10,10 @@ void GameBuff::ImGuiDraw()
 	ImGui::DragFloat("Start Time", &startTime);
 	ImGui::DragFloat("End Time", &endTime);
 	ImGui::DragInt("Count", &count);
+	ImGui::DragInt("Value", &value);
 }
 
 int BuffEntry::GetCount() const
 {
-	if (count > 0)
-		return count;
-	
 	return (buffNodeEnd - buffNodeStart) / 0x8;
 }

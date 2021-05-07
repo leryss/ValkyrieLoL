@@ -44,6 +44,8 @@ public:
 	/// Check the number of stacks the named buff has
 	int       BuffStackCount(const char* buff);
 
+	object    GetBuffPy(const char* buff);
+
 	/// Predicts position of this unit in N seconds
 	Vector3   PredictPosition(float millisFuture) const;
 

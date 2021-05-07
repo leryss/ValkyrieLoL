@@ -31,6 +31,7 @@ public:
 
 public:
 	bool      recalling;
+	bool      channeling;
 
 	const static int NUM_SPELLS = 13;
 	const static int NUM_ITEMS = 7;
