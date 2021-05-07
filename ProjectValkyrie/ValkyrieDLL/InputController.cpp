@@ -137,7 +137,7 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 	ioQueue.push(new IoPressMouse(type, clickCondition));
 	ioQueue.push(new IoReleaseMouse(type, clickCondition));
 
-	ioQueue.push(new IoDelay(50.f));
+	ioQueue.push(new IoDelay(5.f));
 	ioQueue.push(new IoUnspoofMouse());
 }
 
