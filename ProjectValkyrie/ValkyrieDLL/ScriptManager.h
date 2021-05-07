@@ -4,12 +4,15 @@
 #include "imgui/imgui.h"
 #include "PyExecutionContext.h"
 #include "ScriptRepository.h"
+#include "TextEditor.h"
 #include <deque>
 
 /// Manages script loading and execution
 class ScriptManager {
 
 public:
+
+	ScriptManager();
 
 	/// Loads all scripts from valkyrie scripts folder. Game state is necessary for conditional loading (ex: load only if champion is Alistar)
 	void LoadAllScripts(const GameState* gameState);
@@ -20,6 +23,8 @@ public:
 	/// Executes the menu functions of all the scripts.
 	void ImGuiDrawMenu(PyExecutionContext& ctx);
 
+	void ImGuiDrawEditor();
+
 private:
 	void LoadScript(std::shared_ptr<ScriptInfo>& info, std::deque<std::shared_ptr<Script>>& scriptList);
 	void ExecuteScripts(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
@@ -29,6 +34,11 @@ private:
 	void ScriptMenuFooter(std::shared_ptr<Script>& script);
 
 public:
+	
+	/// Text editor stuff
+	TextEditor                          editor;
+	int                                 selectedScriptForEditing = 0;
+
 	ScriptRepository                    repository;
 
 	std::deque<std::shared_ptr<Script>> communityScripts;

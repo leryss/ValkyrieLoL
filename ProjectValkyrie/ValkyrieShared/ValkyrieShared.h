@@ -125,8 +125,9 @@ public:
 				0x2000, 0x3000,
 				0,
 			};
-
-			fontAtlas->AddFontFromFileTTF(fontPath.c_str(), 13, 0, ranges);
+			
+			FontConsolas = fontAtlas->AddFontDefault();
+			FontValkyrie = fontAtlas->AddFontFromFileTTF(fontPath.c_str(), 13, 0, ranges);
 		}
 	}
 
@@ -187,4 +188,8 @@ public:
 		colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
 		colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 	}
+
+	public:
+		static ImFont* FontConsolas;
+		static ImFont* FontValkyrie;
 }; 

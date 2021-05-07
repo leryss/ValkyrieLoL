@@ -67,6 +67,9 @@
     <Filter Include="Source Files\Game\Physics">
       <UniqueIdentifier>{546f2799-55ce-47ad-85f4-7d9f5478d1e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\TextEditor">
+      <UniqueIdentifier>{8204a41c-090c-4400-8ce2-03717a496c70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="GameMap.h">
       <Filter>Source Files\Game\GameObjects\Units</Filter>
     </ClInclude>
+    <ClInclude Include="TextEditor.h">
+      <Filter>Source Files\UI\TextEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -328,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="DirectInputHook.cpp">
       <Filter>Source Files\Utils\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEditor.cpp">
+      <Filter>Source Files\UI\TextEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

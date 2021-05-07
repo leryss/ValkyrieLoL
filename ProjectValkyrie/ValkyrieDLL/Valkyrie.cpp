@@ -14,7 +14,6 @@
 #include "FakeMouse.h"
 #include "D3DX9Shader.h"
 
-
 #include <boost/exception/diagnostic_information.hpp>
 
 #include <stdexcept>
@@ -132,6 +131,11 @@ void Valkyrie::ShowMenu()
 
 		if (ImGui::BeginTabItem("Script Benchmarks")) {
 			DrawBenchmarkWindow();
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Script Editor")) {
+			ScriptManager.ImGuiDrawEditor();
 			ImGui::EndTabItem();
 		}
 
@@ -297,7 +301,7 @@ void Valkyrie::DrawDevelopmentSettings()
 	}
 
 	ImGui::LabelText("Offset Patch", Offsets::GameVersion.c_str());
-	ImGui::Checkbox("Show Dev View",         &ShowDevView);
+	ImGui::Checkbox("Show Dev View (F3)", &ShowDevView);
 }
 
 void Valkyrie::DrawMenuSettings()
@@ -340,6 +344,7 @@ void Valkyrie::Update()
 		ImGui_ImplDX9_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+		ImGui::PushFont(ValkyrieShared::FontValkyrie);
 
 		TaskPool->ImGuiDraw();
 		if (GameData::EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
@@ -352,6 +357,7 @@ void Valkyrie::Update()
 			}
 		}
 
+		ImGui::PopFont();
 		ImGui::EndFrame();
 		ImGui::Render();
 

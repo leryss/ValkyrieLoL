@@ -6,6 +6,55 @@
 #include "Paths.h"
 #include "PyExecutionContext.h"
 #include "Debug.h"
+#include "ValkyrieShared.h"
+
+ScriptManager::ScriptManager()
+{
+	editor.SetTabSize(4);
+	editor.SetShowWhitespaces(false);
+
+	TextEditor::LanguageDefinition ld;
+	ld.mAutoIndentation = true;
+	ld.mCaseSensitive   = true;
+	ld.mCommentStart    = "'''";
+	ld.mCommentEnd      = "'''";
+	ld.mSingleLineComment = "#";
+	ld.mName            = "Python";
+	
+	static const char* const keywords[] = {
+		"False" ,     "await"   ,   "else"   ,    "import"  ,   "pass"  ,
+		"None"  ,     "break"   ,   "except" ,    "in"      ,   "raise" ,
+		"True"  ,     "class"   ,   "finally",    "is"      ,   "return",
+		"and"   ,     "continue",   "for"    ,    "lambda"  ,   "try"   ,
+		"as"    ,     "def"     ,   "from"   ,    "nonlocal",   "while" ,
+		"assert",     "del"     ,   "global" ,    "not"     ,   "with"  ,
+		"async" ,     "elif"    ,   "if"     ,    "or"      ,   "yield" 
+	};
+
+	for (auto& k : keywords)
+		ld.mKeywords.insert(k);
+
+	static const char* const identifiers[] = {
+		"abs", "delattr", "hash", "memoryview", "set", "all", "dict", "help", "min", "setattr", "any", "dir", "hex", "next", "slice", "ascii", "divmod", "id", "object", "sorted", "bin", "enumerate", "input", "oct", "staticmethod", "bool", "eval", "int", "open", "str", "breakpoint", "exec", "isinstance", "ord", "sum", "bytearray", "filter", "issubclass", "pow", "super", "bytes", "float", "iter", "print", "tuple", "callable", "format", "len", "property", "type", "chr", "frozenset", "list", "range", "vars", "classmethod", "getattr", "locals", "repr", "zip", "compile", "globals", "map", "reversed", "__import__", "complex", "hasattr", "max", "round"
+	};
+
+	for (auto& k : identifiers)
+	{
+		TextEditor::Identifier id;
+		id.mDeclaration = "Built-in function";
+		ld.mIdentifiers.insert(std::make_pair(std::string(k), id));
+	}
+
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("L?\\\"(\\\\.|[^\\\"])*\\\"",                                              TextEditor::PaletteIndex::String));
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("\\\'[^\\\']*\\\'",                                                        TextEditor::PaletteIndex::String));
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?",                                        TextEditor::PaletteIndex::Number));
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?",              TextEditor::PaletteIndex::Number));
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[+-]?[0-9]+[Uu]?[lL]?[lL]?",                                              TextEditor::PaletteIndex::Number));
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[a-zA-Z_][a-zA-Z0-9_]*",                                                  TextEditor::PaletteIndex::Identifier));
+	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", TextEditor::PaletteIndex::Punctuation));
+
+	editor.SetLanguageDefinition(ld);
+}
 
 void ScriptManager::LoadAllScripts(const GameState* gameState)
 {
@@ -63,6 +112,40 @@ void ScriptManager::ImGuiDrawMenu(PyExecutionContext & ctx)
 	ImGui::Separator();
 	ImGui::TextColored(Color::PURPLE, "Community Scripts");
 	DrawScriptsMenus(ctx, communityScripts);
+}
+
+void ScriptManager::ImGuiDrawEditor()
+{
+	if (allScripts.size() == 0)
+		return;
+
+	auto displaySize = ImGui::GetIO().DisplaySize;
+	float width = 0.4f * displaySize.x;
+
+	ImGui::BeginChild("EditorOptions", ImVec2(width, 100));
+	if (ImGui::BeginCombo("Script to Edit", allScripts[selectedScriptForEditing]->info->id.c_str())) {
+	
+		for (int i = 0; i < allScripts.size(); ++i) {
+			auto script = allScripts[i];
+			if (ImGui::Selectable(script->info->id.c_str(), i == selectedScriptForEditing)) {
+				selectedScriptForEditing = i;
+
+				std::ifstream in(Paths::GetScriptPath(script->info->id));
+				std::string code((
+					std::istreambuf_iterator<char>(in)),
+					std::istreambuf_iterator<char>());
+				editor.SetText(code);
+				break;
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+	ImGui::EndChild();
+
+	ImGui::PushFont(ValkyrieShared::FontConsolas);
+	editor.Render("TextEditor", ImVec2(width, 0.6*displaySize.y));
+	ImGui::PopFont();
 }
 
 void ScriptManager::LoadScript(std::shared_ptr<ScriptInfo> & info, std::deque<std::shared_ptr<Script>>& scriptList)
