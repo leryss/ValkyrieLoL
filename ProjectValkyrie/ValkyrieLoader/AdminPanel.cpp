@@ -350,7 +350,7 @@ void AdminPanel::DrawInviteGenerator()
 
 	ImGui::SliderInt("Number of codes", &numCodesToGenerate, 1, 20);
 	ImGui::DragFloat("Subscription Days", &inviteSubscriptionDays);
-	ImGui::InputTextMultiline("Generated Codes", generatedInviteCodeBuff, Constants::INPUT_TEXT_SIZE, ImVec2(400, 500), ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputTextMultiline("Generated Codes", generatedInviteCodeBuff, inviteCodeBuffSize, ImVec2(400, 500), ImGuiInputTextFlags_ReadOnly);
 
 	if (ImGui::Button("Generate code") && !taskPool->IsExecuting(trackIdGenerateInvite)) {
 
