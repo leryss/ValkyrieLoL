@@ -67,15 +67,15 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 				continue;
 			}
 
-			// Start the Dear ImGui frame
 			ImGui_ImplDX9_NewFrame();
 			ImGui_ImplWin32_NewFrame();
 			ImGui::NewFrame();
+			ImGui::PushFont(ValkyrieShared::FontValkyrie);
 
 			ui.ImGuiShow();
 			//ImGui::ShowStyleEditor();
 
-			// Rendering
+			ImGui::PopFont();
 			ImGui::EndFrame();
 			g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 			g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

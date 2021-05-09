@@ -380,7 +380,7 @@ void Valkyrie::Update()
 
 		/// Render
 		DxDeviceMutex.lock();
-		if (GameData::EverythingLoaded && CurrentGameState != nullptr)
+		if (CurrentGameState != nullptr)
 			CurrentGameState->renderer.DrawOverlay(DxDevice);
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 		DxDeviceMutex.unlock();

@@ -5,7 +5,7 @@
 
 std::string GetWMIPropertyFrom(IWbemServices * pSvc, const wchar_t * propertyName, const wchar_t * tableName)
 {
-	wchar_t buffQuery[256];
+	wchar_t buffQuery[512];
 	swprintf_s(buffQuery, L"SELECT %s FROM %s", propertyName, tableName);
 
 	IEnumWbemClassObject* pEnumerator = NULL;
@@ -25,11 +25,18 @@ std::string GetWMIPropertyFrom(IWbemServices * pSvc, const wchar_t * propertyNam
 
 		VARIANT vtProp;
 		hr = pclsObj->Get(propertyName, 0, &vtProp, 0, 0);
-
-		char asciiBuff[256];
-		size_t size;
-		wcstombs_s(&size, asciiBuff, vtProp.bstrVal, 256);
-		result.append(asciiBuff);
+		
+		if (vtProp.bstrVal != NULL) {
+			size_t sizeBuff = lstrlenW(vtProp.bstrVal) + 1;
+			char* asciiBuff = new char[sizeBuff];
+			size_t size;
+			wcstombs_s(&size, asciiBuff, sizeBuff, vtProp.bstrVal, sizeBuff);
+			if (size == 0)
+				result.append("-NO PROPERTY-");
+			else
+				result.append(asciiBuff);
+			delete asciiBuff;
+		}
 
 		VariantClear(&vtProp);
 		pclsObj->Release();
@@ -54,7 +61,6 @@ HardwareInfo HardwareInfo::FromJsonView(const JsonView & json)
 HardwareInfo HardwareInfo::Calculate()
 {
 	HardwareInfo hw;
-
 	HRESULT hres;
 	hres = CoInitializeEx(0, COINIT_MULTITHREADED);
 	if (FAILED(hres))

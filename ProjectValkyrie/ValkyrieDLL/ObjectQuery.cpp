@@ -209,7 +209,11 @@ bool QConditionOnScreen::Check(const GameObject * obj)
 
 bool QConditionNearbyPoint::Check(const GameObject * obj)
 {
-	return obj->pos.distance(point) < distance;
+	const GameUnit* unit = dynamic_cast<const GameUnit*>(obj);
+	if(unit == nullptr || unit->staticData == nullptr)
+		return obj->pos.distance(point) < distance;
+	
+	return unit->pos.distance(point) < (distance + unit->staticData->gameplayRadius);
 }
 
 bool QConditionTargetable::Check(const GameObject * obj)

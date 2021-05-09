@@ -203,6 +203,14 @@ bool CollisionEngine::PredictPointForAreaCollision(const GameUnit& caster, const
 	return true;
 }
 
+bool CollisionEngine::PredictPointForConeCollision(const GameUnit & caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
+{
+	float secsUntilSpellHits = GetSecsUntilSpellHits(caster, obj, spell);
+	out = obj.PredictPosition(secsUntilSpellHits);
+
+	return true;
+}
+
 bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
 	if (spell.speed == 0.0)
@@ -265,6 +273,10 @@ bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const Gam
 
 		case TypeArea:
 			result = PredictPointForAreaCollision(caster, target, spell, out);
+			break;
+
+		case TypeCone:
+			result = PredictPointForConeCollision(caster, target, spell, out);
 			break;
 
 		default:

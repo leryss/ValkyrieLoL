@@ -45,6 +45,7 @@ private:
 	void    GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<const GameUnit*, bool>>& result);
 
 	bool    PredictPointForAreaCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
+	bool    PredictPointForConeCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
 	bool    PredictPointForLineCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
 private:
 	
