@@ -138,7 +138,7 @@ async def prune_lurkers():
 	if count > 0:
 		log_message(f'Kicked {count} lurkers')
 	
-async def add_membership(nametag, mode):
+async def add_new_customer(nametag, mode):
 	''' @param nametag: must be a string of the form name#1234 '''
 
 	# Find member
@@ -148,6 +148,10 @@ async def add_membership(nametag, mode):
 	member = discord_members.get(nametag, None)
 	if not member:
 		print(f'User {nametag} not found')
+		return
+	
+	if has_member_role(member):
+		print('User already member')
 		return
 	
 	# Read codes file and extract code
@@ -183,7 +187,7 @@ execution_modes = {
 	'sync' : sync_roles_with_valkyrie,
 	'count': count_members,
 	'prune': prune_lurkers,
-	'add'  : add_membership
+	'add'  : add_new_customer
 }
 
 @discord_client.event
@@ -202,6 +206,6 @@ async def on_ready():
 		return
 	
 	await mode(*argv[2:])
-	exit()
+	await discord_client.close()
 	
 discord_client.run(DISCORD_TOKEN)

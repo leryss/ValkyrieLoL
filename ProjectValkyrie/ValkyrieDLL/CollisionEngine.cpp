@@ -216,7 +216,7 @@ bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const
 	if (spell.speed == 0.0)
 		return false;
 
-	float UnitDelta = 1.f + spell.width / 3.f;
+	float UnitDelta = 1.f + spell.width / 4.f;
 	float Threshold = 1.f + spell.width / 2.f;
 
 	int   iterations = (spell.castRange / UnitDelta) + 1;
@@ -264,10 +264,12 @@ bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const Gam
 			result = PredictPointForLineCollision(caster, target, spell, out);
 
 			/// Check for obstacles with a simple raycast
-			dir = out.sub(caster.pos).normalize();
-			layers = (RaycastLayer)(Raycast::FindLayersFromSpell(spell) | (caster.team == state->player->team ? RayEnemy : RayAlly));
-			ray = Raycast::Cast(state, caster.pos, dir, caster.pos.distance(target.pos), spell.width, layers);
-			result = !(ray != nullptr && ray->obj->type != target.type);
+			if (result) {
+				dir = out.sub(caster.pos).normalize();
+				layers = (RaycastLayer)(Raycast::FindLayersFromSpell(spell) | (caster.team == state->player->team ? RayEnemy : RayAlly));
+				ray = Raycast::Cast(state, caster.pos, dir, caster.pos.distance(target.pos), spell.width, layers);
+				result = !(ray != nullptr && ray->obj->type != target.type);
+			}
 
 			break;
 

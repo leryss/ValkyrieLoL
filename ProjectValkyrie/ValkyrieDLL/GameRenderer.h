@@ -103,6 +103,6 @@ private:
 	void     MultiplyMatrices(float *out, float *a, int row1, int col1, float *b, int row2, int col2);
 
 	std::vector<std::shared_ptr<DrawCommand>> drawCommands;
-	const static int                          VertexBuffSize = 5000;
+	const static int                          VertexBuffSize = 10000;
 	LPDIRECT3DVERTEXBUFFER9                   vertexBuff     = NULL;
 };

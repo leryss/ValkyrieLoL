@@ -291,7 +291,7 @@ void GameUnit::ReadBuffs()
 
 Vector3 GameUnit::PredictPosition(float secsFuture) const
 {
-	if(pathSize > 1) {
+	if(isMoving) {
 		float unitsPerSec = isDashing ? dashSpeed : moveSpeed;
 		if (unitsPerSec == 0.0)
 			return pos;

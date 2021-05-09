@@ -173,7 +173,6 @@ object PyExecutionContext::PredictCastPoint(const GameUnit & caster, const GameU
 	}
 
 	Vector3 point;
-
 	if (!collisionEngine.PredictPointForCollision(caster, target, *info->staticData, point))
 		return object();
 
