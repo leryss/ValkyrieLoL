@@ -11,7 +11,7 @@ const float InputController::WidthRatio  = 65535.0f / ScreenWidth;
 
 bool InputController::IsDown(HKey key)
 {
-	int virtualKey = MapVirtualKeyA(key, MAPVK_VSC_TO_VK);
+	int virtualKey = GetVirtualKey(key);
 	if (virtualKey == 0)
 		return false;
 
@@ -20,7 +20,7 @@ bool InputController::IsDown(HKey key)
 
 bool InputController::WasPressed(HKey key, float lastMillis)
 {
-	int virtualKey = MapVirtualKeyA(key, MAPVK_VSC_TO_VK);
+	int virtualKey = GetVirtualKey(key);
 	if (virtualKey == 0)
 		return false;
 
@@ -172,6 +172,17 @@ void DrawButton(HKey key, HKey& clickedBtn, bool& wasClicked) {
 	ImGui::SameLine();
 }
 
+void DrawColorButton(HKey key, HKey& clickedBtn, bool& wasClicked, const ImVec4& color) {
+
+	ImGui::PushStyleColor(ImGuiCol_Button, color);
+	if (ImGui::Button(HKeyNames[key])) {
+		clickedBtn = key;
+		wasClicked = true;
+	}
+	ImGui::PopStyleColor();
+	ImGui::SameLine();
+}
+
 int InputController::ImGuiKeySelect(const char* label, int key)
 {
 	ImGui::PushID(label);
@@ -195,7 +206,7 @@ int InputController::ImGuiKeySelect(const char* label, int key)
 		DrawButton(HKey::F2, clickedBtn, wasClicked);
 		DrawButton(HKey::F3, clickedBtn, wasClicked);
 		DrawButton(HKey::F4, clickedBtn, wasClicked);
-		DrawButton(HKey::F6, clickedBtn, wasClicked);
+		DrawButton(HKey::F5, clickedBtn, wasClicked);
 		DrawButton(HKey::F6, clickedBtn, wasClicked);
 		DrawButton(HKey::F7, clickedBtn, wasClicked);
 		DrawButton(HKey::F8, clickedBtn, wasClicked);
@@ -251,7 +262,7 @@ int InputController::ImGuiKeySelect(const char* label, int key)
 		DrawButton(HKey::SEMICOLON, clickedBtn, wasClicked);
 		DrawButton(HKey::SINGLE_QUOTE, clickedBtn, wasClicked);
 		DrawButton(HKey::BACKSLASH, clickedBtn, wasClicked);
-		DrawButton(HKey::NO_KEY, clickedBtn, wasClicked);
+		DrawColorButton(HKey::NO_KEY, clickedBtn, wasClicked, Color::RED);
 		ImGui::EndGroup();
 
 		ImGui::BeginGroup();
@@ -278,6 +289,8 @@ int InputController::ImGuiKeySelect(const char* label, int key)
 		DrawButton(HKey::END, clickedBtn, wasClicked);
 		DrawButton(HKey::PAGE_DOWN, clickedBtn, wasClicked);
 		DrawButton(HKey::PAGE_UP, clickedBtn, wasClicked);
+		DrawColorButton(HKey::MOUSE_BTN, clickedBtn, wasClicked, Color::ORANGE);
+		DrawColorButton(HKey::MOUSE_BTN_2, clickedBtn, wasClicked, Color::ORANGE);
 		ImGui::EndGroup();
 
 		if (wasClicked) {
@@ -288,4 +301,16 @@ int InputController::ImGuiKeySelect(const char* label, int key)
 	}
 	ImGui::PopID();
 	return key;
+}
+
+int InputController::GetVirtualKey(HKey key)
+{
+	switch (key) {
+	case MOUSE_BTN:
+		return VK_XBUTTON1;
+	case MOUSE_BTN_2:
+		return VK_XBUTTON2;
+	default:
+		return MapVirtualKeyA(key, MAPVK_VSC_TO_VK);
+	}
 }

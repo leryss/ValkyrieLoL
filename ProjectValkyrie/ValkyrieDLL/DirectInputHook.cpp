@@ -5,7 +5,7 @@
 
 bool                                DirectInputHook::DisableGameKeys = false;
 DirectInputGetDeviceData            DirectInputHook::OriginalDirectInputGetDeviceData;
-std::set<HKey>                      DirectInputHook::DisabledGameKeys;
+std::set<DWORD>                     DirectInputHook::DisabledGameKeys;
 std::map<DWORD, InputEventInfo>     DirectInputHook::AdditionalEvents;
 DWORD                               DirectInputHook::SequenceNumber;
 
@@ -44,7 +44,7 @@ void DirectInputHook::Hook()
 void DirectInputHook::QueueKey(HKey key, bool pressed)
 {
 	AdditionalEvents[key] = { 
-		(DWORD)key, 
+		ConvertToDIKey(key),
 		pressed ? 0x80u : 0u, 
 		GetTickCount(),
 		SequenceNumber++,
@@ -75,8 +75,7 @@ HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDe
 	int numElems = *numElemsPtr;
 	if (!GetAsyncKeyState(VK_CONTROL)) {
 		for (int i = 0; i < numElems; ++i) {
-			HKey key = (HKey)data[i].dwOfs;
-			auto find = DisabledGameKeys.find(key);
+			auto find = DisabledGameKeys.find(data[i].dwOfs);
 			if (find != DisabledGameKeys.end()) {
 				data[i].dwOfs = 0;
 			}
@@ -104,4 +103,18 @@ HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDe
 	*numElemsPtr = numElems;
 
 	return DI_OK;
+}
+
+DWORD DirectInputHook::ConvertToDIKey(HKey key)
+{
+	switch (key) {
+	case MOUSE_BTN:
+		return 260;
+		break;
+	case MOUSE_BTN_2:
+		return 261;
+		break;
+	default:
+		return key;
+	}
 }

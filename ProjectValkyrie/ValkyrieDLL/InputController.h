@@ -74,6 +74,9 @@ public:
 	/// Imgui utility to display a key selector
 	static int ImGuiKeySelect(const char* label, int key);
 
+	/// Maps hardware keys to virtual keys
+	int GetVirtualKey(HKey key);
+
 public:
 	static const float                ScreenWidth;
 	static const float                ScreenHeight;
@@ -121,15 +124,6 @@ public:
 	}
 
 	bool Update() {
-		//INPUT input = { 0 };
-		//input.type = INPUT_KEYBOARD;
-		//input.ki.wScan = key;
-		//input.ki.time = 0;
-		//input.ki.dwExtraInfo = 0;
-		//input.ki.wVk = 0;
-		//input.ki.dwFlags = KEYEVENTF_SCANCODE;
-		//SendInput(1, &input, sizeof(INPUT));
-
 		DirectInputHook::QueueKey(key, true);
 		return true;
 	}
@@ -145,15 +139,6 @@ public:
 	}
 
 	bool Update() {
-		//INPUT input = { 0 };
-		//input.type = INPUT_KEYBOARD;
-		//input.ki.wScan = key;
-		//input.ki.time = 0;
-		//input.ki.dwExtraInfo = 0;
-		//input.ki.wVk = 0;
-		//input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
-		//SendInput(1, &input, sizeof(INPUT));
-
 		DirectInputHook::QueueKey(key, false);
 		return true;
 	}

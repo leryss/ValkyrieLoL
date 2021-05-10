@@ -27,8 +27,9 @@ public:
 	static bool                        DisableGameKeys;
 
 private:
+	static DWORD                           ConvertToDIKey(HKey key);
 	static DirectInputGetDeviceData        OriginalDirectInputGetDeviceData;
-	static std::set<HKey>                  DisabledGameKeys;
+	static std::set<DWORD>                 DisabledGameKeys;
 	static std::map<DWORD, InputEventInfo> AdditionalEvents;
 
 	static DWORD                           SequenceNumber;
