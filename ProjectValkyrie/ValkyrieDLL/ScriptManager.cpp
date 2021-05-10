@@ -52,7 +52,7 @@ ScriptManager::ScriptManager()
 	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[+-]?[0-9]+[Uu]?[lL]?[lL]?",                                              TextEditor::PaletteIndex::Number));
 	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[a-zA-Z_][a-zA-Z0-9_]*",                                                  TextEditor::PaletteIndex::Identifier));
 	ld.mTokenRegexStrings.push_back(std::make_pair<std::string, TextEditor::PaletteIndex>("[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", TextEditor::PaletteIndex::Punctuation));
-
+	
 	editor.SetLanguageDefinition(ld);
 }
 
@@ -72,10 +72,7 @@ void ScriptManager::LoadAllScripts(const GameState* gameState)
 		if (scriptInfo->champion != "all" && gameState->player->name != scriptInfo->champion)
 			continue;
 
-		if (scriptInfo->author == "TeamValkyrie")
-			LoadScript(scriptInfo, coreScripts);
-		else
-			LoadScript(scriptInfo, communityScripts);
+		LoadScript(scriptInfo);
 	}
 
 	std::sort(coreScripts.begin(), coreScripts.end(),
@@ -122,34 +119,40 @@ void ScriptManager::ImGuiDrawEditor()
 	auto displaySize = ImGui::GetIO().DisplaySize;
 	float width = 0.4f * displaySize.x;
 
-	ImGui::BeginChild("EditorOptions", ImVec2(width, 100));
-	if (ImGui::BeginCombo("Script to Edit", allScripts[selectedScriptForEditing]->info->id.c_str())) {
+	ImGui::BeginChild("EditorOptions", ImVec2(width, 50));
+	if (ImGui::BeginCombo("Script to Edit", (selectedScriptForEditing == -1 ? "No script selected" : allScripts[selectedScriptForEditing]->info->id.c_str()))) {
 	
 		for (int i = 0; i < allScripts.size(); ++i) {
 			auto script = allScripts[i];
 			if (ImGui::Selectable(script->info->id.c_str(), i == selectedScriptForEditing)) {
 				selectedScriptForEditing = i;
-
-				std::ifstream in(Paths::GetScriptPath(script->info->id));
-				std::string code((
-					std::istreambuf_iterator<char>(in)),
-					std::istreambuf_iterator<char>());
-				editor.SetText(code);
+				editor.SetText(ReadScript(script));
 				break;
 			}
 		}
 
 		ImGui::EndCombo();
 	}
+	
+	if (selectedScriptForEditing > -1) {
+		auto script = allScripts[selectedScriptForEditing];
+		if (ImGui::Button("Save & Reload") || (GetAsyncKeyState(VK_CONTROL) && GetAsyncKeyState(0x53))) {
+			SaveScript(script, editor.GetText());
+			LoadScript(script->info);
+		}
+	}
+
 	ImGui::EndChild();
 
 	ImGui::PushFont(ValkyrieShared::FontConsolas);
-	editor.Render("TextEditor", ImVec2(width, 0.6*displaySize.y));
+	editor.Render("TextEditor", ImVec2(width, 0.85*displaySize.y));
 	ImGui::PopFont();
 }
 
-void ScriptManager::LoadScript(std::shared_ptr<ScriptInfo> & info, std::deque<std::shared_ptr<Script>>& scriptList)
+void ScriptManager::LoadScript(std::shared_ptr<ScriptInfo> & info)
 {
+	std::deque<std::shared_ptr<Script>>& scriptList = (info->author == "TeamValkyrie" ? coreScripts : communityScripts);
+
 	auto it = std::find_if(scriptList.begin(), scriptList.end(), [&info](const auto& s) { return s->info->id.compare(info->id) == 0; });
 	if (it != scriptList.end())
 		(*it)->Load(info);
@@ -207,6 +210,20 @@ void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::s
 		if (errored)
 			ImGui::PopStyleColor();
 	}
+}
+
+std::string ScriptManager::ReadScript(std::shared_ptr<Script>& script)
+{
+	std::ifstream in(Paths::GetScriptPath(script->info->id));
+	return std::string((
+		std::istreambuf_iterator<char>(in)),
+		std::istreambuf_iterator<char>());
+}
+
+void ScriptManager::SaveScript(std::shared_ptr<Script>& script, const std::string & code)
+{
+	std::ofstream file(Paths::GetScriptPath(script->info->id));
+	file.write(code.c_str(), code.size());
 }
 
 void ScriptManager::ScriptMenuFooter(std::shared_ptr<Script>& script)

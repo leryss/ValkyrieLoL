@@ -129,9 +129,6 @@
     <ClInclude Include="PyStructs.h">
       <Filter>Source Files\Python</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptManager.h">
-      <Filter>Source Files\Python</Filter>
-    </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>Source Files\Python</Filter>
     </ClInclude>
@@ -224,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="TextEditor.h">
       <Filter>Source Files\UI\TextEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptManager.h">
+      <Filter>Source Files\Python</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

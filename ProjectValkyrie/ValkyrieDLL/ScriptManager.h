@@ -26,9 +26,11 @@ public:
 	void ImGuiDrawEditor();
 
 private:
-	void LoadScript(std::shared_ptr<ScriptInfo>& info, std::deque<std::shared_ptr<Script>>& scriptList);
-	void ExecuteScripts(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
-	void DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
+	void        LoadScript(std::shared_ptr<ScriptInfo>& info);
+	void        ExecuteScripts(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
+	void        DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList);
+	std::string ReadScript(std::shared_ptr<Script>& script);
+	void        SaveScript(std::shared_ptr<Script>& script, const std::string& code);
 
 	/// Draws a footer for the script menu with reload/reset buttons
 	void ScriptMenuFooter(std::shared_ptr<Script>& script);
@@ -37,7 +39,7 @@ public:
 	
 	/// Text editor stuff
 	TextEditor                          editor;
-	int                                 selectedScriptForEditing = 0;
+	int                                 selectedScriptForEditing = -1;
 
 	ScriptRepository                    repository;
 

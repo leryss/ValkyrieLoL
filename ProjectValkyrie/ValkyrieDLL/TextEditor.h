@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <map>
 #include <regex>
+#include "InputController.h"
 #include "imgui/imgui.h"
 
 class TextEditor
@@ -266,6 +267,8 @@ public:
 	static const Palette& GetLightPalette();
 	static const Palette& GetRetroBluePalette();
 
+	bool IsFocused = false;
+
 private:
 	typedef std::vector<std::pair<std::regex, PaletteIndex>> RegexList;
 
@@ -371,6 +374,7 @@ private:
 	bool mHandleMouseInputs;
 	bool mIgnoreImGuiChild;
 	bool mShowWhitespaces;
+	InputController mInputController;
 
 	Palette mPaletteBase;
 	Palette mPalette;

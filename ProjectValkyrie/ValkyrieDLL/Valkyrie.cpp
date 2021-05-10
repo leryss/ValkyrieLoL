@@ -90,25 +90,30 @@ void Valkyrie::Run()
 void Valkyrie::ShowMenu()
 {
 	DBG_INFO("Valkyrie::ShowMenu")
-	static bool IsMenuToggled = false;
-	DirectInputHook::DisableGameKeys = ImGui::IsAnyItemActive();
+	static bool      IsMenuToggled    = false;
+	static bool      IsEditorToggled  = false;
+	bool             IsEditingScripts = (IsEditorToggled && ScriptManager.editor.IsFocused);
+	DirectInputHook::DisableGameKeys  = (ImGui::IsAnyItemActive() || IsEditingScripts);
 
-	if (ShowMenuKeyShouldHold) {
-		if (InputController.IsDown(ShowMenuKey))
-			DrawSettings();
-	}
-	else {
-		if (InputController.WasPressed(ShowMenuKey))
-			IsMenuToggled = !IsMenuToggled;
+	if (!IsEditingScripts) {
+		if (ShowMenuKeyShouldHold) {
+			if (InputController.IsDown(ShowMenuKey))
+				DrawSettings();
+		}
+		else {
+			if (InputController.WasPressed(ShowMenuKey))
+				IsMenuToggled = !IsMenuToggled;
 
-		if (IsMenuToggled)
-			DrawSettings();
+			if (IsMenuToggled)
+				DrawSettings();
+		}
 	}
 
 	if (InputController.WasPressed(ShowDevViewKey)) {
 		ShowDevView = !ShowDevView;
 	}
 
+	IsEditorToggled = false;
 	if (ShowDevView) {
 
 		ImGui::SetNextWindowBgAlpha(0.2f);
@@ -119,6 +124,12 @@ void Valkyrie::ShowMenu()
 
 		if (ImGui::BeginTabItem("Console")) {
 			Console.ImDraw(ScriptContext, ScriptManager);
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Script Editor")) {
+			IsEditorToggled = true;
+			ScriptManager.ImGuiDrawEditor();
 			ImGui::EndTabItem();
 		}
 
@@ -134,11 +145,6 @@ void Valkyrie::ShowMenu()
 
 		if (ImGui::BeginTabItem("Script Benchmarks")) {
 			DrawBenchmarkWindow();
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Script Editor")) {
-			ScriptManager.ImGuiDrawEditor();
 			ImGui::EndTabItem();
 		}
 
@@ -268,30 +274,31 @@ void Valkyrie::DrawSettings()
 	static std::string IconDev("menu-dev");
 	static std::string IconSettings("menu-settings");
 
-	ImGui::Begin("Valkyrie", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::Begin("Valkyrie", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize)) {
 
-	/// Currently avg ping must be set manually since I didn't find how to get it from memory
-	ImGui::SliderFloat("Average Ping", &AveragePing, 0.f, 150.f);
-	ScriptContext.ping = AveragePing;
+		/// Currently avg ping must be set manually since I didn't find how to get it from memory
+		ImGui::SliderFloat("Average Ping", &AveragePing, 0.f, 150.f);
+		ScriptContext.ping = AveragePing;
 
-	ImGui::Image(GameData::GetImage(IconDev), ImVec2(15, 15));
-	ImGui::SameLine();
-	if (ImGui::BeginMenu("Development")) {
-		DrawDevelopmentSettings();
-		ImGui::EndMenu();
+		ImGui::Image(GameData::GetImage(IconDev), ImVec2(15, 15));
+		ImGui::SameLine();
+		if (ImGui::BeginMenu("Development")) {
+			DrawDevelopmentSettings();
+			ImGui::EndMenu();
+		}
+
+		ImGui::Image(GameData::GetImage(IconSettings), ImVec2(15, 15));
+		ImGui::SameLine();
+		if (ImGui::BeginMenu("Menu Settings")) {
+			DrawMenuSettings();
+			ImGui::EndMenu();
+		}
+
+		ImGui::Separator();
+		ScriptManager.ImGuiDrawMenu(ScriptContext);
+
+		ImGui::End();
 	}
-
-	ImGui::Image(GameData::GetImage(IconSettings), ImVec2(15, 15));
-	ImGui::SameLine();
-	if (ImGui::BeginMenu("Menu Settings")) {
-		DrawMenuSettings();
-		ImGui::EndMenu();
-	}
-
-	ImGui::Separator();
-	ScriptManager.ImGuiDrawMenu(ScriptContext);
-
-	ImGui::End();
 
 	if (Configs.IsTimeToSave())
 		SaveConfigs();
