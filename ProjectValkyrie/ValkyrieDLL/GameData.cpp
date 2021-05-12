@@ -329,7 +329,7 @@ void GameData::LoadImagesFromZip(const char* zipName, float& percentValue, float
 	mz_zip_archive archive;
 	memset(&archive, 0, sizeof(archive));
 	if (!mz_zip_reader_init_file(&archive, zipPath, 0)) {
-		Logger::Error("Failed to open zip %s", zipName);
+		Logger::Error("Failed to open zip %s: %s", zipName, mz_zip_get_error_string(mz_zip_get_last_error(&archive)));
 		return;
 	}
 

@@ -41,7 +41,7 @@ GameState* GameReader::GetNextState()
 		ReadLocalChampion();
 		ReadHoveredObject();
 		ReadFocusedObject();
-
+		
 		/// Read everything for local player, dont read buffs for enemies, dont read buffs, items & item actives for allies (performance reasons)
 		for (auto& champ : state.champions) {
 			if (champ == state.player) {
@@ -57,7 +57,7 @@ GameState* GameReader::GetNextState()
 				champ->ReadSpells(GameChampion::NUM_SPELLS - GameChampion::NUM_ITEMS);
 			}
 		}
-
+		
 		state.map.type = (MapType)*(short*)state.turrets[0]->name.c_str();
 	}
 
@@ -105,6 +105,7 @@ void GameReader::ReadHoveredObject()
 
 void GameReader::ReadFocusedObject()
 {
+	DBG_INFO("GameReader::ReadFocusedObject")
 	if ((GetKeyState(VK_LBUTTON) & 0x8000) != 0) {
 		state.focused = state.hovered;
 	}
@@ -142,7 +143,6 @@ void GameReader::AddToCache(GameObject* obj) {
 
 GameObject* GameReader::CreateObject(int addr)
 {
-	DBG_INFO("GameReader::CreateObject")
 	std::string name;
 
 	/// Try to read unit name
@@ -151,6 +151,7 @@ GameObject* GameReader::CreateObject(int addr)
 		name = Memory::ReadString(nameAddr);
 
 	if (!name.empty()) {
+		DBG_INFO("GameReader::CreateObject %s", name.c_str())
 		name = Strings::ToLower(name);
 		UnitInfo* info = GameData::GetUnit(name);
 		if (info == nullptr) 
@@ -181,8 +182,8 @@ GameObject* GameReader::CreateObject(int addr)
 		return nullptr;
 
 	name = Memory::ReadString(nameAddr);
-
 	if (!name.empty()) {
+		DBG_INFO("GameReader::CreateObject %s", name.c_str())
 		name = Strings::ToLower(name);
 		if (GameData::GetSpell(name) == nullptr) 
 			return nullptr;

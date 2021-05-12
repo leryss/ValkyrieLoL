@@ -60,13 +60,6 @@ public:
 	static int AiManagerDashSpeed;
 
 	static int BuffManagerEntriesArray;
-	static int BuffEntryBuff;
-	static int BuffEntryBuffStartTime;
-	static int BuffEntryBuffEndTime;
-	static int BuffEntryBuffCount;
-	static int BuffEntryBuffNodeStart;
-	static int BuffEntryBuffNodeCurrent;
-	static int BuffName;
 
 	static int ItemListItem;
 	static int ItemCharges;

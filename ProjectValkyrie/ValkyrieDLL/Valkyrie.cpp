@@ -372,7 +372,7 @@ void Valkyrie::Update()
 
 		TaskPool->ImGuiDraw();
 		if (GameData::EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
-			
+
 			CurrentGameState = Reader.GetNextState();
 			if (CurrentGameState->gameStarted) {
 				SetupScripts();

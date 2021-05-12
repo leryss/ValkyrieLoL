@@ -134,6 +134,7 @@ async def prune_lurkers():
 			count += 1
 			print('Kicking ' + nametag)
 			await member.kick(reason = 'Lurking too many days without buying a subscription. Feel free to join back if you want to the product')
+			await log_message(f'Kicked <@{member.id}> for lurking too much')
 	
 	if count > 0:
 		log_message(f'Kicked {count} lurkers')
