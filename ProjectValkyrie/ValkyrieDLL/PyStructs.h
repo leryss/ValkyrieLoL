@@ -42,25 +42,25 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	class_<ImVec4>("Col", init<float, float, float, float>())
-		.def_readonly("Black",           &Color::BLACK)
-		.def_readonly("White",           &Color::WHITE)
-		.def_readonly("Red",             &Color::RED)
-		.def_readonly("DarkRed",         &Color::DARK_RED)
-		.def_readonly("Green",           &Color::GREEN)
-		.def_readonly("DarkGreen",       &Color::DARK_GREEN)
-		.def_readonly("Yellow",          &Color::YELLOW)
-		.def_readonly("DarkYellow",      &Color::DARK_YELLOW)
-		.def_readonly("Cyan",            &Color::CYAN)
-		.def_readonly("Purple",          &Color::PURPLE)
-		.def_readonly("Gray",            &Color::GRAY)
-		.def_readonly("Orange",          &Color::ORANGE)
-		.def_readonly("Blue",            &Color::BLUE)
-		.def_readonly("Brown",           &Color::BROWN)
+		.def_readonly("Black",           &Color::BLACK,            "[Col]")
+		.def_readonly("White",           &Color::WHITE,            "[Col]")
+		.def_readonly("Red",             &Color::RED,              "[Col]")
+		.def_readonly("DarkRed",         &Color::DARK_RED,         "[Col]")
+		.def_readonly("Green",           &Color::GREEN,            "[Col]")
+		.def_readonly("DarkGreen",       &Color::DARK_GREEN,       "[Col]")
+		.def_readonly("Yellow",          &Color::YELLOW,           "[Col]")
+		.def_readonly("DarkYellow",      &Color::DARK_YELLOW,      "[Col]")
+		.def_readonly("Cyan",            &Color::CYAN,             "[Col]")
+		.def_readonly("Purple",          &Color::PURPLE,           "[Col]")
+		.def_readonly("Gray",            &Color::GRAY,             "[Col]")
+		.def_readonly("Orange",          &Color::ORANGE,           "[Col]")
+		.def_readonly("Blue",            &Color::BLUE,             "[Col]")
+		.def_readonly("Brown",           &Color::BROWN,            "[Col]")
 
-		.def_readwrite("r",              &ImVec4::x,  "[float] Red value of color")
-		.def_readwrite("g",              &ImVec4::y,  "[float] Green value of color")
-		.def_readwrite("b",              &ImVec4::z,  "[float] Blue value of color")
-		.def_readwrite("a",              &ImVec4::w,  "[float] Alpha value of color")
+		.def_readwrite("r",              &ImVec4::x,               "[float] Red value of color")
+		.def_readwrite("g",              &ImVec4::y,               "[float] Green value of color")
+		.def_readwrite("b",              &ImVec4::z,               "[float] Blue value of color")
+		.def_readwrite("a",              &ImVec4::w,               "[float] Alpha value of color")
 		;
 
 	class_<Vector4>("Vec4", init<float, float, float, float>())
@@ -109,6 +109,22 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("__add__",                  &Vector2::add)
 		.def("__sub__",                  &Vector2::sub)
 		.def("clone",                    &Vector2::clone,     "[clone(self) -> Vec2] Clones vector")
+		;
+
+	enum_<SummonerType>("Summoner", "Represents the type of a summoner spell")
+		.value("Smite",                   SummonerSmite)
+		.value("Ignite",                  SummonerIgnite)
+		.value("Cleanse",                 SummonerCleanse)
+		.value("Teleport",                SummonerTeleport)
+		.value("Flash",                   SummonerFlash)
+		.value("HexFlash",                SummonerHexFlash)
+		.value("Snowball",                SummonerSnowball)
+		.value("Clarity",                 SummonerClarity)
+		.value("Exhaust",                 SummonerExhaust)
+		.value("Barrier",                 SummonerBarrier)
+		.value("Heal",                    SummonerHeal)
+		.value("Ghost",                   SummonerGhost)
+		.value("Unknown",                 SummonerUnknown)
 		;
 
 	enum_<ImGuiWindowFlags>("WindowFlag", "Represents imgui window flags. These support bitwise operations so WindowFlag.NoResize | WindowFlag.NoMove would yield a flag with both")
@@ -359,23 +375,23 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 	
 	class_<GameKeybind>("Keybind", "Contains game keybinds")
-		.def_readonly("cast_q",              &GameKeybind::CastSpellQ,     "[Key]")
-		.def_readonly("cast_w",              &GameKeybind::CastSpellW,     "[Key]")
-		.def_readonly("cast_e",              &GameKeybind::CastSpellE,     "[Key]")
-		.def_readonly("cast_r",              &GameKeybind::CastSpellR,     "[Key]")
-		.def_readonly("cast_d",              &GameKeybind::CastSpellD,     "[Key]")
-		.def_readonly("cast_f",              &GameKeybind::CastSpellF,     "[Key]")
-										     							   
-		.def_readonly("use_item_1",          &GameKeybind::UseItem1,       "[Key]")
-		.def_readonly("use_item_2",          &GameKeybind::UseItem2,       "[Key]")
-		.def_readonly("use_item_3",          &GameKeybind::UseItem3,       "[Key]")
-		.def_readonly("use_item_4",          &GameKeybind::UseItem4,       "[Key]")
-		.def_readonly("use_item_5",          &GameKeybind::UseItem5,       "[Key]")
-		.def_readonly("use_item_6",          &GameKeybind::UseItem6,       "[Key]")
-		.def_readonly("use_trinket",         &GameKeybind::UseItemTrinket, "[Key]")
+		.def_readonly("cast_q",              &GameKeybind::CastSpellQ,          "[Key] Key for casting Q spell")
+		.def_readonly("cast_w",              &GameKeybind::CastSpellW,          "[Key] Key for casting W spell")
+		.def_readonly("cast_e",              &GameKeybind::CastSpellE,          "[Key] Key for casting E spell")
+		.def_readonly("cast_r",              &GameKeybind::CastSpellR,          "[Key] Key for casting R spell")
+		.def_readonly("cast_d",              &GameKeybind::CastSpellD,          "[Key] Key for casting D spell")
+		.def_readonly("cast_f",              &GameKeybind::CastSpellF,          "[Key] Key for casting F spell")
+										     							        
+		.def_readonly("use_item_1",          &GameKeybind::UseItem1,            "[Key] Key for using item on slot 1")
+		.def_readonly("use_item_2",          &GameKeybind::UseItem2,            "[Key] Key for using item on slot 2")
+		.def_readonly("use_item_3",          &GameKeybind::UseItem3,            "[Key] Key for using item on slot 3")
+		.def_readonly("use_item_4",          &GameKeybind::UseItem4,            "[Key] Key for using item on slot 4")
+		.def_readonly("use_item_5",          &GameKeybind::UseItem5,            "[Key] Key for using item on slot 5")
+		.def_readonly("use_item_6",          &GameKeybind::UseItem6,            "[Key] Key for using item on slot 6")
+		.def_readonly("use_trinket",         &GameKeybind::UseItemTrinket,      "[Key] Key for using trinket")
 										     
-		.def_readonly("recall",              &GameKeybind::Recall,              "[Key]")
-		.def_readonly("target_champ_only",   &GameKeybind::TargetChampionsOnly, "[Key]")
+		.def_readonly("recall",              &GameKeybind::Recall,              "[Key] Key for recalling")
+		.def_readonly("target_champ_only",   &GameKeybind::TargetChampionsOnly, "[Key] Key for target champion only")
 		;
 
 	class_<GameHud>("GameHud", "Contains info about the hud in the game")
@@ -488,6 +504,11 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("cd",                &GameSpell::GetRemainingCooldown, "[float] The remaining cooldown of the spell. Internally it is calculated using ready_at")
 		.def_readonly("mana",              &GameSpell::mana,                 "[float] Mana necessarry for casting the spell")
 		.def_readonly("static",            &GameSpell::GetStaticData,        "[SpellStatic] Gets static information loaded at runtime about the spell. Can be None but normally shouldn't. If you find a object for which this is null please contact a dev")
+		.def_readonly("key",               &GameSpell::castKey,              "[Key] Key bound to this spell")
+		;
+
+	class_<SummonerSpell, bases<GameSpell>>("SummonerSpell", "Represents a summoner spell")
+		.def_readonly("type",              "[Summoner] Summoner spell type")
 		;
 
 	class_<SpellCast>("SpellCast",         "Has data about a spell being cast.")
@@ -559,9 +580,17 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	class_<GameChampion, bases<GameUnit>>("ChampionObj", "Represents a champion object")
-		.def("can_cast_spell",             &GameChampion::CanCast,           "[can_cast_spell(self, spell: SpellObj) -> bool] Checks if champion can cast the GameSpell provided")
+		.def("get_summoner",               &GameChampion::GetSummoner,       "[get_summoner(type: Summoner) -> SummonerSpell]"        "Gets the summoner spell with the specified type. Returns None if player doesnt have that summoner spell")
+		.def("can_cast_spell",             &GameChampion::CanCast,           "[can_cast_spell(self, spell: SpellObj) -> bool]"        "Checks if champion can cast the GameSpell provided")
+		.def("has_item",                   &GameChampion::HasItem,           "[has_item(self, item_id: int) -> bool]"                 "Check if champion has item with item id")
+		.def("get_item",                   &GameChampion::GetItem,           "[get_item(self, item_id: int) -> ItemSlot]"             "Gets item slot that contains the item with the given id. If no item is found None is returned")
+
 		.def_readonly("spells",            &GameChampion::SpellsToPy,        "[list[SpellObj]] List of all the champion spells. Remarks: First 4 spells are Q,W,E,R. Next two are D,F.The next 6 are item spells. Use Context.cast_spell to cast them. Only enemies and local player have item actives read for performance reasons")
 		.def_readonly("item_slots",        &GameChampion::ItemsToPy,         "[list[ItemSlot]] List of inventory slots. If an item is on the slot then the value is an Item object otherwise None. Only local player and enemies have items read for performance reasons")
+		.def_readonly("Q",                 &GameChampion::GetQ,              "[SpellObj] Get Q spell")
+		.def_readonly("W",                 &GameChampion::GetW,              "[SpellObj] Get W spell")
+		.def_readonly("E",                 &GameChampion::GetE,              "[SpellObj] Get E spell")
+		.def_readonly("R",                 &GameChampion::GetR,              "[SpellObj] Get R spell")
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "[float] Height position of the HP bar of the champion")
 		.def_readonly("recalling",         &GameChampion::recalling,         "[bool] True if champion is recalling")
 		.def_readonly("is_clone",          &GameChampion::IsClone,           "[bool] Checks if the champion is a clone")
@@ -594,6 +623,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("checkbox",                 &PyImGui::Checkbox,                                 "[checkbox(self, txt: str, checked: bool) -> bool] ")
 		.def("text",                     &PyImGui::Text,                                     "[text(self, txt: str)] ")
 		.def("text",                     &PyImGui::TextColored,                              "[text(self, txt: str, color: Col)] ")
+		.def("text_color",               &PyImGui::TextColored,                              "[text_color(self, txt: str, color: Col)] ")
 		.def("labeltext",                &PyImGui::LabelText,                                "[labeltext(self, label: str, txt: str)] ")
 		.def("labeltext",                &PyImGui::LabelTextColored,                         "[labeltext(self, label: str, txt: str, color: Col)] ")
 		.def("separator",                &PyImGui::Separator,                                "[separator(self)] ")
@@ -604,7 +634,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("sliderint",                &PyImGui::SliderInt,                                "[sliderint(self, txt: str, value: int, min_val: int, max_val: int) -> int] ")
 		.def("sliderenum",               &PyImGui::SliderEnum,                               "[sliderenum(self, txt: str, selected_name: str, selected: int, max_select: int) -> int] ")
 		.def("progressbar",              &PyImGui::ProgressBar,                              "[progressbar(self, fraction: float, size: Vec2, text: str)] ")
-		.def("image",                    &PyImGui::Image,            PyImGui::ImageOverloads("[image(self, id: str, size: Vec2, color: Col)] "))
+		.def("image",                    &PyImGui::Image,            PyImGui::ImageOverloads("[image(self, id: str, size: Vec2, color: Col)] Draws an image in the menu"))
 
 		.def("header",                   &PyImGui::CollapsingHeader,                         "[header(self, text: str) -> bool]")
 		.def("treenode",                 &PyImGui::TreeNode,                                 "[treenode(self, text: str) -> bool]")
@@ -689,10 +719,16 @@ BOOST_PYTHON_MODULE(valkyrie) {
 																					                                                    
 		.def("is_wall_at",               &PyExecutionContext::IsWallAt,                                                                 "[is_wall_at(self, position: Vec3) -> bool]"                                            "Checks if there is a wall at the specified position")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit,                                                     "[collisions_for(unit: UnitObj)-> list[FutureCollision]]"                               "Gets a list of future collisions for a unit")
-		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,                                                     "[collisions_for(spell: SpellObj)-> list[FutureCollision]]"                             "Gets a list of future collisions for a spell cast")
+		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,                                                     "[collisions_for(spell: SpellCast)-> list[FutureCollision]]"                            "Gets a list of future collisions for a spell cast")
+		.def("collisions_for_unit",      &PyExecutionContext::GetCollisionsForUnit,                                                     "[collisions_for_unit(unit: UnitObj)-> list[FutureCollision]]"                          "Gets a list of future collisions for a unit")
+		.def("collisions_for_spell",     &PyExecutionContext::GetCollisionsForCast,                                                     "[collisions_for_spell(spell: SpellCast)-> list[FutureCollision]]"                      "Gets a list of future collisions for a spell cast")
+		
 		.def("attack",                   &PyExecutionContext::AttackUnit,                                                               "[attack(self, target: UnitObj)]"                                                       "Makes the player attack the given unit")
 		.def("move",                     &PyExecutionContext::MoveToLocation,                                                           "[move(self, location: Vec3)]"                                                          "Moves the player to the given location")
 		.def("move",                     &PyExecutionContext::MoveToMouse,                                                              "[move(self)]"                                                                          "Moves the player to where the mouse cursor is")
+		.def("move_to_location",         &PyExecutionContext::MoveToLocation,                                                           "[move_to_location(self, location: Vec3)]"                                              "Moves the player to where the mouse cursor is")
+		.def("move_to_mouse",            &PyExecutionContext::MoveToMouse,                                                              "[move_to_mouse(self)]"                                                                 "Moves the player to where the mouse cursor is")
+		
 		.def("move_mouse",               &PyExecutionContext::MoveMouse,                                                                "[move_mouse(self, location: Vec3)]"                                                    "Moves the mouse location to the specified game world coordinate")
 		.def("is_held",                  &PyExecutionContext::IsKeyDown,                                                                "[is_held(self, key: Key) -> bool]"                                                     "Checks if key is held down")
 		.def("was_pressed",              &PyExecutionContext::WasKeyPressed,                                                            "[was_pressed(self, key: Key) -> bool]"                                                 "Checks if key was pressed")
@@ -701,6 +737,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("start_channel",            &PyExecutionContext::StartChannel,                                                             "[start_channel(self, spell: SpellObj) -> bool]"                                        "Starts a channeled spell")
 		.def("end_channel",              &PyExecutionContext::EndChannel,                                                               "[end_channel(self, spell: SpellObj, location: Vec3) -> bool]"                          "Ends and casts the channeled spell at the target location")
 		.def("cast_spell",               &PyExecutionContext::CastSpell,                                                                "[cast_spell(self, spell: SpellObj, location: Vec3) -> bool]"                           "Casts a spell on a location. If second argument is None, it will cast at the current mouse position. This function will check if spell is castable automatically. It doesnt check for item charge availability.")
+		.def("cast_spell_on_unit",       &PyExecutionContext::CastSpellOnUnit,                                                          "[cast_spell_on_unit(self, spell: SpellObj, target: UnitObj) -> bool]"                  "Casts a spell on a unit using prediction. If spell cannot be cast for some reason (no mana, unable to hit target etc) it will return False")
 		.def("predict_cast_point",       &PyExecutionContext::PredictCastPoint,                                                         "[predict_cast_point(self, caster: UnitObj, target: UnitObj, spell: SpellObj) -> Vec3]" "Predicts a cast point such that the spell will hit the target. Returns None if doesnt find such a point")
 		.def("get_spell_static",         &PyExecutionContext::GetSpellInfo,                                                             "[get_spell_static(self, spell_name: str) -> SpellStatic]"                              "Gets static spell info. Argument must be lower case")
 																				                                                        
@@ -708,6 +745,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("is_at_spawn",              &PyExecutionContext::IsInFountain,                                                             "[is_at_spawn(self, obj: Obj) -> bool]"                                                 "Checks if the object is in the fountain of his team")
 		.def("is_on_screen",             &PyExecutionContext::IsScreenPointOnScreen, PyExecutionContext::IsScreenPointOnScreenOverloads("[is_on_screen(self, point: Vec2) -> bool]"                                             "True if point is on screen"))
 		.def("is_on_screen",             &PyExecutionContext::IsWorldPointOnScreen,  PyExecutionContext::IsWorldPointOnScreenOverloads( "[is_on_screen(self, point: Vec3) -> bool]"                                             "True if point is on screen"))
+		.def("is_screen_point_on_screen",&PyExecutionContext::IsScreenPointOnScreen, PyExecutionContext::IsScreenPointOnScreenOverloads("[is_scren_point_on_screen(self, point: Vec2) -> bool]"                                 "True if point is on screen"))
+		.def("is_world_point_on_screen", &PyExecutionContext::IsWorldPointOnScreen,  PyExecutionContext::IsWorldPointOnScreenOverloads( "[is_world_point_on_screen(self, point: Vec3) -> bool]"                                 "True if point is on screen"))
 		.def("w2s",                      &PyExecutionContext::World2Screen,                                                             "[w2s(self, position: Vec3) -> Vec2]"                                                   "Converts a world space point to screen space")
 		.def("w2m",                      &PyExecutionContext::World2Minimap,                                                            "[w2m(self, position: Vec3) -> Vec2]"                                                   "Converts a world space point to minimap space")
 		.def("d2m",                      &PyExecutionContext::DistanceOnMinimap,                                                        "[d2m(self, distance: float) -> float]"                                                 "Converts a distance value from world space to minimap space")
@@ -727,17 +766,28 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("circle_fill",              &PyExecutionContext::DrawCircleFilled,                                                         "[circle_fill(self, center: Vec2, radius: float, num_pts: int, color: Col)]")
 		.def("circle",                   &PyExecutionContext::DrawCircleWorld,                                                          "[circle(self, center: Vec3, radius: float, num_pts: int, thickness: float, color: Col)]")
 		.def("circle_fill",              &PyExecutionContext::DrawCircleWorldFilled,                                                    "[circle_fill(self, center: Vec3, radius: float, num_pts: int, color: Col)]")
-		.def("text",                     &PyExecutionContext::DrawTxt,                                                                  "[text(self, position: Vec2, text: str, color: Col)]")
+		.def("text",                     &PyExecutionContext::DrawTxt,                                                                  "[text(self, position: Vec2, text: str, color: Col)]")		
 		.def("rect",                     &PyExecutionContext::DrawRect,                           PyExecutionContext::DrawRectOverloads("[rect(self, start: Vec2, size: Vec2, color: Col, rounding: float, thickness: float)]"))
 		.def("rect_fill",                &PyExecutionContext::DrawRectFilled,               PyExecutionContext::DrawRectFilledOverloads("[rect_fill(self, start: Vec2, size: Vec2, color: Col, rounding: float)]"))
 		.def("rect",                     &PyExecutionContext::DrawRectWorld,                                                            "[rect(self, p1: Vec3, p2: Vec3, p3: Vec3, p4: Vec3, thickness: float, color: Col)]")
 		.def("triangle",                 &PyExecutionContext::DrawTriangleWorld,                                                        "[triangle(self, p1: Vec3, p2: Vec3, p3: Vec3, thickness: float, color: Col)]")
 		.def("triangle_fill",            &PyExecutionContext::DrawTriangleWorldFilled,                                                  "[triangle_fill(self, p1: Vec3, p2: Vec3, p3: Vec3, color: Col)]")
+		
 		.def("image",                    &PyExecutionContext::DrawImage,                                                                "[image(self, id: str, position: Vec2, size: Vec2, color: Col)]")
 		.def("image",                    &PyExecutionContext::DrawImageUVs,                                                             "[image(self, id: str, position: Vec2, uv1: Vec2, uv2: Vec2, size: Vec2, color: Col)]")
 		.def("image",                    &PyExecutionContext::DrawImageRounded,                                                         "[image(self, id: str, position: Vec2, size: Vec2, color: Col, rounding: float)]")
 		.def("image",                    &PyExecutionContext::DrawImageWorld,                                                           "[image(self, id: str, position: Vec3, size: Vec2, color: Col)]")
 		.def("image",                    &PyExecutionContext::DrawImageWorldPoints,                                                     "[image(self, id: str, p1: Vec3, p2: Vec3, p3: Vec3, p4: Vec4, color: Col)]")
+		
+		/// Overloads from above but with a different alias so ppl see them in IDEs
+		.def("circle_world",             &PyExecutionContext::DrawCircleWorld,                                                          "[circle_world(self, center: Vec3, radius: float, num_pts: int, thickness: float, color: Col)]")
+		.def("circle_word_fill",         &PyExecutionContext::DrawCircleWorldFilled,                                                    "[circle_world_fill(self, center: Vec3, radius: float, num_pts: int, color: Col)]")
+		.def("rect_world",               &PyExecutionContext::DrawRectWorld,                                                            "[rect_world(self, p1: Vec3, p2: Vec3, p3: Vec3, p4: Vec3, thickness: float, color: Col)]")
+		.def("image_uvs"  ,              &PyExecutionContext::DrawImageUVs,                                                             "[image_uvs(self, id: str, position: Vec2, uv1: Vec2, uv2: Vec2, size: Vec2, color: Col)]")
+		.def("image_rounded",            &PyExecutionContext::DrawImageRounded,                                                         "[image_rounded(self, id: str, position: Vec2, size: Vec2, color: Col, rounding: float)]")
+		.def("image_world",              &PyExecutionContext::DrawImageWorld,                                                           "[image_world(self, id: str, position: Vec3, size: Vec2, color: Col)]")
+		.def("image_world_fixed",        &PyExecutionContext::DrawImageWorldPoints,                                                     "[image_world_fixed(self, id: str, p1: Vec3, p2: Vec3, p3: Vec3, p4: Vec4, color: Col)]")
+
 		.def("pill",                     &PyExecutionContext::Pill,                                                                     "[pill(self, text: str, color_text: Col, color_background: Col)] Draws a pill with a text under the player. Pill positions are automatically managed each frame so that they dont overlap.")
 		;
 }

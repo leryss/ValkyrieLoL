@@ -26,6 +26,14 @@ public:
 	object    SpellsToPy();
 	object    ItemsToPy();
 
+	object    GetQ();
+	object    GetW();
+	object    GetE();
+	object    GetR();
+	object    GetSummoner(SummonerType type);
+	object    GetItem(int id);
+
+	bool      HasItem(int id);
 	bool      CanCast(const GameSpell* spell);
 	bool      IsClone() const;
 
@@ -33,9 +41,16 @@ public:
 	bool      recalling;
 	bool      channeling;
 
-	const static int NUM_SPELLS = 13;
-	const static int NUM_ITEMS = 7;
-	GameSpell    spells[NUM_SPELLS];
+	const static int NUM_ABILITIES = 4;
+	const static int NUM_SUMMONERS = 2;
+	const static int NUM_SPELLS    = 13;
+	const static int NUM_ITEMS     = 7;
+	GameSpell     abilities[NUM_ABILITIES];
+	SummonerSpell summoners[NUM_SUMMONERS];
+	GameSpell     itemSpells[NUM_ITEMS];
+
+	list         pySpells;
+	list         pyItems;
 	GameItemSlot items[NUM_ITEMS];
 
 };

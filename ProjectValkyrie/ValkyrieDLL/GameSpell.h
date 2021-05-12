@@ -35,3 +35,30 @@ public:
 
 	time_point<steady_clock> lastCastTimestamp;
 };
+
+enum SummonerType {
+	SummonerSmite,
+	SummonerIgnite,
+	SummonerCleanse,
+	SummonerTeleport,
+	SummonerFlash,
+	SummonerHexFlash,
+	SummonerSnowball,
+	SummonerClarity,
+	SummonerExhaust,
+	SummonerBarrier,
+	SummonerHeal,
+	SummonerGhost,
+	SummonerUnknown
+};
+
+class SummonerSpell : public GameSpell {
+
+public:
+	void        ReadFromBaseAddress(int addr);
+
+public:
+	SummonerType type = SummonerUnknown;
+
+	static std::map<std::string, SummonerType> StringToType;
+};

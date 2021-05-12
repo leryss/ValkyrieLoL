@@ -4,6 +4,23 @@
 #include "Valkyrie.h"
 #include "Debug.h"
 
+std::map<std::string, SummonerType> SummonerSpell::StringToType = {
+	 {"s5_summonersmiteduel",                     SummonerSmite},
+	 {"s5_summonersmiteplayerganker",             SummonerSmite},
+	 {"summonersmite",                            SummonerSmite},
+	 {"summonerdot",                              SummonerIgnite},
+	 {"summonerboost",                            SummonerCleanse},
+	 {"summonerteleport",                         SummonerTeleport},
+	 {"summonerflash",                            SummonerFlash},
+	 {"summonerflashperkshextechflashtraptionv2", SummonerHexFlash},
+	 {"summonersnowball",                         SummonerSnowball},
+	 {"summonermana",                             SummonerClarity},
+	 {"summonerexhaust",                          SummonerExhaust},
+	 {"summonerbarrier",                          SummonerBarrier},
+	 {"summonerheal",                             SummonerHeal},
+	 {"summonerhaste",                            SummonerGhost}
+};
+
 void GameSpell::ReadFromBaseAddress(int addr)
 {
 	lvl = ReadInt(addr + Offsets::SpellSlotLevel);
@@ -56,4 +73,15 @@ float GameSpell::GetRemainingCooldown() const
 object GameSpell::GetStaticData()
 {
 	return object(ptr(staticData));
+}
+
+void SummonerSpell::ReadFromBaseAddress(int addr)
+{
+	GameSpell::ReadFromBaseAddress(addr);
+
+	auto find = StringToType.find(name);
+	if (find == StringToType.end())
+		type = SummonerUnknown;
+	else
+		type = find->second;
 }

@@ -11,21 +11,33 @@ GameChampion::GameChampion(std::string name)
 	:GameUnit(name)
 {
 	type = OBJ_CHAMPION;
-	spells[0].castKey  = GameKeybind::CastSpellQ;
-	spells[1].castKey  = GameKeybind::CastSpellW;
-	spells[2].castKey  = GameKeybind::CastSpellE;
-	spells[3].castKey  = GameKeybind::CastSpellR;
-					   
-	spells[4].castKey  = GameKeybind::CastSpellD;
-	spells[5].castKey  = GameKeybind::CastSpellF;
-					   
-	spells[6].castKey  = GameKeybind::UseItem1;
-	spells[7].castKey  = GameKeybind::UseItem2;
-	spells[8].castKey  = GameKeybind::UseItem3;
-	spells[9].castKey  = GameKeybind::UseItem4;
-	spells[10].castKey = GameKeybind::UseItem5;
-	spells[11].castKey = GameKeybind::UseItem6;
-	spells[12].castKey = GameKeybind::UseItemTrinket;
+
+	for (int i = 0; i < NUM_ABILITIES; ++i)
+		pySpells.append(boost::ref(abilities[i]));
+
+	for (int i = 0; i < NUM_SUMMONERS; ++i)
+		pySpells.append(boost::ref(summoners[i]));
+
+	for (int i = 0; i < NUM_ITEMS; ++i) {
+		pySpells.append(boost::ref(itemSpells[i]));
+		pyItems.append(boost::ref(items[i]));
+	}
+
+	abilities[0].castKey = GameKeybind::CastSpellQ;
+	abilities[1].castKey = GameKeybind::CastSpellW;
+	abilities[2].castKey = GameKeybind::CastSpellE;
+	abilities[3].castKey = GameKeybind::CastSpellR;
+
+	summoners[0].castKey = GameKeybind::CastSpellD;
+	summoners[1].castKey = GameKeybind::CastSpellF;
+
+	itemSpells[0].castKey = GameKeybind::UseItem1;
+	itemSpells[1].castKey = GameKeybind::UseItem2;
+	itemSpells[2].castKey = GameKeybind::UseItem3;
+	itemSpells[3].castKey = GameKeybind::UseItem4;
+	itemSpells[4].castKey = GameKeybind::UseItem5;
+	itemSpells[5].castKey = GameKeybind::UseItem6;
+	itemSpells[6].castKey = GameKeybind::UseItemTrinket;
 }
 
 void GameChampion::ReadSpells(int numToRead)
@@ -35,10 +47,23 @@ void GameChampion::ReadSpells(int numToRead)
 	int spellSlots = spellBook + Offsets::SpellBookSpellSlots;
 	int castableMask = ReadInt(spellBook + Offsets::SpellBookCastableMask);
 
-	for (int i = 0; i < numToRead; ++i) {
-		spells[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
-		spells[i].castableBit = castableMask & (1 << i);
-	}	
+	int end = min(numToRead, NUM_ABILITIES);
+	for (int i = 0; i < end; ++i) {
+		abilities[i].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
+		abilities[i].castableBit = castableMask & (1 << i);
+	}
+
+	end = min(numToRead, NUM_ABILITIES + NUM_SUMMONERS);
+	for (int i = NUM_ABILITIES, j = 0; i < end; ++i, ++j) {
+		summoners[j].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
+		summoners[j].castableBit = castableMask & (1 << i);
+	}
+
+	end = min(numToRead, NUM_ABILITIES + NUM_SUMMONERS + NUM_ITEMS);
+	for (int i = (NUM_ABILITIES + NUM_SUMMONERS), j = 0; i < end; ++i, ++j) {
+		itemSpells[j].ReadFromBaseAddress(ReadInt(spellSlots + i * sizeof(int)));
+		itemSpells[j].castableBit = castableMask & (1 << i);
+	}
 }
 
 void GameChampion::ReadItems()
@@ -70,9 +95,9 @@ void GameChampion::ReadItems()
 			activeName = Strings::ToLower(activeName);
 
 			/// Find active spell in spell book
-			for (size_t j = 6; j < NUM_SPELLS; ++j) {
-				if (spells[j].lvl > 0 && spells[j].name == activeName) {
-					items[i].active = &spells[j];
+			for (size_t j = 0; j < NUM_ITEMS; ++j) {
+				if (itemSpells[j].lvl > 0 && itemSpells[j].name == activeName) {
+					items[i].active = &itemSpells[j];
 					break;
 				}
 			}
@@ -114,13 +139,23 @@ void GameChampion::ImGuiDraw()
 	}
 
 	ImGui::Text("Spells");
-	for (int i = 0; i < NUM_SPELLS; ++i) {
-		if (i == 4 || i == 6)
-			ImGui::Separator();
-
-		if (!spells[i].name.empty() && ImGui::TreeNode(spells[i].name.c_str())) {
-
-			spells[i].ImGuiDraw();
+	for (int i = 0; i < NUM_ABILITIES; ++i) {
+		if (!abilities[i].name.empty() && ImGui::TreeNode(abilities[i].name.c_str())) {
+			abilities[i].ImGuiDraw();
+			ImGui::TreePop();
+		}
+	}
+	ImGui::Separator();
+	for (int i = 0; i < NUM_SUMMONERS; ++i) {
+		if (!summoners[i].name.empty() && ImGui::TreeNode(summoners[i].name.c_str())) {
+			summoners[i].ImGuiDraw();
+			ImGui::TreePop();
+		}
+	}
+	ImGui::Separator();
+	for (int i = 0; i < NUM_ITEMS; ++i) {
+		if (!itemSpells[i].name.empty() && ImGui::TreeNode(itemSpells[i].name.c_str())) {
+			itemSpells[i].ImGuiDraw();
 			ImGui::TreePop();
 		}
 	}
@@ -141,20 +176,62 @@ Vector2 GameChampion::GetHpBarPosition() const
 
 object GameChampion::SpellsToPy()
 {
-	list l;
-	for (int i = 0; i < NUM_SPELLS; ++i)
-		l.append(boost::ref(spells[i]));
-
-	return l;
+	return pySpells;
 }
 
 object GameChampion::ItemsToPy()
 {
-	list l;
-	for (int i = 0; i < NUM_ITEMS; ++i)
-		l.append(boost::ref(items[i]));
-	
-	return l;
+	return pyItems;
+}
+
+object GameChampion::GetQ()
+{
+	return pySpells[0];
+}
+
+object GameChampion::GetW()
+{
+	return pySpells[1];
+}
+
+object GameChampion::GetE()
+{
+	return pySpells[2];
+}
+
+object GameChampion::GetR()
+{
+	return pySpells[3];
+}
+
+object GameChampion::GetSummoner(SummonerType type)
+{
+	if (summoners[0].type == type)
+		return pySpells[NUM_ABILITIES];
+	if (summoners[1].type == type)
+		return pySpells[NUM_ABILITIES + 1];
+
+	return object();
+}
+
+object GameChampion::GetItem(int id)
+{
+	for (int i = 0; i < NUM_ITEMS; ++i) {
+		if (items[i].item != nullptr && items[i].item->id == id)
+			return object(boost::ref(items[i]));
+	}
+
+	return object();
+}
+
+bool GameChampion::HasItem(int id)
+{
+	for (int i = 0; i < NUM_ITEMS; ++i) {
+		if (items[i].item != nullptr && items[i].item->id == id)
+			return true;
+	}
+
+	return false;
 }
 
 bool GameChampion::CanCast(const GameSpell * spell)
@@ -164,5 +241,5 @@ bool GameChampion::CanCast(const GameSpell * spell)
 
 bool GameChampion::IsClone() const
 {
-	return spells[4].name == spells[5].name;
+	return summoners[0].name == summoners[1].name;
 }

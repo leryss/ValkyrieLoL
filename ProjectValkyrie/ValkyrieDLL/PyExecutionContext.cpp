@@ -165,6 +165,18 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocati
 	return true;
 }
 
+bool PyExecutionContext::CastSpellOnUnit(GameSpell * spell, const GameUnit& target)
+{
+	if (spell->staticData == nullptr)
+		return false;
+
+	Vector3 point;
+	if (!collisionEngine.PredictPointForCollision(*state->player, target, *spell->staticData, point))
+		return false;
+
+	return CastSpell(spell, &point);
+}
+
 
 object PyExecutionContext::PredictCastPoint(const GameUnit & caster, const GameUnit& target, const GameSpell * info)
 {
