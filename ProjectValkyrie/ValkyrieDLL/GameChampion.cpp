@@ -113,7 +113,11 @@ void GameChampion::ReadFromBaseAddress(int addr)
 	GameUnit::ReadFromBaseAddress(addr);
 
 	/// Check recalling
-	recalling = (ReadInt(addr + Offsets::ObjRecallState) == 6);
+	bool nowRecalling = (ReadInt(addr + Offsets::ObjRecallState) == 6);
+	if (nowRecalling && !recalling)
+		recallStartTime = Valkyrie::CurrentGameState->time;
+	recalling = nowRecalling;
+
 	if (castingSpell.staticData != nullptr)
 		channeling = isCasting && castingSpell.staticData->HasFlag(ChannelSkill);
 	ReadAiManager();

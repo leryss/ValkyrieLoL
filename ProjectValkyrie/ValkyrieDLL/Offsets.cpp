@@ -32,6 +32,7 @@ int Offsets::ObjTargetable                   = 0xD00;
 int Offsets::ObjRecallState                  = 0xD8C;
 int Offsets::ObjHealth                       = 0xD98;
 int Offsets::ObjMaxHealth                    = 0xDA8;
+int Offsets::ObjMaxMana                      = 0x298;
 
 int Offsets::ObjAbilityHaste                 = 0x10F4;
 int Offsets::ObjLethality                    = 0x11DC;
@@ -67,13 +68,13 @@ int Offsets::SpellBookCastableMask           = 0x38;
 int Offsets::SpellBookSpellSlots             = 0x478;
 
 int Offsets::SpellCastSpellInfo              = 0x8;
-int Offsets::SpellCastStartTime	             = 0x13c;//0x544;
-int Offsets::SpellCastStartTimeAlt           = 0x0;//0x534;
-int Offsets::SpellCastCastTime               = 0xc8;//0x4c0;
+int Offsets::SpellCastStartTime	             = 0x14c;
+int Offsets::SpellCastStartTimeAlt           = 0x13C;
+int Offsets::SpellCastCastTime               = 0xc8;
 int Offsets::SpellCastStart                  = 0x80;
 int Offsets::SpellCastEnd                    = 0x8C;
 int Offsets::SpellCastSrcIdx                 = 0x68;
-int Offsets::SpellCastDestIdx                = 0xBC; //c0
+int Offsets::SpellCastDestIdx                = 0xBC;
 
 int Offsets::ObjItemList                     = 0x3428;
 int Offsets::ItemListItem                    = 0xC;

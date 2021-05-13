@@ -70,6 +70,7 @@ public:
 	float       mana;
 	float       health;
 	float       maxHealth;
+	float       maxMana;
 	float       armor;
 	float       bonusArmor;
 	float       magicRes;

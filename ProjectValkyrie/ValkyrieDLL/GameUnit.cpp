@@ -33,6 +33,7 @@ void GameUnit::ReadFromBaseAddress(int addr)
 	bonusMagicRes = ReadFloat(addr + Offsets::ObjBonusMagicRes);
 	lethality     = ReadFloat(addr + Offsets::ObjLethality);
 	haste         = ReadFloat(addr + Offsets::ObjAbilityHaste);
+	maxMana       = ReadFloat(addr + Offsets::ObjMaxMana);
 
 	magicPenMulti = ReadFloat(addr + Offsets::ObjMagicPenMulti);
 	magicPen      = ReadFloat(addr + Offsets::ObjMagicPen);
@@ -82,6 +83,7 @@ void GameUnit::ImGuiDraw()
 	ImGui::DragFloat("Mana",          &mana);
 	ImGui::DragFloat("Health",        &health);
 	ImGui::DragFloat("MaxHealth",     &maxHealth);
+	ImGui::DragFloat("MaxMana",       &maxMana);
 	ImGui::DragFloat("Armor",         &armor);
 	ImGui::DragFloat("Bonus Armor",   &bonusArmor);
 	ImGui::DragFloat("MagicRes",      &magicRes);

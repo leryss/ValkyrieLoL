@@ -38,6 +38,7 @@ public:
 	bool      IsClone() const;
 
 public:
+	float     recallStartTime;
 	bool      recalling;
 	bool      channeling;
 

@@ -18,6 +18,12 @@ enum ScriptFunction {
 	ON_SAVE = 3
 };
 
+enum ScriptState {
+	ScriptReady    = 1,
+	ScriptFailed   = 2,
+	ScriptDisabled = 3
+};
+
 class Script {
 public:
 	                   Script();
@@ -29,12 +35,18 @@ public:
 	/// Executes a specific script function
 	void               Execute(PyExecutionContext& ctx, ScriptFunction func);
 
+	/// Enable disable script
+	void               SetEnabled(bool enabled);
+
+	bool               IsEnabled();
+
 	/// Exctracts the python error from CPython
 	static std::string GetPyError();
 				 
 public:
-	bool               loaded;
+
 	bool               neverExecuted;
+	ScriptState        state;
 	
 	std::string        error;
 	std::shared_ptr<ScriptInfo> info;
@@ -46,8 +58,19 @@ public:
 	object             context;
 
 private:		 
+
+	bool         enabled;
+
 	/// Attempts to load function with name funcName from the script code
 	bool         LoadFunc(PyObject** loadInto, const char* funcName);
+
+	/// Sets the state to errored and fills the error string
+	void         SetError(std::string reason, std::string error);
+
+	/// Clears the errored state and the error string
+	void         ClearError();
+
+	void         UpdateState();
 
 	PyObject*    moduleObj;
 	PyObject*    functions[4];

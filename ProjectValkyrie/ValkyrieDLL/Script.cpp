@@ -26,7 +26,6 @@ std::string Script::GetPyError()
 
 Script::Script()
 {
-	loaded = false;
 	neverExecuted = false;
 
 	moduleObj = NULL;
@@ -55,18 +54,43 @@ bool Script::LoadFunc(PyObject** loadInto, const char* funcName) {
 	Py_DECREF(pyFuncName);
 
 	if (*loadInto == NULL) {
-		error = Strings::Format("Failed to load function %s", funcName);
+		SetError("Failed to load", Strings::Format("Failed to load function %s", funcName));
 		return false;
 	}
 	return true;
 }
 
+void Script::SetError(std::string reason, std::string err)
+{
+	error.clear();
+	error.append(reason);
+	error.append("\n");
+	error.append(err);
+	UpdateState();
+}
+
+void Script::ClearError()
+{
+	error.clear();
+	UpdateState();
+}
+
+void Script::UpdateState()
+{
+	if (!error.empty()) {
+		state = ScriptFailed;
+	}
+	else {
+		state = enabled ? ScriptReady : ScriptDisabled;
+	}
+
+}
+
 bool Script::Load(std::shared_ptr<ScriptInfo> info)
 {
-	neverExecuted = false;
-	loaded        = false;
+	ClearError();
+	neverExecuted = true;
 	this->info    = info;
-	error.clear();
 	
 	if (NULL != moduleObj) {
 		Logger::Info("Reloading script %s", info->id.c_str());
@@ -83,8 +107,7 @@ bool Script::Load(std::shared_ptr<ScriptInfo> info)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		error.append("Failed to load: ");
-		error.append(extract<std::string>(PyObject_Str(pvalue)));
+		SetError("Failed to load", extract<std::string>(PyObject_Str(pvalue)));
 	}
 	else {
 		if (LoadFunc(&functions[ScriptFunction::ON_LOOP], "valkyrie_exec") &&
@@ -99,8 +122,7 @@ bool Script::Load(std::shared_ptr<ScriptInfo> info)
 			config.SetConfigFile(configPath);
 			config.Load();
 
-			neverExecuted = true;
-			loaded        = true;
+			SetEnabled(config.GetBool("__enabled", true));
 
 			context = import(info->id.c_str()).attr("__dict__");
 			return true;
@@ -112,7 +134,7 @@ bool Script::Load(std::shared_ptr<ScriptInfo> info)
 
 void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 {
-	if (!error.empty())
+	if (state != ScriptReady)
 		return;
 
 	try {
@@ -124,11 +146,21 @@ void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 		executionTimes[func].End();
 	}
 	catch (error_already_set) {
-		error.clear();
-		error.append(GetPyError());
+		SetError("Execution failure", GetPyError());
 	}
 	catch (std::exception& e) {
-		error.clear();
-		error.append(e.what());
+		SetError("Unknown error", e.what());
 	}
+}
+
+void Script::SetEnabled(bool enabled)
+{
+	this->enabled = enabled;
+	config.SetBool("__enabled", enabled);
+	UpdateState();
+}
+
+bool Script::IsEnabled()
+{
+	return enabled;
 }

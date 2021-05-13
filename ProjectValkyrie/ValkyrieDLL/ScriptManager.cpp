@@ -167,7 +167,7 @@ void ScriptManager::ExecuteScripts(PyExecutionContext & ctx, std::deque<std::sha
 {
 	for (auto script : scriptList) {
 		DBG_INFO("ScriptManager: Executing script %s", script->info->id.c_str())
-		if (script->error.empty()) {
+		if (script->state == ScriptReady) {
 			ctx.SetScript(script.get());
 			if (script->neverExecuted)
 				script->Execute(ctx, ON_LOAD);
@@ -184,30 +184,45 @@ void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::s
 		ImGui::Text(" ");
 		ImGui::SameLine();
 
-		bool errored = !script->error.empty();
-		if(errored)
+		/// Set color of text if disabled/failed
+		bool resetColor = false;
+		switch (script->state) {
+		case ScriptFailed:
 			ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
+			resetColor = true;
+			break;
+		case ScriptDisabled:
+			ImGui::PushStyleColor(ImGuiCol_Text, Color::GRAY);
+			resetColor = true;
+			break;
+		}
 
 		if (ImGui::BeginMenu(scriptName)) {
-			if (!errored) {
+
+			switch (script->state) {
+			case ScriptReady:
 				ctx.SetScript(script.get());
 
 				DBG_INFO("ScriptManager: Drawing UI for script %s", script->info->id.c_str())
-				script->Execute(ctx, ON_MENU);
+					script->Execute(ctx, ON_MENU);
 				if (script->config.IsTimeToSave()) {
 					script->Execute(ctx, ON_SAVE);
 					script->config.Save();
 				}
-			}
-			else {
+				break;
+			case ScriptFailed:
 				ImGui::Text(script->error.c_str());
+				break;
+			case ScriptDisabled:
+				ImGui::Text("This script is disabled");
+				break;
 			}
 
 			ScriptMenuFooter(script);
 			ImGui::EndMenu();
 		}
 
-		if (errored)
+		if (resetColor)
 			ImGui::PopStyleColor();
 	}
 }
@@ -230,10 +245,16 @@ void ScriptManager::ScriptMenuFooter(std::shared_ptr<Script>& script)
 {
 	if (ImGui::Button("Reload"))
 		script->Load(script->info);
+
 	ImGui::SameLine();
 	if (ImGui::Button("Reset to Defaults")) {
 		script->config.Reset();
 		script->config.Save();
 		script->Load(script->info);
 	}
+
+	ImGui::SameLine();
+	bool enabled = script->IsEnabled();
+	ImGui::Checkbox("Script Enabled", &enabled);
+	script->SetEnabled(enabled);
 }

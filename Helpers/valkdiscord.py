@@ -130,7 +130,7 @@ async def prune_lurkers():
 			continue
 			
 		lurking_time = datetime.now() - member.joined_at
-		if lurking_time.days > 7:
+		if lurking_time.days > 5:
 			count += 1
 			print('Kicking ' + nametag)
 			await member.kick(reason = 'Lurking too many days without buying a subscription. Feel free to join back if you want to the product')

@@ -56,7 +56,8 @@ StatTranslator = {
 	(10, 2)    : 'champ.bonus_health',
 	(11, 0)    : 'champ.health',
 	(23, 0)    : 'champ.lethality',
-	(24, 0)    : '100.0 * champ.lethality'
+	(24, 0)    : 'champ.lethality',
+	(25, 0)    : 'champ.lethality'
 }
 
 def get_data_name(part):
@@ -79,7 +80,7 @@ def by_level_formula(part):
 	CurrentDataVals[key] = vals
 	PrecalculatedIndex += 1
 	
-	return f"self.{key}[{ChampLevel}]"
+	return f"self.{key}[{ChampLevel} - 1]"
 	
 def by_level_breakpoint_translator(part):
 	global PrecalculatedIndex, CurrentDataVals

@@ -533,6 +533,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("targetable",        &GameUnit::targetable,            "[bool] Used to check if unit is targetable")
 		.def_readonly("invulnerable",      &GameUnit::invulnerable,          "[bool] Used to check if unit is invulnerable")
 		.def_readonly("mana",              &GameUnit::mana,                  "[float] Current mana of the unit")
+		.def_readonly("max_mana",          &GameUnit::maxMana,               "[float] Max mana of the unit")
 		.def_readonly("health",            &GameUnit::health,                "[float] Current health of the unit")
 		.def_readonly("max_health",        &GameUnit::maxHealth,             "[float] Max health of the unit")
 		.def_readonly("armor",             &GameUnit::armor,                 "[float] Total armor of the unit")
@@ -593,6 +594,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def_readonly("R",                 &GameChampion::GetR,              "[SpellObj] Get R spell")
 		.def_readonly("hpbar_pos",         &GameChampion::GetHpBarPosition,  "[float] Height position of the HP bar of the champion")
 		.def_readonly("recalling",         &GameChampion::recalling,         "[bool] True if champion is recalling")
+		.def_readonly("recall_start_time", &GameChampion::recallStartTime,   "[float] Start time of the recall in game time. Use this only if recalling flag is True")
 		.def_readonly("is_clone",          &GameChampion::IsClone,           "[bool] Checks if the champion is a clone")
 		.def_readonly("channeling",        &GameChampion::channeling,        "[bool] True if player is channeling a spell")
 		;

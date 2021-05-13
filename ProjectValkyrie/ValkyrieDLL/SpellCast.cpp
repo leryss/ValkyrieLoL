@@ -27,6 +27,8 @@ void SpellCast::ReadFromBaseAddress(int address)
 	}
 
 	timeBegin  = ReadFloat(address + Offsets::SpellCastStartTime);
+	if (timeBegin == 0.0)
+		timeBegin = ReadFloat(address + Offsets::SpellCastStartTimeAlt);
 	castTime   = ReadFloat(address + Offsets::SpellCastCastTime);
 	srcIndex   = ReadShort(address + Offsets::SpellCastSrcIdx);
 	int addrDestIdx = ReadInt(address + Offsets::SpellCastDestIdx);
