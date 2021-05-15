@@ -10,6 +10,7 @@ public:
 	static std::string GameVersion;
 
 	static int GameTime;
+	static int PlayerName;
 
 	static int ObjIndex;
 	static int ObjTeam;

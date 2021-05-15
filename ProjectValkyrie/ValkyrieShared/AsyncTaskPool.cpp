@@ -57,6 +57,8 @@ void AsyncTaskPool::ImGuiDraw()
 	for (auto& pair : runningTasks) {
 		const char* operationName = pair.first.c_str();
 		auto& task = pair.second;
+		if (task->hidden)
+			continue;
 
 		ImGui::Separator();
 		ImGui::TextColored(Color::PURPLE, operationName);
@@ -69,6 +71,8 @@ void AsyncTaskPool::ImGuiDraw()
 	for (auto& pair : doneTasks) {
 		const char* operationName = pair.first.c_str();
 		auto& task = pair.second;
+		if (task->hidden)
+			continue;
 
 		if (task->GetStatus() == ASYNC_FAILED) {
 			ImGui::Separator();

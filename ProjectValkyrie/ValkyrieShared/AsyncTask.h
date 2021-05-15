@@ -13,6 +13,7 @@ class AsyncTask {
 
 public:
 	bool            shouldStop = false;
+	bool            hidden = false;
 	float           percentDone = -1;
 	std::string     currentStep;
 	std::string     error;

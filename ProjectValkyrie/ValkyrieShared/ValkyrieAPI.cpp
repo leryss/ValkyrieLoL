@@ -150,6 +150,19 @@ std::shared_ptr<StringResultAsync> ValkyrieAPI::ExtendSubscription(const char * 
 	return std::shared_ptr<StringResultAsync>(new StringResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
+std::shared_ptr<LambdaInvokeResultAsync> ValkyrieAPI::LogSession(const IdentityInfo & identity, const SessionInfo & session)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithObject("session-info", session.ToJsonValue());
+	PutIdentity(jsonParams, identity);
+	PutOperation("log-session", jsonParams);
+
+	auto task = std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
+	task->hidden = true;
+
+	return task;
+}
+
 ValkyrieAPI* ValkyrieAPI::Get()
 {
 	if (Instance == nullptr)

@@ -110,6 +110,9 @@
     <ClInclude Include="InviteInfo.h">
       <Filter>Source Files\API\Model</Filter>
     </ClInclude>
+    <ClInclude Include="SessionInfo.h">
+      <Filter>Source Files\API\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -170,6 +173,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InviteInfo.cpp">
+      <Filter>Source Files\API\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionInfo.cpp">
       <Filter>Source Files\API\Model</Filter>
     </ClCompile>
   </ItemGroup>

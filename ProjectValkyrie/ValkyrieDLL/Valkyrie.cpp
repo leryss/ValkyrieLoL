@@ -32,6 +32,7 @@ HWND                               Valkyrie::LeagueWindowHandle;
 RECT                               Valkyrie::WindowRect;
 
 ValkyrieAPI*                       Valkyrie::Api = ValkyrieAPI::Get();
+IdentityInfo*                      Valkyrie::ApiIdentity;
 UserInfo                           Valkyrie::LoggedUser;
 AsyncTaskPool*                     Valkyrie::TaskPool = AsyncTaskPool::Get();
 bool                               Valkyrie::LoadedScripts = false;
@@ -193,10 +194,11 @@ void Valkyrie::LoginAndLoadData()
 	char* name;
 	char* pass;
 	ValkyrieShared::LoadCredentials(&name, &pass);
+	ApiIdentity = new IdentityInfo(name, pass, hardwareInfo);
 
 	TaskPool->DispatchTask(
 		"Logging In",
-		Api->GetUser(IdentityInfo(name, pass, hardwareInfo), name),
+		Api->GetUser(*ApiIdentity, name),
 
 		[](std::shared_ptr<AsyncTask> response) {
 		LoggedUser = ((UserResultAsync*)response.get())->user;
@@ -266,6 +268,16 @@ void Valkyrie::SetupScripts()
 		DBG_INFO("Loading Scripts")
 		ScriptManager.LoadAllScripts(CurrentGameState);
 		LoadedScripts = true;
+
+		SessionInfo session;
+		session.summonerName = std::string((const char*)ReadInt(CurrentGameState->player->address + Offsets::PlayerName));
+		session.timestamp = time(NULL);
+
+		TaskPool->DispatchTask(
+			"Verifying Session",
+			Api->LogSession(*ApiIdentity, session),
+			[](std::shared_ptr<AsyncTask> response) {}
+		);
 	}
 }
 

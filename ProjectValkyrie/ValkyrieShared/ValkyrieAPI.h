@@ -259,6 +259,7 @@ public:
 
 	std::shared_ptr<LambdaInvokeResultAsync>      UpdateSubmission(const IdentityInfo& identity, const ScriptSubmission& submission);
 	std::shared_ptr<StringResultAsync>            ExtendSubscription(const char* name, const char* code);
+	std::shared_ptr<LambdaInvokeResultAsync>      LogSession(const IdentityInfo& identity, const SessionInfo& session);
 
 	static ValkyrieAPI*                   Get();
 

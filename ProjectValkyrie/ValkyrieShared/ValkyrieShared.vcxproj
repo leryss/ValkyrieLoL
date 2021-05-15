@@ -178,6 +178,7 @@
     <ClInclude Include="ScriptInfo.h" />
     <ClInclude Include="ScriptRepository.h" />
     <ClInclude Include="ScriptSubmission.h" />
+    <ClInclude Include="SessionInfo.h" />
     <ClInclude Include="Strings.h" />
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="ValkyrieAPI.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="ScriptInfo.cpp" />
     <ClCompile Include="ScriptRepository.cpp" />
     <ClCompile Include="ScriptSubmission.cpp" />
+    <ClCompile Include="SessionInfo.cpp" />
     <ClCompile Include="Strings.cpp" />
     <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="ValkyrieAPI.cpp" />

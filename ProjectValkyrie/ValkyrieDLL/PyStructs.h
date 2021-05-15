@@ -220,6 +220,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("DashSkill",       DashSkill)
 		.value("ChannelSkill",    ChannelSkill)
 		.value("ChargeableSkill", ChargeableSkill)
+		.value("AppliesOnHit",    AppliesOnHit)
 		;
 
 	enum_<HKey>("Key", "Hardware key codes")

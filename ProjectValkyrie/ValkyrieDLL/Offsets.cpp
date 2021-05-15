@@ -17,6 +17,7 @@ int Offsets::ChatIsOpen                      = 0x684;
 
 int Offsets::UnderMouseObject                = 0x02FAA1F8;
 int Offsets::ProjectionMatrix                = ViewMatrix + 16*sizeof(float);
+int Offsets::PlayerName                      = 0x6C;
 
 int Offsets::ObjIndex                        = 0x20;
 int Offsets::ObjTeam                         = 0x4C;

@@ -155,8 +155,12 @@ void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 
 void Script::SetEnabled(bool enabled)
 {
+	if (enabled == this->enabled)
+		return;
+
 	this->enabled = enabled;
 	config.SetBool("__enabled", enabled);
+	config.Save();
 	UpdateState();
 }
 

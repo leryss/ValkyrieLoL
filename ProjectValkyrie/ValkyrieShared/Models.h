@@ -6,3 +6,4 @@
 #include "ScriptInfo.h"
 #include "ScriptSubmission.h"
 #include "InviteInfo.h"
+#include "SessionInfo.h"

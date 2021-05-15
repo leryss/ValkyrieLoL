@@ -77,6 +77,7 @@ private:
 	/// API
 	static ValkyrieAPI*                Api;
 	static UserInfo                    LoggedUser;
+	static IdentityInfo*               ApiIdentity;
 
 	/// Background Tasks
 	static AsyncTaskPool*              TaskPool;
