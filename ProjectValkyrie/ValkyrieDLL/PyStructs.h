@@ -719,7 +719,8 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		
 		.def("obj_by_net_id",            &PyExecutionContext::GetObjectWithNetworkId,                                                   "[obj_by_net_id(self, net_id: int) -> Obj] Returns the objects with the specified network id or None")
 		.def("raycast",                  &PyExecutionContext::Raycast,                                                                  "[raycast(self, begin: Vec3, direction: Vec3, length: float, width: float, layers: RayLayer) -> RaycastResult] Launches a ray that stops on the first object specified by RayLayer")
-																					                                                    
+		.def("raycast_multiple",         &PyExecutionContext::RaycastMultipleResults,                                                   "[raycast(self, begin: Vec3, direction: Vec3, length: float, width: float, layers: RayLayer) -> RaycastResult] Same as Context.Raycast but returns a list with all collision instead of the first collision.")
+		
 		.def("is_wall_at",               &PyExecutionContext::IsWallAt,                                                                 "[is_wall_at(self, position: Vec3) -> bool]"                                            "Checks if there is a wall at the specified position")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForUnit,                                                     "[collisions_for(unit: UnitObj)-> list[FutureCollision]]"                               "Gets a list of future collisions for a unit")
 		.def("collisions_for",           &PyExecutionContext::GetCollisionsForCast,                                                     "[collisions_for(spell: SpellCast)-> list[FutureCollision]]"                            "Gets a list of future collisions for a spell cast")
@@ -762,7 +763,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.def("ping_vision",              &PyExecutionContext::PingVision,                                                               "[ping_vision(self, location: Vec3)]"                                                   "Issues a `warded` ping at the target location")
 		.def("ping_assist",              &PyExecutionContext::PingAssist,                                                               "[ping_assist(self, location: Vec3)]"                                                   "Issues a `help` ping at the target location")
 
-		.def("hp_dmg_indicator",         &PyExecutionContext::DrawHpBarDamageIndicator, "Draws an damage indicator with a specified color for an amount of damage on a champion hp bar.")
+		.def("hp_dmg_indicator",         &PyExecutionContext::DrawHpBarDamageIndicator,                                                 "[hp_dmg_indicator(self, champ: ChampionObj, dmg: float, color: Col)] Draws an damage indicator with a specified color for an amount of damage on a champion hp bar.")
 		.def("line",                     &PyExecutionContext::DrawLine,                                                                 "[line(self, start: Vec2, end: Vec2, thickness: float, color: Col)]")
 		.def("line",                     &PyExecutionContext::DrawLineWorld,                                                            "[line(self, start: Vec3, end: Vec3, thickness: float, color: Col))]")
 		.def("circle",                   &PyExecutionContext::DrawCircle,                                                               "[circle(self, center: Vec2, radius: float, num_pts: int, thickness: float, color: Col)]")

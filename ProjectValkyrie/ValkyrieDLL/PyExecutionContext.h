@@ -78,6 +78,7 @@ public:
 	void    PingAssist(const Vector3& position);
 
 	object  Raycast(const Vector3& begin, const Vector3& dir, float length, float halfWidth, RaycastLayer layers);
+	object  RaycastMultipleResults(const Vector3& begin, const Vector3& dir, float length, float halfWidth, RaycastLayer layers);
 	bool    IsWallAt(const Vector3& pos);
 	list    GetCollisionsForUnit(const GameUnit& unit);
 	list    GetCollisionsForCast(const SpellCast& cast);

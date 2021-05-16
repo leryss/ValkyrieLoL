@@ -32,6 +32,6 @@ class Raycast {
 
 public:
 	/// Casts a ray from a point in a given direction, if the rays hits any object specified by the RaycastLayer argument it returns the point and the object
-	static std::shared_ptr<RaycastResult> Cast(const GameState* state, Vector3 begin, Vector3 direction, float length, float halfWidth, RaycastLayer layer);
+	static std::shared_ptr<std::list<std::shared_ptr<RaycastResult>>> Cast(const GameState* state, Vector3 begin, Vector3 direction, float length, float halfWidth, bool singleResult, RaycastLayer layer);
 	static RaycastLayer FindLayersFromSpell(const SpellInfo& info);
 };

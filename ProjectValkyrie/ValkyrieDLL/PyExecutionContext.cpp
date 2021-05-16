@@ -74,10 +74,20 @@ void PyExecutionContext::PingAssist(const Vector3 & position)
 
 object PyExecutionContext::Raycast(const Vector3 & begin, const Vector3 & dir, float length, float halfWidth, RaycastLayer layers)
 {
-	std::shared_ptr<RaycastResult> result = Raycast::Cast(state, begin, dir, length, halfWidth, layers);
-	if(result != nullptr)
-		return object(*result);
+	auto results = Raycast::Cast(state, begin, dir, length, halfWidth, true, layers);
+	if(results->size() > 0)
+		return object(*results->front());
 	return object();
+}
+
+object PyExecutionContext::RaycastMultipleResults(const Vector3 & begin, const Vector3 & dir, float length, float halfWidth, RaycastLayer layers)
+{
+	auto results = Raycast::Cast(state, begin, dir, length, halfWidth, false, layers);
+	list l;
+	for (auto ray : *results) {
+		l.append(*ray);
+	}
+	return l;
 }
 
 bool PyExecutionContext::IsWallAt(const Vector3 & pos)
@@ -128,8 +138,8 @@ bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLoc
 		return false;
 
 	if (targetLocation != nullptr) {
-		Vector2 screenPos = state->renderer.WorldToScreen(*targetLocation);
-		currentScript->input.IssueUnholdKeyAt(spell->castKey, [screenPos] { return screenPos; });
+		Vector3 location = targetLocation->clone();
+		currentScript->input.IssueUnholdKeyAt(spell->castKey, [location] { return Valkyrie::CurrentGameState->renderer.WorldToScreen(location); });
 	}
 	else
 		currentScript->input.IssueUnholdKey(spell->castKey);
@@ -154,8 +164,8 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocati
 		return false;
 
 	if (targetLocation != nullptr) {
-		Vector2 screenPos = state->renderer.WorldToScreen(*targetLocation);
-		currentScript->input.IssuePressKeyAt(spell->castKey, [screenPos] { return screenPos; });
+		Vector3 location = targetLocation->clone();
+		currentScript->input.IssuePressKeyAt(spell->castKey, [location] { return Valkyrie::CurrentGameState->renderer.WorldToScreen(location); });
 	}
 	else
 		currentScript->input.IssuePressKey(spell->castKey);
@@ -214,9 +224,8 @@ void PyExecutionContext::MoveToLocation(const Vector3 & location)
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return;
 	
-	Vector2 screenPos = state->renderer.WorldToScreen(location);
 	currentScript->input.IssueHoldKey(GameKeybind::TargetChampionsOnly);
-	currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [screenPos] { return screenPos; });
+	currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [location] { return Valkyrie::CurrentGameState->renderer.WorldToScreen(location); });
 	currentScript->input.IssueUnholdKey(GameKeybind::TargetChampionsOnly);
 }
 
@@ -560,7 +569,6 @@ object PyExecutionContext::Query(QueryKey key)
 
 void PyExecutionContext::PressKeyAt(HKey key, const Vector3 & location)
 {
-	Vector2 screenPos = state->renderer.WorldToScreen(location);
-	currentScript->input.IssuePressKeyAt(key, [screenPos] { return screenPos; });
+	currentScript->input.IssuePressKeyAt(key, [location] { return Valkyrie::CurrentGameState->renderer.WorldToScreen(location); });
 }
 

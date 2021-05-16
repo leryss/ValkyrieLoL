@@ -267,8 +267,11 @@ bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const Gam
 			if (result) {
 				dir = out.sub(caster.pos).normalize();
 				layers = (RaycastLayer)(Raycast::FindLayersFromSpell(spell) | (caster.team == state->player->team ? RayEnemy : RayAlly));
-				ray = Raycast::Cast(state, caster.pos, dir, caster.pos.distance(target.pos), spell.width, layers);
-				result = !(ray != nullptr && ray->obj->type != target.type);
+				auto rays = Raycast::Cast(state, caster.pos, dir, caster.pos.distance(target.pos), spell.width, false, layers);
+				if (rays->size() > 0 && rays->front()->obj->type != target.type)
+					result = false;
+				else
+					result = true;
 			}
 
 			break;

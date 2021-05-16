@@ -223,12 +223,12 @@ object GameUnit::GetPathPy()
 	return l;
 }
 
-bool GameUnit::HasBuff(const char * buff)
+bool GameUnit::HasBuff(const char * buff) const
 {
 	return buffs.find(std::string(buff)) != buffs.end();
 }
 
-int GameUnit::BuffStackCount(const char * buff)
+int GameUnit::BuffStackCount(const char * buff) const
 {
 	std::string buffName = buff;
 	auto find = buffs.find(buffName);

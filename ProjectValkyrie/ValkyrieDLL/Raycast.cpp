@@ -10,7 +10,7 @@ if ((layer & fromLayer) == fromLayer) {\
 		}\
 }\
 
-std::shared_ptr<RaycastResult> Raycast::Cast(const GameState * state, Vector3 begin, Vector3 direction, float length, float halfWidth, RaycastLayer layer)
+std::shared_ptr<std::list<std::shared_ptr<RaycastResult>>> Raycast::Cast(const GameState * state, Vector3 begin, Vector3 direction, float length, float halfWidth, bool singleResult, RaycastLayer layer)
 {
 	static float distanceStep = 20.f;
 
@@ -31,29 +31,43 @@ std::shared_ptr<RaycastResult> Raycast::Cast(const GameState * state, Vector3 be
 	int iters = length / distanceStep;
 	float currentDist = 0.f;
 
+	std::shared_ptr<std::list<std::shared_ptr<RaycastResult>>> results(new std::list<std::shared_ptr<RaycastResult>>);
+	std::set<int> alreadyHit;
+	bool wallAlternateBit = true;
+
 	RaycastResult* result;
 	for (int i = 0; i < iters; ++i) {
 
 		Vector3 pos = begin.add(direction.scale(currentDist));
-		if (rayWall && GameData::IsWallAt(pos)) {
+		if (rayWall && (GameData::IsWallAt(pos) == wallAlternateBit)) {
 			result = new RaycastResult();
 			result->point = pos;
-			return std::shared_ptr<RaycastResult>(result);
+			results->push_back(std::shared_ptr<RaycastResult>(result));
+			if (singleResult)
+				return results;
+			wallAlternateBit = !wallAlternateBit;
 		}
 
 		for (GameObject* obj : objs) {
+			auto find = alreadyHit.find(obj->networkId);
+			if (find != alreadyHit.end())
+				continue;
+
 			if (pos.distance(obj->pos) < (obj->GetRadius() + halfWidth)) {
 				result = new RaycastResult();
 				result->obj = obj;
 				result->point = pos;
-				return std::shared_ptr<RaycastResult>(result);
+				results->push_back(std::shared_ptr<RaycastResult>(result));
+				if (singleResult)
+					return results;
+				alreadyHit.insert(obj->networkId);
 			}
 		}
 
 		currentDist += distanceStep;
 	}
 
-	return nullptr;
+	return results;
 }
 
 RaycastLayer Raycast::FindLayersFromSpell(const SpellInfo & info)

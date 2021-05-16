@@ -39,10 +39,10 @@ public:
 	object    GetPathPy();
 
 	/// Check if unit has a named buff
-	bool      HasBuff(const char* buff);
+	bool      HasBuff(const char* buff) const;
 
 	/// Check the number of stacks the named buff has
-	int       BuffStackCount(const char* buff);
+	int       BuffStackCount(const char* buff) const;
 
 	object    GetBuffPy(const char* buff);
 
