@@ -2,6 +2,8 @@
 #include <string>
 #include <shlobj_core.h>
 #undef GetObject
+#undef min
+#undef max
 
 class Paths {
 
@@ -20,4 +22,5 @@ public:
 	static std::string Version;
 	static std::string Configs;
 	static std::string ImguiConfig;
+	static std::string PredictionNN;
 };

@@ -86,8 +86,8 @@ public:
 	bool    StartChannel(GameSpell* spell);
 	bool    EndChannel(GameSpell* spell, const Vector3* targetLocation);
 	bool    CastSpell(GameSpell* spell, const Vector3* targetLocation);
-	bool    CastSpellOnUnit(GameSpell* spell, const GameUnit& target);
-	object  PredictCastPoint(const GameUnit& caster, const GameUnit& target, const GameSpell* info);
+	bool    CastSpellOnUnit(GameSpell* spell, GameUnit& target);
+	object  PredictCastPoint(GameUnit& caster, GameUnit& target, const GameSpell* info);
 	object  GetObjectWithNetworkId(int netId);
 
 	void    LogInfo(const char* msg);

@@ -8,13 +8,13 @@ class FutureCollision {
 
 public:
 	FutureCollision();
-	FutureCollision(const GameUnit* unit, const SpellCast* cast, const Vector2& unitColPt, const Vector2& castColPt, bool isFinal, float timeUntilImpact);
+	FutureCollision(GameUnit* unit, const SpellCast* cast, const Vector2& unitColPt, const Vector2& castColPt, bool isFinal, float timeUntilImpact);
 
 	float            timeUntilImpact;
 	bool             isFinal = false;
 	Vector2          unitCollisionPoint;
 	Vector2          castCollisionPoint;
-	const GameUnit*  unit;
+	GameUnit*  unit;
 	const SpellCast* cast;
 
 	object GetUnitPy();
@@ -29,24 +29,24 @@ public:
 
 	list GetCollisionsForUnit(const Collidable* unit);
 	list GetCollisionsForCast(const Collidable* cast);
-	bool PredictPointForCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
+	bool PredictPointForCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
 
 	BenchmarkTiming updateTimeMs;
 
 private:
 
-	float   GetSecsUntilSpellHits(const GameUnit& caster, const GameUnit& target, const SpellInfo& spell);
+	float   GetSecsUntilSpellHits(GameUnit& caster, GameUnit& target, const SpellInfo& spell);
 	void    AddCollisionEntry(FutureCollision* collision);
 	Vector2 LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius);
 
 	void    FindCollisions(const GameState* state, const GameObject& spawner, const SpellCast* cast, const SpellInfo* castStatic);
-	void    FindCollisionsLine(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects);
-	void    FindCollisionsArea(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects);
-	void    GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<const GameUnit*, bool>>& result);
+	void    FindCollisionsLine(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<GameUnit*, bool>>& objects);
+	void    FindCollisionsArea(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<GameUnit*, bool>>& objects);
+	void    GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<GameUnit*, bool>>& result);
 
-	bool    PredictPointForAreaCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
-	bool    PredictPointForConeCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
-	bool    PredictPointForLineCollision(const GameUnit& caster, const GameUnit& obj, const SpellInfo& spell, Vector3& out);
+	bool    PredictPointForAreaCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
+	bool    PredictPointForConeCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
+	bool    PredictPointForLineCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
 private:
 	
 	/// Key: addr of Object/SpellCast  Value: Collisions

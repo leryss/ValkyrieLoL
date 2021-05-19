@@ -17,6 +17,7 @@ std::string Paths::Dependencies = Root + "\\dependencies";
 std::string Paths::Version      = Root + "\\version";
 std::string Paths::Configs      = Root + "\\configs";
 std::string Paths::ImguiConfig  = Root + "\\imgui.ini";
+std::string Paths::PredictionNN = Root + "\\data\\Prediction.valk";
 
 bool Paths::FileExists(std::string & path)
 {

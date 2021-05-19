@@ -40,6 +40,8 @@ struct Vector2 {
 
 	Vector2 normalize() const {
 		float l = length();
+		if (l < 0.0001f)
+			return Vector2(0.f, 0.f);
 		return Vector2(x / l, y / l);
 	}
 
@@ -120,6 +122,8 @@ struct Vector3 {
 
 	Vector3 normalize() const {
 		float l = length();
+		if (l < 0.0001f)
+			return Vector3(0.f, 0.f, 0.f);
 		return Vector3(x / l, y / l, z / l);
 	}
 
@@ -185,6 +189,8 @@ struct Vector4 {
 
 	Vector4 normalize() const {
 		float l = length();
+		if (l < 0.0001f)
+			return Vector4(0.f, 0.f, 0.f, 0.f);
 		return Vector4(x / l, y / l, z / l, w / l);
 	}
 

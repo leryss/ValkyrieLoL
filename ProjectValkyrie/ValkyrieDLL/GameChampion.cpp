@@ -120,6 +120,7 @@ void GameChampion::ReadFromBaseAddress(int addr)
 
 	if (castingSpell.staticData != nullptr)
 		channeling = isCasting && castingSpell.staticData->HasFlag(ChannelSkill);
+
 	ReadAiManager();
 }
 
@@ -246,4 +247,58 @@ bool GameChampion::CanCast(const GameSpell * spell)
 bool GameChampion::IsClone() const
 {
 	return summoners[0].name == summoners[1].name;
+}
+
+Vector3 ComputeAR1(Vector3& c, float phi1, float phi2, int t, std::vector<Vector3>& positions) {
+
+	if (t < 1)
+		return Vector3(0.f, 0.f, 0.f);
+
+	Vector3 first = ComputeAR1(c, phi1, phi2, t - 1, positions).scale(phi1);
+	Vector3 second = ComputeAR1(c, phi1, phi2, t - 2, positions).scale(phi2);
+	return first.add(second).add(positions[t - 1].sub(positions[t]));
+}
+
+Vector3 Mean(std::vector<Vector3>& positions) {
+	float x = 0.f;
+	float y = 0.f;
+	float z = 0.f;
+
+	for (Vector3& v : positions) {
+		x += v.x;
+		y += v.y;
+		z += v.z;
+	}
+
+	return Vector3(x, y, z).scale(1.f / positions.size());
+}
+
+float Variance(std::vector<Vector3>& positions, Vector3& mean) {
+	Vector3 variance(0.f, 0.f, 0.f);
+
+	for (Vector3& v : positions) {
+		Vector3 diff = mean.sub(v);
+		variance = variance.add(diff.vscale(diff));
+	}
+
+	return variance.scale(1.f / positions.size()).length();
+}
+
+
+
+Vector3 GameChampion::PredictPosition(float secsFuture)
+{
+	//std::vector<Vector3> positions;
+	//int size = previousPositions.size();
+	//for (int i = max(size - 10, 0); i < size; ++i) {
+	//	positions.push_back(previousPositions[i]);
+	//}
+	//
+	//auto mean = Mean(positions);
+	//float variance = Variance(positions, mean);
+	//
+	//if (variance < 1000.f)
+	//	return mean;
+
+	return GameUnit::PredictPosition(secsFuture);
 }

@@ -11,7 +11,7 @@ int Offsets::MinimapObject                   = 0x02fb5810;
 int Offsets::LocalPlayer                     = 0x02fb5814;
 int Offsets::GameTime                        = 0x02fadb80;
 int Offsets::Chat                            = 0x02fb5f10;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f2420;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f2430;
 
 int Offsets::ChatIsOpen                      = 0x684;
 
@@ -33,7 +33,7 @@ int Offsets::ObjTargetable                   = 0xD00;
 int Offsets::ObjRecallState                  = 0xD8C;
 int Offsets::ObjHealth                       = 0xD98;
 int Offsets::ObjMaxHealth                    = 0xDA8;
-int Offsets::ObjMaxMana                      = 0x298;
+int Offsets::ObjMaxMana                      = 0x2A8;
 
 int Offsets::ObjAbilityHaste                 = 0x10F4;
 int Offsets::ObjLethality                    = 0x11DC;

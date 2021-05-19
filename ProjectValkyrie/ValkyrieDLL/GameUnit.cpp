@@ -291,7 +291,7 @@ void GameUnit::ReadBuffs()
 	}
 }
 
-Vector3 GameUnit::PredictPosition(float secsFuture) const
+Vector3 GameUnit::PredictPosition(float secsFuture)
 {
 	if(isMoving) {
 		float unitsPerSec = isDashing ? dashSpeed : moveSpeed;

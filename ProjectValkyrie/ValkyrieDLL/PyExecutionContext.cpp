@@ -175,7 +175,7 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocati
 	return true;
 }
 
-bool PyExecutionContext::CastSpellOnUnit(GameSpell * spell, const GameUnit& target)
+bool PyExecutionContext::CastSpellOnUnit(GameSpell * spell, GameUnit& target)
 {
 	if (spell->staticData == nullptr)
 		return false;
@@ -188,7 +188,7 @@ bool PyExecutionContext::CastSpellOnUnit(GameSpell * spell, const GameUnit& targ
 }
 
 
-object PyExecutionContext::PredictCastPoint(const GameUnit & caster, const GameUnit& target, const GameSpell * info)
+object PyExecutionContext::PredictCastPoint(GameUnit & caster, GameUnit& target, const GameSpell * info)
 {
 	if (info->staticData == nullptr) {
 		return object();

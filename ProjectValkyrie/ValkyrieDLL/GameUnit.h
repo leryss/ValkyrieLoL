@@ -47,7 +47,7 @@ public:
 	object    GetBuffPy(const char* buff);
 
 	/// Predicts position of this unit in N seconds
-	Vector3   PredictPosition(float millisFuture) const;
+	virtual Vector3 PredictPosition(float secsFuture);
 
 	/// Calculates path length;
 	float     CalculatePathLength();

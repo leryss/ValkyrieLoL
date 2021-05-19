@@ -66,7 +66,7 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 	if (castStatic == nullptr)
 		return;
 
-	std::vector<std::pair<const GameUnit*, bool>> targets;
+	std::vector<std::pair<GameUnit*, bool>> targets;
 	Vector3 currentPos = spawner.pos;
 	currentPos.y = 0.f;
 
@@ -84,7 +84,7 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 	}
 }
 
-void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
+void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<GameUnit*, bool>>& objects)
 {
 	if (castStatic->width == 0.f || castStatic->speed == 0.f)
 		return;
@@ -128,7 +128,7 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 	}
 }
 
-void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<const GameUnit*, bool>>& objects)
+void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<GameUnit*, bool>>& objects)
 {
 	Vector3 spellEnd = cast->end;
 	Vector3 spellStart = cast->start;
@@ -164,7 +164,7 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 	}
 }
 
-void CollisionEngine::GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<const GameUnit*, bool>>& result)
+void CollisionEngine::GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<GameUnit*, bool>>& result)
 {
 	bool strict;
 	if (spell->HasFlag(AffectMinion)) {
@@ -188,14 +188,14 @@ void CollisionEngine::GetNearbyEnemies(const GameState& state, const GameObject&
 				result.push_back({ (GameUnit*)monster.get() , strict });
 	}
 
-	std::sort(result.begin(), result.end(), [&center](const std::pair<const GameUnit*, bool> p1, std::pair<const GameUnit*, bool> p2) {
+	std::sort(result.begin(), result.end(), [&center](const std::pair<GameUnit*, bool> p1, std::pair<GameUnit*, bool> p2) {
 		float d1 = p1.first->pos.distance(center.pos);
 		float d2 = p2.first->pos.distance(center.pos);
 		return d1 < d2;
 	});
 }
 
-bool CollisionEngine::PredictPointForAreaCollision(const GameUnit& caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
+bool CollisionEngine::PredictPointForAreaCollision(GameUnit& caster, GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
 	float secsUntilSpellHits = GetSecsUntilSpellHits(caster, obj, spell);
 	out = obj.PredictPosition(secsUntilSpellHits);
@@ -203,7 +203,7 @@ bool CollisionEngine::PredictPointForAreaCollision(const GameUnit& caster, const
 	return true;
 }
 
-bool CollisionEngine::PredictPointForConeCollision(const GameUnit & caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
+bool CollisionEngine::PredictPointForConeCollision(GameUnit & caster, GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
 	float secsUntilSpellHits = GetSecsUntilSpellHits(caster, obj, spell);
 	out = obj.PredictPosition(secsUntilSpellHits);
@@ -211,7 +211,7 @@ bool CollisionEngine::PredictPointForConeCollision(const GameUnit & caster, cons
 	return true;
 }
 
-bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const GameUnit & obj, const SpellInfo & spell, Vector3 & out)
+bool CollisionEngine::PredictPointForLineCollision(GameUnit& caster, GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
 	if (spell.speed == 0.0)
 		return false;
@@ -241,7 +241,7 @@ bool CollisionEngine::PredictPointForLineCollision(const GameUnit& caster, const
 	return false;
 }
 
-bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const GameUnit& target, const SpellInfo & spell, Vector3 & out)
+bool CollisionEngine::PredictPointForCollision(GameUnit& caster, GameUnit& target, const SpellInfo & spell, Vector3 & out)
 {
 	DBG_INFO("CollisionEngine::PredictPointForCollision(%s)", spell.name.c_str())
 	if (target.staticData == nullptr)
@@ -298,7 +298,7 @@ bool CollisionEngine::PredictPointForCollision(const GameUnit& caster, const Gam
 	return true;
 }
 
-float CollisionEngine::GetSecsUntilSpellHits(const GameUnit & caster, const GameUnit & target, const SpellInfo & spell)
+float CollisionEngine::GetSecsUntilSpellHits(GameUnit & caster, GameUnit & target, const SpellInfo & spell)
 {
 	float secsUntilSpellHits = spell.castTime + spell.delay;
 	if (spell.delay == 0.0f && spell.speed > 0.0) {
@@ -362,7 +362,7 @@ FutureCollision::FutureCollision()
 {
 }
 
-FutureCollision::FutureCollision(const GameUnit* unit, const SpellCast* cast, const Vector2& unitColPt, const Vector2& castColPt, bool isFinal, float timeUntilImpact)
+FutureCollision::FutureCollision(GameUnit* unit, const SpellCast* cast, const Vector2& unitColPt, const Vector2& castColPt, bool isFinal, float timeUntilImpact)
 	:
 	unit(unit),
 	cast(cast),

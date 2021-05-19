@@ -37,6 +37,8 @@ public:
 	bool      CanCast(const GameSpell* spell);
 	bool      IsClone() const;
 
+	Vector3   PredictPosition(float secsFuture) override;
+
 public:
 	float     recallStartTime;
 	bool      recalling;
@@ -53,5 +55,9 @@ public:
 	list         pySpells;
 	list         pyItems;
 	GameItemSlot items[NUM_ITEMS];
+
+	const static int     POSITION_STORE_INTERVAL_MS = 50;
+	DWORD                tickLastStoredPosition;
+	size_t               startPredictedIndex;
 
 };
