@@ -13659,7 +13659,7 @@
             ]
         },
         "calcs": {
-            "passivetotaldamage": "self.passivebonusdamage[skill.lvl] +  (0.30000001192092896 * champ.ap)",
+            "passivetotaldamage": "self.passivebonusdamage[skill.lvl] +  (0.20000000298023224 * champ.ap)",
             "passivetotalhealing": "self.passivehealing[skill.lvl] +  (0.10000000149011612 * champ.ap)",
             "spidertotaldamage": "self.Effect0[skill.lvl] +  (0.15000000596046448 * champ.ap)"
         }
@@ -20040,8 +20040,8 @@
             ]
         },
         "calcs": {
-            "damage": "self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk)",
-            "miniondamage": "(self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk)) * self.miniondamageratio[skill.lvl]",
+            "damage": "self.basedamage[skill.lvl] +  (0.75 * champ.bonus_atk)",
+            "miniondamage": "(self.basedamage[skill.lvl] +  (0.75 * champ.bonus_atk)) * self.miniondamageratio[skill.lvl]",
             "{898b7f2a}": "self.rampagebonusratio[skill.lvl] +  (0.029999999329447746 * champ.bonus_atk)"
         }
     },
@@ -20377,8 +20377,8 @@
             ]
         },
         "calcs": {
-            "mindamage": "self.Effect3[skill.lvl] +  (0.5 * champ.bonus_atk)",
-            "maxdamage": "(self.Effect3[skill.lvl] +  (0.5 * champ.bonus_atk)) * 2.0"
+            "mindamage": "self.Effect3[skill.lvl] +  (0.550000011920929 * champ.bonus_atk)",
+            "maxdamage": "(self.Effect3[skill.lvl] +  (0.550000011920929 * champ.bonus_atk)) * 2.0"
         }
     },
     "HecarimUltMissileSkn4C": {
@@ -20620,8 +20620,8 @@
             ]
         },
         "calcs": {
-            "damage": "self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk)",
-            "miniondamage": "(self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk)) * self.miniondamageratio[skill.lvl]",
+            "damage": "self.basedamage[skill.lvl] +  (0.75 * champ.bonus_atk)",
+            "miniondamage": "(self.basedamage[skill.lvl] +  (0.75 * champ.bonus_atk)) * self.miniondamageratio[skill.lvl]",
             "{898b7f2a}": "self.rampagebonusratio[skill.lvl] +  (0.029999999329447746 * champ.bonus_atk)"
         }
     },
@@ -36546,13 +36546,13 @@
                 0.5
             ],
             "Effect0": [
-                60.0,
-                60.0,
-                95.0,
-                130.0,
-                165.0,
-                200.0,
-                200.0
+                45.0,
+                45.0,
+                80.0,
+                115.0,
+                150.0,
+                185.0,
+                185.0
             ],
             "Effect1": [
                 20.0,
@@ -36693,13 +36693,13 @@
                 0.5
             ],
             "Effect0": [
-                60.0,
-                60.0,
-                95.0,
-                130.0,
-                165.0,
-                200.0,
-                200.0
+                45.0,
+                45.0,
+                80.0,
+                115.0,
+                150.0,
+                185.0,
+                185.0
             ],
             "Effect1": [
                 20.0,
@@ -41134,22 +41134,14 @@
     },
     "WujuStyle": {
         "data_vals": {
-            "tooltip_only_vars": [
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "basetruedamage": [
-                10.0,
+            "basedamage": [
                 20.0,
                 30.0,
                 40.0,
                 50.0,
                 60.0,
-                70.0
+                70.0,
+                80.0
             ],
             "duration": [
                 5.0,
@@ -41160,54 +41152,18 @@
                 5.0,
                 5.0
             ],
-            "Effect0": [
-                10.0,
-                10.0,
-                10.0,
-                10.0,
-                10.0,
-                10.0,
-                10.0
-            ],
-            "Effect1": [
-                35.0,
-                35.0,
-                35.0,
-                35.0,
-                35.0,
-                35.0,
-                35.0
-            ],
-            "Effect2": [
-                20.0,
-                20.0,
-                30.0,
-                40.0,
-                50.0,
-                60.0,
-                60.0
-            ],
-            "Effect3": [
-                10.0,
-                20.0,
-                30.0,
-                40.0,
-                50.0,
-                60.0,
-                70.0
-            ],
-            "Effect4": [
-                5.0,
-                5.0,
-                5.0,
-                5.0,
-                5.0,
-                5.0,
-                5.0
+            "legacyswordvfxduration": [
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0
             ]
         },
         "calcs": {
-            "finaltruedamageonhittooltiponly": "self.basetruedamage[skill.lvl] +  (0.3499999940395355 * champ.bonus_atk)"
+            "totaldamage": "self.basedamage[skill.lvl] +  (0.3499999940395355 * champ.bonus_atk)"
         }
     },
     "AlphaStrike": {
@@ -41240,13 +41196,13 @@
                 200.0
             ],
             "attackdamageratio": [
-                1.0,
-                1.0,
-                1.0,
-                1.0,
-                1.0,
-                1.0,
-                1.0
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421
             ],
             "bonuscritdamageratio": [
                 0.6000000238418579,
@@ -41277,30 +41233,22 @@
             ]
         },
         "calcs": {
-            "totaldamage": "self.basedamage[skill.lvl] +  (1.0 * champ.atk)",
-            "subesquentdamage": "(self.basedamage[skill.lvl]) + ( (1.0 * champ.atk))",
-            "critbonus": "(self.basedamage[skill.lvl] +  (1.0 * champ.atk)) * (self.bonuscritdamageratio[skill.lvl]) + ( (self.bonuscritdamageratio[skill.lvl] * champ.crit_multi))",
-            "{b0f66055}": "((self.basedamage[skill.lvl]) + ( (1.0 * champ.atk))) * (self.bonuscritdamageratio[skill.lvl]) + ( (self.bonuscritdamageratio[skill.lvl] * champ.crit_multi))"
+            "totaldamage": "self.basedamage[skill.lvl] +  (self.{a5fb74cb}[skill.lvl] * champ.atk)",
+            "subesquentdamage": "(self.basedamage[skill.lvl]) + ( (self.{a5fb74cb}[skill.lvl] * champ.atk))",
+            "critbonus": "(self.basedamage[skill.lvl] +  (self.{a5fb74cb}[skill.lvl] * champ.atk)) * (self.bonuscritdamageratio[skill.lvl]) + ( (self.bonuscritdamageratio[skill.lvl] * champ.crit_multi))",
+            "{b0f66055}": "((self.basedamage[skill.lvl]) + ( (self.{a5fb74cb}[skill.lvl] * champ.atk))) * (self.bonuscritdamageratio[skill.lvl]) + ( (self.bonuscritdamageratio[skill.lvl] * champ.crit_multi))"
         }
     },
     "Meditate": {
         "data_vals": {
-            "tooltip_only": [
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "damagereduction": [
-                0.574999988079071,
-                0.6000000238418579,
-                0.625,
-                0.6499999761581421,
-                0.675000011920929,
-                0.699999988079071,
-                0.7250000238418579
+            "baseheal": [
+                40.0,
+                120.0,
+                200.0,
+                280.0,
+                360.0,
+                440.0,
+                520.0
             ],
             "healduration": [
                 4.0,
@@ -41311,15 +41259,6 @@
                 4.0,
                 4.0
             ],
-            "healpertickbase": [
-                5.0,
-                15.0,
-                25.0,
-                35.0,
-                45.0,
-                55.0,
-                65.0
-            ],
             "maxmissinghealthpercent": [
                 1.0,
                 1.0,
@@ -41329,25 +41268,7 @@
                 1.0,
                 1.0
             ],
-            "Effect0": [
-                120.0,
-                120.0,
-                200.0,
-                280.0,
-                360.0,
-                440.0,
-                520.0
-            ],
-            "Effect1": [
-                0.6000000238418579,
-                0.6000000238418579,
-                0.625,
-                0.6499999761581421,
-                0.675000011920929,
-                0.699999988079071,
-                0.7250000238418579
-            ],
-            "Effect2": [
+            "tickfrequency": [
                 0.5,
                 0.5,
                 0.5,
@@ -41356,16 +41277,16 @@
                 0.5,
                 0.5
             ],
-            "Effect3": [
-                4.0,
-                4.0,
-                4.0,
-                4.0,
-                4.0,
-                4.0,
-                4.0
+            "damagereduction": [
+                0.574999988079071,
+                0.6000000238418579,
+                0.625,
+                0.6499999761581421,
+                0.675000011920929,
+                0.699999988079071,
+                0.7250000238418579
             ],
-            "Effect5": [
+            "damagereductiontowermod": [
                 0.5,
                 0.5,
                 0.5,
@@ -41385,7 +41306,7 @@
             ]
         },
         "calcs": {
-            "totalhealpersecondtooltiponly": "self.Effect0[skill.lvl] +  (1.0 * champ.ap)"
+            "totalheal": "self.baseheal[skill.lvl] +  (1.0 * champ.ap)"
         }
     },
     "Highlander": {
@@ -42780,13 +42701,13 @@
                 0.05000000074505806
             ],
             "monstermod": [
-                185.0,
-                185.0,
-                185.0,
-                185.0,
-                185.0,
-                185.0,
-                185.0
+                155.0,
+                155.0,
+                155.0,
+                155.0,
+                155.0,
+                155.0,
+                155.0
             ]
         },
         "calcs": {
@@ -43481,7 +43402,7 @@
     },
     "NautilusSplashZone": {
         "data_vals": {
-            "basedamage": [
+            "damagebase": [
                 25.0,
                 55.0,
                 85.0,
@@ -43517,25 +43438,25 @@
                 0.5,
                 0.5
             ],
-            "Effect0": [
-                25.0,
-                55.0,
-                85.0,
-                115.0,
-                145.0,
-                175.0,
-                205.0
+            "damagemonstermod": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
             ],
-            "Effect1": [
-                0.25,
+            "damageapratio": [
                 0.30000001192092896,
-                0.3499999940395355,
-                0.4000000059604645,
-                0.44999998807907104,
-                0.5,
-                0.550000011920929
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
             ],
-            "Effect2": [
+            "extrawavepenalty": [
                 0.5,
                 0.5,
                 0.5,
@@ -43543,19 +43464,10 @@
                 0.5,
                 0.5,
                 0.5
-            ],
-            "Effect3": [
-                1.25,
-                1.25,
-                1.25,
-                1.25,
-                1.25,
-                1.25,
-                1.25
             ]
         },
         "calcs": {
-            "edamagecalc": "self.basedamage[skill.lvl] +  (0.30000001192092896 * champ.ap)"
+            "damagecalc": "self.damagebase[skill.lvl] +  (self.{84381950}[skill.lvl] * champ.ap)"
         }
     },
     "NautilusAnchorDrag": {
@@ -43699,7 +43611,7 @@
     },
     "NautilusPiercingGaze": {
         "data_vals": {
-            "baseshield": [
+            "shieldbase": [
                 35.0,
                 45.0,
                 55.0,
@@ -43708,7 +43620,7 @@
                 85.0,
                 95.0
             ],
-            "healthpercent": [
+            "shieldhealthratio": [
                 0.07999999821186066,
                 0.09000000357627869,
                 0.10000000149011612,
@@ -43726,7 +43638,7 @@
                 6.0,
                 6.0
             ],
-            "dotdamage": [
+            "dotdamagebase": [
                 20.0,
                 30.0,
                 40.0,
@@ -43735,46 +43647,19 @@
                 70.0,
                 80.0
             ],
-            "Effect0": [
-                45.0,
-                45.0,
-                55.0,
-                65.0,
-                75.0,
-                85.0,
-                95.0
-            ],
-            "Effect1": [
-                0.09000000357627869,
-                0.09000000357627869,
-                0.10000000149011612,
-                0.10999999940395355,
-                0.11999999731779099,
-                0.12999999523162842,
-                0.14000000059604645
-            ],
-            "Effect2": [
-                6.0,
-                6.0,
-                6.0,
-                6.0,
-                6.0,
-                6.0,
-                6.0
-            ],
-            "Effect3": [
-                20.0,
-                30.0,
-                40.0,
-                50.0,
-                60.0,
-                70.0,
-                80.0
+            "dotdamageapratio": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
             ]
         },
         "calcs": {
-            "wdamagecalc": "self.dotdamage[skill.lvl] +  (0.20000000298023224 * champ.ap)",
-            "wshieldcalc": "self.baseshield[skill.lvl] +  (self.healthpercent[skill.lvl] * champ.max_health)"
+            "{08d03268}": "self.{880b6b9c}[skill.lvl] +  (self.{cabcc653}[skill.lvl] * champ.ap)",
+            "{c4fbf5ad}": "self.shieldbase[skill.lvl] +  (self.{eaf24fcd}[skill.lvl] * champ.max_health)"
         }
     },
     "NeekoPassive": {
@@ -45967,6 +45852,51 @@
     },
     "OrianaDissonanceCommand": {
         "data_vals": {
+            "slowamount": [
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5,
+                0.550000011920929
+            ],
+            "hasteamount": [
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5,
+                0.550000011920929
+            ],
+            "fieldduration": [
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0
+            ],
+            "slowandhasteduration": [
+                2.0,
+                2.0,
+                2.0,
+                2.0,
+                2.0,
+                2.0,
+                2.0
+            ],
+            "basedamage": [
+                15.0,
+                60.0,
+                105.0,
+                150.0,
+                195.0,
+                240.0,
+                285.0
+            ],
             "Effect0": [
                 60.0,
                 60.0,
@@ -46014,7 +45944,7 @@
             ]
         },
         "calcs": {
-            "totaldamagetooltip": "self.Effect0[skill.lvl] +  (0.699999988079071 * champ.ap)"
+            "totaldamage": "self.basedamage[skill.lvl] +  (0.699999988079071 * champ.ap)"
         }
     },
     "OrianaDetonateCommand": {
@@ -48458,13 +48388,13 @@
                 0.3499999940395355
             ],
             "passivems": [
+                0.009999999776482582,
                 0.029999999329447746,
                 0.05000000074505806,
                 0.07000000029802322,
                 0.09000000357627869,
                 0.10999999940395355,
-                0.12999999523162842,
-                0.15000000596046448
+                0.12999999523162842
             ],
             "traveldistance": [
                 300.0,
@@ -52122,6 +52052,24 @@
                 0.5,
                 0.5,
                 0.5
+            ],
+            "stuncircleradius": [
+                250.0,
+                250.0,
+                250.0,
+                250.0,
+                250.0,
+                250.0,
+                250.0
+            ],
+            "stunrectanglewidth": [
+                180.0,
+                180.0,
+                180.0,
+                180.0,
+                180.0,
+                180.0,
+                180.0
             ]
         },
         "calcs": {
@@ -52319,6 +52267,24 @@
                 0.5,
                 0.5,
                 0.5
+            ],
+            "stuncircleradius": [
+                250.0,
+                250.0,
+                250.0,
+                250.0,
+                250.0,
+                250.0,
+                250.0
+            ],
+            "stunrectanglewidth": [
+                180.0,
+                180.0,
+                180.0,
+                180.0,
+                180.0,
+                180.0,
+                180.0
             ]
         },
         "calcs": {
@@ -54969,13 +54935,13 @@
                 0.5
             ],
             "monstercap": [
-                120.0,
-                120.0,
-                120.0,
-                120.0,
-                120.0,
-                120.0,
-                120.0
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+                80.0
             ]
         },
         "calcs": {
@@ -56769,7 +56735,7 @@
             ]
         },
         "calcs": {
-            "totaldamage": "self.damage[skill.lvl] +  (0.5 * champ.ap) +  (1.0 * champ.bonus_atk)",
+            "totaldamage": "self.damage[skill.lvl] +  (0.699999988079071 * champ.ap) +  (1.0 * champ.bonus_atk)",
             "totalshield": "self.shield[skill.lvl] +  (0.4000000059604645 * champ.ap) + 1.5 * champ.num_buffs({e88568f8})"
         }
     },
@@ -56803,13 +56769,13 @@
                 8.0
             ],
             "bonusrange": [
-                25.0,
-                25.0,
-                25.0,
-                25.0,
-                25.0,
-                25.0,
-                25.0
+                20.0,
+                20.0,
+                20.0,
+                20.0,
+                20.0,
+                20.0,
+                20.0
             ],
             "bonuscritdamage": [
                 0.0,
@@ -56990,6 +56956,15 @@
                 4.0,
                 4.0
             ],
+            "armorshredduration": [
+                6.0,
+                6.0,
+                6.0,
+                6.0,
+                6.0,
+                6.0,
+                6.0
+            ],
             "PreCalculated0": [
                 0.10000000149011612,
                 0.10000000149011612,
@@ -57144,7 +57119,7 @@
             ]
         },
         "calcs": {
-            "totalms": "self.movementspeedpercent[skill.lvl]"
+            "totalms": "self.movementspeedpercent[skill.lvl] +  (0.0005000000237487257 * champ.ap)"
         }
     },
     "SennaW": {
@@ -57258,7 +57233,7 @@
         },
         "calcs": {
             "totaldamage": "self.basedamage[skill.lvl] +  (0.5 * champ.bonus_atk)",
-            "totalheal": "self.baseheal[skill.lvl] +  (0.4000000059604645 * champ.ap) +  (0.4000000059604645 * champ.bonus_atk)"
+            "totalheal": "self.baseheal[skill.lvl] +  (0.4000000059604645 * champ.ap) +  (0.4000000059604645 * champ.bonus_atk) +  (1.600000023841858 * champ.lethality/100.0)"
         }
     },
     "SeraphineQ": {
@@ -57465,16 +57440,16 @@
                 53.0,
                 54.0,
                 55.0,
-                56.0,
+                62.0,
                 64.0,
                 66.0,
                 68.0,
                 70.0,
-                72.0,
-                74.0,
-                102.0,
-                106.0,
-                110.0,
+                160.0,
+                170.0,
+                180.0,
+                190.0,
+                200.0,
                 50.0,
                 50.0
             ]
@@ -58858,8 +58833,8 @@
             ]
         },
         "calcs": {
-            "totaldamage": "self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk) +  (0.550000011920929 * champ.ap)",
-            "totalexecutedamage": "(self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk) +  (0.550000011920929 * champ.ap)) * self.executedamagepercent[skill.lvl]"
+            "totaldamage": "self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk) +  (0.5 * champ.ap)",
+            "totalexecutedamage": "(self.basedamage[skill.lvl] +  (0.699999988079071 * champ.bonus_atk) +  (0.5 * champ.ap)) * self.executedamagepercent[skill.lvl]"
         }
     },
     "JackInTheBox": {
@@ -58947,8 +58922,8 @@
             ]
         },
         "calcs": {
-            "aoedamage": "self.aoebasedamage[skill.lvl] +  (0.10000000149011612 * champ.ap)",
-            "stdamage": "self.stbasedamage[skill.lvl] +  (0.20000000298023224 * champ.ap)",
+            "aoedamage": "self.aoebasedamage[skill.lvl] +  (0.09000000357627869 * champ.ap)",
+            "stdamage": "self.stbasedamage[skill.lvl] +  (0.18000000715255737 * champ.ap)",
             "trapduration": "self.Effect3[skill.lvl] +  (0.05000000074505806 * champ.ap)"
         }
     },
@@ -71366,13 +71341,13 @@
     "UrgotW": {
         "data_vals": {
             "adratiott": [
-                0.1599999964237213,
+                0.16500000655651093,
                 0.20000000298023224,
-                0.23999999463558197,
-                0.2800000011920929,
-                0.3199999928474426,
-                0.36000001430511475,
-                0.4000000059604645
+                0.23499999940395355,
+                0.27000001072883606,
+                0.3050000071525574,
+                0.3400000035762787,
+                0.375
             ],
             "onhitdamagereduction": [
                 0.5,
@@ -71440,11 +71415,11 @@
             "Effect6": [
                 20.0,
                 20.0,
-                24.0,
-                28.0,
-                32.0,
-                36.0,
-                40.0
+                23.5,
+                27.0,
+                30.5,
+                34.0,
+                37.5
             ],
             "Effect7": [
                 3.0,

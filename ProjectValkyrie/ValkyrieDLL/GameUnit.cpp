@@ -333,6 +333,7 @@ float GameUnit::CalculatePathLength()
 void GameUnit::Reskin(int id)
 {
 	DBG_INFO("GameUnit::Reskin %s %d", name.c_str(), id)
+	return; // Disabled until skin changer offsets are updated
 
 	static auto UpdateSkin = reinterpret_cast<void(__thiscall*)(void*, bool)>((int)GetModuleHandle(NULL) + Offsets::FnCharacterDataStackUpdate);
 

@@ -2,20 +2,20 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.10";
+std::string Offsets::GameVersion             = "11.11";
 
-int Offsets::ObjectManager                   = 0x01719438;
-int Offsets::Renderer                        = 0x02fdc11c;
-int Offsets::ViewMatrix                      = 0x02fd92a8;
-int Offsets::MinimapObject                   = 0x02fb5810;
-int Offsets::LocalPlayer                     = 0x02fb5814;
-int Offsets::GameTime                        = 0x02fadb80;
-int Offsets::Chat                            = 0x02fb5f10;
+int Offsets::ObjectManager                   = 0x0170bbb8;
+int Offsets::Renderer                        = 0x02fce914;
+int Offsets::ViewMatrix                      = 0x02fcbaa0;
+int Offsets::MinimapObject                   = 0x02fa7fdc;
+int Offsets::LocalPlayer                     = 0x02fa7fe0;
+int Offsets::GameTime                        = 0x02fa0294;
+int Offsets::Chat                            = 0x02fa86c4;
 int Offsets::FnCharacterDataStackUpdate      = 0x000f2430;
 
 int Offsets::ChatIsOpen                      = 0x684;
 
-int Offsets::UnderMouseObject                = 0x02FAA1F8;
+int Offsets::UnderMouseObject                = 0x02F9C930;
 int Offsets::ProjectionMatrix                = ViewMatrix + 16*sizeof(float);
 int Offsets::PlayerName                      = 0x6C;
 
@@ -55,9 +55,9 @@ int Offsets::ObjAdditionalApMulti            = 0x122C; /// I use this for rabado
 
 int Offsets::ObjDirection                    = 0x1bc0;
 
-int Offsets::ObjTransformation               = 0x2c60;
-int Offsets::ObjName                         = 0x2c6c;
-int Offsets::ObjLvl                          = 0x33DC;
+int Offsets::ObjTransformation               = 0x2c68;
+int Offsets::ObjName                         = 0x2c74;
+int Offsets::ObjLvl                          = 0x33FC;
 
 int Offsets::ObjBuffManager                  = 0x2254;
 int Offsets::BuffManagerEntriesArray         = 0x10;
@@ -77,7 +77,7 @@ int Offsets::SpellCastEnd                    = 0x8C;
 int Offsets::SpellCastSrcIdx                 = 0x68;
 int Offsets::SpellCastDestIdx                = 0xBC;
 
-int Offsets::ObjItemList                     = 0x3428;
+int Offsets::ObjItemList                     = 0x3448;
 int Offsets::ItemListItem                    = 0xC;
 int Offsets::ItemActiveName                  = 0x10;
 int Offsets::ItemCharges                     = 0x24;
@@ -103,7 +103,7 @@ int Offsets::ObjectMapRoot                   = 0x28;
 int Offsets::ObjectMapNodeNetId              = 0x10;
 int Offsets::ObjectMapNodeObject             = 0x14;
 
-int Offsets::MinimapObjectHud                = 0x88;
+int Offsets::MinimapObjectHud                = 0x14;
 int Offsets::MinimapHudPos                   = 0x60;
 int Offsets::MinimapHudSize                  = 0x68;          // has values between (191, 191) and (383, 383)
 										    

@@ -58,7 +58,8 @@ GameState* GameReader::GetNextState()
 			}
 		}
 		
-		state.map.type = (MapType)*(short*)state.turrets[0]->name.c_str();
+		if(state.turrets.size() > 0)
+			state.map.type = (MapType)*(short*)state.turrets[0]->name.c_str();
 	}
 
 	benchmark.readState.End();
