@@ -11,6 +11,8 @@ std::shared_ptr<ScriptInfo> ScriptInfo::FromJsonView(const JsonView & json)
 	info->description = json.GetString("description").c_str();
 	info->champion    = json.GetString("champion").c_str();
 	info->lastUpdate  = json.GetDouble("last_updated");
+	info->averageRating = json.ValueExists("average_rating") ? json.GetDouble("average_rating") : 0.f;
+	info->numRatings    = json.ValueExists("num_ratings") ? json.GetInteger("num_ratings") : 0;
 	return info;
 }
 
@@ -24,6 +26,7 @@ JsonValue ScriptInfo::ToJsonValue() const
 	val.WithString("description", description.c_str());
 	val.WithString("champion", champion.c_str());
 	val.WithDouble("last_updated", lastUpdate);
-
+	val.WithDouble("average_rating", averageRating);
+	val.WithInteger("num_ratings", numRatings);
 	return val;
 }

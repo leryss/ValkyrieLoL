@@ -130,6 +130,18 @@ std::shared_ptr<ScriptSubmissionsResultAsync> ValkyrieAPI::GetAllSubmissions(con
 	return std::shared_ptr<ScriptSubmissionsResultAsync>(new ScriptSubmissionsResultAsync(*lambdaClient, lambdaInvokeRequest));
 }
 
+std::shared_ptr<ScriptRatingResultAsync> ValkyrieAPI::RateScript(const IdentityInfo & identity, const std::string & scriptId, float rating)
+{
+	Aws::Utils::Json::JsonValue jsonParams;
+	jsonParams.WithString("id", scriptId.c_str());
+	jsonParams.WithDouble("rating", (double)rating);
+
+	PutIdentity(jsonParams, identity);
+	PutOperation("rate-script", jsonParams);
+
+	return std::shared_ptr<ScriptRatingResultAsync>(new ScriptRatingResultAsync(*lambdaClient, lambdaInvokeRequest));
+}
+
 std::shared_ptr<LambdaInvokeResultAsync> ValkyrieAPI::UpdateSubmission(const IdentityInfo & identity, const ScriptSubmission & submission)
 {
 	Aws::Utils::Json::JsonValue jsonParams;

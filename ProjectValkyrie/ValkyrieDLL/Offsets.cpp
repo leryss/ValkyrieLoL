@@ -11,7 +11,7 @@ int Offsets::MinimapObject                   = 0x02fa7fdc;
 int Offsets::LocalPlayer                     = 0x02fa7fe0;
 int Offsets::GameTime                        = 0x02fa0294;
 int Offsets::Chat                            = 0x02fa86c4;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f2430;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f24e0;
 
 int Offsets::ChatIsOpen                      = 0x684;
 
@@ -107,7 +107,7 @@ int Offsets::MinimapObjectHud                = 0x14;
 int Offsets::MinimapHudPos                   = 0x60;
 int Offsets::MinimapHudSize                  = 0x68;          // has values between (191, 191) and (383, 383)
 										    
-int Offsets::CharacterDataStack              = 0x2c60;
+int Offsets::CharacterDataStack              = 0x2c68;
 int Offsets::CharacterDataStackSkinId        = 0x18;
 
 int Offsets::ObjVTableGetAiManager           = 148;

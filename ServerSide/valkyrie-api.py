@@ -3,6 +3,7 @@ import time, string, random, re
 from boto3.dynamodb.conditions import Key
 from pprint import pprint
 from decimal import Decimal
+from math import inf
 
 INVITE_MODE_CREATE    = 0
 INVITE_MODE_EXTEND    = 1
@@ -26,12 +27,15 @@ ScriptsTable = DynamoDB.Table('valkyrie-scripts')
 
 class ParamInt:
     
-    def __init__(self, name):
+    def __init__(self, name, bounds = (-inf, inf)):
         self.name = name
+        self.bounds = bounds
     
     def check(self, i):
         if type(i) is not int:
             return 'Not integer'
+        if i < self.bounds[0] or i > self.bounds[1]:
+            return 'Not within bounds'
         return None
 
 class ParamBool:
@@ -46,12 +50,16 @@ class ParamBool:
         
 class ParamFloat:
     
-    def __init__(self, name):
+    def __init__(self, name, bounds = (-float("inf"), float("inf"))):
         self.name = name
-    
+        self.bounds = bounds
+        
     def check(self, f):
         if type(f) is not float:
-            return f'Not decimal {type(f)}'
+            return f'Not decimal ({f})'
+        if f < self.bounds[0] or f > self.bounds[1]:
+            return f'Float outside bounds'
+            
         return None
 
 class ParamStr:
@@ -95,7 +103,7 @@ class ParamDict:
         
 # API Input parameter validators
 PARAM_NAME               = ParamStr('name', 5, 30)
-PARAM_SUMMONER_NAME      = ParamStr('summoner_name', 3, 30)
+PARAM_SUMMONER_NAME      = ParamStr('summoner_name', 3, 30, re.compile(".+"))
 PARAM_TARGET             = ParamStr('target', 5, 30)
 PARAM_PASS               = ParamStr('pass', 5, 30)
 PARAM_DISCORD            = ParamStr('discord', 5, 30, re.compile("[^#]+#\d\d\d\d"))
@@ -119,6 +127,7 @@ PARAM_CHAMPION           = ParamStr('champion', 2, 15)
 PARAM_CODE               = ParamStr('code', 100, 50000)
 PARAM_DENY_REASON        = ParamStr('deny_reason', 0, 250)
 PARAM_STATUS             = ParamInt('status')
+PARAM_RATING             = ParamInt('rating', (1, 5))
 PARAM_SCRIPT             = ParamDict('script', [PARAM_ID, PARAM_NAME, PARAM_DESCRIPTION, PARAM_CHAMPION])
 PARAM_SCRIPT_SUBMISSION  = ParamDict('script-submission', [PARAM_SCRIPT, PARAM_STATUS, PARAM_DENY_REASON])
 PARAM_SESSION_INFO       = ParamDict('session-info', [PARAM_SUMMONER_NAME, PARAM_TIMESTAMP])
@@ -495,6 +504,36 @@ def log_session(username, session):
     
     return success('')
 
+@verify_identity
+@extract_params([PARAM_ID, PARAM_NAME, PARAM_RATING])
+def rate_script(script_id, caller, rating):
+    
+    rating = Decimal(rating)
+    
+    # Get script entry
+    script_entry = query_by_key(ScriptsTable, script_id, 'id')
+    if not script_entry:
+        return error(f'No script found with specified id {script_id}')
+        
+    # Update stats
+    ScriptStatsTable = DynamoDB.Table('valkyrie-script-stats')
+    stats = query_by_key(ScriptStatsTable, script_id, 'script_id')
+    if stats == None:
+        stats = { 'script_id': script_id, 'ratings': {} }
+    
+    stats['ratings'][caller] = rating
+    ScriptStatsTable.put_item(Item = stats)
+    
+    # Update script entry
+    rating_dict = {
+        'average_rating': sum([rating for rating in stats['ratings'].values()]) / len(stats['ratings']),
+        'num_ratings': len(stats['ratings'])
+    }
+    script_entry.update(rating_dict)
+    ScriptsTable.put_item(Item = script_entry)
+    
+    return success(rating_dict)
+    
 @extract_params([PARAM_NAME, PARAM_INVITE_CODE])
 def extend_sub(name, code):
     ''' Extends subscription of a user using a subscription code '''
@@ -517,7 +556,7 @@ def extend_sub(name, code):
     UsersTable.put_item(Item=dbuser)
     InvitesTable.delete_item(Key={'code': code})
     return success(str(dbuser['expiry']))
-    
+
 def success(msg):
     return {
         'code': 200,
@@ -543,6 +582,7 @@ user_operations = {
     'submit-script'    : submit_script,
     'submissions-for'  : get_submissions_by_name,
     'log-session'      : log_session,
+    'rate-script'      : rate_script,
     
      
     # Admin only

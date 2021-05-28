@@ -72,8 +72,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 			ImGui::NewFrame();
 			ImGui::PushFont(ValkyrieShared::FontValkyrie);
 
-			ui.ImGuiShow();
-			//ImGui::ShowStyleEditor();
+			if(!IsIconic(hwnd))
+				ui.ImGuiShow();
 
 			ImGui::PopFont();
 			ImGui::EndFrame();

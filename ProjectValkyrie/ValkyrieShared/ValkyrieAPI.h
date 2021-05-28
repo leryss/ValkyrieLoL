@@ -219,6 +219,24 @@ public:
 	}
 };
 
+class ScriptRatingResultAsync : public LambdaInvokeResultAsync {
+public:
+	float newAverageRating;
+	int   newNumRatings;
+
+	using LambdaInvokeResultAsync::LambdaInvokeResultAsync;
+
+	virtual void Perform() {
+		LambdaInvokeResultAsync::Perform();
+
+		if (GetStatus() == ASYNC_SUCCEEDED) {
+			auto view = rawJson.View().GetObject("result");
+			newAverageRating = view.GetDouble("average_rating");
+			newNumRatings = view.GetInteger("num_ratings");
+		}
+	}
+};
+
 class InviteListResultAsync : public LambdaInvokeResultAsync {
 public:
 	std::vector<std::shared_ptr<InviteInfo>> invites;
@@ -256,6 +274,7 @@ public:
 	std::shared_ptr<ScriptSubmissionsResultAsync> SubmitScript(const IdentityInfo& identity, const ScriptInfo& script, const std::string& code);
 	std::shared_ptr<ScriptSubmissionsResultAsync> GetSubmissions(const IdentityInfo& identity, const std::string& name);
 	std::shared_ptr<ScriptSubmissionsResultAsync> GetAllSubmissions(const IdentityInfo& identity);
+	std::shared_ptr<ScriptRatingResultAsync>      RateScript(const IdentityInfo& identity, const std::string& scriptId, float rating);
 
 	std::shared_ptr<LambdaInvokeResultAsync>      UpdateSubmission(const IdentityInfo& identity, const ScriptSubmission& submission);
 	std::shared_ptr<StringResultAsync>            ExtendSubscription(const char* name, const char* code);

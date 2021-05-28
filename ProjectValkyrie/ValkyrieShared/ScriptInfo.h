@@ -13,6 +13,8 @@ public:
 	std::string author;
 	std::string champion;
 	float       lastUpdate;
+	float       averageRating;
+	int         numRatings;
 
 	static std::shared_ptr<ScriptInfo>   FromJsonView(const JsonView& json);
 	JsonValue           ToJsonValue() const;

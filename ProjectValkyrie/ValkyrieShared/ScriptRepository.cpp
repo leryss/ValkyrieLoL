@@ -26,6 +26,22 @@ std::string ScriptRepository::BaseCodeScript = ""
 "\n"
 "";
 
+const char* ScriptRepository::Ratings[NumRatings] = {
+	"Very Bad",
+	"Bad",
+	"Decent",
+	"Good",
+	"Very Good"
+};
+
+const ImVec4 ScriptRepository::ColorRatings[NumRatings] = {
+	Color::RED,
+	Color::ORANGE,
+	Color::YELLOW,
+	Color::GREEN,
+	Color::GREEN
+};
+
 ScriptRepository::ScriptRepository()
 	: comparator(entries)
 {
@@ -164,8 +180,15 @@ void ScriptRepository::AddEntry(std::shared_ptr<ScriptInfo> & script, bool isLoc
 		entry->local = script;
 		localsUnsaved = true;
 	}
-	else
+	else {
 		entry->remote = script;
+
+		/// We update the local ratings to the remote ones
+		if (entry->local != nullptr) {
+			entry->local->averageRating = script->averageRating;
+			entry->local->numRatings = script->numRatings;
+		}
+	}
 }
 
 void ScriptRepository::RemoveEntry(std::string id, bool isLocal, bool isBoth)
@@ -190,19 +213,17 @@ void ScriptRepository::RemoveEntry(std::string id, bool isLocal, bool isBoth)
 void ScriptRepository::DrawTable(bool showLocal)
 {
 	static const float SECS_IN_DAY = 24.f * 60.f * 60.f;
-	if (ImGui::InputText("Search", searchStr, 50)) {
-		SortEntries();
-	}
 
-	ImGui::TextColored(Color::PURPLE, "Scripts");
-	ImGui::BeginTable("TableScripts", 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable);
+	DrawActions();
+
+	ImGui::BeginTable("TableScripts", 8, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2(0.f, 400.f));
 	ImGui::TableSetupColumn("Id",           ImGuiTableColumnFlags_None, 0, REPO_COLUMN_ID);
 	ImGui::TableSetupColumn("Name",         ImGuiTableColumnFlags_None, 0, REPO_COLUMN_NAME);
 	ImGui::TableSetupColumn("Author",       ImGuiTableColumnFlags_None, 0, REPO_COLUMN_AUTHOR);
 	ImGui::TableSetupColumn("Champion",     ImGuiTableColumnFlags_DefaultSort, 0, REPO_COLUMN_CHAMP);
 	ImGui::TableSetupColumn("Description",  ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Last Update",  ImGuiTableColumnFlags_None, 0);
-	ImGui::TableSetupColumn("Rating",       ImGuiTableColumnFlags_None, 0);
+	ImGui::TableSetupColumn("Rating",       ImGuiTableColumnFlags_None, 0, REPO_COLUMN_RATING);
 	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None, 0);
 	
 	if (ImGuiTableSortSpecs* specs = ImGui::TableGetSortSpecs()) {
@@ -251,6 +272,18 @@ void ScriptRepository::DrawTable(bool showLocal)
 		ImGui::Text("%d days ago", (int)((nowTimestamp - script->lastUpdate) / SECS_IN_DAY));
 
 		ImGui::TableSetColumnIndex(6);
+		int votes = script->numRatings;
+		if (votes > 0) {
+			int rating = (int)script->averageRating - 1;
+			rating = (rating < 0) ? 0 : (rating >= NumRatings ? NumRatings - 1 : rating);
+			ImGui::TextColored(ColorRatings[rating], Ratings[rating]);
+			ImGui::SameLine();
+			ImGui::Text("(%d)", votes);
+		}
+		else
+			ImGui::TextColored(Color::GRAY, "No Votes");
+
+		ImGui::TableSetColumnIndex(7);
 		switch (entry->state) {
 			case SE_STATE_DOWNLOADING:   ImGui::TextColored(Color::CYAN,   "Downloading");     break;
 			case SE_STATE_UNINSTALLED:   ImGui::TextColored(Color::GRAY,   "Not Installed");   break;
@@ -265,13 +298,18 @@ void ScriptRepository::DrawTable(bool showLocal)
 	}
 
 	ImGui::EndTable();
-	DrawActions();
+	
 }
 
 void ScriptRepository::DrawActions()
 {
 	ImGui::Separator();
 	ImGui::TextColored(Color::PURPLE, "Actions");
+	
+	if (ImGui::InputText("Search", searchStr, 50)) {
+		SortEntries();
+	}
+
 	if (selectedScript == -1)
 		return;
 
@@ -292,6 +330,8 @@ void ScriptRepository::DrawActions()
 	case SE_STATE_INSTALLED:
 		if (ImGui::Button("Uninstall"))
 			UninstallScript(local);
+		ImGui::SameLine();
+		HandleRating(local, remote);
 		break;
 	case SE_STATE_ONLY_LOCAL:
 	case SE_STATE_CORRUPTED:
@@ -528,5 +568,35 @@ void ScriptRepository::UpdateInstalledScripts()
 		auto& entry = pair.second;
 		if (entry->local != nullptr && entry->remote != nullptr && std::abs(entry->local->lastUpdate - entry->remote->lastUpdate) > 1.f)
 			DownloadScriptAndInstall(entry->remote);
+	}
+}
+
+void ScriptRepository::HandleRating(std::shared_ptr<ScriptInfo>& local, std::shared_ptr<ScriptInfo>& remote)
+{
+	if (ImGui::Button("Rate")) {
+		ImGui::OpenPopup("RatePopup");
+	}
+
+	if (ImGui::BeginPopup("RatePopup")) {
+
+		for (int i = 0; i < NumRatings; ++i) {
+			if (ImGui::Button(Ratings[i])) {
+
+				taskPool->DispatchTask(
+					std::string("RateScript"),
+					api->RateScript(identity, local->id, (float)(i + 1)),
+					[this, local, remote](std::shared_ptr<AsyncTask> response) {
+						mtxEntries.lock();
+						auto resp = (ScriptRatingResultAsync*)response.get();
+						local->averageRating = resp->newAverageRating;
+						local->numRatings = resp->newNumRatings;
+						remote->averageRating = resp->newAverageRating;
+						remote->numRatings = resp->newNumRatings;
+						mtxEntries.unlock();
+					}
+				);
+			}
+		}
+		ImGui::EndPopup();
 	}
 }

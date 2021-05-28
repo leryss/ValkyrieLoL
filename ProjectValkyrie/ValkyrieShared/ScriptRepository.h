@@ -28,7 +28,8 @@ enum ScriptRepoColumns {
 	REPO_COLUMN_ID,
 	REPO_COLUMN_NAME,
 	REPO_COLUMN_AUTHOR,
-	REPO_COLUMN_CHAMP
+	REPO_COLUMN_CHAMP,
+	REPO_COLUMN_RATING
 };
 
 class ScriptEntry {
@@ -71,10 +72,11 @@ public:
 
 		bool result;
 		switch (sortSpecs->Specs->ColumnUserID) {
-			case REPO_COLUMN_ID     : result = e1->id < e2->id            ; break;
-			case REPO_COLUMN_NAME 	: result = e1->name < e2->name        ; break;
-			case REPO_COLUMN_AUTHOR : result = e1->author < e2->author    ; break;
-			case REPO_COLUMN_CHAMP  : result = e1->champion < e2->champion; break;
+			case REPO_COLUMN_ID     : result = e1->id < e2->id                       ; break;
+			case REPO_COLUMN_NAME 	: result = e1->name < e2->name                   ; break;
+			case REPO_COLUMN_AUTHOR : result = e1->author < e2->author               ; break;
+			case REPO_COLUMN_CHAMP  : result = e1->champion < e2->champion           ; break;
+			case REPO_COLUMN_RATING : result = e1->averageRating < e2->averageRating ; break;
 			default: result = false;
 		}
 
@@ -152,6 +154,8 @@ private:
 
 	void UpdateInstalledScripts();
 
+	void HandleRating(std::shared_ptr<ScriptInfo>& local, std::shared_ptr<ScriptInfo>& remote);
+
 private:
 
 	/// Mutex for entries map. It is necessary because we retrieve some script entries asynchronously
@@ -177,4 +181,8 @@ private:
 	char nameBuff[SIZE_BUFF];
 
 	static std::string BaseCodeScript;
+
+	static const int NumRatings = 5;
+	static const char* Ratings[NumRatings];
+	static const ImVec4 ColorRatings[NumRatings];
 };
