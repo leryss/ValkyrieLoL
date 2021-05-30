@@ -598,7 +598,9 @@ def lambda_handler(event, context):
     
     if 'operation' not in event or 'operation-params' not in event:
         return error("Bad request! Missing essential parameters!")
-        
+    
+    print(event)
+    
     op = event['operation']
     params = event['operation-params']
     

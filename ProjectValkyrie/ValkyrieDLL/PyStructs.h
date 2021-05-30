@@ -398,6 +398,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 	class_<GameHud>("GameHud", "Contains info about the hud in the game")
 		.def_readonly("minimap_pos",         &GameHud::minimapPosition,   "[Vec2] Position of the minimap on the screen")
 		.def_readonly("minimap_size",        &GameHud::minimapSize,       "[Vec2] Size of the minimap on the screen")
+		.def_readonly("cursor_world_pos",    &GameHud::mouseWorldPos,     "[Vec3] Position of mouse cursor in world coordinates")
 		.def_readonly("chat_open",           &GameHud::isChatOpen,        "[bool] True if chat is open")
 		;
 

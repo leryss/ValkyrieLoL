@@ -11,6 +11,8 @@ public:
 
 	static int GameTime;
 	static int PlayerName;
+	static int HudInstance;
+	static int HudInstanceMouseWorldPosition;
 
 	static int ObjIndex;
 	static int ObjTeam;

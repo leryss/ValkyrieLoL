@@ -214,7 +214,9 @@ void ScriptRepository::DrawTable(bool showLocal)
 {
 	static const float SECS_IN_DAY = 24.f * 60.f * 60.f;
 
-	DrawActions();
+	if (ImGui::InputText("Search", searchStr, 50)) {
+		SortEntries();
+	}
 
 	ImGui::BeginTable("TableScripts", 8, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Sortable | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY, ImVec2(0.f, 400.f));
 	ImGui::TableSetupColumn("Id",           ImGuiTableColumnFlags_None, 0, REPO_COLUMN_ID);
@@ -298,17 +300,13 @@ void ScriptRepository::DrawTable(bool showLocal)
 	}
 
 	ImGui::EndTable();
-	
+	DrawActions();
 }
 
 void ScriptRepository::DrawActions()
 {
 	ImGui::Separator();
 	ImGui::TextColored(Color::PURPLE, "Actions");
-	
-	if (ImGui::InputText("Search", searchStr, 50)) {
-		SortEntries();
-	}
 
 	if (selectedScript == -1)
 		return;

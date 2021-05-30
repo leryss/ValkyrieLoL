@@ -11,8 +11,10 @@ int Offsets::MinimapObject                   = 0x02fa7fdc;
 int Offsets::LocalPlayer                     = 0x02fa7fe0;
 int Offsets::GameTime                        = 0x02fa0294;
 int Offsets::Chat                            = 0x02fa86c4;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f24e0;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f24e0; 
+int Offsets::HudInstance                     = 0x0170bbf0;
 
+int Offsets::HudInstanceMouseWorldPosition   = 0x11c;
 int Offsets::ChatIsOpen                      = 0x684;
 
 int Offsets::UnderMouseObject                = 0x02F9C930;

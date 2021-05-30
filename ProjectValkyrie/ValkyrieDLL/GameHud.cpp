@@ -13,9 +13,11 @@ void GameHud::ReadFromBaseAddress(int baseAddr)
 
 		int minimapObject = ReadInt(baseAddr + Offsets::MinimapObject);
 		int minimapHud = ReadInt(minimapObject + Offsets::MinimapObjectHud);
+		int hudInstance = ReadInt(baseAddr + Offsets::HudInstance);
 
 		memcpy(&minimapSize, AsPtr(minimapHud + Offsets::MinimapHudSize), sizeof(Vector2));
 		memcpy(&minimapPosition, AsPtr(minimapHud + Offsets::MinimapHudPos), sizeof(Vector2));
+		memcpy(&mouseWorldPos, AsPtr(hudInstance + Offsets::HudInstanceMouseWorldPosition), sizeof(Vector3));
 	}
 	__except (1) {}
 }

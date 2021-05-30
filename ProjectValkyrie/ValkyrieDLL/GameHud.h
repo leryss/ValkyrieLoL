@@ -10,6 +10,7 @@ public:
 
 	Vector2 minimapSize;
 	Vector2 minimapPosition;
+	Vector3 mouseWorldPos;
 	bool    isChatOpen;
 
 private:

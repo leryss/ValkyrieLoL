@@ -87,6 +87,7 @@ void ObjectExplorer::DrawObjects(GameState & state)
 		ImGui::Checkbox("Is chat open", &hud.isChatOpen);
 		hud.minimapPosition.ImGuiDraw("Minimap Position");
 		hud.minimapSize.ImGuiDraw("Minimap Size");
+		hud.mouseWorldPos.ImGuiDraw("Mouse position");
 
 		ImGui::TreePop();
 	}

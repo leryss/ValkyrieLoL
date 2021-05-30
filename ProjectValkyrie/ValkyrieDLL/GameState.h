@@ -18,7 +18,7 @@ struct GameState {
 	bool                                        gameStarted;
 	float                                       time;
 	float                                       ping;
-				                                
+
 	GameRenderer                                renderer;
 	GameHud                                     hud;
 	GameMap                                     map;
