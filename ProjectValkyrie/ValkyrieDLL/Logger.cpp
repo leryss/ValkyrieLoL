@@ -15,7 +15,7 @@ void Logger::Info(const char * str, ...)
 {
 	LoggerMutex.lock();
 
-	char message[2048];
+	char message[4000];
 
 	va_list va;
 	va_start(va, str);
@@ -35,7 +35,7 @@ void Logger::Warn(const char * str, ...)
 {
 	LoggerMutex.lock();
 
-	char message[2048];
+	char message[4000];
 
 	va_list va;
 	va_start(va, str);
@@ -54,7 +54,7 @@ void Logger::Error(const char * str, ...)
 {
 	LoggerMutex.lock();
 
-	char message[2048];
+	char message[4000];
 
 	va_list va;
 	va_start(va, str);
@@ -74,7 +74,7 @@ void Logger::Error(const char * str, ...)
 void Logger::PushDebug(const char * str, ...)
 {
 	LoggerMutex.lock();
-	char msg[512];
+	char msg[4000];
 	va_list va;
 	va_start(va, str);
 	vsprintf_s(msg, str, va);

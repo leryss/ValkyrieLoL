@@ -95,12 +95,15 @@ void GameReader::ReadLocalChampion()
 void GameReader::ReadHoveredObject()
 {
 	DBG_INFO("GameReader::ReadHoveredObject")
+
+	state.hovered = nullptr;
 	int addr = ReadInt(baseAddr + Offsets::UnderMouseObject);
 
-	if (!CantRead(addr)) {
+	if (addr != 0) {
 		int netId = ReadInt(addr + Offsets::ObjNetworkID);
 		auto find = state.objectCache.find(netId);
-		state.hovered = (find == state.objectCache.end() ? nullptr : find->second);
+		if(find != state.objectCache.end())
+			state.hovered = find->second;
 	}
 }
 

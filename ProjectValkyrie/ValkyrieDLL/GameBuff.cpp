@@ -10,7 +10,7 @@ void GameBuff::ImGuiDraw()
 	ImGui::DragFloat("Start Time", &startTime);
 	ImGui::DragFloat("End Time", &endTime);
 	ImGui::DragInt("Count", &count);
-	ImGui::DragInt("Value", &value);
+	ImGui::DragFloat("Value", &value);
 }
 
 int BuffEntry::GetCount() const
