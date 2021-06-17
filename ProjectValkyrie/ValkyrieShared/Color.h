@@ -17,4 +17,5 @@ namespace Color {
 	static const ImVec4 ORANGE      = ImVec4(1.f,   0.54f, 0.f,   1.f);
 	static const ImVec4 BLUE        = ImVec4(0.f,   0.f,   1.f,   1.f);
 	static const ImVec4 BROWN       = ImVec4(0.54f, 0.27f, 0.06f, 1.f);
+	static const ImVec4 NONE        = ImVec4(0.f,   0.f,   0.f,   0.f);
 };

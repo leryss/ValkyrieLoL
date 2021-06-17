@@ -163,7 +163,7 @@ void ScriptRepository::Draw()
 	mtxEntries.unlock();
 }
 
-void ScriptRepository::AddEntry(std::shared_ptr<ScriptInfo> & script, bool isLocal)
+std::shared_ptr<ScriptEntry> ScriptRepository::AddEntry(std::shared_ptr<ScriptInfo> & script, bool isLocal)
 {
 	auto find = entries.find(script->id);
 	std::shared_ptr<ScriptEntry> entry;
@@ -189,6 +189,8 @@ void ScriptRepository::AddEntry(std::shared_ptr<ScriptInfo> & script, bool isLoc
 			entry->local->numRatings = script->numRatings;
 		}
 	}
+
+	return entry;
 }
 
 void ScriptRepository::RemoveEntry(std::string id, bool isLocal, bool isBoth)
@@ -226,7 +228,7 @@ void ScriptRepository::DrawTable(bool showLocal)
 	ImGui::TableSetupColumn("Description",  ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Last Update",  ImGuiTableColumnFlags_None, 0);
 	ImGui::TableSetupColumn("Rating",       ImGuiTableColumnFlags_None, 0, REPO_COLUMN_RATING);
-	ImGui::TableSetupColumn("Status",       ImGuiTableColumnFlags_None, 0);
+	ImGui::TableSetupColumn("Type",         ImGuiTableColumnFlags_None, 0, REPO_COLUMN_TYPE);
 	
 	if (ImGuiTableSortSpecs* specs = ImGui::TableGetSortSpecs()) {
 		comparator.sortSpecs = specs;
@@ -247,10 +249,17 @@ void ScriptRepository::DrawTable(bool showLocal)
 		if (script == nullptr)
 			continue;
 
-		UpdateState(entry);
+		if(GetTickCount() % 250 == 0)
+			UpdateState(entry);
 
 		ImGui::PushID(i);
 		ImGui::TableNextRow();
+
+		ImVec4 color = GetStateColor(entry->state);
+		if (color.w > 0.f) {
+			color.w = 0.3f;
+			ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImColor(color), i);
+		}
 
 		ImGui::TableSetColumnIndex(0);
 		if (ImGui::Selectable("", selectedScript == i, ImGuiSelectableFlags_SpanAllColumns))
@@ -286,16 +295,16 @@ void ScriptRepository::DrawTable(bool showLocal)
 			ImGui::TextColored(Color::GRAY, "No Votes");
 
 		ImGui::TableSetColumnIndex(7);
-		switch (entry->state) {
-			case SE_STATE_DOWNLOADING:   ImGui::TextColored(Color::CYAN,   "Downloading");     break;
-			case SE_STATE_UNINSTALLED:   ImGui::TextColored(Color::GRAY,   "Not Installed");   break;
-			case SE_STATE_INSTALLED:     ImGui::TextColored(Color::GREEN,  "Installed");       break;
-			case SE_STATE_WAITING:       ImGui::TextColored(Color::CYAN,   "Waiting");         break;
-			case SE_STATE_OUTDATED:      ImGui::TextColored(Color::YELLOW, "Outdated");        break;
-			case SE_STATE_CORRUPTED:     ImGui::TextColored(Color::RED,    "Corrupted");       break;
-			case SE_STATE_ONLY_LOCAL:    ImGui::TextColored(Color::YELLOW, "Local Only");      break;
+		switch (script->type) {
+		case RuntimeScript:
+			ImGui::TextColored(Color::CYAN, "Runtime");
+			break;
+		case LibraryScript:
+			ImGui::TextColored(Color::ORANGE, "Library");
+			break;
+		default:
+			ImGui::TextColored(Color::RED, "Unknown");
 		}
-
 		ImGui::PopID();
 	}
 
@@ -308,7 +317,7 @@ void ScriptRepository::DrawActions()
 	ImGui::Separator();
 	ImGui::TextColored(Color::PURPLE, "Actions");
 
-	if (selectedScript == -1)
+	if (selectedScript == -1 || selectedScript >= sorted.size())
 		return;
 
 	auto entry = entries[sorted[selectedScript]];
@@ -318,10 +327,12 @@ void ScriptRepository::DrawActions()
 	switch (entry->state) {
 		
 	case SE_STATE_UNINSTALLED:
+		ImGui::TextColored(Color::GRAY, "You dont have this script. Press Install to get it");
 		if (ImGui::Button("Install"))
 			DownloadScriptAndInstall(remote);
 		break;
 	case SE_STATE_OUTDATED:
+		ImGui::TextColored(Color::YELLOW, "This script is old. You can update it !");
 		if (ImGui::Button("Update"))
 			DownloadScriptAndInstall(remote);
 		ImGui::SameLine();
@@ -332,9 +343,18 @@ void ScriptRepository::DrawActions()
 		HandleRating(local, remote);
 		break;
 	case SE_STATE_ONLY_LOCAL:
-	case SE_STATE_CORRUPTED:
+		ImGui::TextColored(Color::ORANGE, "This script is not on valkyrie servers. If you want to share it please submit it.");
 		if (ImGui::Button("Delete"))
 			UninstallScript(local);
+		break;
+	case SE_STATE_CORRUPTED:
+		ImGui::TextColored(Color::RED, entry->error.c_str());
+		if (ImGui::Button("Delete"))
+			UninstallScript(local);
+		break;
+	case SE_STATE_DOWNLOADING:
+	case SE_STATE_WAITING:
+		ImGui::TextColored(Color::CYAN, "This is script is being installed please wait");
 		break;
 	}
 
@@ -377,6 +397,12 @@ void ScriptRepository::DrawScriptEdit()
 	if (ImGui::InputText("Description", descBuff, SIZE_BUFF))
 		changed = true;
 
+	if (ImGui::Combo("Type", &type, "Runtime\0Library"))
+		changed = true;
+
+	if (DrawDependenciesSelect())
+		changed = true;
+
 	if (changed) {
 
 		/// Check if new id overwrites existing one or new id is empty
@@ -396,11 +422,69 @@ void ScriptRepository::DrawScriptEdit()
 		info->description = descBuff;
 		info->champion = champBuff;
 		info->author = identity.name;
+		info->type = (ScriptType) type;
+		info->dependencies = dependencies;
 	
 		AddEntry(info, true);
 		if(nameChanged)
 			MoveFileA(Paths::GetScriptPath(idPrevious).c_str(), Paths::GetScriptPath(idNew).c_str());
 	}
+}
+
+bool ScriptRepository::DrawDependenciesSelect() {
+
+	bool modified = false;
+	if (ImGui::BeginListBox("Dependencies")) {
+		for (int i = 0; i < dependencies.size(); ++i) {
+			if (ImGui::Selectable(dependencies[i].c_str(), i == selectedDependency)) {
+				selectedDependency = i;
+			}
+		}
+		ImGui::EndListBox();
+	}
+
+	if (ImGui::Button("Add"))
+		ImGui::OpenPopup("DependencySelectPopup");
+	if (selectedDependency > -1) {
+		ImGui::SameLine();
+		if (ImGui::Button("Remove")) {
+			dependencies.erase(dependencies.begin() + selectedDependency);
+			modified = true;
+			selectedDependency -= 1;
+		}
+	}
+
+	if (ImGui::BeginPopupModal("DependencySelectPopup")) {
+		
+		for (auto entry : entries) {
+			auto local = entry.second->local;
+			if (local != nullptr) {
+				if (ImGui::Selectable(local->id.c_str())) {
+					dependencies.push_back(local->id);
+					modified = true;
+					break;
+				}
+			}
+		}
+
+		ImGui::EndPopup();
+	}
+
+	return modified;
+}
+
+ImVec4 ScriptRepository::GetStateColor(ScriptEntryState state)
+{
+	switch (state) {
+		case SE_STATE_DOWNLOADING:      return Color::CYAN;
+		case SE_STATE_UNINSTALLED:      return Color::NONE;
+		case SE_STATE_INSTALLED:        return Color::NONE;
+		case SE_STATE_WAITING:          return Color::CYAN;
+		case SE_STATE_OUTDATED:         return Color::YELLOW;
+		case SE_STATE_CORRUPTED:        return Color::RED;
+		case SE_STATE_ONLY_LOCAL:       return Color::ORANGE;
+	}
+	return Color::NONE;
 }
 
 void ScriptRepository::SelectEntry(int selected)
@@ -414,6 +498,8 @@ void ScriptRepository::SelectEntry(int selected)
 	strcpy_s(nameBuff, local->name.c_str());
 	strcpy_s(descBuff, local->description.c_str());
 	strcpy_s(champBuff, local->champion.c_str());
+	type = local->type;
+	dependencies = local->dependencies;
 }
 
 void ScriptRepository::DownloadScriptAndInstall(std::shared_ptr<ScriptInfo> remote)
@@ -426,6 +512,15 @@ void ScriptRepository::DownloadScriptAndInstall(std::shared_ptr<ScriptInfo> remo
 			mtxEntries.lock();
 			InstallScript(remote, code);
 			mtxEntries.unlock();
+
+			/// Install dependency scripts
+			for (auto dependency : remote->dependencies) {
+				auto find = entries.find(dependency);
+				if (find != entries.end()) {
+					if(find->second->local == nullptr && find->second->remote != nullptr)
+						DownloadScriptAndInstall(find->second->remote);
+				}
+			}
 		}
 	);
 }
@@ -463,13 +558,13 @@ void ScriptRepository::UpdateSubmissions(std::vector<std::shared_ptr<ScriptSubmi
 	}
 }
 
-void ScriptRepository::InstallScript(std::shared_ptr<ScriptInfo> script, std::string & code)
+std::shared_ptr<ScriptEntry> ScriptRepository::InstallScript(std::shared_ptr<ScriptInfo> script, std::string & code)
 {
 	std::ofstream out(Paths::GetScriptPath(script->id));
 	if (out.is_open())
 		out << code;
 
-	AddEntry(script, true);
+	return AddEntry(script, true);
 }
 
 void ScriptRepository::UninstallScript(std::shared_ptr<ScriptInfo> script)
@@ -517,7 +612,11 @@ void ScriptRepository::SortEntries()
 	for (auto& pair : entries) {
 		if (search) {
 			auto info = (pair.second->remote != nullptr ? pair.second->remote : pair.second->local);
-			if (info->champion.find(searchLower) == std::string::npos && Strings::ToLower(info->name).find(searchLower) == std::string::npos)
+
+			/// Kinda inefficient but its just a local search fuck it
+			if (info->champion.find(searchLower)               == std::string::npos && 
+				Strings::ToLower(info->name).find(searchLower) == std::string::npos &&
+				Strings::ToLower(info->id).find(searchLower)   == std::string::npos)
 				continue;
 		}
 		sorted.push_back(pair.first);
@@ -535,12 +634,23 @@ void ScriptRepository::UpdateState(std::shared_ptr<ScriptEntry>& entry)
 		auto path = Paths::GetScriptPath(entry->local->id);
 		if (Paths::FileExists(path))
 			entry->state = SE_STATE_ONLY_LOCAL;
-		else
+		else {
 			entry->state = SE_STATE_CORRUPTED;
+			entry->error = "Script is missing from file system. Try reinstalling";
+		}
 		return;
 	}
 
 	if (local != nullptr) {
+
+		for (auto dep : local->dependencies) {
+			auto find = entries.find(dep);
+			if (find == entries.end() || find->second->local == nullptr) {
+				entry->state = SE_STATE_CORRUPTED;
+				entry->error = Strings::Format("Scripts needs %s installed. Please install it otherwise script might not work.", dep.c_str());
+				return;
+			}
+		}
 
 		if (taskPool->IsExecuting(local->id))
 			entry->state = SE_STATE_DOWNLOADING;
@@ -552,8 +662,10 @@ void ScriptRepository::UpdateState(std::shared_ptr<ScriptEntry>& entry)
 			auto path = Paths::GetScriptPath(entry->local->id);
 			if (Paths::FileExists(path))
 				entry->state = SE_STATE_INSTALLED;
-			else
+			else {
 				entry->state = SE_STATE_CORRUPTED;
+				entry->error = "Script is missing from file system. Try reinstalling";
+			}
 		}
 	}
 	else

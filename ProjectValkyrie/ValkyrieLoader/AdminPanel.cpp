@@ -79,12 +79,14 @@ void AdminPanel::DrawSubmissionManager()
 
 	mtxSubmissions.lock();
 
-	ImGui::BeginTable("Users tbl", 5, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable);
+	ImGui::BeginTable("Users tbl", 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable);
 	ImGui::TableSetupColumn("Id");
 	ImGui::TableSetupColumn("Name");
 	ImGui::TableSetupColumn("Author");
 	ImGui::TableSetupColumn("Champion");
 	ImGui::TableSetupColumn("Description");
+	ImGui::TableSetupColumn("Type");
+	ImGui::TableSetupColumn("Dependencies");
 	ImGui::TableHeadersRow();
 
 	for (size_t i = 0; i < submissions.size(); ++i) {
@@ -116,6 +118,14 @@ void AdminPanel::DrawSubmissionManager()
 
 		ImGui::TableSetColumnIndex(4);
 		ImGui::Text(script->description.c_str());
+
+		ImGui::TableSetColumnIndex(5);
+		ImGui::Text("%d", script->type);
+		
+		ImGui::TableSetColumnIndex(6);
+		for (auto dep : script->dependencies) {
+			ImGui::Text("%s, ", dep.c_str());
+		}
 
 		ImGui::PopID();
 	}

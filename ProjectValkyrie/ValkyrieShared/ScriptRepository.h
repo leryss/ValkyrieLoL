@@ -29,7 +29,8 @@ enum ScriptRepoColumns {
 	REPO_COLUMN_NAME,
 	REPO_COLUMN_AUTHOR,
 	REPO_COLUMN_CHAMP,
-	REPO_COLUMN_RATING
+	REPO_COLUMN_RATING,
+	REPO_COLUMN_TYPE
 };
 
 class ScriptEntry {
@@ -46,6 +47,9 @@ public:
 
 	/// Current state of the local version of the script
 	ScriptEntryState state;
+
+	/// Current error if state is corrupted
+	std::string error;
 };
 
 struct ScriptRepoEntryComparator
@@ -77,6 +81,7 @@ public:
 			case REPO_COLUMN_AUTHOR : result = e1->author < e2->author               ; break;
 			case REPO_COLUMN_CHAMP  : result = e1->champion < e2->champion           ; break;
 			case REPO_COLUMN_RATING : result = e1->averageRating < e2->averageRating ; break;
+			case REPO_COLUMN_TYPE   : result = e1->type < e2->type                   ; break;
 			default: result = false;
 		}
 
@@ -112,7 +117,7 @@ public:
 	void Draw();
 
 	/// Adds an entry to the script index
-	void AddEntry(std::shared_ptr<ScriptInfo>& script, bool isLocal);
+	std::shared_ptr<ScriptEntry> AddEntry(std::shared_ptr<ScriptInfo>& script, bool isLocal);
 
 	/// Removes and entry from the script index
 	void RemoveEntry(std::string id, bool isLocal, bool isBoth);
@@ -138,7 +143,7 @@ private:
 	void UpdateSubmissions(std::vector<std::shared_ptr<ScriptSubmission>>& submissions);
 
 	/// Writes the script file to disk and updates the entries index
-	void InstallScript(std::shared_ptr<ScriptInfo> script, std::string& code);
+	std::shared_ptr<ScriptEntry> InstallScript(std::shared_ptr<ScriptInfo> script, std::string& code);
 
 	/// Removes the file from this and updates the entries index
 	void UninstallScript(std::shared_ptr<ScriptInfo> script);
@@ -155,6 +160,10 @@ private:
 	void UpdateInstalledScripts();
 
 	void HandleRating(std::shared_ptr<ScriptInfo>& local, std::shared_ptr<ScriptInfo>& remote);
+
+	bool DrawDependenciesSelect();
+
+	ImVec4 GetStateColor(ScriptEntryState state);
 
 private:
 
@@ -179,6 +188,9 @@ private:
 	char champBuff[SIZE_BUFF];
 	char descBuff[SIZE_BUFF];
 	char nameBuff[SIZE_BUFF];
+	int  type;
+	std::vector<std::string> dependencies;
+	int selectedDependency = -1;
 
 	static std::string BaseCodeScript;
 
