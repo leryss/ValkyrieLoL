@@ -93,7 +93,7 @@ public:
 		ImGuiStyle* style = &ImGui::GetStyle();
 		style->WindowPadding = { 16.f, 11.f };
 		style->FramePadding = { 16.f, 5.f };
-		style->CellPadding = { 10.f, 1.f };
+		style->CellPadding = { 10.f, 2.f };
 		style->ItemSpacing = { 8.f, 4.f };
 		style->ItemInnerSpacing = { 4.f, 7.f };
 		style->IndentSpacing = 20.f;

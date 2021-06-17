@@ -257,7 +257,7 @@ void ScriptRepository::DrawTable(bool showLocal)
 
 		ImVec4 color = GetStateColor(entry->state);
 		if (color.w > 0.f) {
-			color.w = 0.3f;
+			color.w = 0.35f;
 			ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImColor(color), i);
 		}
 
@@ -351,6 +351,13 @@ void ScriptRepository::DrawActions()
 		ImGui::TextColored(Color::RED, entry->error.c_str());
 		if (ImGui::Button("Delete"))
 			UninstallScript(local);
+		if (remote != nullptr) {
+			ImGui::SameLine();
+			if (ImGui::Button("Try fix")) {
+				UninstallScript(local);
+				DownloadScriptAndInstall(remote);
+			}
+		}
 		break;
 	case SE_STATE_DOWNLOADING:
 	case SE_STATE_WAITING:
@@ -477,12 +484,12 @@ ImVec4 ScriptRepository::GetStateColor(ScriptEntryState state)
 {
 	switch (state) {
 		case SE_STATE_DOWNLOADING:      return Color::CYAN;
-		case SE_STATE_UNINSTALLED:      return Color::NONE;
+		case SE_STATE_UNINSTALLED:      return Color::BROWN;
 		case SE_STATE_INSTALLED:        return Color::NONE;
 		case SE_STATE_WAITING:          return Color::CYAN;
 		case SE_STATE_OUTDATED:         return Color::YELLOW;
 		case SE_STATE_CORRUPTED:        return Color::RED;
-		case SE_STATE_ONLY_LOCAL:       return Color::ORANGE;
+		case SE_STATE_ONLY_LOCAL:       return Color::PURPLE;
 	}
 	return Color::NONE;
 }
@@ -647,7 +654,7 @@ void ScriptRepository::UpdateState(std::shared_ptr<ScriptEntry>& entry)
 			auto find = entries.find(dep);
 			if (find == entries.end() || find->second->local == nullptr) {
 				entry->state = SE_STATE_CORRUPTED;
-				entry->error = Strings::Format("Scripts needs %s installed. Please install it otherwise script might not work.", dep.c_str());
+				entry->error = Strings::Format("Scripts needs %s installed. Please install it otherwise script might not work. ", dep.c_str());
 				return;
 			}
 		}
