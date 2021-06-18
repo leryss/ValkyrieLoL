@@ -40,6 +40,8 @@ public:
 
 	bool               IsEnabled();
 
+	bool               HasFunction(ScriptFunction func);
+
 	/// Exctracts the python error from CPython
 	static std::string GetPyError();
 				 
@@ -72,6 +74,7 @@ private:
 
 	void         UpdateState();
 
+	const int    NUM_FUNCTIONS = 4;
 	PyObject*    moduleObj;
-	PyObject*    functions[4];
+	PyObject*    functions[20];
 };

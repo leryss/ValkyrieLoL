@@ -39,7 +39,7 @@ Script::~Script()
 {
 	if (moduleObj != NULL)
 		Py_DECREF(moduleObj);
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < NUM_FUNCTIONS; ++i) {
 		if (functions[i] != NULL)
 			Py_DECREF(functions[i]);
 	}
@@ -54,7 +54,6 @@ bool Script::LoadFunc(PyObject** loadInto, const char* funcName) {
 	Py_DECREF(pyFuncName);
 
 	if (*loadInto == NULL) {
-		SetError("Failed to load", Strings::Format("Failed to load function %s", funcName));
 		return false;
 	}
 	return true;
@@ -110,23 +109,23 @@ bool Script::Load(std::shared_ptr<ScriptInfo> info)
 		SetError("Failed to load", extract<std::string>(PyObject_Str(pvalue)));
 	}
 	else {
-		if (LoadFunc(&functions[ScriptFunction::ON_LOOP], "valkyrie_exec") &&
-			LoadFunc(&functions[ScriptFunction::ON_MENU], "valkyrie_menu") &&
-			LoadFunc(&functions[ScriptFunction::ON_LOAD], "valkyrie_on_load") &&
-			LoadFunc(&functions[ScriptFunction::ON_SAVE], "valkyrie_on_save")) {
+		LoadFunc(&functions[ScriptFunction::ON_LOOP], "valkyrie_exec");
+		LoadFunc(&functions[ScriptFunction::ON_MENU], "valkyrie_menu");
+		LoadFunc(&functions[ScriptFunction::ON_LOAD], "valkyrie_on_load");
+		LoadFunc(&functions[ScriptFunction::ON_SAVE], "valkyrie_on_save");
 
-			auto configPath = Paths::Configs;
-			configPath.append("\\");
-			configPath.append(info->id.c_str());
-			config.SetSaveInterval(100);
-			config.SetConfigFile(configPath);
-			config.Load();
 
-			SetEnabled(config.GetBool("__enabled", true));
+		auto configPath = Paths::Configs;
+		configPath.append("\\");
+		configPath.append(info->id.c_str());
+		config.SetSaveInterval(100);
+		config.SetConfigFile(configPath);
+		config.Load();
 
-			context = import(info->id.c_str()).attr("__dict__");
-			return true;
-		}
+		SetEnabled(config.GetBool("__enabled", true));
+
+		context = import(info->id.c_str()).attr("__dict__");
+		return true;
 	}
 
 	return false;
@@ -134,7 +133,7 @@ bool Script::Load(std::shared_ptr<ScriptInfo> info)
 
 void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 {
-	if (state != ScriptReady)
+	if (state != ScriptReady || functions[func] == NULL)
 		return;
 
 	try {
@@ -167,4 +166,9 @@ void Script::SetEnabled(bool enabled)
 bool Script::IsEnabled()
 {
 	return enabled;
+}
+
+bool Script::HasFunction(ScriptFunction func)
+{
+	return functions[func] != NULL;
 }

@@ -180,35 +180,38 @@ void ScriptManager::ExecuteScripts(PyExecutionContext & ctx, std::deque<std::sha
 void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::shared_ptr<Script>>& scriptList)
 {
 	for (auto script : scriptList) {
+		if (!script->HasFunction(ON_MENU))
+			continue;
+
 		const char* scriptName = script->info->name.c_str();
-		ImGui::Text(" ");
-		ImGui::SameLine();
 
 		/// Set color of text if disabled/failed
-		bool resetColor = false;
+		int colorPops = 0;
 		switch (script->state) {
 		case ScriptFailed:
 			ImGui::PushStyleColor(ImGuiCol_Text, Color::RED);
-			resetColor = true;
+			colorPops += 1;
 			break;
 		case ScriptDisabled:
 			ImGui::PushStyleColor(ImGuiCol_Text, Color::GRAY);
-			resetColor = true;
+			colorPops += 1;
 			break;
 		}
+
+		DrawScriptPrefix(script);
 
 		if (ImGui::BeginMenu(scriptName)) {
 
 			switch (script->state) {
 			case ScriptReady:
 				ctx.SetScript(script.get());
-
-				DBG_INFO("ScriptManager: Drawing UI for script %s", script->info->id.c_str())
-					script->Execute(ctx, ON_MENU);
+				
+				script->Execute(ctx, ON_MENU);
 				if (script->config.IsTimeToSave()) {
 					script->Execute(ctx, ON_SAVE);
 					script->config.Save();
 				}
+
 				break;
 			case ScriptFailed:
 				ImGui::Text(script->error.c_str());
@@ -221,10 +224,23 @@ void ScriptManager::DrawScriptsMenus(PyExecutionContext & ctx, std::deque<std::s
 			ScriptMenuFooter(script);
 			ImGui::EndMenu();
 		}
-
-		if (resetColor)
-			ImGui::PopStyleColor();
+		
+		ImGui::PopStyleColor(colorPops);
 	}
+}
+
+void ScriptManager::DrawScriptPrefix(std::shared_ptr<Script>& script)
+{
+	if (script->info->type == LibraryScript) {
+		ImGui::Image(GameData::GetImage("menu-lib"), ImVec2(16, 16));
+	}
+	else {
+		if(script->info->champion == "all")
+			ImGui::Image(GameData::GetImage("menu-util"), ImVec2(16, 16));
+		else
+			ImGui::Image(GameData::GetImage((script->info->champion + "_square").c_str()), ImVec2(16, 16));
+	}
+	ImGui::SameLine();
 }
 
 std::string ScriptManager::ReadScript(std::shared_ptr<Script>& script)
