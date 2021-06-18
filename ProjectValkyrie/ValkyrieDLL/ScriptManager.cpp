@@ -171,8 +171,10 @@ void ScriptManager::ExecuteScripts(PyExecutionContext & ctx, std::deque<std::sha
 			ctx.SetScript(script.get());
 			if (script->neverExecuted)
 				script->Execute(ctx, ON_LOAD);
-			else
+			else {
+				script->input.UpdateIssuedOperations();
 				script->Execute(ctx, ON_LOOP);
+			}
 		}
 	}
 }

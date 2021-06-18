@@ -137,7 +137,6 @@ void Script::Execute(PyExecutionContext& ctx, ScriptFunction func)
 		return;
 
 	try {
-		input.UpdateIssuedOperations();
 		neverExecuted = false;
 
 		executionTimes[func].Start();
