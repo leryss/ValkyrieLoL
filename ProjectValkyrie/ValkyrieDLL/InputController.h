@@ -43,8 +43,10 @@ public:
 	bool Update();
 	bool operator==(const IoStepBatch& other);
 
-private:
+public:
 	int                                 controlId;
+	
+private:
 	std::shared_ptr<IoStep>             currentStep;
 	std::queue<std::shared_ptr<IoStep>> steps;
 };
@@ -102,6 +104,9 @@ public:
 	/// Maps hardware keys to virtual keys
 	int GetVirtualKey(HKey key);
 
+private:
+	void PushIoBatch(std::shared_ptr<IoStepBatch> batch);
+
 public:
 	static const float                ScreenWidth;
 	static const float                ScreenHeight;
@@ -110,7 +115,7 @@ public:
 
 private:
 	std::shared_ptr<IoStepBatch>             ioCurrent;
-	std::queue<std::shared_ptr<IoStepBatch>> ioQueue;
+	std::deque<std::shared_ptr<IoStepBatch>> ioQueue;
 
 	duration<float, std::milli>       timeDiff;
 	high_resolution_clock::time_point nowTime;

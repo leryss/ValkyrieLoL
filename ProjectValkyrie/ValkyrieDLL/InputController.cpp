@@ -74,7 +74,7 @@ void InputController::UpdateIssuedOperations()
 
 		ioCurrent = ioQueue.front();
 		ioCurrent->Start();
-		ioQueue.pop();
+		ioQueue.pop_front();
 	}
 
 	if (ioCurrent->Update()) {
@@ -84,7 +84,7 @@ void InputController::UpdateIssuedOperations()
 
 void InputController::IssuePressKey(HKey key)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch(
 			{
 				std::shared_ptr<IoStep>(new IoPressKey(key)),
@@ -97,7 +97,7 @@ void InputController::IssuePressKey(HKey key)
 
 void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter) {
 
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
 			std::shared_ptr<IoStep>(new IoPressKey(key)),
@@ -111,7 +111,7 @@ void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGett
 
 void InputController::IssueClick(ClickType type)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoPressMouse(type)),
 			std::shared_ptr<IoStep>(new IoDelay(5.f)),
@@ -122,7 +122,7 @@ void InputController::IssueClick(ClickType type)
 
 void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posGetter)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
 			std::shared_ptr<IoStep>(new IoPressMouse(type)),
@@ -155,7 +155,7 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 		return unit != nullptr && unit->targetable && !unit->isDead && unit->isVisible;
 	};
 
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
 			std::shared_ptr<IoStep>(new IoPressMouse(type, clickCondition)),
@@ -168,7 +168,7 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 
 void InputController::IssueHoldKey(HKey key)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoPressKey(key))
 		}, IO_HOLD_KEY))
@@ -177,7 +177,7 @@ void InputController::IssueHoldKey(HKey key)
 
 void InputController::IssueUnholdKey(HKey key)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoReleaseKey(key))
 		}, IO_UNHOLD_KEY))
@@ -186,7 +186,7 @@ void InputController::IssueUnholdKey(HKey key)
 
 void InputController::IssueUnholdKeyAt(HKey key, std::function<Vector2()> posGetter)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
 			std::shared_ptr<IoStep>(new IoReleaseKey(key)),
@@ -198,7 +198,7 @@ void InputController::IssueUnholdKeyAt(HKey key, std::function<Vector2()> posGet
 
 void InputController::IssueDelay(float millis)
 {
-	ioQueue.push(
+	PushIoBatch(
 		std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoDelay(N))
 		}, IO_DELAY))
@@ -354,6 +354,15 @@ int InputController::GetVirtualKey(HKey key)
 	default:
 		return MapVirtualKeyA(key, MAPVK_VSC_TO_VK);
 	}
+}
+
+void InputController::PushIoBatch(std::shared_ptr<IoStepBatch> batch)
+{
+	/// Override if equals
+	if (!ioQueue.empty() && batch->controlId == ioQueue.back()->controlId) {
+		ioQueue.pop_back();
+	}
+	ioQueue.push_back(batch);
 }
 
 IoStepBatch::IoStepBatch(std::initializer_list<std::shared_ptr<IoStep>> initSteps, int id)
