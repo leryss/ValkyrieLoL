@@ -69,46 +69,69 @@ void InputController::SetMouseCursor(const Vector2 & position)
 void InputController::UpdateIssuedOperations()
 {
 	if (ioCurrent == nullptr) {
-		if (ioQueue.size() == 0)
+		if (ioQueue.empty())
 			return;
+
 		ioCurrent = ioQueue.front();
 		ioCurrent->Start();
 		ioQueue.pop();
 	}
 
 	if (ioCurrent->Update()) {
-		delete ioCurrent;
 		ioCurrent = nullptr;
 	}
 }
 
 void InputController::IssuePressKey(HKey key)
 {
-	ioQueue.push(new IoPressKey(key));
-	ioQueue.push(new IoDelay(5.f));
-	ioQueue.push(new IoReleaseKey(key));
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch(
+			{
+				std::shared_ptr<IoStep>(new IoPressKey(key)),
+				std::shared_ptr<IoStep>(new IoDelay(5.f)),
+				std::shared_ptr<IoStep>(new IoReleaseKey(key))
+			}, IO_PRESS_KEY
+		))
+	);
 }
 
 void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter) {
-	ioQueue.push(new IoSpoofMouse(posGetter));
-	IssuePressKey(key);
-	ioQueue.push(new IoDelay(15.f));
-	ioQueue.push(new IoUnspoofMouse());
+
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
+			std::shared_ptr<IoStep>(new IoPressKey(key)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoReleaseKey(key)),
+			std::shared_ptr<IoStep>(new IoDelay(15.f)),
+			std::shared_ptr<IoStep>(new IoUnspoofMouse())
+		}, IO_PRESS_KEY_AT))
+	);
 }
 
 void InputController::IssueClick(ClickType type)
 {
-	ioQueue.push(new IoPressMouse(type));
-	ioQueue.push(new IoDelay(5.f));
-	ioQueue.push(new IoReleaseMouse(type));
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoPressMouse(type)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoReleaseMouse(type))
+		}, IO_CLICK))
+	);
 }
 
 void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posGetter)
 {
-	ioQueue.push(new IoSpoofMouse(posGetter));
-	IssueClick(type);
-	ioQueue.push(new IoDelay(5.f));
-	ioQueue.push(new IoUnspoofMouse());
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
+			std::shared_ptr<IoStep>(new IoPressMouse(type)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoReleaseMouse(type)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoUnspoofMouse())
+		}, IO_CLICK_AT))
+	);
 }
 
 void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
@@ -132,36 +155,54 @@ void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
 		return unit != nullptr && unit->targetable && !unit->isDead && unit->isVisible;
 	};
 
-	ioQueue.push(new IoSpoofMouse(posGetter));
-
-	ioQueue.push(new IoPressMouse(type, clickCondition));
-	ioQueue.push(new IoReleaseMouse(type, clickCondition));
-
-	ioQueue.push(new IoDelay(5.f));
-	ioQueue.push(new IoUnspoofMouse());
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
+			std::shared_ptr<IoStep>(new IoPressMouse(type, clickCondition)),
+			std::shared_ptr<IoStep>(new IoReleaseMouse(type, clickCondition)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoUnspoofMouse())
+		}, IO_CLICK_UNIT))
+	);
 }
 
 void InputController::IssueHoldKey(HKey key)
 {
-	ioQueue.push(new IoPressKey(key));
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoPressKey(key))
+		}, IO_HOLD_KEY))
+	);
 }
 
 void InputController::IssueUnholdKey(HKey key)
 {
-	ioQueue.push(new IoReleaseKey(key));
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoReleaseKey(key))
+		}, IO_UNHOLD_KEY))
+	);
 }
 
 void InputController::IssueUnholdKeyAt(HKey key, std::function<Vector2()> posGetter)
 {
-	ioQueue.push(new IoSpoofMouse(posGetter));
-	ioQueue.push(new IoReleaseKey(key));
-	ioQueue.push(new IoDelay(10.f));
-	ioQueue.push(new IoUnspoofMouse());
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
+			std::shared_ptr<IoStep>(new IoReleaseKey(key)),
+			std::shared_ptr<IoStep>(new IoDelay(10.f)),
+			std::shared_ptr<IoStep>(new IoUnspoofMouse())
+		}, IO_UNHOLD_KEY_AT))
+	);
 }
 
 void InputController::IssueDelay(float millis)
 {
-	ioQueue.push(new IoDelay(N));
+	ioQueue.push(
+		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoDelay(N))
+		}, IO_DELAY))
+	);
 }
 
 void DrawButton(HKey key, HKey& clickedBtn, bool& wasClicked) {
@@ -313,4 +354,34 @@ int InputController::GetVirtualKey(HKey key)
 	default:
 		return MapVirtualKeyA(key, MAPVK_VSC_TO_VK);
 	}
+}
+
+IoStepBatch::IoStepBatch(std::initializer_list<std::shared_ptr<IoStep>> initSteps, int id)
+	:steps(initSteps), controlId(id), currentStep(nullptr)
+{
+}
+
+void IoStepBatch::Start()
+{
+}
+
+bool IoStepBatch::Update()
+{
+	if (currentStep == nullptr) {
+		currentStep = steps.front();
+		currentStep->Start();
+		steps.pop();
+	}
+
+	if (currentStep->Update()) {
+		currentStep = nullptr;
+		return steps.empty();
+	}
+	
+	return false;
+}
+
+bool IoStepBatch::operator==(const IoStepBatch & other)
+{
+	return this->controlId == other.controlId;
 }

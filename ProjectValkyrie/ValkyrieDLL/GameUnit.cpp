@@ -277,7 +277,7 @@ void GameUnit::ReadBuffs()
 		buff->count = wrap.entry->GetCount();
 		buff->startTime = wrap.entry->startTime;
 		buff->endTime = wrap.entry->endTime;
-		buff->value = wrap.entry->value;
+		buff->value = wrap.entry->value > 0 ? wrap.entry->value : wrap.entry->valueAlt;
 		buff->address = (int)wrap.entry;
 
 		if (buff->count > 0) {

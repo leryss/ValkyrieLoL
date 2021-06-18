@@ -33,7 +33,9 @@ struct BuffEntry {
 	int  buffNodeStart;
 	int  buffNodeEnd; //0x28
 	char pad3[0x8];
-	float value;
+	float valueAlt;
+	char pad4[0x44];
+	int value;
 
 	int GetCount() const;
 };

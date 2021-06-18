@@ -12,6 +12,18 @@
 
 using namespace std::chrono;
 
+enum IoStepId {
+	IO_PRESS_KEY,
+	IO_PRESS_KEY_AT,
+	IO_CLICK,
+	IO_CLICK_AT,
+	IO_CLICK_UNIT,
+	IO_HOLD_KEY,
+	IO_UNHOLD_KEY,
+	IO_UNHOLD_KEY_AT,
+	IO_DELAY
+};
+
 enum ClickType {
 	CT_LEFT_CLICK,
 	CT_RIGHT_CLICK
@@ -22,6 +34,19 @@ class IoStep {
 public:
 	void         Start() {};
 	virtual bool Update() = 0;
+};
+
+class IoStepBatch {
+public:
+	     IoStepBatch(std::initializer_list<std::shared_ptr<IoStep>> initSteps, int controlId);
+	void Start();
+	bool Update();
+	bool operator==(const IoStepBatch& other);
+
+private:
+	int                                 controlId;
+	std::shared_ptr<IoStep>             currentStep;
+	std::queue<std::shared_ptr<IoStep>> steps;
 };
 
 /// Input controller. One instance of this utility is intended for each entity because of functions like WasPressed that are limited to one caller only.
@@ -84,8 +109,8 @@ public:
 	static const float                HeightRatio;
 
 private:
-	IoStep*                           ioCurrent;
-	std::queue<IoStep*>               ioQueue;
+	std::shared_ptr<IoStepBatch>             ioCurrent;
+	std::queue<std::shared_ptr<IoStepBatch>> ioQueue;
 
 	duration<float, std::milli>       timeDiff;
 	high_resolution_clock::time_point nowTime;
