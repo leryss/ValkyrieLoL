@@ -176,9 +176,9 @@
         "basicAtkCastTime": 0.5500000007450581,
         "basicAtk": "annietibbersbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
             "Unit_Minion",
-            "Unit_Minion_Summon_Large"
+            "Unit_Minion_Summon_Large",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -214,8 +214,8 @@
         "basicAtkCastTime": 0.45964912325143814,
         "basicAtk": "apheliosturretbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -269,10 +269,10 @@
         "basicAtkCastTime": 0.5669999718666077,
         "basicAtk": "assassinmode_objective_boss2basicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -290,10 +290,10 @@
         "basicAtkCastTime": 0.5359999984502792,
         "basicAtk": "assassinmode_roamingunitbasicattack",
         "tags": [
-            "Unit_Special_EpicMonsterIgnores",
             "Unit_Special_MonsterIgnores",
-            "Unit_Minion",
-            "Unit_Special_TurretIgnores"
+            "Unit_Special_TurretIgnores",
+            "Unit_Special_EpicMonsterIgnores",
+            "Unit_Minion"
         ]
     },
     {
@@ -365,8 +365,8 @@
         "basicAtkCastTime": 0.375,
         "basicAtk": "azirsundiscbasicattack",
         "tags": [
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure_Turret",
+            "Unit_Structure"
         ]
     },
     {
@@ -510,9 +510,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -602,9 +602,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "bw_ap_chaosturretbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -622,9 +622,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "bw_ap_chaosturret2basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -642,9 +642,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "bw_ap_chaosturret3basicattack",
         "tags": [
-            "Unit_Structure",
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Nexus",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -698,9 +698,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "bw_ap_orderturretbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -718,9 +718,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "bw_ap_orderturret2basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -738,9 +738,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "bw_ap_orderturret3basicattack",
         "tags": [
-            "Unit_Structure",
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Nexus",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -1155,8 +1155,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Structure",
-            "Unit_Structure_Inhibitor"
+            "Unit_Structure_Inhibitor",
+            "Unit_Structure"
         ]
     },
     {
@@ -1211,8 +1211,8 @@
         "basicAtkCastTime": 0.4594999998807907,
         "basicAtk": "chogathbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Champion"
+            "Unit_Champion",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -1248,9 +1248,9 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "corkibombbasicattack",
         "tags": [
+            "Unit_Special_TeleportTarget",
             "Unit_Special_CorkiBomb",
-            "Unit_Special",
-            "Unit_Special_TeleportTarget"
+            "Unit_Special"
         ]
     },
     {
@@ -1268,8 +1268,8 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "corkibomballybasicattack",
         "tags": [
-            "Unit_Special",
-            "Unit_Special_TeleportTarget"
+            "Unit_Special_TeleportTarget",
+            "Unit_Special"
         ]
     },
     {
@@ -1378,9 +1378,9 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "doombotsbossteemobasicattack",
         "tags": [
-            "Unit_Champion",
+            "Unit_Monster",
             "Unit_Monster_Epic",
-            "Unit_Monster"
+            "Unit_Champion"
         ]
     },
     {
@@ -1421,10 +1421,10 @@
     },
     {
         "name": "drmundo",
-        "healthBarHeight": 110.0,
+        "healthBarHeight": 120.0,
         "baseMoveSpeed": 345.0,
         "attackRange": 125.0,
-        "attackSpeed": 0.7210000157356262,
+        "attackSpeed": 0.6700000166893005,
         "attackSpeedRatio": 0.625,
         "acquisitionRange": 600.0,
         "selectionRadius": 135.0,
@@ -1506,8 +1506,8 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "elisespiderlingbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -1579,14 +1579,14 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special_TurretIgnores",
+            "Unit_Champion_Clone",
             "Unit_Special_MonsterIgnores",
-            "Unit_Special_LaneMinionIgnores",
             "Unit_Special_TeleportTarget",
+            "Unit_Special_LaneMinionIgnores",
+            "Unit_Special_TurretIgnores",
             "Unit_Special_EpicMonsterIgnores",
             "Unit_Champion",
-            "Unit_Special",
-            "Unit_Champion_Clone"
+            "Unit_Special"
         ]
     },
     {
@@ -1712,8 +1712,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_IsolationNonImpacting",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Special_UntargetableBySpells",
+            "Unit_IsolationNonImpacting"
         ]
     },
     {
@@ -1929,9 +1929,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "ha_ap_chaosturretbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -1949,9 +1949,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "ha_ap_chaosturret2basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -1969,9 +1969,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "ha_ap_chaosturret3basicattack",
         "tags": [
-            "Unit_Structure",
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Nexus",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -2007,9 +2007,9 @@
         "basicAtkCastTime": 0.5500000007450581,
         "basicAtk": "ha_ap_chaosturretshrinebasicattack",
         "tags": [
-            "Unit_Structure",
             "Unit_Structure_Turret",
-            "Unit_Structure_Turret_Shrine"
+            "Unit_Structure_Turret_Shrine",
+            "Unit_Structure"
         ]
     },
     {
@@ -2135,9 +2135,9 @@
         "basicAtkCastTime": 0.5500000007450581,
         "basicAtk": "ha_ap_ordershrineturretbasicattack",
         "tags": [
-            "Unit_Structure",
             "Unit_Structure_Turret",
-            "Unit_Structure_Turret_Shrine"
+            "Unit_Structure_Turret_Shrine",
+            "Unit_Structure"
         ]
     },
     {
@@ -2155,9 +2155,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "ha_ap_orderturretbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -2175,9 +2175,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "ha_ap_orderturret2basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -2195,9 +2195,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "ha_ap_orderturret3basicattack",
         "tags": [
-            "Unit_Structure",
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Nexus",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -2378,8 +2378,8 @@
         "basicAtk": "ha_chaosminionmeleebasicattack",
         "tags": [
             "Unit_Minion_Lane_Melee",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2398,8 +2398,8 @@
         "basicAtk": "ha_chaosminionrangedbasicattack",
         "tags": [
             "Unit_Minion_Lane_Ranged",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2417,9 +2417,9 @@
         "basicAtkCastTime": 0.30000001192092896,
         "basicAtk": "ha_chaosminionsiegebasicattack",
         "tags": [
-            "Unit_Minion_Lane",
             "Unit_Minion",
-            "Unit_Minion_Lane_Siege"
+            "Unit_Minion_Lane_Siege",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2438,8 +2438,8 @@
         "basicAtk": "ha_chaosminionsuperbasicattack",
         "tags": [
             "Unit_Minion_Lane_Super",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2476,8 +2476,8 @@
         "basicAtk": "ha_orderminionmeleebasicattack",
         "tags": [
             "Unit_Minion_Lane_Melee",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2496,8 +2496,8 @@
         "basicAtk": "ha_orderminionrangedbasicattack",
         "tags": [
             "Unit_Minion_Lane_Ranged",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2515,9 +2515,9 @@
         "basicAtkCastTime": 0.30000001192092896,
         "basicAtk": "ha_orderminionsiegebasicattack",
         "tags": [
-            "Unit_Minion_Lane",
             "Unit_Minion",
-            "Unit_Minion_Lane_Siege"
+            "Unit_Minion_Lane_Siege",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2536,8 +2536,8 @@
         "basicAtk": "ha_orderminionsuperbasicattack",
         "tags": [
             "Unit_Minion_Lane_Super",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -2591,8 +2591,8 @@
         "basicAtkCastTime": 0.49401000002399087,
         "basicAtk": "heimertbluebasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -2610,8 +2610,8 @@
         "basicAtkCastTime": 0.49401000002399087,
         "basicAtk": "heimertyellowbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -2647,11 +2647,11 @@
         "basicAtkCastTime": 0.44999999925494194,
         "basicAtk": "illaoiminionbasicattack",
         "tags": [
-            "Unit_Special_KPMinion",
             "Unit_Special_UntargetableBySpells",
             "Unit_IsolationNonImpacting",
+            "Unit_Special_TeleportTarget",
             "Unit_Special_TurretIgnores",
-            "Unit_Special_TeleportTarget"
+            "Unit_Special_KPMinion"
         ]
     },
     {
@@ -2723,8 +2723,8 @@
         "basicAtkCastTime": 0.4649999998509884,
         "basicAtk": "ivernbasicattackranged",
         "tags": [
-            "Unit_Champion",
-            "Unit_Special_MonsterIgnores"
+            "Unit_Special_MonsterIgnores",
+            "Unit_Champion"
         ]
     },
     {
@@ -2743,9 +2743,9 @@
         "basicAtk": "ivernminionbasicattack",
         "tags": [
             "Unit_Special_MonsterIgnores",
-            "Unit_Minion_Summon",
             "Unit_Minion",
-            "Unit_Minion_Summon_Large"
+            "Unit_Minion_Summon_Large",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -2763,8 +2763,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Special_TurretIgnores",
+            "Unit_Special"
         ]
     },
     {
@@ -2782,9 +2782,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -2838,8 +2838,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special",
-            "Unit_Special_TeleportTarget"
+            "Unit_Special_TeleportTarget",
+            "Unit_Special"
         ]
     },
     {
@@ -2929,11 +2929,11 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special_TurretIgnores",
-            "Unit_IsolationNonImpacting",
             "Unit_Special_UntargetableBySpells",
             "Unit_Special_Trap",
+            "Unit_IsolationNonImpacting",
             "Unit_Special_TeleportTarget",
+            "Unit_Special_TurretIgnores",
             "Unit_Special"
         ]
     },
@@ -3043,11 +3043,11 @@
         "basicAtkCastTime": 0.5359999984502792,
         "basicAtk": "kalistaspawnbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion",
             "Unit_Special_UntargetableBySpells",
-            "Unit_Special_TurretIgnores",
-            "Unit_Special_TeleportTarget"
+            "Unit_Minion_Summon",
+            "Unit_Special_TeleportTarget",
+            "Unit_Minion",
+            "Unit_Special_TurretIgnores"
         ]
     },
     {
@@ -3191,8 +3191,8 @@
         "basicAtkCastTime": 0.45026737824082375,
         "basicAtk": "khazixbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Champion"
+            "Unit_Champion",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -3264,8 +3264,8 @@
         "basicAtkCastTime": 1.1799999475479126,
         "basicAtk": "kingporobasicattack",
         "tags": [
-            "Unit_Monster_Epic",
             "Unit_Monster",
+            "Unit_Monster_Epic",
             "Unit_KingPoro"
         ]
     },
@@ -3320,8 +3320,8 @@
         "basicAtkCastTime": 0.20000000298023224,
         "basicAtk": "kledmountbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -3357,8 +3357,8 @@
         "basicAtkCastTime": 0.4331117048859596,
         "basicAtk": "kogmawbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Champion"
+            "Unit_Champion",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -3376,8 +3376,8 @@
         "basicAtkCastTime": 0.4331117048859596,
         "basicAtk": "kogmawdeadbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Champion"
+            "Unit_Champion",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -3485,9 +3485,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -3793,8 +3793,8 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "malzaharvoidlingbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -3830,10 +3830,10 @@
         "basicAtkCastTime": 0.5060937497764826,
         "basicAtk": "maokaisproutlingbasicattack",
         "tags": [
-            "Unit_Special",
+            "Unit_Minion",
             "Unit_Special_Trap",
             "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Special"
         ]
     },
     {
@@ -4105,11 +4105,11 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special_TurretIgnores",
-            "Unit_IsolationNonImpacting",
             "Unit_Special_UntargetableBySpells",
             "Unit_Special_Trap",
+            "Unit_IsolationNonImpacting",
             "Unit_Special_TeleportTarget",
+            "Unit_Special_TurretIgnores",
             "Unit_Special"
         ]
     },
@@ -4128,10 +4128,10 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "nightmarebots_malzahar_riftheraldbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -4293,8 +4293,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Structure",
-            "Unit_Structure_Inhibitor"
+            "Unit_Structure_Inhibitor",
+            "Unit_Structure"
         ]
     },
     {
@@ -4475,9 +4475,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -5197,8 +5197,8 @@
         "basicAtkCastTime": 0.4000000059604645,
         "basicAtk": "reksaibasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Champion"
+            "Unit_Champion",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -5216,9 +5216,9 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "reksaitunnelbasicattack",
         "tags": [
-            "Unit_IsolationNonImpacting",
+            "Unit_Special_TeleportTarget",
             "Unit_Special_Tunnel",
-            "Unit_Special_TeleportTarget"
+            "Unit_IsolationNonImpacting"
         ]
     },
     {
@@ -5398,8 +5398,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_IsolationNonImpacting",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Special_UntargetableBySpells",
+            "Unit_IsolationNonImpacting"
         ]
     },
     {
@@ -5471,10 +5471,10 @@
         "basicAtkCastTime": 0.49401000002399087,
         "basicAtk": "shacoboxbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion",
             "Unit_Special_Trap",
+            "Unit_Minion_Summon",
             "Unit_Special_TeleportTarget",
+            "Unit_Minion",
             "Unit_Special"
         ]
     },
@@ -5565,10 +5565,10 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
             "Unit_Special_UntargetableBySpells",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -5802,8 +5802,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Structure",
-            "Unit_Structure_Inhibitor"
+            "Unit_Structure_Inhibitor",
+            "Unit_Structure"
         ]
     },
     {
@@ -5894,9 +5894,9 @@
         "basicAtkCastTime": 0.5500000007450581,
         "basicAtk": "sruap_magecrystalbasicattack",
         "tags": [
-            "Unit_Structure",
             "Unit_Structure_Turret",
-            "Unit_Structure_Turret_Shrine"
+            "Unit_Structure_Turret_Shrine",
+            "Unit_Structure"
         ]
     },
     {
@@ -5914,8 +5914,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Structure",
-            "Unit_Structure_Inhibitor"
+            "Unit_Structure_Inhibitor",
+            "Unit_Structure"
         ]
     },
     {
@@ -5988,9 +5988,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_chaos1basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6008,9 +6008,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_chaos1_botbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6047,8 +6047,8 @@
         "basicAtk": "sruap_turret_chaos2basicattack",
         "tags": [
             "Unit_Structure_Turret_Inner",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure_Turret",
+            "Unit_Structure"
         ]
     },
     {
@@ -6066,9 +6066,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_chaos3basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6086,9 +6086,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_chaos3_testbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6106,9 +6106,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_chaos4basicattack",
         "tags": [
-            "Unit_Structure",
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Nexus",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6126,9 +6126,9 @@
         "basicAtkCastTime": 0.5500000007450581,
         "basicAtk": "sruap_turret_chaos5basicattack",
         "tags": [
-            "Unit_Structure",
             "Unit_Structure_Turret",
-            "Unit_Structure_Turret_Shrine"
+            "Unit_Structure_Turret_Shrine",
+            "Unit_Structure"
         ]
     },
     {
@@ -6146,9 +6146,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_order1basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6166,9 +6166,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_order1_botbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6205,8 +6205,8 @@
         "basicAtk": "sruap_turret_order2basicattack",
         "tags": [
             "Unit_Structure_Turret_Inner",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure_Turret",
+            "Unit_Structure"
         ]
     },
     {
@@ -6224,9 +6224,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_order3basicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6244,9 +6244,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_order3_testbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Inhib",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6264,9 +6264,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "sruap_turret_order4basicattack",
         "tags": [
-            "Unit_Structure",
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Nexus",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -6284,9 +6284,9 @@
         "basicAtkCastTime": 0.5500000007450581,
         "basicAtk": "sruap_turret_order5basicattack",
         "tags": [
-            "Unit_Structure",
             "Unit_Structure_Turret",
-            "Unit_Structure_Turret_Shrine"
+            "Unit_Structure_Turret_Shrine",
+            "Unit_Structure"
         ]
     },
     {
@@ -6322,10 +6322,10 @@
         "basicAtkCastTime": 0.28299999237060547,
         "basicAtk": "sru_baronbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -6379,11 +6379,11 @@
         "basicAtkCastTime": 0.5669999718666077,
         "basicAtk": "sru_bluebasicattack",
         "tags": [
-            "Unit_Monster",
-            "Unit_Monster_Buff",
+            "Unit_Monster_Camp",
             "Unit_Monster_Large",
+            "Unit_Monster",
             "Unit_Monster_Blue",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Buff"
         ]
     },
     {
@@ -6401,9 +6401,9 @@
         "basicAtkCastTime": 0.4659999907016754,
         "basicAtk": "sru_blueminibasicattack",
         "tags": [
-            "Unit_Monster_Blue",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Blue"
         ]
     },
     {
@@ -6421,9 +6421,9 @@
         "basicAtkCastTime": 0.4659999907016754,
         "basicAtk": "sru_bluemini2basicattack",
         "tags": [
-            "Unit_Monster_Blue",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Blue"
         ]
     },
     {
@@ -6460,8 +6460,8 @@
         "basicAtk": "sru_chaosminionmeleebasicattack",
         "tags": [
             "Unit_Minion_Lane_Melee",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -6480,8 +6480,8 @@
         "basicAtk": "sru_chaosminionrangedbasicattack",
         "tags": [
             "Unit_Minion_Lane_Ranged",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -6499,9 +6499,9 @@
         "basicAtkCastTime": 0.30000001192092896,
         "basicAtk": "sru_chaosminionsiegebasicattack",
         "tags": [
-            "Unit_Minion_Lane",
             "Unit_Minion",
-            "Unit_Minion_Lane_Siege"
+            "Unit_Minion_Lane_Siege",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -6520,8 +6520,8 @@
         "basicAtk": "sru_chaosminionsuperbasicattack",
         "tags": [
             "Unit_Minion_Lane_Super",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -6539,11 +6539,11 @@
         "basicAtkCastTime": 0.4400000013411045,
         "basicAtk": "sru_crabbasicattack",
         "tags": [
-            "Unit_Monster",
-            "Unit_Special_Peaceful",
-            "Unit_Monster_Crab",
+            "Unit_Monster_Camp",
             "Unit_Monster_Large",
-            "Unit_Monster_Camp"
+            "Unit_Monster",
+            "Unit_Monster_Crab",
+            "Unit_Special_Peaceful"
         ]
     },
     {
@@ -6579,10 +6579,10 @@
         "basicAtkCastTime": 0.800000011920929,
         "basicAtk": "sru_dragonbasicattack",
         "tags": [
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Dragon",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
         ]
     },
     {
@@ -6600,10 +6600,10 @@
         "basicAtkCastTime": 0.800000011920929,
         "basicAtk": "sru_dragon_airbasicattack",
         "tags": [
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Dragon",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
         ]
     },
     {
@@ -6621,10 +6621,10 @@
         "basicAtkCastTime": 0.800000011920929,
         "basicAtk": "sru_dragon_earthbasicattack",
         "tags": [
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Dragon",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
         ]
     },
     {
@@ -6642,10 +6642,10 @@
         "basicAtkCastTime": 0.800000011920929,
         "basicAtk": "sru_dragon_elderbasicattack",
         "tags": [
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Dragon",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
         ]
     },
     {
@@ -6663,10 +6663,10 @@
         "basicAtkCastTime": 0.800000011920929,
         "basicAtk": "sru_dragon_firebasicattack",
         "tags": [
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Dragon",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
         ]
     },
     {
@@ -6688,6 +6688,27 @@
         ]
     },
     {
+        "name": "sru_dragon_ruined",
+        "healthBarHeight": 102.5,
+        "baseMoveSpeed": 330.0,
+        "attackRange": 500.0,
+        "attackSpeed": 0.5,
+        "attackSpeedRatio": 0.5,
+        "acquisitionRange": 1000.0,
+        "selectionRadius": 200.0,
+        "pathingRadius": 1.0,
+        "gameplayRadius": 125.0,
+        "basicAtkWindup": 0.4000000059604645,
+        "basicAtkCastTime": 0.800000011920929,
+        "basicAtk": "sru_dragon_ruinedbasicattack",
+        "tags": [
+            "Unit_Monster_Camp",
+            "Unit_Monster",
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
+        ]
+    },
+    {
         "name": "sru_dragon_water",
         "healthBarHeight": 102.5,
         "baseMoveSpeed": 330.0,
@@ -6702,10 +6723,10 @@
         "basicAtkCastTime": 0.800000011920929,
         "basicAtk": "sru_dragon_waterbasicattack",
         "tags": [
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Dragon",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Dragon"
         ]
     },
     {
@@ -6831,10 +6852,10 @@
         "basicAtkCastTime": 0.4400000013411045,
         "basicAtk": "sru_grompbasicattack",
         "tags": [
-            "Unit_Monster_Large",
-            "Unit_Monster",
             "Unit_Monster_Camp",
-            "Unit_Monster_Gromp"
+            "Unit_Monster",
+            "Unit_Monster_Gromp",
+            "Unit_Monster_Large"
         ]
     },
     {
@@ -6870,10 +6891,10 @@
         "basicAtkCastTime": 0.6000000238418579,
         "basicAtk": "sru_krugbasicattack",
         "tags": [
-            "Unit_Monster_Large",
-            "Unit_Monster",
             "Unit_Monster_Krug",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Camp",
+            "Unit_Monster",
+            "Unit_Monster_Large"
         ]
     },
     {
@@ -6891,10 +6912,10 @@
         "basicAtkCastTime": 0.5549999997019768,
         "basicAtk": "sru_krugminibasicattack",
         "tags": [
-            "Unit_Monster_Medium",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Krug",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Medium",
+            "Unit_Monster_Krug"
         ]
     },
     {
@@ -6912,9 +6933,9 @@
         "basicAtkCastTime": 0.5549999997019768,
         "basicAtk": "sru_krugminiminibasicattack",
         "tags": [
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Krug",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Krug"
         ]
     },
     {
@@ -6950,10 +6971,10 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "sru_murkwolfbasicattack",
         "tags": [
-            "Unit_Monster_Wolf",
-            "Unit_Monster_Large",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Wolf",
+            "Unit_Monster_Large"
         ]
     },
     {
@@ -6971,9 +6992,9 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "sru_murkwolfminibasicattack",
         "tags": [
-            "Unit_Monster_Wolf",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Wolf"
         ]
     },
     {
@@ -6992,8 +7013,8 @@
         "basicAtk": "sru_orderminionmeleebasicattack",
         "tags": [
             "Unit_Minion_Lane_Melee",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -7012,8 +7033,8 @@
         "basicAtk": "sru_orderminionrangedbasicattack",
         "tags": [
             "Unit_Minion_Lane_Ranged",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -7031,9 +7052,9 @@
         "basicAtkCastTime": 0.30000001192092896,
         "basicAtk": "sru_orderminionsiegebasicattack",
         "tags": [
-            "Unit_Minion_Lane",
             "Unit_Minion",
-            "Unit_Minion_Lane_Siege"
+            "Unit_Minion_Lane_Siege",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -7052,8 +7073,8 @@
         "basicAtk": "sru_orderminionsuperbasicattack",
         "tags": [
             "Unit_Minion_Lane_Super",
-            "Unit_Minion_Lane",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Lane"
         ]
     },
     {
@@ -7071,9 +7092,9 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "sru_plant_healthbasicattack",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_UntargetableBySpells",
             "Unit_Plant",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Ward"
         ]
     },
     {
@@ -7091,9 +7112,9 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "sru_plant_satchelbasicattack",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_UntargetableBySpells",
             "Unit_Plant",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Ward"
         ]
     },
     {
@@ -7111,9 +7132,9 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "sru_plant_visionbasicattack",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_UntargetableBySpells",
             "Unit_Plant",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Ward"
         ]
     },
     {
@@ -7167,10 +7188,10 @@
         "basicAtkCastTime": 0.30000001192092896,
         "basicAtk": "sru_razorbeakbasicattack",
         "tags": [
-            "Unit_Monster_Large",
-            "Unit_Monster",
             "Unit_Monster_Camp",
-            "Unit_Monster_Raptor"
+            "Unit_Monster",
+            "Unit_Monster_Raptor",
+            "Unit_Monster_Large"
         ]
     },
     {
@@ -7188,8 +7209,8 @@
         "basicAtkCastTime": 0.4000000059604645,
         "basicAtk": "sru_razorbeakminibasicattack",
         "tags": [
-            "Unit_Monster",
             "Unit_Monster_Camp",
+            "Unit_Monster",
             "Unit_Monster_Raptor"
         ]
     },
@@ -7208,11 +7229,11 @@
         "basicAtkCastTime": 0.5299999713897705,
         "basicAtk": "sru_redbasicattack",
         "tags": [
-            "Unit_Monster",
-            "Unit_Monster_Buff",
+            "Unit_Monster_Camp",
             "Unit_Monster_Red",
             "Unit_Monster_Large",
-            "Unit_Monster_Camp"
+            "Unit_Monster",
+            "Unit_Monster_Buff"
         ]
     },
     {
@@ -7230,9 +7251,9 @@
         "basicAtkCastTime": 0.4000000059604645,
         "basicAtk": "sru_redminibasicattack",
         "tags": [
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Red",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Red"
         ]
     },
     {
@@ -7250,10 +7271,10 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "sru_riftheraldbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Monster_Epic",
+            "Unit_Monster_Camp",
             "Unit_Monster",
-            "Unit_Monster_Camp"
+            "Unit_Monster_Epic",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -7271,10 +7292,10 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "sru_riftherald_mercenarybasicattack",
         "tags": [
-            "Unit_Monster_Large",
-            "Unit_Monster_Epic",
+            "Unit_Special_Void",
             "Unit_Monster",
-            "Unit_Special_Void"
+            "Unit_Monster_Epic",
+            "Unit_Monster_Large"
         ]
     },
     {
@@ -7580,8 +7601,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special",
-            "Unit_Special_SyndraSphere"
+            "Unit_Special_SyndraSphere",
+            "Unit_Special_TeleportInvalid",
+            "Unit_Special"
         ]
     },
     {
@@ -7707,102 +7729,12 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special_TurretIgnores",
-            "Unit_IsolationNonImpacting",
             "Unit_Special_UntargetableBySpells",
             "Unit_Special_Trap",
+            "Unit_IsolationNonImpacting",
             "Unit_Special_TeleportTarget",
+            "Unit_Special_TurretIgnores",
             "Unit_Special"
-        ]
-    },
-    {
-        "name": "tftchampion",
-        "healthBarHeight": 65.0,
-        "baseMoveSpeed": 375.0,
-        "attackRange": 1.0,
-        "attackSpeed": 0.0,
-        "attackSpeedRatio": 0.0,
-        "acquisitionRange": 0.0,
-        "selectionRadius": 0.0,
-        "pathingRadius": 0.0,
-        "gameplayRadius": 65.0,
-        "basicAtkWindup": 0.0,
-        "basicAtkCastTime": 0.0,
-        "basicAtk": "?",
-        "tags": [
-            "Unit_"
-        ]
-    },
-    {
-        "name": "tftdebug_dummy",
-        "healthBarHeight": 200.0,
-        "baseMoveSpeed": 500.0,
-        "attackRange": 0.0,
-        "attackSpeed": 0.20000000298023224,
-        "attackSpeedRatio": 0.20000000298023224,
-        "acquisitionRange": 0.0,
-        "selectionRadius": 150.0,
-        "pathingRadius": 0.0,
-        "gameplayRadius": 65.0,
-        "basicAtkWindup": 0.0,
-        "basicAtkCastTime": 0.0,
-        "basicAtk": "?",
-        "tags": [
-            "Unit_Champion"
-        ]
-    },
-    {
-        "name": "tftdebug_dummyinvincible",
-        "healthBarHeight": 200.0,
-        "baseMoveSpeed": 500.0,
-        "attackRange": 0.0,
-        "attackSpeed": 0.20000000298023224,
-        "attackSpeedRatio": 0.20000000298023224,
-        "acquisitionRange": 0.0,
-        "selectionRadius": 150.0,
-        "pathingRadius": 0.0,
-        "gameplayRadius": 65.0,
-        "basicAtkWindup": 0.0,
-        "basicAtkCastTime": 0.0,
-        "basicAtk": "?",
-        "tags": [
-            "Unit_Champion"
-        ]
-    },
-    {
-        "name": "tftdebug_dummymelee",
-        "healthBarHeight": 200.0,
-        "baseMoveSpeed": 500.0,
-        "attackRange": 180.0,
-        "attackSpeed": 1.0,
-        "attackSpeedRatio": 0.0,
-        "acquisitionRange": 0.0,
-        "selectionRadius": 150.0,
-        "pathingRadius": 0.0,
-        "gameplayRadius": 65.0,
-        "basicAtkWindup": 0.3,
-        "basicAtkCastTime": 0.5,
-        "basicAtk": "tftdebug_dummymeleebasicattack",
-        "tags": [
-            "Unit_Champion"
-        ]
-    },
-    {
-        "name": "tftdebug_dummyranged",
-        "healthBarHeight": 200.0,
-        "baseMoveSpeed": 500.0,
-        "attackRange": 660.0,
-        "attackSpeed": 1.0,
-        "attackSpeedRatio": 0.0,
-        "acquisitionRange": 0.0,
-        "selectionRadius": 150.0,
-        "pathingRadius": 0.0,
-        "gameplayRadius": 65.0,
-        "basicAtkWindup": 0.3,
-        "basicAtkCastTime": 0.5,
-        "basicAtk": "tftdebug_dummyrangedbasicattack",
-        "tags": [
-            "Unit_Champion"
         ]
     },
     {
@@ -7838,8 +7770,8 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "threshlanternbasicattack",
         "tags": [
-            "Unit_Special",
-            "Unit_Special_TeleportTarget"
+            "Unit_Special_TeleportTarget",
+            "Unit_Special"
         ]
     },
     {
@@ -7912,24 +7844,6 @@
         "basicAtk": "tryndamerebasicattack",
         "tags": [
             "Unit_Champion"
-        ]
-    },
-    {
-        "name": "tt_dummypusher",
-        "healthBarHeight": 100.0,
-        "baseMoveSpeed": 325.0,
-        "attackRange": 0.0,
-        "attackSpeed": 0.0,
-        "attackSpeedRatio": 0.0,
-        "acquisitionRange": 0.0,
-        "selectionRadius": 1.0,
-        "pathingRadius": 1.0,
-        "gameplayRadius": 65.0,
-        "basicAtkWindup": 0.3595000013709068,
-        "basicAtkCastTime": 0.5297500006854534,
-        "basicAtk": "tt_dummypusherbasicattack",
-        "tags": [
-            "Unit_"
         ]
     },
     {
@@ -8235,9 +8149,9 @@
         "basicAtkCastTime": 0.4195000007748604,
         "basicAtk": "urf_feeneypultbasicattack",
         "tags": [
+            "Unit_Structure_Turret",
             "Unit_Structure_Turret_Outer",
-            "Unit_Structure",
-            "Unit_Structure_Turret"
+            "Unit_Structure"
         ]
     },
     {
@@ -8327,8 +8241,8 @@
         "basicAtkCastTime": 0.44999999925494194,
         "basicAtk": "velkozbasicattack",
         "tags": [
-            "Unit_Special_Void",
-            "Unit_Champion"
+            "Unit_Champion",
+            "Unit_Special_Void"
         ]
     },
     {
@@ -8382,8 +8296,8 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_IsolationNonImpacting",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Special_UntargetableBySpells",
+            "Unit_IsolationNonImpacting"
         ]
     },
     {
@@ -8437,10 +8351,10 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
             "Unit_Special_UntargetableBySpells",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -8476,9 +8390,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Special_Void",
+            "Unit_IsolationNonImpacting",
             "Unit_Structure",
-            "Unit_IsolationNonImpacting"
+            "Unit_Special_Void"
         ]
     },
     {
@@ -8497,10 +8411,10 @@
         "basicAtk": "voidspawnbasicattack",
         "tags": [
             "Unit_Minion_Summon",
-            "Unit_Minion",
             "Unit_Special_MonsterIgnores",
-            "Unit_Special_EpicMonsterIgnores",
-            "Unit_Special_Void"
+            "Unit_Minion",
+            "Unit_Special_Void",
+            "Unit_Special_EpicMonsterIgnores"
         ]
     },
     {
@@ -8644,9 +8558,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -8664,9 +8578,9 @@
         "basicAtkCastTime": 0.0,
         "basicAtk": "?",
         "tags": [
-            "Unit_Ward",
+            "Unit_Special_TurretIgnores",
             "Unit_Special",
-            "Unit_Special_TurretIgnores"
+            "Unit_Ward"
         ]
     },
     {
@@ -8720,9 +8634,9 @@
         "basicAtkCastTime": 0.25,
         "basicAtk": "yorickbigghoulbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
             "Unit_Minion",
-            "Unit_Minion_Summon_Large"
+            "Unit_Minion_Summon_Large",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -8740,8 +8654,8 @@
         "basicAtkCastTime": 0.5,
         "basicAtk": "yorickghoulmeleebasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -8777,10 +8691,10 @@
         "basicAtkCastTime": 0.5297500006854534,
         "basicAtk": "yorickwinvisiblebasicattack",
         "tags": [
+            "Unit_Special_UntargetableBySpells",
             "Unit_IsolationNonImpacting",
             "Unit_Special_TeleportInvalid",
-            "Unit_Special_YorickW",
-            "Unit_Special_UntargetableBySpells"
+            "Unit_Special_YorickW"
         ]
     },
     {
@@ -8834,8 +8748,8 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "zacrebirthblobletbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -8979,8 +8893,8 @@
         "basicAtkCastTime": 0.43772000074386597,
         "basicAtk": "zyragraspingplantbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     },
     {
@@ -9016,8 +8930,8 @@
         "basicAtkCastTime": 0.4541499987244606,
         "basicAtk": "zyraseedbasicattack",
         "tags": [
-            "Unit_Minion_SummonName_game_character_displayname_ZyraSeed",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_SummonName_game_character_displayname_ZyraSeed"
         ]
     },
     {
@@ -9035,8 +8949,8 @@
         "basicAtkCastTime": 0.45964912325143814,
         "basicAtk": "zyrathornplantbasicattack",
         "tags": [
-            "Unit_Minion_Summon",
-            "Unit_Minion"
+            "Unit_Minion",
+            "Unit_Minion_Summon"
         ]
     }
 ]
