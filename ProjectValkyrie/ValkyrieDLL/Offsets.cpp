@@ -2,24 +2,24 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.12";
+std::string Offsets::GameVersion             = "11.13";
 
-int Offsets::ObjectManager                   = 0x0171fb98;
-int Offsets::Renderer                        = 0x02fe250c;
-int Offsets::ViewMatrix                      = 0x02fdf6a0;
-int Offsets::MinimapObject                   = 0x02fbbfbc;
-int Offsets::LocalPlayer                     = 0x02fbc614;
-int Offsets::GameTime                        = 0x02fb425c;
-int Offsets::Chat                            = 0x02fbc6ec;
-int Offsets::HudInstance                     = 0x0171fbd0;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f26a0;
+int Offsets::ObjectManager                   = 0x0170dc20;
+int Offsets::Renderer                        = 0x02fd06ac;
+int Offsets::ViewMatrix                      = 0x02fcd840;
+int Offsets::MinimapObject                   = 0x02faa0ac;
+int Offsets::LocalPlayer                     = 0x02faa664;
+int Offsets::GameTime                        = 0x02fa233c;
+int Offsets::Chat                            = 0x02faa734;
+int Offsets::HudInstance                     = 0x0170dc58;
+int Offsets::UnderMouseObject                = 0x02F9E9D8;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f2970;
 int Offsets::CharacterDataStack              = 0x00002bb0;
 
 
 int Offsets::HudInstanceMouseWorldPosition   = 0x11c;
 int Offsets::ChatIsOpen                      = 0x684;
 
-int Offsets::UnderMouseObject                = 0x2FB08F8;
 int Offsets::ProjectionMatrix                = ViewMatrix + 16*sizeof(float);
 int Offsets::PlayerName                      = 0x6C;
 
