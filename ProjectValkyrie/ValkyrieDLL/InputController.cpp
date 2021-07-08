@@ -330,8 +330,8 @@ int InputController::ImGuiKeySelect(const char* label, int key)
 		DrawButton(HKey::END, clickedBtn, wasClicked);
 		DrawButton(HKey::PAGE_DOWN, clickedBtn, wasClicked);
 		DrawButton(HKey::PAGE_UP, clickedBtn, wasClicked);
-		DrawColorButton(HKey::MOUSE_BTN, clickedBtn, wasClicked, Color::ORANGE);
-		DrawColorButton(HKey::MOUSE_BTN_2, clickedBtn, wasClicked, Color::ORANGE);
+		DrawColorButton(HKey::MOUSE_SIDE_BTN, clickedBtn, wasClicked, Color::ORANGE);
+		DrawColorButton(HKey::MOUSE_SIDE_BTN2, clickedBtn, wasClicked, Color::ORANGE);
 		ImGui::EndGroup();
 
 		if (wasClicked) {
@@ -347,9 +347,9 @@ int InputController::ImGuiKeySelect(const char* label, int key)
 int InputController::GetVirtualKey(HKey key)
 {
 	switch (key) {
-	case MOUSE_BTN:
+	case MOUSE_SIDE_BTN:
 		return VK_XBUTTON1;
-	case MOUSE_BTN_2:
+	case MOUSE_SIDE_BTN2:
 		return VK_XBUTTON2;
 	default:
 		return MapVirtualKeyA(key, MAPVK_VSC_TO_VK);

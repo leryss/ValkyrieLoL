@@ -307,7 +307,9 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		.value("down",         DOWN)
 		.value("page_down",    PAGE_DOWN)
 		.value("insert",       INSERT)
-		.value("delte",        DEL)                
+		.value("delete",       DEL)
+		.value("mouse_left",   MOUSE_LEFT_BTN)
+		.value("mouse_right",  MOUSE_RIGHT_BTN)
 		;
 	
 	enum_<MapType>("MapType", "Map type SRU = Summoners Rift, HA = Howling Abyss")

@@ -108,12 +108,14 @@ HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDe
 DWORD DirectInputHook::ConvertToDIKey(HKey key)
 {
 	switch (key) {
-	case MOUSE_BTN:
+	case MOUSE_LEFT_BTN:
+		return 256;
+	case MOUSE_RIGHT_BTN:
+		return 257;
+	case MOUSE_SIDE_BTN:
 		return 260;
-		break;
-	case MOUSE_BTN_2:
+	case MOUSE_SIDE_BTN2:
 		return 261;
-		break;
 	default:
 		return key;
 	}
