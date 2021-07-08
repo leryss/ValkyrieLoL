@@ -6,7 +6,7 @@
 #include "ItemInfo.h"
 
 #include <set>
-#include <boost/python.hpp>
+
 
 using namespace boost::python;
 

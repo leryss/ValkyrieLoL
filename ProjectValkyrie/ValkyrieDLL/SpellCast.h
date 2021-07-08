@@ -3,7 +3,7 @@
 #include "Vector.h"
 #include "SpellInfo.h"
 #include "Collidable.h"
-#include <boost/python.hpp>
+
 
 using namespace boost::python;
 

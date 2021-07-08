@@ -1,5 +1,5 @@
 #include "Script.h"
-#include "Logger.h"
+
 #include "Strings.h"
 #include "Paths.h"
 #include <boost/python/detail/convertible.hpp>

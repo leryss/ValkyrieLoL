@@ -1,5 +1,5 @@
 #pragma once
-#include "Logger.h"
+
 
 /// Macros for debugging purposes
 /// #define VALK_DBG

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <windows.h>
 #include "Color.h"
-#include "Logger.h"
+
 #include "Paths.h"
 #include "PyExecutionContext.h"
 #include "Debug.h"

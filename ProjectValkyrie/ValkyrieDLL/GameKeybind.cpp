@@ -1,5 +1,5 @@
 #include "GameKeybind.h"
-#include "Logger.h"
+
 #include "Paths.h"
 #include <fstream>
 #include <windows.h>

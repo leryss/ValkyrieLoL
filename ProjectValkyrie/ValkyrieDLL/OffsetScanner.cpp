@@ -1,6 +1,6 @@
 #include "OffsetScanner.h"
 #include "Color.h"
-#include "Logger.h"
+
 #include "Strings.h"
 
 #include <windows.h>

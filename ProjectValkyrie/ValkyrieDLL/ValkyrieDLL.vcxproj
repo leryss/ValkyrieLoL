@@ -117,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,9 +125,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>USE_IMPORT_EXPORT;USE_WINDOWS_DLL_SEMANTICS;WIN32;NDEBUG;VALKYRIEDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)ValkyrieShared;$(SolutionDir)Commons\Includes;$(SolutionDir)ValkyrieDLL\boost;$(SolutionDir)ValkyrieDLL\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>Precompiled.h</ForcedIncludeFiles>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -197,6 +198,7 @@
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="OffsetScanner.h" />
+    <ClInclude Include="Precompiled.h" />
     <ClInclude Include="PyExecutionContext.h" />
     <ClInclude Include="PyImGui.h" />
     <ClInclude Include="PyStructs.h" />

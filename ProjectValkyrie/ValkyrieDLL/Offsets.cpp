@@ -2,20 +2,19 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.13";
+std::string Offsets::GameVersion             = "11.14";
 
-int Offsets::ObjectManager                   = 0x0170dc20;
-int Offsets::Renderer                        = 0x02fd06ac;
-int Offsets::ViewMatrix                      = 0x02fcd840;
-int Offsets::MinimapObject                   = 0x02faa0ac;
-int Offsets::LocalPlayer                     = 0x02faa664;
-int Offsets::GameTime                        = 0x02fa233c;
-int Offsets::Chat                            = 0x02faa734;
-int Offsets::HudInstance                     = 0x0170dc58;
-int Offsets::UnderMouseObject                = 0x02F9E9D8;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f2970;
+int Offsets::ObjectManager                   = 0x0171f818;
+int Offsets::Renderer                        = 0x02fe271c;
+int Offsets::ViewMatrix                      = 0x02fdf8b8;
+int Offsets::MinimapObject                   = 0x02fbc2d0;
+int Offsets::LocalPlayer                     = 0x02fbbb60;
+int Offsets::GameTime                        = 0x02fb3f24;
+int Offsets::Chat                            = 0x02fbc3a4;
+int Offsets::HudInstance                     = 0x0171f854;
+int Offsets::UnderMouseObject                = 0x02FB0CC0;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f34b0;
 int Offsets::CharacterDataStack              = 0x00002bb0;
-
 
 int Offsets::HudInstanceMouseWorldPosition   = 0x11c;
 int Offsets::ChatIsOpen                      = 0x684;
@@ -59,7 +58,7 @@ int Offsets::ObjAdditionalApMulti            = 0x1230; /// I use this for rabado
 
 int Offsets::ObjDirection                    = 0x1BD8;
 
-int Offsets::ObjName                         = 0x2bbc;//0x2c74;
+int Offsets::ObjName                         = 0x2bbc;
 int Offsets::ObjTransformation               = Offsets::ObjName - 0xC;
 int Offsets::ObjLvl                          = 0x3344;
 
@@ -112,11 +111,12 @@ int Offsets::MinimapHudSize                  = 0x68;          // has values betw
 										    
 int Offsets::CharacterDataStackSkinId        = 0x18;
 
-int Offsets::ObjVTableGetAiManager           = 148;
-int Offsets::AiManagerStartPath              = 0x1bc;
-int Offsets::AiManagerEndPath                = 0x1c0;
+int Offsets::ObjVTableGetAiManager           = 149;
+int Offsets::AiManagerStartPath              = 0x1e4;
+int Offsets::AiManagerEndPath                = 0x1e8;
 int Offsets::AiManagerTargetPosition         = 0x10;
-int Offsets::AiManagerIsMoving               = 0x198;
-int Offsets::AiManagerIsDashing              = 0x398;
-int Offsets::AiManagerCurrentSegment         = 0x19C;
-int Offsets::AiManagerDashSpeed              = 0x1D0;
+int Offsets::AiManagerIsMoving               = 0x1c0;
+int Offsets::AiManagerIsDashing              = 0x3c0;
+int Offsets::AiManagerCurrentSegment         = 0x1c4;
+int Offsets::AiManagerDashSpeed              = 0x1f8;
+int Offsets::AiManagerVelocity               = 0x2f0;

@@ -1,6 +1,6 @@
 #pragma once
-#include "Offsets.h"
-#include "Memory.h"
+
+
 #include "MemoryReadable.h"
 
 class GameBuff {

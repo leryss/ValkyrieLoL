@@ -3,7 +3,7 @@
 #include <string>
 #include <bitset>
 #include <array>
-#include <boost/python.hpp>
+
 
 #include "SpellInfo.h"
 

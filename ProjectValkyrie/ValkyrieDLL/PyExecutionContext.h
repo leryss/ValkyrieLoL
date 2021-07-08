@@ -1,5 +1,5 @@
 #pragma once
-#include "Logger.h"
+
 #include "GameState.h"
 #include "PyImGui.h"
 #include "ConfigSet.h"
@@ -9,7 +9,7 @@
 #include "GameKeybind.h"
 
 #include "imgui/imgui.h"
-#include <boost/python.hpp>
+
 
 using namespace boost::python;
 

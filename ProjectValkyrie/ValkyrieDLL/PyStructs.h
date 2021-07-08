@@ -1,6 +1,6 @@
 #pragma once
-#include <boost/python.hpp>
-#include <boost/python/suite/indexing/map_indexing_suite.hpp>
+
+
 
 #include "GameObject.h"
 #include "GameUnit.h"
@@ -13,7 +13,7 @@
 #include "SpellInfo.h"
 #include "ItemInfo.h"
 #include "UnitInfo.h"
-#include "SpellCast.h"
+
 #include "ObjectQuery.h"
 
 #include "Color.h"

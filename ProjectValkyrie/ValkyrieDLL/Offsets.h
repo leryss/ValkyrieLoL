@@ -62,6 +62,7 @@ public:
 	static int AiManagerIsDashing;
 	static int AiManagerCurrentSegment;
 	static int AiManagerDashSpeed;
+	static int AiManagerVelocity;
 
 	static int BuffManagerEntriesArray;
 

@@ -1,6 +1,6 @@
 #include "GameReader.h"
 #include "GameData.h"
-#include "Logger.h"
+
 #include "Strings.h"
 #include "Valkyrie.h"
 #include "json/json.h"

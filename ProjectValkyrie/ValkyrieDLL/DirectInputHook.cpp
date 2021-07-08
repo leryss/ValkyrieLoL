@@ -1,6 +1,6 @@
 #include "DirectInputHook.h"
 #include "detours.h"
-#include "Logger.h"
+
 #include "Strings.h"
 
 bool                                DirectInputHook::DisableGameKeys = false;

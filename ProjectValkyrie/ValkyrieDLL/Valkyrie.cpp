@@ -3,18 +3,18 @@
 #include "detours.h"
 #include "GameData.h"
 #include "ObjectExplorer.h"
-#include "Offsets.h"
-#include "Memory.h"
+
+
 #include "Paths.h"
 #include "PyStructs.h"
-#include "OffsetScanner.h"
+
 #include "ValkyrieShared.h"
 #include "GameKeybind.h"
 
 #include "FakeMouse.h"
 #include "D3DX9Shader.h"
 
-#include <boost/exception/diagnostic_information.hpp>
+
 
 #include <stdexcept>
 #include <iostream>

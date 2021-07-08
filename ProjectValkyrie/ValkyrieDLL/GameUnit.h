@@ -1,10 +1,9 @@
 #pragma once
 #include "GameObject.h"
 #include "UnitInfo.h"
-#include "SpellCast.h"
+
 #include "GameBuff.h"
 
-#include <boost/python.hpp>
 using namespace boost::python;
 
 class GameUnit : public GameObject, public Collidable {

@@ -9,7 +9,7 @@
 #include <sstream>
 #include <condition_variable>
 
-#include "Logger.h"
+
 #include "GameReader.h"
 #include "ScriptManager.h"
 #include "ConfigSet.h"

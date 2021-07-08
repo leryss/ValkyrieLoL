@@ -1,6 +1,6 @@
 #include "GameHud.h"
-#include "Offsets.h"
-#include "Memory.h"
+
+
 #include <cstring>
 
 void GameHud::ReadFromBaseAddress(int baseAddr)

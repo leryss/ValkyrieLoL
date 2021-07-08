@@ -3,7 +3,7 @@
 #include "imgui/imgui.h"
 #include "Color.h"
 
-#include <boost/python.hpp>
+
 #include "InputController.h"
 
 using namespace boost::python;

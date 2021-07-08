@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "SpellInfo.h"
 #include "GameData.h"
-#include "SpellCast.h"
+
 
 class GameMissile : public GameObject {
 

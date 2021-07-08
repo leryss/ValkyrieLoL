@@ -1,5 +1,5 @@
 #include "GameRenderer.h"
-#include "Offsets.h"
+
 #include <windows.h>
 #include <cstring>
 #include "Valkyrie.h"
