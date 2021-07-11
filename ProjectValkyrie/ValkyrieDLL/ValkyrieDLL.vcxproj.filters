@@ -341,5 +341,8 @@
     <ClCompile Include="TextEditor.cpp">
       <Filter>Source Files\UI\TextEditor</Filter>
     </ClCompile>
+    <ClCompile Include="Precompiled.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
