@@ -273,12 +273,13 @@ void GameUnit::ReadBuffs()
 			continue;
 
 		std::shared_ptr<GameBuff> buff = std::shared_ptr<GameBuff>(new GameBuff());
-		buff->name = rawBuff->buffName;
-		buff->count = wrap.entry->GetCount();
+		buff->name      = rawBuff->buffName;
+		buff->count     = wrap.entry->GetCount();
 		buff->startTime = wrap.entry->startTime;
-		buff->endTime = wrap.entry->endTime;
-		buff->value = wrap.entry->value > 0 ? wrap.entry->value : wrap.entry->valueAlt;
-		buff->address = (int)wrap.entry;
+		buff->endTime   = wrap.entry->endTime;
+		buff->value     = wrap.entry->value > 0 ? wrap.entry->value : wrap.entry->valueAlt;
+		buff->address   = (int)wrap.entry;
+		buff->type      = (GameBuffType)wrap.entry->type;
 
 		if (buff->count > 0) {
 			auto find = buffs.find(buff->name);

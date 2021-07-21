@@ -7,6 +7,7 @@ void GameBuff::ImGuiDraw()
 {
 	ImGui::TextColored(Color::YELLOW, name.c_str());
 	ImGui::DragInt("Address", &address, 1.f, 0, 0, "%#10x");
+	ImGui::DragInt("Type", (int*)&type);
 	ImGui::DragFloat("Start Time", &startTime);
 	ImGui::DragFloat("End Time", &endTime);
 	ImGui::DragInt("Count", &count);
