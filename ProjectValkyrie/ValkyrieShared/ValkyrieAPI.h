@@ -231,7 +231,7 @@ public:
 
 		if (GetStatus() == ASYNC_SUCCEEDED) {
 			auto view = rawJson.View().GetObject("result");
-			newAverageRating = view.GetDouble("average_rating");
+			newAverageRating = (float)view.GetDouble("average_rating");
 			newNumRatings = view.GetInteger("num_ratings");
 		}
 	}

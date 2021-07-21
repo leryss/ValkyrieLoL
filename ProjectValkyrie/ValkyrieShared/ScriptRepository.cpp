@@ -240,7 +240,7 @@ void ScriptRepository::DrawTable(bool showLocal)
 	}
 	ImGui::TableHeadersRow();
 
-	float nowTimestamp = std::time(0);
+	float nowTimestamp = (float)std::time(0);
 	for (size_t i = 0; i < sorted.size(); ++i) {
 
 		auto& id = sorted[i];

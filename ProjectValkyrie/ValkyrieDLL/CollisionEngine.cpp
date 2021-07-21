@@ -2,25 +2,25 @@
 #include "Debug.h"
 #include "Raycast.h"
 
-void CollisionEngine::Update(const GameState & state)
+void CollisionEngine::Update(const GameState* state)
 {
 	DBG_INFO("CollisionEngine::Update")
 	updateTimeMs.Start();
 
-	this->state = &state;
 	collisions.clear();
+	this->state = state;
 
 	/// Predict missiles
-	for (auto& missile : state.missiles) {
+	for (auto& missile : state->missiles) {
 		if (missile->spell.staticData == nullptr)
 			continue;
-
+	
 		auto staticData = missile->spell.staticData;
-		FindCollisions(&state, *(GameObject*)missile.get(), &missile->spell, staticData);
+		FindCollisions(*(GameObject*)missile.get(), &missile->spell, staticData);
 	}
 
 	/// Predict spells being cast
-	for (auto& champ : state.champions) {
+	for (auto& champ : state->champions) {
 		if (!champ->isCasting)
 			continue;
 
@@ -29,7 +29,7 @@ void CollisionEngine::Update(const GameState & state)
 			continue;
 
 		auto staticData = cast->staticData;
-		FindCollisions(&state, *(GameObject*)champ.get(), cast, staticData);
+		FindCollisions(*(GameObject*)champ.get(), cast, staticData);
 	}
 
 	updateTimeMs.End();
@@ -38,6 +38,7 @@ void CollisionEngine::Update(const GameState & state)
 list CollisionEngine::GetCollisionsForUnit(const Collidable* collidable)
 {
 	list l;
+
 	auto find = collisions.find(collidable);
 	if (find != collisions.end()) {
 		for (auto& spec : find->second) {
@@ -51,6 +52,7 @@ list CollisionEngine::GetCollisionsForUnit(const Collidable* collidable)
 list CollisionEngine::GetCollisionsForCast(const Collidable* collidable)
 {
 	list l;
+
 	auto find = collisions.find(collidable);
 	if (find != collisions.end()) {
 		for (auto& spec : find->second) {
@@ -61,7 +63,7 @@ list CollisionEngine::GetCollisionsForCast(const Collidable* collidable)
 	return l;
 }
 
-void CollisionEngine::FindCollisions(const GameState* state, const GameObject & spawner, const SpellCast * cast, const SpellInfo * castStatic)
+void CollisionEngine::FindCollisions(const GameObject & spawner, const SpellCast * cast, const SpellInfo * castStatic)
 {
 	if (castStatic == nullptr)
 		return;
@@ -72,11 +74,11 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 
 	switch (castStatic->GetSpellType()) {
 		case TypeLine:
-			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end) + 700.f, targets);
+			GetNearbyEnemies(spawner, castStatic, spawner.pos.distance(cast->end) + 700.f, targets);
 			FindCollisionsLine(currentPos, cast, castStatic, targets);
 			break;
 		case TypeArea:
-			GetNearbyEnemies(*state, spawner, castStatic, spawner.pos.distance(cast->end) + castStatic->castRadius + 700.f, targets);
+			GetNearbyEnemies(spawner, castStatic, spawner.pos.distance(cast->end) + castStatic->castRadius + 700.f, targets);
 			FindCollisionsArea(currentPos, cast, castStatic, targets);
 			break;
 		default:
@@ -86,7 +88,7 @@ void CollisionEngine::FindCollisions(const GameState* state, const GameObject & 
 
 void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const SpellCast * cast, const SpellInfo * castStatic, std::vector<std::pair<GameUnit*, bool>>& objects)
 {
-	if (castStatic->width == 0.f || castStatic->speed == 0.f)
+	if (castStatic->width < 1.f || castStatic->speed < 1.f)
 		return;
 
 	float UnitDelta = 1.f + castStatic->width/3.f;
@@ -95,7 +97,7 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 	Vector2 spellEnd = Vector2(cast->end.x, cast->end.z);
 
 	float distanceLeft = spellStart.distance(spellEnd);
-	int   iterations   = max(0, distanceLeft - UnitDelta) / UnitDelta;
+	int   iterations   = (int)(max(0, distanceLeft - UnitDelta) / UnitDelta);
 	float timePerIter  = UnitDelta / castStatic->speed;
 	
 	float deltaXSpell = cast->dir.x * timePerIter * castStatic->speed;
@@ -115,8 +117,7 @@ void CollisionEngine::FindCollisionsLine(const Vector3 & spell_start, const Spel
 			Vector2 targetPos2D = Vector2(targetPos3D.x, targetPos3D.z);
 
 			if (targetPos2D.distance(spellPos) < target->staticData->gameplayRadius + castStatic->width) {
-				
-				AddCollisionEntry(new FutureCollision(target, cast, targetPos2D, spellPos, pair.second, castTime + timePerIter*i));
+				AddCollisionEntry(std::make_shared<FutureCollision>(target, cast, targetPos2D, spellPos, pair.second, castTime + timePerIter*i));
 				if (pair.second)
 					return;
 				break;
@@ -136,7 +137,7 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 	spellStart.y = 0.f;
 
 	float distanceTotal = spellEnd.distance(spellStart);
-	if (distanceTotal == 0.0)
+	if (distanceTotal < 1.f)
 		return;
 
 	for (auto& pair : objects) {
@@ -159,31 +160,31 @@ void CollisionEngine::FindCollisionsArea(const Vector3 & spellCurrentPos, const 
 		
 		Vector3 targetFuturePos = target->PredictPosition(secsUntilSpellHits);
 		if (targetFuturePos.distance(cast->end) < (castStatic->castRadius + target->staticData->gameplayRadius)) {
-			AddCollisionEntry(new FutureCollision(target, cast, Vector2(targetFuturePos.x, targetFuturePos.z), Vector2(cast->end.x, cast->end.z), false, secsUntilSpellHits));
+			AddCollisionEntry(std::make_shared<FutureCollision>(target, cast, Vector2(targetFuturePos.x, targetFuturePos.z), Vector2(cast->end.x, cast->end.z), false, secsUntilSpellHits));
 		}
 	}
 }
 
-void CollisionEngine::GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<GameUnit*, bool>>& result)
+void CollisionEngine::GetNearbyEnemies(const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<GameUnit*, bool>>& result)
 {
 	bool strict;
 	if (spell->HasFlag(AffectMinion)) {
 		strict = spell->HasFlag(CollideMinion);
-		for (auto& minion : state.minions)
+		for (auto& minion : state->minions)
 			if (minion->targetable && !minion->isDead && minion->IsEnemyTo(center) && minion->pos.distance(center.pos) < distance)
 				result.push_back({ (GameUnit*)minion.get() , strict });
 	}
 
 	if (spell->HasFlag(AffectChampion)) {
 		strict = spell->HasFlag(CollideChampion);
-		for (auto& champ : state.champions)
+		for (auto& champ : state->champions)
 			if (champ->targetable && !champ->isDead && champ->IsEnemyTo(center) && champ->pos.distance(center.pos) < distance)
 				result.push_back({ (GameUnit*)champ.get() , strict });
 	}
 
 	if (spell->HasFlag(AffectMonster)) {
 		strict = spell->HasFlag(CollideMonster);
-		for (auto& monster : state.jungle)
+		for (auto& monster : state->jungle)
 			if (monster->targetable && !monster->isDead && monster->IsEnemyTo(center) && monster->pos.distance(center.pos) < distance)
 				result.push_back({ (GameUnit*)monster.get() , strict });
 	}
@@ -213,13 +214,13 @@ bool CollisionEngine::PredictPointForConeCollision(GameUnit & caster, GameUnit &
 
 bool CollisionEngine::PredictPointForLineCollision(GameUnit& caster, GameUnit & obj, const SpellInfo & spell, Vector3 & out)
 {
-	if (spell.speed == 0.0)
+	if (spell.speed < 1.f)
 		return false;
 
 	float UnitDelta = 1.f + spell.width / 4.f;
 	float Threshold = 1.f + spell.width / 2.f;
 
-	int   iterations = (spell.castRange / UnitDelta) + 1;
+	int   iterations = (int)(spell.castRange / UnitDelta) + 1;
 	float travelPerIter = UnitDelta / spell.speed;
 
 	Vector2 spellInitialPos = Vector2(caster.pos.x, caster.pos.z);
@@ -308,24 +309,24 @@ float CollisionEngine::GetSecsUntilSpellHits(GameUnit & caster, GameUnit & targe
 	return secsUntilSpellHits;
 }
 
-void CollisionEngine::AddCollisionEntry(FutureCollision* collision)
+void CollisionEngine::AddCollisionEntry(std::shared_ptr<FutureCollision> collision)
 {
 	/// Add collision for unit
 	auto find = collisions.find(collision->unit);
 	if (find == collisions.end()) {
-		collisions[collision->unit] = { std::shared_ptr<FutureCollision>(collision) };
+		collisions[collision->unit] = { collision };
 	}
 	else {
-		find->second.push_back(std::shared_ptr<FutureCollision>(collision));
+		find->second.push_back(collision);
 	}
 
 	/// Add collision for spell
 	find = collisions.find(collision->cast);
 	if (find == collisions.end()) {
-		collisions[collision->cast] = { std::shared_ptr<FutureCollision>(collision) };
+		collisions[collision->cast] = { collision };
 	}
 	else {
-		find->second.push_back(std::shared_ptr<FutureCollision>(collision));
+		find->second.push_back(collision);
 	}
 }
 

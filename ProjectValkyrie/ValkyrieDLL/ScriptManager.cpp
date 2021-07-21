@@ -122,7 +122,7 @@ void ScriptManager::ImGuiDrawEditor()
 	ImGui::BeginChild("EditorOptions", ImVec2(width, 50));
 	if (ImGui::BeginCombo("Script to Edit", (selectedScriptForEditing == -1 ? "No script selected" : allScripts[selectedScriptForEditing]->info->id.c_str()))) {
 	
-		for (int i = 0; i < allScripts.size(); ++i) {
+		for (size_t i = 0; i < allScripts.size(); ++i) {
 			auto script = allScripts[i];
 			if (ImGui::Selectable(script->info->id.c_str(), i == selectedScriptForEditing)) {
 				selectedScriptForEditing = i;
@@ -145,7 +145,7 @@ void ScriptManager::ImGuiDrawEditor()
 	ImGui::EndChild();
 
 	ImGui::PushFont(ValkyrieShared::FontConsolas);
-	editor.Render("TextEditor", ImVec2(width, 0.85*displaySize.y));
+	editor.Render("TextEditor", ImVec2(width, 0.85f*displaySize.y));
 	ImGui::PopFont();
 }
 

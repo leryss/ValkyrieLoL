@@ -288,17 +288,5 @@ float Variance(std::vector<Vector3>& positions, Vector3& mean) {
 
 Vector3 GameChampion::PredictPosition(float secsFuture)
 {
-	//std::vector<Vector3> positions;
-	//int size = previousPositions.size();
-	//for (int i = max(size - 10, 0); i < size; ++i) {
-	//	positions.push_back(previousPositions[i]);
-	//}
-	//
-	//auto mean = Mean(positions);
-	//float variance = Variance(positions, mean);
-	//
-	//if (variance < 1000.f)
-	//	return mean;
-
 	return GameUnit::PredictPosition(secsFuture);
 }

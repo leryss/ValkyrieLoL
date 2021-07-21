@@ -295,7 +295,7 @@ Vector3 GameUnit::PredictPosition(float secsFuture)
 {
 	if(isMoving) {
 		float unitsPerSec = isDashing ? dashSpeed : moveSpeed;
-		if (unitsPerSec == 0.0)
+		if (unitsPerSec < 1.f)
 			return pos;
 
 		for (int i = 0; i < pathSize - 1; ++i) {

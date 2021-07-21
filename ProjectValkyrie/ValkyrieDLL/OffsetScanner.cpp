@@ -20,12 +20,10 @@ std::vector<OffsetSignature> OffsetScanner::signatures     = std::vector<OffsetS
 	OffsetSignature("Chat",                       "8B 0D ? ? ? ? 8A D8 E8 ? ? ? ? 84 C0",                        2),
 	OffsetSignature("HudInstance",                "8B 0D ? ? ? ? FF 77 20 8B 49 14",                             2),
 	OffsetSignature("UnderMouseObject",           "8B 0D ? ? ? ? 89 0D",                                         2),
+
 	/// For skin changer
-	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 1C 56 57 8D 44 24 20",                                  0,  AddressIsPatternLocation),
+	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 2C 53 56 57 8D 44 24 28",                               0,  AddressIsPatternLocation),
 	OffsetSignature("CharacterDataStack",         "8D 8E ? ? ? ? FF 74 24 4C",                                   2,  AddressInPattern,        false)
-	//OffsetSignature("FnIsAlive",                  "56 8B F1 8B 06 8B 80 ? ? ? ? FF D0 84 C0 74 19",              8,  AddressInPatternPlusLocation),
-	//OffsetSignature("FnGetAiManager",             "E8 ? ? ? ? 6A 00 6A 01 FF 74 24 14",                          1,  AddressInPatternPlusLocation),
-	
 });
 
 void OffsetScanner::ImGuiDraw()

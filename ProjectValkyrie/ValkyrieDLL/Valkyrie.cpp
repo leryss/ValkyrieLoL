@@ -271,7 +271,7 @@ void Valkyrie::SetupScripts()
 
 		SessionInfo session;
 		session.summonerName = std::string((const char*)ReadInt(CurrentGameState->player->address + Offsets::PlayerName));
-		session.timestamp = time(NULL);
+		session.timestamp = (float)time(NULL);
 
 		TaskPool->DispatchTask(
 			"Verifying Session",
@@ -386,6 +386,7 @@ void Valkyrie::Update()
 		if (GameData::EssentialsLoaded && GetForegroundWindow() == LeagueWindowHandle) {
 
 			//OffsetScanner::ImGuiDraw();
+			//CurrentGameState = Reader.GetNextState();
 			//ObjectExplorer::ImGuiDraw(*CurrentGameState);
 
 			CurrentGameState = Reader.GetNextState();

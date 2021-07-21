@@ -22,12 +22,13 @@ void Logger::Info(const char * str, ...)
 	vsprintf_s(message, str, va);
 	va_end(va);
 
+	*FileStream << message << "\n";
+
 	ConsoleStringLine* line = new ConsoleStringLine();
 	line->text = message;
 	line->color = Color::WHITE;
 	Valkyrie::Console.AddLine(std::shared_ptr<ConsoleLine>(line));
 
-	//FileStream->flush();
 	LoggerMutex.unlock();
 }
 
@@ -41,6 +42,8 @@ void Logger::Warn(const char * str, ...)
 	va_start(va, str);
 	vsprintf_s(message, str, va);
 	va_end(va);
+
+	*FileStream << message << "\n";
 
 	ConsoleStringLine* line = new ConsoleStringLine();
 	line->text = message;
@@ -60,6 +63,8 @@ void Logger::Error(const char * str, ...)
 	va_start(va, str);
 	vsprintf_s(message, str, va);
 	va_end(va);
+
+	*FileStream << message << "\n";
 
 	ConsoleStringLine* line = new ConsoleStringLine();
 	line->text = message;

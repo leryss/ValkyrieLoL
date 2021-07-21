@@ -317,17 +317,17 @@ void DrawCommandCircle::WriteVertices(Vertex * vtx)
 	}
 
 	vtx->col = color;
-	vtx->pos[0] = pos.x + radius * cos(0);
+	vtx->pos[0] = pos.x + radius * cos(0.f);
 	vtx->pos[1] = pos.y;
-	vtx->pos[2] = pos.z - radius * sin(0);
+	vtx->pos[2] = pos.z - radius * sin(0.f);
 	vtx->uv[0] = 0.f;
 	vtx->uv[1] = 0.f;
 	vtx++;
 
 	vtx->col = color;
-	vtx->pos[0] = pos.x + (radius - thickness) * cos(0);
+	vtx->pos[0] = pos.x + (radius - thickness) * cos(0.f);
 	vtx->pos[1] = pos.y;
-	vtx->pos[2] = pos.z - (radius - thickness) * sin(0);
+	vtx->pos[2] = pos.z - (radius - thickness) * sin(0.f);
 	vtx->uv[0] = 0.f;
 	vtx->uv[1] = 0.f;
 }
@@ -366,9 +366,9 @@ void DrawCommandCircleFilled::WriteVertices(Vertex * vtx)
 	}
 
 	vtx->col = color;
-	vtx->pos[0] = pos.x + radius * cos(0);
+	vtx->pos[0] = pos.x + radius * cos(0.f);
 	vtx->pos[1] = pos.y;
-	vtx->pos[2] = pos.z - radius * sin(0);
+	vtx->pos[2] = pos.z - radius * sin(0.f);
 	vtx->uv[0] = 0.f;
 	vtx->uv[1] = 0.f;
 }

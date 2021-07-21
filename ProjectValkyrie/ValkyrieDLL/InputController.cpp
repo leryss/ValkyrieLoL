@@ -52,8 +52,8 @@ Vector2 InputController::GetMouseCursor()
 
 void InputController::SetMouseCursor(const Vector2 & position)
 {
-	float fScreenWidth = ::GetSystemMetrics(SM_CXSCREEN) - 1;
-	float fScreenHeight = ::GetSystemMetrics(SM_CYSCREEN) - 1;
+	float fScreenWidth  = (float)(GetSystemMetrics(SM_CXSCREEN) - 1);
+	float fScreenHeight = (float)(GetSystemMetrics(SM_CYSCREEN) - 1);
 	float fx = position.x * (65535.0f / fScreenWidth);
 	float fy = position.y * (65535.0f / fScreenHeight);
 
@@ -61,8 +61,8 @@ void InputController::SetMouseCursor(const Vector2 & position)
 	::ZeroMemory(&Input, sizeof(INPUT));
 	Input.type = INPUT_MOUSE;
 	Input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
-	Input.mi.dx = Valkyrie::WindowRect.left + fx;
-	Input.mi.dy = Valkyrie::WindowRect.top  + fy;
+	Input.mi.dx = (LONG)(Valkyrie::WindowRect.left + fx);
+	Input.mi.dy = (LONG)(Valkyrie::WindowRect.top  + fy);
 	::SendInput(1, &Input, sizeof(INPUT));
 }
 

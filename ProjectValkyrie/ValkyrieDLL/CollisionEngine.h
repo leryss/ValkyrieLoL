@@ -1,5 +1,6 @@
 #pragma once
 #include "GameState.h"
+#include <unordered_map>
 
 
 using namespace boost::python;
@@ -14,7 +15,7 @@ public:
 	bool             isFinal = false;
 	Vector2          unitCollisionPoint;
 	Vector2          castCollisionPoint;
-	GameUnit*  unit;
+	GameUnit*        unit;
 	const SpellCast* cast;
 
 	object GetUnitPy();
@@ -25,7 +26,7 @@ class CollisionEngine {
 
 public:
 
-	void Update(const GameState& state);
+	void Update(const GameState* state);
 
 	list GetCollisionsForUnit(const Collidable* unit);
 	list GetCollisionsForCast(const Collidable* cast);
@@ -36,21 +37,21 @@ public:
 private:
 
 	float   GetSecsUntilSpellHits(GameUnit& caster, GameUnit& target, const SpellInfo& spell);
-	void    AddCollisionEntry(FutureCollision* collision);
+	void    AddCollisionEntry(std::shared_ptr<FutureCollision> collision);
 	Vector2 LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius);
 
-	void    FindCollisions(const GameState* state, const GameObject& spawner, const SpellCast* cast, const SpellInfo* castStatic);
+	void    FindCollisions(const GameObject& spawner, const SpellCast* cast, const SpellInfo* castStatic);
 	void    FindCollisionsLine(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<GameUnit*, bool>>& objects);
 	void    FindCollisionsArea(const Vector3& spell_start, const SpellCast* cast, const SpellInfo* castStatic, std::vector<std::pair<GameUnit*, bool>>& objects);
-	void    GetNearbyEnemies(const GameState& state, const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<GameUnit*, bool>>& result);
+	void    GetNearbyEnemies(const GameObject& center, const SpellInfo* spell, float distance, std::vector<std::pair<GameUnit*, bool>>& result);
 
 	bool    PredictPointForAreaCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
 	bool    PredictPointForConeCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
 	bool    PredictPointForLineCollision(GameUnit& caster, GameUnit& obj, const SpellInfo& spell, Vector3& out);
 private:
 	
-	/// Key: addr of Object/SpellCast  Value: Collisions
-	std::map<const Collidable*, std::vector<std::shared_ptr<FutureCollision>>> collisions;
+	/// Key: unit or spellcast, Value: future collision with that unit/spellcast
+	std::unordered_map<const Collidable*, std::vector<std::shared_ptr<FutureCollision>>> collisions;
 
 	const GameState* state;
 };

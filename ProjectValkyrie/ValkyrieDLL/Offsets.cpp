@@ -2,19 +2,22 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.14";
+std::string Offsets::GameVersion             = "11.15";
 
-int Offsets::ObjectManager                   = 0x0171f818;
-int Offsets::Renderer                        = 0x02fe271c;
-int Offsets::ViewMatrix                      = 0x02fdf8b8;
-int Offsets::MinimapObject                   = 0x02fbc2d0;
-int Offsets::LocalPlayer                     = 0x02fbbb60;
-int Offsets::GameTime                        = 0x02fb3f24;
-int Offsets::Chat                            = 0x02fbc3a4;
-int Offsets::HudInstance                     = 0x0171f854;
-int Offsets::UnderMouseObject                = 0x02FB0CC0;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f34b0;
+//int Offsets::FnCharacterDataStackUpdate      = 0x000f34b0;
+
+int Offsets::ObjectManager                   = 0x017239d0;
+int Offsets::Renderer                        = 0x02fe7544;
+int Offsets::ViewMatrix                      = 0x02fe46e0;
+int Offsets::MinimapObject                   = 0x02fc0890;
+int Offsets::LocalPlayer                     = 0x02fc0128;
+int Offsets::GameTime                        = 0x02fb855c;
+int Offsets::Chat                            = 0x02fc0960;
+int Offsets::HudInstance                     = 0x01723a0c;
+int Offsets::UnderMouseObject                = 0x02FB51E8;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f3b30;
 int Offsets::CharacterDataStack              = 0x00002bb0;
+
 
 int Offsets::HudInstanceMouseWorldPosition   = 0x11c;
 int Offsets::ChatIsOpen                      = 0x684;
@@ -60,7 +63,7 @@ int Offsets::ObjDirection                    = 0x1BD8;
 
 int Offsets::ObjName                         = 0x2bbc;
 int Offsets::ObjTransformation               = Offsets::ObjName - 0xC;
-int Offsets::ObjLvl                          = 0x3344;
+int Offsets::ObjLvl                          = 0x335C;
 
 int Offsets::ObjBuffManager                  = 0x21A4;
 int Offsets::BuffManagerEntriesArray         = 0x10;
@@ -79,7 +82,7 @@ int Offsets::SpellCastEnd                    = 0x8C;
 int Offsets::SpellCastSrcIdx                 = 0x68;
 int Offsets::SpellCastDestIdx                = 0xBC;
 
-int Offsets::ObjItemList                     = 0x3390;
+int Offsets::ObjItemList                     = 0x33A8;
 int Offsets::ItemListItem                    = 0xC;
 int Offsets::ItemActiveName                  = 0x10;
 int Offsets::ItemCharges                     = 0x24;

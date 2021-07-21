@@ -40,7 +40,7 @@ public:
 	
 	/// Text editor stuff
 	TextEditor                          editor;
-	int                                 selectedScriptForEditing = -1;
+	size_t                              selectedScriptForEditing = -1;
 
 	ScriptRepository                    repository;
 

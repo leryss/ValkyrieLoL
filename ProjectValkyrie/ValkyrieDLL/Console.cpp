@@ -65,7 +65,7 @@ void Console::ImDraw(const PyExecutionContext & ctx, const ScriptManager& smanag
 	ImGui::SameLine();
 	if (ImGui::BeginCombo("Script Context", smanager.allScripts[selectedContext]->info->id.c_str())) {
 
-		for (int i = 0; i < smanager.allScripts.size(); ++i) {
+		for (size_t i = 0; i < smanager.allScripts.size(); ++i) {
 			auto script = smanager.allScripts[i];
 			if (ImGui::Selectable(script->info->id.c_str())) {
 				selectedContext = i;

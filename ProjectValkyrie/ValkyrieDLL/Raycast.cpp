@@ -28,7 +28,7 @@ std::shared_ptr<std::list<std::shared_ptr<RaycastResult>>> Raycast::Cast(const G
 	RayGetNearby(RayOther,    state->others);
 	RayGetNearby(RayChampion, state->champions);
 
-	int iters = length / distanceStep;
+	int iters = (int)(length / distanceStep);
 	float currentDist = 0.f;
 
 	std::shared_ptr<std::list<std::shared_ptr<RaycastResult>>> results(new std::list<std::shared_ptr<RaycastResult>>);

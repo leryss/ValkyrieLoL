@@ -45,7 +45,7 @@ public:
 
 	std::vector<std::string> commandHistory;
 	bool                     showHistoryPopup = false;
-	int                      commandHistoryOffset = 0;
+	size_t                   commandHistoryOffset = 0;
 
 	const static size_t SizeLine = 1024;
 	char                line[SizeLine];
