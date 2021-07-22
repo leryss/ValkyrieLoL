@@ -214,9 +214,7 @@ void PyExecutionContext::MoveToMouse() {
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return;
 
-	currentScript->input.IssueHoldKey(GameKeybind::TargetChampionsOnly);
-	currentScript->input.IssueClick(CT_RIGHT_CLICK);
-	currentScript->input.IssueUnholdKey(GameKeybind::TargetChampionsOnly);
+	currentScript->input.IssueClick(CT_RIGHT_CLICK, GameKeybind::TargetChampionsOnly);
 }
 
 void PyExecutionContext::MoveToLocation(const Vector3 & location)
@@ -224,9 +222,7 @@ void PyExecutionContext::MoveToLocation(const Vector3 & location)
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return;
 	
-	currentScript->input.IssueHoldKey(GameKeybind::TargetChampionsOnly);
-	currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [location] { return Valkyrie::CurrentGameState->renderer.WorldToScreen(location); });
-	currentScript->input.IssueUnholdKey(GameKeybind::TargetChampionsOnly);
+	currentScript->input.IssueClickAt(CT_RIGHT_CLICK, [location] { return Valkyrie::CurrentGameState->renderer.WorldToScreen(location); }, GameKeybind::TargetChampionsOnly);
 }
 
 void PyExecutionContext::MoveMouse(const Vector3 & worldLocation)

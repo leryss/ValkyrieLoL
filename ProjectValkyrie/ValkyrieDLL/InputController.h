@@ -78,10 +78,10 @@ public:
 	void IssuePressKeyAt(HKey key, std::function<Vector2()> posGetter);
 
 	/// Issues a mouse click operation
-	void IssueClick(ClickType type);
+	void IssueClick(ClickType type, HKey withKeyHold = NO_KEY);
 
 	/// Issues a mouse click operation at a screen position
-	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter);
+	void IssueClickAt(ClickType type, std::function<Vector2()> posGetter, HKey withKeyHold = NO_KEY);
 
 	/// Issues a click operation on a game unit
 	void IssueClickUnit(ClickType type, const GameUnit& unit);

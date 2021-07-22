@@ -109,29 +109,56 @@ void InputController::IssuePressKeyAt(HKey key, std::function<Vector2()> posGett
 	);
 }
 
-void InputController::IssueClick(ClickType type)
+void InputController::IssueClick(ClickType type, HKey withKeyHold)
 {
-	PushIoBatch(
-		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+	std::shared_ptr<IoStepBatch> batch;
+	if (withKeyHold != NO_KEY) {
+		batch = std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoPressKey(withKeyHold)),
+			std::shared_ptr<IoStep>(new IoPressMouse(type)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoReleaseMouse(type)),
+			std::shared_ptr<IoStep>(new IoReleaseKey(withKeyHold)),
+			}, IO_CLICK));
+	}
+	else {
+		batch = std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoPressMouse(type)),
 			std::shared_ptr<IoStep>(new IoDelay(5.f)),
 			std::shared_ptr<IoStep>(new IoReleaseMouse(type))
-		}, IO_CLICK))
-	);
+			}, IO_CLICK));
+	}
+
+	PushIoBatch(batch);
 }
 
-void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posGetter)
+void InputController::IssueClickAt(ClickType type, std::function<Vector2()> posGetter, HKey withKeyHold)
 {
-	PushIoBatch(
-		std::shared_ptr<IoStepBatch>(new IoStepBatch({
+	std::shared_ptr<IoStepBatch> batch;
+	if (withKeyHold != NO_KEY) {
+		batch = std::shared_ptr<IoStepBatch>(new IoStepBatch({
+			std::shared_ptr<IoStep>(new IoPressKey(withKeyHold)),
+			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
+			std::shared_ptr<IoStep>(new IoPressMouse(type)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoReleaseMouse(type)),
+			std::shared_ptr<IoStep>(new IoDelay(5.f)),
+			std::shared_ptr<IoStep>(new IoUnspoofMouse()),
+			std::shared_ptr<IoStep>(new IoReleaseKey(withKeyHold)),
+			}, IO_CLICK_AT));
+	}
+	else {
+		batch = std::shared_ptr<IoStepBatch>(new IoStepBatch({
 			std::shared_ptr<IoStep>(new IoSpoofMouse(posGetter)),
 			std::shared_ptr<IoStep>(new IoPressMouse(type)),
 			std::shared_ptr<IoStep>(new IoDelay(5.f)),
 			std::shared_ptr<IoStep>(new IoReleaseMouse(type)),
 			std::shared_ptr<IoStep>(new IoDelay(5.f)),
 			std::shared_ptr<IoStep>(new IoUnspoofMouse())
-		}, IO_CLICK_AT))
-	);
+			}, IO_CLICK_AT));
+	}
+
+	PushIoBatch(batch);
 }
 
 void InputController::IssueClickUnit(ClickType type, const GameUnit& unit)
