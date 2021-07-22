@@ -134,7 +134,7 @@ bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLoc
 		return false;
 
 	/// Check if castable
-	if (!state->player->CanCast(spell))
+	if (!(spell->GetRemainingCooldown() == 0.0f && spell->castableBit))
 		return false;
 
 	if (targetLocation != nullptr) {

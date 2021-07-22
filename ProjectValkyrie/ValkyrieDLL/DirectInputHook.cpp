@@ -55,9 +55,9 @@ void DirectInputHook::QueueKey(HKey key, bool pressed)
 void DirectInputHook::SetKeyActive(HKey key, bool active)
 {
 	if (active)
-		DisabledGameKeys.erase(key);
+		DisabledGameKeys.erase(ConvertToDIKey(key));
 	else
-		DisabledGameKeys.insert(key);
+		DisabledGameKeys.insert(ConvertToDIKey(key));
 }
 
 HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDevice8 * pThis, DWORD a, LPDIDEVICEOBJECTDATA data, LPDWORD numElemsPtr, DWORD d)
@@ -65,7 +65,7 @@ HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDe
 	auto result = OriginalDirectInputGetDeviceData(pThis, a, data, numElemsPtr, d);
 	if (result != DI_OK)
 		return result;
-
+	
 	if (DisableGameKeys) {
 		*numElemsPtr = 0;
 		return DI_OK;
@@ -75,6 +75,7 @@ HRESULT __stdcall DirectInputHook::HookedDirectInputGetDeviceData(IDirectInputDe
 	int numElems = *numElemsPtr;
 	if (!GetAsyncKeyState(VK_CONTROL)) {
 		for (int i = 0; i < numElems; ++i) {
+			//Logger::Info("%d", data[i].dwOfs);
 			auto find = DisabledGameKeys.find(data[i].dwOfs);
 			if (find != DisabledGameKeys.end()) {
 				data[i].dwOfs = 0;
@@ -109,9 +110,9 @@ DWORD DirectInputHook::ConvertToDIKey(HKey key)
 {
 	switch (key) {
 	case MOUSE_LEFT_BTN:
-		return 256;
+		return DIMOFS_BUTTON0;
 	case MOUSE_RIGHT_BTN:
-		return 257;
+		return DIMOFS_BUTTON1;
 	case MOUSE_SIDE_BTN:
 		return 260;
 	case MOUSE_SIDE_BTN2:
