@@ -13,67 +13,26 @@ void Logger::InitLoggers(const char * pathFileLog)
 
 void Logger::Info(const char * str, ...)
 {
-	LoggerMutex.lock();
-
-	char message[4000];
-
 	va_list va;
 	va_start(va, str);
-	vsprintf_s(message, str, va);
+	WriteMessage(Color::WHITE, false, str, va);
 	va_end(va);
-
-	*FileStream << message << "\n";
-
-	ConsoleStringLine* line = new ConsoleStringLine();
-	line->text = message;
-	line->color = Color::WHITE;
-	Valkyrie::Console.AddLine(std::shared_ptr<ConsoleLine>(line));
-
-	LoggerMutex.unlock();
 }
 
 void Logger::Warn(const char * str, ...)
 {
-	LoggerMutex.lock();
-
-	char message[4000];
-
 	va_list va;
 	va_start(va, str);
-	vsprintf_s(message, str, va);
+	WriteMessage(Color::YELLOW, false, str, va);
 	va_end(va);
-
-	*FileStream << message << "\n";
-
-	ConsoleStringLine* line = new ConsoleStringLine();
-	line->text = message;
-	line->color = Color::YELLOW;
-	Valkyrie::Console.AddLine(std::shared_ptr<ConsoleLine>(line));
-
-	LoggerMutex.unlock();
 }
 
 void Logger::Error(const char * str, ...)
 {
-	LoggerMutex.lock();
-
-	char message[4000];
-
 	va_list va;
 	va_start(va, str);
-	vsprintf_s(message, str, va);
+	WriteMessage(Color::RED, true, str, va);
 	va_end(va);
-
-	*FileStream << message << "\n";
-
-	ConsoleStringLine* line = new ConsoleStringLine();
-	line->text = message;
-	line->color = Color::RED;
-	Valkyrie::Console.AddLine(std::shared_ptr<ConsoleLine>(line));
-
-	FileStream->flush(); // We flush when we get errors to make sure we got them on logs.txt
-
-	LoggerMutex.unlock();
 }
 
 void Logger::PushDebug(const char * str, ...)
@@ -104,6 +63,30 @@ void Logger::ClearDebug()
 {
 	LoggerMutex.lock();
 	BufferDebug.clear();
+	LoggerMutex.unlock();
+}
+
+void Logger::WriteMessage(const ImVec4& colorConsole, bool forceFlush, const char * formatStr, va_list formatArgs)
+{
+	static DWORD lastFlushTick = 0;
+
+	LoggerMutex.lock();
+
+	char msg[4000];
+	vsprintf_s(msg, formatStr, formatArgs);
+
+	*FileStream << msg << "\n";
+
+	ConsoleStringLine* line = new ConsoleStringLine();
+	line->text = msg;
+	line->color = colorConsole;
+	Valkyrie::Console.AddLine(std::shared_ptr<ConsoleLine>(line));
+
+	if (forceFlush || GetTickCount() > lastFlushTick) {
+		FileStream->flush();
+		lastFlushTick = GetTickCount() + 100;
+	}
+
 	LoggerMutex.unlock();
 }
 

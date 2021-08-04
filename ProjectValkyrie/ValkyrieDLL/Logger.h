@@ -35,4 +35,8 @@ public:
 
 	/// Clears the debug message buffer
 	static void   ClearDebug();
+
+private:
+
+	static void   WriteMessage(const ImVec4& colorConsole, bool forceFlush, const char * formatStr, va_list formatArgs);
 };

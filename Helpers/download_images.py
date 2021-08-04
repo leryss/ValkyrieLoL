@@ -72,4 +72,4 @@ if not os.path.isdir(result_folder):
 #read_character_icons(x, y, character_filter = lambda x: x in champs)
 
 # Read specific champ icon
-download_icons('https://raw.communitydragon.org/latest/game/assets/characters/drmundo/hud/icons2d/')
+download_icons('https://raw.communitydragon.org/latest/game/assets/characters/akshan/hud/icons2d/')
