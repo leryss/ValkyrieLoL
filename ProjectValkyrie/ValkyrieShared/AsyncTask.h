@@ -37,5 +37,5 @@ public:
 	}
 
 private:
-	AsyncTaskStatus status;
+	AsyncTaskStatus status = ASYNC_NOT_STARTED;
 };

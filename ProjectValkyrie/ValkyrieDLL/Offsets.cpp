@@ -2,20 +2,18 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.15";
+std::string Offsets::GameVersion             = "11.16";
 
-//int Offsets::FnCharacterDataStackUpdate      = 0x000f34b0;
-
-int Offsets::ObjectManager                   = 0x017239d0;
-int Offsets::Renderer                        = 0x02fe7544;
-int Offsets::ViewMatrix                      = 0x02fe46e0;
-int Offsets::MinimapObject                   = 0x02fc0890;
-int Offsets::LocalPlayer                     = 0x02fc0128;
-int Offsets::GameTime                        = 0x02fb855c;
-int Offsets::Chat                            = 0x02fc0960;
-int Offsets::HudInstance                     = 0x01723a0c;
-int Offsets::UnderMouseObject                = 0x02FB51E8;
-int Offsets::FnCharacterDataStackUpdate      = 0x000f3b30;
+int Offsets::ObjectManager                   = 0x0172c9e4;
+int Offsets::Renderer                        = 0x02ff092c;
+int Offsets::ViewMatrix                      = 0x02fedac0;
+int Offsets::MinimapObject                   = 0x2FC969C;
+int Offsets::LocalPlayer                     = 0x02fc90d8;
+int Offsets::GameTime                        = 0x02fc1988;
+int Offsets::Chat                            = 0x02fc9768;
+int Offsets::HudInstance                     = 0x0172ca20;
+int Offsets::UnderMouseObject                = 0x02FBEA88;
+int Offsets::FnCharacterDataStackUpdate      = 0x0027a1c0;
 int Offsets::CharacterDataStack              = 0x00002bb0;
 
 
@@ -109,8 +107,8 @@ int Offsets::ObjectMapNodeNetId              = 0x10;
 int Offsets::ObjectMapNodeObject             = 0x14;
 
 int Offsets::MinimapObjectHud                = 0x14;
-int Offsets::MinimapHudPos                   = 0x60;
-int Offsets::MinimapHudSize                  = 0x68;          // has values between (191, 191) and (383, 383)
+int Offsets::MinimapHudPos                   = 0x44;
+int Offsets::MinimapHudSize                  = 0x4C;          // has values between (191, 191) and (383, 383)
 										    
 int Offsets::CharacterDataStackSkinId        = 0x18;
 

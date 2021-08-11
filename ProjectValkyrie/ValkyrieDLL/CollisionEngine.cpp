@@ -360,6 +360,7 @@ Vector2 CollisionEngine::LinearCollision(const Vector2& p1, const Vector2& d1, c
 }
 
 FutureCollision::FutureCollision()
+	:unit(nullptr), cast(nullptr)
 {
 }
 

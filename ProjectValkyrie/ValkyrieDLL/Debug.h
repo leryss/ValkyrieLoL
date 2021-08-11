@@ -2,7 +2,7 @@
 
 
 /// Macros for debugging purposes
- #define VALK_DBG
+/// #define VALK_DBG
 
 #ifdef VALK_DBG
 	#define DBG_INFO(msg, ...) Logger::PushDebug(msg, ##__VA_ARGS__);

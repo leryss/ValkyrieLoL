@@ -112,6 +112,7 @@ object PyExecutionContext::GetSpellInfo(const char* label) {
 
 bool PyExecutionContext::StartChannel(GameSpell * spell)
 {
+	Logger::Info("Start channel %s", spell->name.c_str());
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return false;
 
@@ -125,6 +126,11 @@ bool PyExecutionContext::StartChannel(GameSpell * spell)
 
 bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLocation)
 {
+	if (targetLocation == nullptr)
+		Logger::Info("End channel %s (no target)", spell->name.c_str());
+	else
+		Logger::Info("End channel %s on (%.1f, %.1f, %.1f)", spell->name.c_str(), targetLocation->x, targetLocation->y, targetLocation->z);
+	
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return false;
 
@@ -150,6 +156,11 @@ bool PyExecutionContext::EndChannel(GameSpell * spell, const Vector3 * targetLoc
 }
 
 bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocation) {
+	
+	if (targetLocation == nullptr)
+		Logger::Info("Cast %s (no target)", spell->name.c_str());
+	else
+		Logger::Info("Cast %s on (%.1f, %.1f, %.1f)", spell->name.c_str(), targetLocation->x, targetLocation->y, targetLocation->z);
 	
 	if (state->hud.WasChatOpenMillisAgo(100))
 		return false;
@@ -177,6 +188,7 @@ bool PyExecutionContext::CastSpell(GameSpell* spell, const Vector3* targetLocati
 
 bool PyExecutionContext::CastSpellOnUnit(GameSpell * spell, GameUnit& target)
 {
+	Logger::Info("Cast %s on %s", spell->name.c_str(), target.name.c_str());
 	if (spell->staticData == nullptr)
 		return false;
 

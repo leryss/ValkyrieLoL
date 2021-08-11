@@ -12,6 +12,7 @@ enum ScanStatus {
 
 enum OffsetExtractLocation {
 	AddressInPattern,
+	AddressInPatternRaw,
 	AddressIsPatternLocation,
 	AddressInPatternPlusLocation
 };

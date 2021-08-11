@@ -14,15 +14,15 @@ std::vector<OffsetSignature> OffsetScanner::signatures     = std::vector<OffsetS
 	OffsetSignature("ObjectManager",              "8B 0D ? ? ? ? E8 ? ? ? ? FF 77",                              2),
 	OffsetSignature("Renderer",                   "8B 15 ? ? ? ? 83 EC 08 F3",                                   2),
 	OffsetSignature("ViewMatrix",                 "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E9 ? ? ? ?",                 1),
-	OffsetSignature("MinimapObject",              "E8 ? ? ? ? 8B 3D ? ? ? ? 8B C5 33 C9",                        7),
+	OffsetSignature("MinimapObject",              "E8 ? ? ? ? A1 ? ? ? ? 8B 40 14 85 C0",                        6),
 	OffsetSignature("LocalPlayer",                "A1 ? ? ? ? 85 C0 74 07 05 ? ? ? ? EB 02 33 C0 56",            1),
 	OffsetSignature("GameTime",                   "F3 0F 11 05 ? ? ? ? 8B 49",                                   4),
 	OffsetSignature("Chat",                       "8B 0D ? ? ? ? 8A D8 E8 ? ? ? ? 84 C0",                        2),
 	OffsetSignature("HudInstance",                "8B 0D ? ? ? ? FF 77 20 8B 49 14",                             2),
 	OffsetSignature("UnderMouseObject",           "8B 0D ? ? ? ? 89 0D",                                         2),
 
-	/// For skin changer
-	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 2C 53 56 57 8D 44 24 28",                               0,  AddressIsPatternLocation),
+	/// For skin changer 
+	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 08 53 56 57 8D 44 24 0C",                               0,  AddressIsPatternLocation),
 	OffsetSignature("CharacterDataStack",         "8D 8E ? ? ? ? FF 74 24 4C",                                   2,  AddressInPattern,        false)
 });
 
@@ -154,6 +154,9 @@ void OffsetSignature::Scan(int startAddr, int size)
 				if (matched) {
 					int moduleAddr = subtractModuleAddress ? (int)GetModuleHandle(NULL) : 0;
 					switch (offsetLocation) {
+					case AddressInPatternRaw:
+						offset = *(int*)(mem + extractIndex);
+						break;
 					case AddressIsPatternLocation:
 						offset = (int)mem - moduleAddr;
 						break;

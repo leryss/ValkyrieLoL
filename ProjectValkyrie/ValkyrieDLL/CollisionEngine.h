@@ -53,5 +53,5 @@ private:
 	/// Key: unit or spellcast, Value: future collision with that unit/spellcast
 	std::unordered_map<const Collidable*, std::vector<std::shared_ptr<FutureCollision>>> collisions;
 
-	const GameState* state;
+	const GameState* state = nullptr;
 };
