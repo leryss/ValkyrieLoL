@@ -2,21 +2,21 @@
 
 Offsets::Offsets() {};
 
-std::string Offsets::GameVersion             = "11.16";
+std::string Offsets::GameVersion             = "11.17";
 
-int Offsets::ObjectManager                   = 0x0172c9e4;
-int Offsets::Renderer                        = 0x02ff092c;
-int Offsets::ViewMatrix                      = 0x02fedac0;
-int Offsets::MinimapObject                   = 0x2FC969C;
-int Offsets::LocalPlayer                     = 0x02fc90d8;
-int Offsets::GameTime                        = 0x02fc1988;
-int Offsets::Chat                            = 0x02fc9768;
-int Offsets::HudInstance                     = 0x0172ca20;
-int Offsets::UnderMouseObject                = 0x02FBEA88;
-int Offsets::FnCharacterDataStackUpdate      = 0x0027a1c0;
-int Offsets::CharacterDataStack              = 0x00002bb0;
+int Offsets::ObjectManager                   = 0x0183e1a0;
+int Offsets::Renderer                        = 0x0310257c;
+int Offsets::ViewMatrix                      = 0x030ff708;
+int Offsets::MinimapObject                   = 0000000000;
+int Offsets::LocalPlayer                     = 0x030da914;
+int Offsets::GameTime                        = 0x030d2c58;
+int Offsets::Chat                            = 0x030daf74;
+int Offsets::HudInstance                     = 0x0183e1dc;
+int Offsets::MouseInfo                       = 0x030CD6F8;
+int Offsets::FnCharacterDataStackUpdate      = 0x000f49f0;
+int Offsets::CharacterDataStack              = 0x00002ba8;
 
-
+int Offsets::MouseInfoHoveredObject          = 0xC;
 int Offsets::HudInstanceMouseWorldPosition   = 0x11c;
 int Offsets::ChatIsOpen                      = 0x684;
 
@@ -59,14 +59,14 @@ int Offsets::ObjAdditionalApMulti            = 0x1230; /// I use this for rabado
 
 int Offsets::ObjDirection                    = 0x1BD8;
 
-int Offsets::ObjName                         = 0x2bbc;
+int Offsets::ObjName                         = 0x2bb4;
 int Offsets::ObjTransformation               = Offsets::ObjName - 0xC;
-int Offsets::ObjLvl                          = 0x335C;
+int Offsets::ObjLvl                          = 0x3354;
 
 int Offsets::ObjBuffManager                  = 0x21A4;
 int Offsets::BuffManagerEntriesArray         = 0x10;
 
-int Offsets::ObjSpellBook                    = 0x2358;
+int Offsets::ObjSpellBook                    = 0x2350;
 int Offsets::SpellBookActiveSpellCast        = 0x20;
 int Offsets::SpellBookCastableMask           = 0x38;
 int Offsets::SpellBookSpellSlots             = 0x478;
@@ -74,13 +74,13 @@ int Offsets::SpellBookSpellSlots             = 0x478;
 int Offsets::SpellCastSpellInfo              = 0x8;
 int Offsets::SpellCastStartTime	             = 0x14c;
 int Offsets::SpellCastStartTimeAlt           = 0x13C;
-int Offsets::SpellCastCastTime               = 0xc8;
-int Offsets::SpellCastStart                  = 0x80;
-int Offsets::SpellCastEnd                    = 0x8C;
-int Offsets::SpellCastSrcIdx                 = 0x68;
-int Offsets::SpellCastDestIdx                = 0xBC;
+int Offsets::SpellCastCastTime               = 0xcc;
+int Offsets::SpellCastStart                  = 0x84;
+int Offsets::SpellCastEnd                    = 0x90;
+int Offsets::SpellCastSrcIdx                 = 0x6C;
+int Offsets::SpellCastDestIdx                = 0xC0;
 
-int Offsets::ObjItemList                     = 0x33A8;
+int Offsets::ObjItemList                     = 0x33A0;
 int Offsets::ItemListItem                    = 0xC;
 int Offsets::ItemActiveName                  = 0x10;
 int Offsets::ItemCharges                     = 0x24;

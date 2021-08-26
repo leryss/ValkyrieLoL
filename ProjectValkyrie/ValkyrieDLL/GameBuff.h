@@ -3,6 +3,7 @@
 #include "MemoryReadable.h"
 
 enum GameBuffType {
+	BuffTypeUnknown       = 0,
 	BuffTypeInternal      = 1,
 	BuffTypeAura             ,
 	BuffTypeCombatBuff       ,
@@ -44,7 +45,7 @@ public:
 
 public:
 	int          address;
-	GameBuffType type;
+	GameBuffType type = BuffTypeUnknown;
 	float        startTime;
 	float        endTime;
 	int          count;

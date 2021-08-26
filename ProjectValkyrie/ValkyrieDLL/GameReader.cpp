@@ -97,10 +97,11 @@ void GameReader::ReadHoveredObject()
 	DBG_INFO("GameReader::ReadHoveredObject")
 
 	state.hovered = nullptr;
-	int addr = ReadInt(baseAddr + Offsets::UnderMouseObject);
+	int mouseInfo = ReadInt(baseAddr + Offsets::MouseInfo);
+	int hoveredObject = ReadInt(mouseInfo + Offsets::MouseInfoHoveredObject);
 
-	if (addr != 0) {
-		int netId = ReadInt(addr + Offsets::ObjNetworkID);
+	if (hoveredObject != 0) {
+		int netId = ReadInt(hoveredObject + Offsets::ObjNetworkID);
 		auto find = state.objectCache.find(netId);
 		if(find != state.objectCache.end())
 			state.hovered = find->second;

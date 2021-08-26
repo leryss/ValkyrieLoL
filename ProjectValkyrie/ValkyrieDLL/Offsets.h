@@ -65,6 +65,7 @@ public:
 	static int AiManagerVelocity;
 
 	static int BuffManagerEntriesArray;
+	static int MouseInfoHoveredObject;
 
 	static int ItemListItem;
 	static int ItemCharges;
@@ -91,7 +92,7 @@ public:
 
 	static int ObjectManager;
 	static int LocalPlayer;
-	static int UnderMouseObject;
+	static int MouseInfo;
 
 	static int ObjectMapCount;
 	static int ObjectMapRoot;

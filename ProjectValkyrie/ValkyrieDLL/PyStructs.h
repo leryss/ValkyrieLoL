@@ -318,6 +318,7 @@ BOOST_PYTHON_MODULE(valkyrie) {
 		;
 
 	enum_<GameBuffType>("GameBuffType", "Game buff type (use this instead of buffs from spells.py)")
+		.value("Unknown",           BuffTypeUnknown)
 		.value("Internal",          BuffTypeInternal)
 		.value("Aura",              BuffTypeAura)
 		.value("CombatBuff",        BuffTypeCombatBuff)

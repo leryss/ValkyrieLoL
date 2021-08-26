@@ -22,7 +22,7 @@ std::vector<OffsetSignature> OffsetScanner::signatures     = std::vector<OffsetS
 	OffsetSignature("UnderMouseObject",           "8B 0D ? ? ? ? 89 0D",                                         2),
 
 	/// For skin changer 
-	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 08 53 56 57 8D 44 24 0C",                               0,  AddressIsPatternLocation),
+	OffsetSignature("FnCharacterDataStackUpdate", "83 EC 1C 56 57 8D 44 24 20",                                  0,  AddressIsPatternLocation),
 	OffsetSignature("CharacterDataStack",         "8D 8E ? ? ? ? FF 74 24 4C",                                   2,  AddressInPattern,        false)
 });
 
